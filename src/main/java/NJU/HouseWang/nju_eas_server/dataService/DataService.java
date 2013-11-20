@@ -7,6 +7,9 @@ import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 
 public interface DataService {
 	
+	// 初始化数据库
+	public void init();
+	
 	// 设置列表名
 	public Feedback setListName(String listName);
 	

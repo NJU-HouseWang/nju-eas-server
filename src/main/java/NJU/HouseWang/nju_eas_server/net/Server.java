@@ -4,16 +4,13 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import NJU.HouseWang.nju_eas_server.data.Database;
+import NJU.HouseWang.nju_eas_server.SystemFactory.SystemFactory;
 
 public class Server {
-	private Database db = null;
+	private SystemFactory sf = new SystemFactory();
 
 	public Server() {
-	}
-
-	public Server(Database db) {
-		this.db = db;
+		sf.init();
 	}
 
 	public void start() throws IOException {
@@ -21,8 +18,7 @@ public class Server {
 
 		while (true) {
 			Socket socket = server.accept();
-			System.out
-					.println("#" + socket.getInetAddress() + "#\t Connected!");
+			System.out.println("#" + socket.getInetAddress() + "\t Connected!");
 			invoke(socket);
 		}
 	}
@@ -31,8 +27,6 @@ public class Server {
 		new Thread(new Runnable() {
 			public void run() {
 				SocketThread st = new SocketThread(socket);
-				// SystemController sc = new SystemController(db, st);
-				// sc.run();
 			}
 		}).start();
 	}
