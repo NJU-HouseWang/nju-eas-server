@@ -2,9 +2,9 @@ package NJU.HouseWang.nju_eas_server.po.Msg;
 
 import java.util.Arrays;
 
-import NJU.HouseWang.nju_eas_server.po.DataPO;
+import NJU.HouseWang.nju_eas_server.po.DataPOService;
 
-public class AnnouncementPO implements DataPO {
+public class AnnouncementPO implements DataPOService {
 	private String id;
 	private String giverId;
 	private String title;

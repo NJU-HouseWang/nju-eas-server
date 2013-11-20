@@ -3,7 +3,7 @@ package NJU.HouseWang.nju_eas_server.data;
 import java.util.ArrayList;
 
 import NJU.HouseWang.nju_eas_server.dataService.DataService;
-import NJU.HouseWang.nju_eas_server.po.DataPO;
+import NJU.HouseWang.nju_eas_server.po.DataPOService;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 
 public class Database implements DataService {
@@ -20,7 +20,7 @@ public class Database implements DataService {
 	}
 
 	@Override
-	public DataPO getData(String id) {
+	public DataPOService getData(String id) {
 
 		return null;
 	}
@@ -32,13 +32,13 @@ public class Database implements DataService {
 	}
 
 	@Override
-	public Feedback addData(DataPO data) {
+	public Feedback addData(DataPOService data) {
 
 		return null;
 	}
 
 	@Override
-	public Feedback updateData(DataPO data) {
+	public Feedback updateData(DataPOService data) {
 
 		return null;
 	}
@@ -50,13 +50,13 @@ public class Database implements DataService {
 	}
 
 	@Override
-	public boolean containsData(DataPO data) {
+	public boolean containsData(DataPOService data) {
 
 		return false;
 	}
 
 	@Override
-	public ArrayList<DataPO> getDataList() {
+	public ArrayList<DataPOService> getDataList() {
 
 		return null;
 	}

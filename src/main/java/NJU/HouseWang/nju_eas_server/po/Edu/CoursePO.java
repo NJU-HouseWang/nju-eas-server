@@ -1,22 +1,22 @@
 package NJU.HouseWang.nju_eas_server.po.Edu;
 
-import NJU.HouseWang.nju_eas_server.po.DataPO;
+import NJU.HouseWang.nju_eas_server.po.DataPOService;
 
-public class CoursePO implements DataPO {
-	private String id;
-	private String name;
+public class CoursePO implements DataPOService {
+	private String id;// 课程编号
+	private String name;// 课程名称
 	private String module;
-	private String type;
-	private String nature;
-	private String credit;
-	private String period;
-	private String department;
-	private String teacher;
-	private String time;
-	private String place;
-	private String introduction;
-	private String book;
-	private String syllabus;
+	private String type;// 课程类别
+	private String nature;// 课程性质
+	private String credit;// 学分
+	private String period;// 学时
+	private String department;// 院系
+	private String teacher;// 授课老师
+	private String time;// 上课时间
+	private String place;// 上课地点
+	private String introduction;// 介绍
+	private String book;// 参考书目
+	private String syllabus;// 教学大纲
 
 	public CoursePO() {
 	}

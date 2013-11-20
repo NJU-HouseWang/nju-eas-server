@@ -1,9 +1,9 @@
 package NJU.HouseWang.nju_eas_server.po.User;
 
-import NJU.HouseWang.nju_eas_server.po.DataPO;
+import NJU.HouseWang.nju_eas_server.po.DataPOService;
 import NJU.HouseWang.nju_eas_server.systemMessage.UserType;
 
-public class UserPO implements DataPO {
+public class UserPO implements DataPOService {
 	protected String id;
 	protected UserType type;
 

@@ -1,8 +1,8 @@
 package NJU.HouseWang.nju_eas_server.po.Edu;
 
-import NJU.HouseWang.nju_eas_server.po.DataPO;
+import NJU.HouseWang.nju_eas_server.po.DataPOService;
 
-public class DepartmentPO implements DataPO {
+public class DepartmentPO implements DataPOService {
 	private String id;
 	private String name;
 

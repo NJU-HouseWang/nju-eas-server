@@ -1,8 +1,8 @@
 package NJU.HouseWang.nju_eas_server.po.Msg;
 
-import NJU.HouseWang.nju_eas_server.po.DataPO;
+import NJU.HouseWang.nju_eas_server.po.DataPOService;
 
-public class MessagePO implements DataPO {
+public class MessagePO implements DataPOService {
 	private String id;
 	private String giverId;
 	private String time;
