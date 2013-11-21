@@ -21,8 +21,23 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+    	<groupId>com.mysql</groupId>
+    	<artifactId>jdbc</artifactId>
+    	<scope>system</scope>
+    	<systemPath>${project.basedir}/src/main/resources/mysql-connector-java-5.1.27-bin.jar</systemPath>
+    </dependency>
   </dependencies>
   <organization>
   	<name>NJU-HouseWang</name>
   </organization>
+  <dependencyManagement>
+  	<dependencies>
+  		<dependency>
+  			<groupId>com.mysql</groupId>
+  			<artifactId>jdbc</artifactId>
+  			<version>5.1.27</version>
+  		</dependency>
+  	</dependencies>
+  </dependencyManagement>
 </project>
