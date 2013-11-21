@@ -9,6 +9,7 @@ public class SystemFactory {
 	
 	public void init() {
 		db.init();
+		// am.init();
 	}
 	
 	public SystemService create(String s) {

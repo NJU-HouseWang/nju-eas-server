@@ -10,6 +10,10 @@ public class Server {
 	private SystemFactory sf = new SystemFactory();
 
 	public Server() {
+		
+	}
+	
+	public void init() {
 		sf.init();
 	}
 
@@ -27,6 +31,7 @@ public class Server {
 		new Thread(new Runnable() {
 			public void run() {
 				SocketThread st = new SocketThread(socket);
+				
 			}
 		}).start();
 	}

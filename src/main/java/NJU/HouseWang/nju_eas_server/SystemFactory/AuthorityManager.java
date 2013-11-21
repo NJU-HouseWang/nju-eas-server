@@ -4,6 +4,7 @@ import NJU.HouseWang.nju_eas_server.po.User.GuestPO;
 import NJU.HouseWang.nju_eas_server.po.User.UserPO;
 
 public class AuthorityManager {
+	
 	public void run() {
 	}
 
