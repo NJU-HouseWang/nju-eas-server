@@ -5,6 +5,9 @@ import NJU.HouseWang.nju_eas_server.systemMessage.UserType;
 public class GuestPO extends UserPO {
 	private String password;
 
+	public GuestPO() {
+	}
+
 	public GuestPO(String id, UserType type, String password) {
 		super(id, type);
 		this.password = password;
@@ -23,7 +26,7 @@ public class GuestPO extends UserPO {
 		return "GuestPO [id=" + id + ", type=" + type + ", password="
 				+ password + "]";
 	}
-	
+
 	@Override
 	public String toCommand() {
 		return id + "；" + type + "；" + password;
