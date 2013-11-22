@@ -163,4 +163,9 @@ public class SocketThread implements NetService {
 		}
 	}
 
+	@Override
+	public String getIp() throws IOException {
+		return socket.getInetAddress().toString();
+	}
+
 }

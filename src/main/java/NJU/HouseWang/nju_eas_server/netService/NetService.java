@@ -25,4 +25,7 @@ public interface NetService {
 
 	// 接收文件
 	public void receiveFile(String fileName) throws IOException;
+	
+	//得到ip
+	public String getIp() throws IOException;
 }
