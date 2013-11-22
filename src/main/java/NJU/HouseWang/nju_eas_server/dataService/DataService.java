@@ -7,27 +7,24 @@ import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 
 public interface DataService {
 
-	// 初始化数据库
-	public void init();
-
 	// 得到数据实体
-	public DataPOService getData(String id);
+	public DataPOService getData(String list, String id);
 
 	// 删除数据实体
-	public Feedback removeData(String id);
+	public Feedback removeData(String list, String id);
 
 	// 加入数据实体
-	public Feedback addData(DataPOService data);
+	public Feedback addData(String list, DataPOService data);
 
 	// 更新数据实体
-	public Feedback updateData(DataPOService data);
+	public Feedback updateData(String list, DataPOService data);
 
 	// 判断数据ID是否存在
-	public boolean containsID(String id);
+	public boolean containsID(String list, String id);
 
 	// 判断数据对象是否存在
-	public boolean containsData(DataPOService data);
+	public boolean containsData(String list, DataPOService data);
 
 	// 得到数据列表
-	public ArrayList<DataPOService> getDataList();
+	public ArrayList<DataPOService> getDataList(String list);
 }
