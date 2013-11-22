@@ -26,5 +26,5 @@ public interface DataService {
 	public boolean containsData(String list, DataPOService data);
 
 	// 得到数据列表
-	public ArrayList<DataPOService> getDataList(String list);
+	public ArrayList<DataPOService> getDataList(String list, String conditions);
 }

@@ -138,5 +138,22 @@ public class CoursePO implements DataPOService {
 	public void setModule(String module) {
 		this.module = module;
 	}
+	
+	public String toCommand(){
+		return(id + ";" + 
+				name+ ";" +
+				module+ ";" +
+				type+ ";" +
+				nature+ ";" +
+				credit+ ";" +
+				period+ ";" +
+				department+ ";" +
+				teacher+ ";" +
+				time+ ";" +
+				place+ ";" +
+				introduction+ ";" +
+				book+ ";" +
+				syllabus);
+	}
 
 }

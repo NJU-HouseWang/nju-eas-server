@@ -38,28 +38,39 @@ public class LoginSystem implements LoginSystemService{
 		
 		String id = logger.getId();
 		String pw = logger.getPassword();
-		String ut = logger.getType().getChName();
-		if(!am.containsIP(ip)){
+		UserType ut = logger.getType();
+		GuestPO newGuest = new GuestPO(id, ut, pw);
+		if(am.containsIP(ip)){
 			try {
-				ns.sendFeedback(Feedback.IP_ALREADY_EXISTED);
+				ns.sendFeedback(Feedback.IP_ALREADY_EXISTED.toString());
 			} catch (IOException e) {
 				
 				e.printStackTrace();
 			}
-		} else if(!am.containsGuest(id)){
+		} else if(am.containsGuest(id)){
 			try {
-				ns.sendFeedback(Feedback.ID_ALREADY_EXISTED);
+				ns.sendFeedback(Feedback.ID_ALREADY_EXISTED.toString());
 			} catch (IOException e) {
 				
 				e.printStackTrace();
 			}
-		}	else{
+		} else{
+			GuestPO g = (GuestPO) ds.getData("login_list", id);
+			if(newGuest.equals(g)){
 			am.addGuest(ip, id);
 			try {
-				ns.sendFeedback(Feedback.OPERATION_SUCCEED);
+				ns.sendFeedback(Feedback.OPERATION_SUCCEED.toString());
 			} catch (IOException e) {
 				
 				e.printStackTrace();
+			}
+			} else {
+				try {
+					ns.sendFeedback(Feedback.ID_PW_NOT_FOUND.toString());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 	}
@@ -69,7 +80,7 @@ public class LoginSystem implements LoginSystemService{
 		
 		am.removeGuest(ip);
 		try {
-			ns.sendFeedback(Feedback.OPERATION_SUCCEED);
+			ns.sendFeedback(Feedback.OPERATION_SUCCEED.toString());
 		} catch (IOException e) {
 			
 			e.printStackTrace();

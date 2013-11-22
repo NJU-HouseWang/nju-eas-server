@@ -21,8 +21,8 @@ public interface CourseInfSystemService extends SystemService {
 	public void showCourseList(String conditions);
 
 	// 批量新增课程
-	public void addCourseList(ArrayList<CoursePO> courseList);
+	public void addCourseList();
 
 	// 批量删除课程
-	public void delCourseList(ArrayList<CoursePO> courseList);
+	public void delCourseList();
 }

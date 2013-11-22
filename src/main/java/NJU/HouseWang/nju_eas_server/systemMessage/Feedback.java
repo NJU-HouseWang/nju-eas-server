@@ -8,8 +8,8 @@ public enum Feedback {
 	DATA_NOT_FOUND("数据不存在"), 
 	DATA_ALREADY_EXISTED("数据已存在"),
 	IP_ALREADY_EXISTED("该IP已登录"),
-	ID_ALREADY_EXISTED("该账号已在别地登录");
-	
+	ID_ALREADY_EXISTED("该账号已在别地登录"),
+	ID_PW_NOT_FOUND("登录信息错误");
 	private String content;
 
 	private Feedback(String content) {
