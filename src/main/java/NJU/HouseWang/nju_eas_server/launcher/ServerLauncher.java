@@ -10,15 +10,17 @@ package NJU.HouseWang.nju_eas_server.launcher;
 
 import java.io.IOException;
 
+import NJU.HouseWang.nju_eas_server.SystemFactory.AuthorityManager;
 import NJU.HouseWang.nju_eas_server.net.Server;
 
 public class ServerLauncher {
 
 	public static void main(String[] args) {
 		Server server = new Server();
+		AuthorityManager am = AuthorityManager.getInstance();
 		try {
-			server.init();
 			System.out.println("EAS Server is running now...");
+			am.run();
 			server.start();
 		} catch (IOException e) {
 			e.printStackTrace();

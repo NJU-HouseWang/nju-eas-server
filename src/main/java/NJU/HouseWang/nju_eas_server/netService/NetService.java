@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import NJU.HouseWang.nju_eas_server.systemMessage.Command;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 
 public interface NetService {
@@ -13,7 +12,7 @@ public interface NetService {
 	public void sendFeedback(Feedback fb) throws IOException;
 
 	// 接收命令
-	public Command receiveCommand() throws IOException;
+	public String receiveCommand() throws IOException;
 
 	// 发送列表
 	public void sendList(ArrayList<String> list) throws IOException;

@@ -4,18 +4,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import NJU.HouseWang.nju_eas_server.SystemFactory.SystemFactory;
-
 public class Server {
-	private SystemFactory sf = new SystemFactory();
-
-	public Server() {
-		
-	}
-	
-	public void init() {
-		sf.init();
-	}
 
 	public void start() throws IOException {
 		ServerSocket server = new ServerSocket(9001);
@@ -31,7 +20,11 @@ public class Server {
 		new Thread(new Runnable() {
 			public void run() {
 				SocketThread st = new SocketThread(socket);
-				
+				try {
+					String msg = st.receiveCommand();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		}).start();
 	}

@@ -12,7 +12,6 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 import NJU.HouseWang.nju_eas_server.netService.NetService;
-import NJU.HouseWang.nju_eas_server.systemMessage.Command;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 
 public class SocketThread implements NetService {
@@ -42,7 +41,7 @@ public class SocketThread implements NetService {
 	}
 
 	@Override
-	public Command receiveCommand() throws IOException {
+	public String receiveCommand() throws IOException {
 		in = new DataInputStream(new BufferedInputStream(
 				socket.getInputStream()));
 		String netCmd = null;
@@ -50,7 +49,7 @@ public class SocketThread implements NetService {
 			netCmd = in.readUTF();
 		}
 		System.out.println("Received NetCmd: " + netCmd);
-		return new Command(netCmd);
+		return netCmd;
 	}
 
 	@Override
@@ -132,9 +131,8 @@ public class SocketThread implements NetService {
 			long len = 0;
 
 			savePath += in.readUTF();
-			fos = new DataOutputStream(
-					new BufferedOutputStream(new BufferedOutputStream(
-							new FileOutputStream(savePath))));
+			fos = new DataOutputStream(new BufferedOutputStream(
+					new BufferedOutputStream(new FileOutputStream(savePath))));
 			len = in.readLong();
 
 			System.out.println("文件的长度为:" + len + "\n");
@@ -158,7 +156,7 @@ public class SocketThread implements NetService {
 			fos.close();
 		} catch (Exception e) {
 			System.out.println("接收消息错误" + "\n");
-			if(fos != null) {
+			if (fos != null) {
 				fos.close();
 			}
 			return;
