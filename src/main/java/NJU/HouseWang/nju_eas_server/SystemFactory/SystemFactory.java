@@ -1,5 +1,6 @@
 package NJU.HouseWang.nju_eas_server.SystemFactory;
 
+import NJU.HouseWang.nju_eas_server.system.LoginSystem;
 import NJU.HouseWang.nju_eas_server.systemService.SystemService;
 
 public class SystemFactory {
@@ -11,6 +12,7 @@ public class SystemFactory {
 		switch (action) {
 		case "login":
 		case "logout":
+			return (new LoginSystem());
 		case "show":
 		case "add":
 		case "edit":

@@ -3,6 +3,7 @@ package NJU.HouseWang.nju_eas_server.system;
 import java.io.IOException;
 
 import NJU.HouseWang.nju_eas_server.SystemFactory.AuthorityManager;
+import NJU.HouseWang.nju_eas_server.data.LoginList;
 import NJU.HouseWang.nju_eas_server.dataService.DataService;
 import NJU.HouseWang.nju_eas_server.netService.NetService;
 import NJU.HouseWang.nju_eas_server.po.User.GuestPO;
@@ -12,7 +13,7 @@ import NJU.HouseWang.nju_eas_server.systemService.LoginSystemService;
 
 public class LoginSystem implements LoginSystemService{
 	private NetService ns;
-	private DataService ds;
+	private LoginList ll;
 	private AuthorityManager am = AuthorityManager.getInstance();;
 	
 	@Override
@@ -55,7 +56,7 @@ public class LoginSystem implements LoginSystemService{
 				e.printStackTrace();
 			}
 		} else{
-			GuestPO g = (GuestPO) ds.getData("login_list", id);
+			GuestPO g = (GuestPO) ll.getLoginer(id);
 			if(newGuest.equals(g)){
 			am.addGuest(ip, id);
 			try {
