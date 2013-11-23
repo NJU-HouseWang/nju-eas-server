@@ -12,7 +12,6 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 import NJU.HouseWang.nju_eas_server.netService.NetService;
-import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 
 public class SocketThread implements NetService {
 	private Socket socket = null;
