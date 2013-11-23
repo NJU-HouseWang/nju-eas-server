@@ -11,8 +11,8 @@ import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 import NJU.HouseWang.nju_eas_server.systemService.CourseInfSystemService;
 
 public class CourseInfoSystem implements CourseInfSystemService {
-	NetService ns;
-	DataService ds;
+	private NetService ns;
+	private DataService ds;
 
 	@Override
 	public void operate(String uid, String cmd) {
