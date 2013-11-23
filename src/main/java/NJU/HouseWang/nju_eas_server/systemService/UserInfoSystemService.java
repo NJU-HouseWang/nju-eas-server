@@ -13,20 +13,26 @@ public interface UserInfoSystemService extends SystemService {
 	public void editSelfInformation(UserPO u);
 
 	// 新增用户
-	public void addUser(GuestPO u);
+	public void addUser(UserPO u);
 
 	// 修改用户
-	public void editUser(UserPO u);
+	public void editUser(GuestPO u);
 
 	// 删除用户
-	public void deleteUser(String id);
+	public void delUser(String id);
 
 	// 查看用户列表
-	public void showUserList(String conditions);
+	public void showUserList(String listName, String conditions);
 
 	// 批量新增用户
 	public void addUserList();
 
 	// 批量删除用户
 	public void delUserList();
+	
+	//修改密码
+	public void editPassword(String oldPW, String newPW);
+	
+	//生成初始密码
+	public String generateInitialPassword(UserPO u);
 }

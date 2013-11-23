@@ -137,7 +137,7 @@ public class StudentList {
 		}
 	}
 
-	public ArrayList<StudentPO> getLoginList() {
+	public ArrayList<StudentPO> getStudentList(String conditions) {
 		ArrayList<StudentPO> result = new ArrayList<StudentPO>();
 		sql = "select * from " + listName;
 		try {

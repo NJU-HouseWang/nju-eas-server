@@ -125,7 +125,7 @@ public class TeacherList {
 		}
 	}
 
-	public ArrayList<TeacherPO> getTeacherList() {
+	public ArrayList<TeacherPO> getTeacherList(String conditions) {
 		ArrayList<TeacherPO> result = new ArrayList<TeacherPO>();
 		sql = "select * from " + listName;
 		try {
@@ -145,7 +145,7 @@ public class TeacherList {
 		}
 		return result;
 	}
-	
+	/*
 	public static void main(String[] args) {
 		TeacherList tl = new TeacherList();
 		tl.init();
@@ -166,5 +166,5 @@ public class TeacherList {
 			System.out.println(g);
 		}
 		tl.finish();
-	}
+	}*/
 }

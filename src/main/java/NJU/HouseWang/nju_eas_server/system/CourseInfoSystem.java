@@ -3,17 +3,17 @@ package NJU.HouseWang.nju_eas_server.system;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import NJU.HouseWang.nju_eas_server.dataService.DataService;
+import NJU.HouseWang.nju_eas_server.data.CourseList;
 import NJU.HouseWang.nju_eas_server.netService.NetService;
-import NJU.HouseWang.nju_eas_server.po.DataPOService;
 import NJU.HouseWang.nju_eas_server.po.Edu.CoursePO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 import NJU.HouseWang.nju_eas_server.systemService.CourseInfoSystemService;
 
 public class CourseInfoSystem implements CourseInfoSystemService {
 	private NetService ns;
-	private DataService ds;
-
+//	private DataService cl;
+	private CourseList cl;
+	
 	@Override
 	public void operate(String uid, String cmd) {
 		// TODO Auto-generated method stub
@@ -53,19 +53,19 @@ public class CourseInfoSystem implements CourseInfoSystemService {
 	@Override
 	public void showCourse(String id) {
 		// TODO Auto-generated method stub
-		if (ds.containsID("course_list", id)) {
-			CoursePO c = (CoursePO) ds.getData("course_list", id);
+		if (cl.containsID(id)) {
+			CoursePO c = cl.getCourse(id);
 			try {
 				ns.sendFeedback(c.toCommand());
 			} catch (IOException e) {
-				
+
 				e.printStackTrace();
 			}
 		} else {
 			try {
 				ns.sendFeedback(Feedback.DATA_NOT_FOUND.toString());
 			} catch (IOException e) {
-				
+
 				e.printStackTrace();
 			}
 		}
@@ -75,19 +75,19 @@ public class CourseInfoSystem implements CourseInfoSystemService {
 	public void editCourse(CoursePO c) {
 		// TODO Auto-generated method stub
 		String id = c.getId();
-		if (ds.containsID("course_list", id)) {
-			ds.updateData("course_list", c);
+		if (cl.containsID(id)) {
+			cl.updateCourse(c);
 			try {
 				ns.sendFeedback(Feedback.OPERATION_SUCCEED.toString());
 			} catch (IOException e) {
-				
+
 				e.printStackTrace();
 			}
 		} else {
 			try {
 				ns.sendFeedback(Feedback.DATA_NOT_FOUND.toString());
 			} catch (IOException e) {
-				
+
 				e.printStackTrace();
 			}
 		}
@@ -97,19 +97,19 @@ public class CourseInfoSystem implements CourseInfoSystemService {
 	public void addCourse(CoursePO c) {
 		// TODO Auto-generated method stub
 		String id = c.getId();
-		if (!ds.containsID("course_list", id)) {
-			ds.addData("course_list", c);
+		if (!cl.containsID(id)) {
+			cl.addCourse(c);
 			try {
 				ns.sendFeedback(Feedback.OPERATION_SUCCEED.toString());
 			} catch (IOException e) {
-				
+
 				e.printStackTrace();
 			}
 		} else {
 			try {
 				ns.sendFeedback(Feedback.OPERATION_FAIL.toString());
 			} catch (IOException e) {
-				
+
 				e.printStackTrace();
 			}
 		}
@@ -118,19 +118,19 @@ public class CourseInfoSystem implements CourseInfoSystemService {
 	@Override
 	public void delCourse(String id) {
 		// TODO Auto-generated method stub
-		if (ds.containsID("course_list", id)) {
-			ds.removeData("course_list", id);
+		if (cl.containsID(id)) {
+			cl.removeCourse(id);
 			try {
 				ns.sendFeedback(Feedback.OPERATION_SUCCEED.toString());
 			} catch (IOException e) {
-				
+
 				e.printStackTrace();
 			}
 		} else {
 			try {
 				ns.sendFeedback(Feedback.DATA_NOT_FOUND.toString());
 			} catch (IOException e) {
-				
+
 				e.printStackTrace();
 			}
 		}
@@ -139,17 +139,17 @@ public class CourseInfoSystem implements CourseInfoSystemService {
 	@Override
 	public void showCourseList(String conditions) {
 		// TODO Auto-generated method stub
-		ArrayList<DataPOService> list = ds.getDataList("course_list",
+		ArrayList<CoursePO> list = cl.getCourseList(
 				conditions);
 		ArrayList<String> courseList = new ArrayList<String>();
 		for (int i = 0; i < list.size(); i++) {
-			String courseInfo = ((CoursePO) list.get(i)).toCommand();
+			String courseInfo = (list.get(i)).toCommand();
 			courseList.add(courseInfo);
 		}
 		try {
 			ns.sendList(courseList);
 		} catch (IOException e) {
-			
+
 			e.printStackTrace();
 		}
 
@@ -160,13 +160,12 @@ public class CourseInfoSystem implements CourseInfoSystemService {
 		// TODO Auto-generated method stub
 		try {
 			ArrayList<String> list = ns.receiveList();
-			ArrayList<CoursePO> courseList = new ArrayList<CoursePO>();
 			for (int i = 0; i < list.size(); i++) {
 				CoursePO course = this.stringToCoursePO(list.get(i));
 				this.addCourse(course);
 			}
 		} catch (IOException e) {
-			
+
 			e.printStackTrace();
 		}
 	}
@@ -181,7 +180,7 @@ public class CourseInfoSystem implements CourseInfoSystemService {
 				this.delCourse(list.get(i));
 			}
 		} catch (IOException e) {
-			
+
 			e.printStackTrace();
 		}
 
@@ -208,7 +207,7 @@ public class CourseInfoSystem implements CourseInfoSystemService {
 	@Override
 	public void initNetService(NetService ns) {
 		// TODO Auto-generated method stub
-		
+		this.ns = ns;
 	}
 
 }

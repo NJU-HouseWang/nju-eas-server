@@ -9,7 +9,11 @@ public enum Feedback {
 	DATA_ALREADY_EXISTED("数据已存在"),
 	IP_ALREADY_EXISTED("该IP已登录"),
 	ID_ALREADY_EXISTED("该账号已在别地登录"),
-	ID_PW_NOT_FOUND("登录信息错误");
+	ID_PW_NOT_FOUND("登录信息错误"),
+	PW_WRONG_INPUT("旧密码输入错误"),
+	PW_REPEATED("新密码不得与旧密码重复"),
+	PW_TOO_SHORT("新密码不得少于6位");
+	
 	private String content;
 
 	private Feedback(String content) {
