@@ -12,7 +12,6 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 import NJU.HouseWang.nju_eas_server.netService.NetService;
-import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 
 public class SocketThread implements NetService {
 	private Socket socket = null;
@@ -26,7 +25,7 @@ public class SocketThread implements NetService {
 	}
 
 	@Override
-	public void sendFeedback(Feedback fb) throws IOException {
+	public void sendFeedback(String fb) throws IOException {
 		try {
 			out = new DataOutputStream(socket.getOutputStream());
 			out.writeUTF(fb.toString());

@@ -9,7 +9,7 @@ import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 public interface NetService {
 
 	// 发送反馈
-	public void sendFeedback(Feedback fb) throws IOException;
+	public void sendFeedback(String fb) throws IOException;
 
 	// 接收命令
 	public String receiveCommand() throws IOException;
