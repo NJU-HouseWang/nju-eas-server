@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import NJU.HouseWang.nju_eas_server.SystemFactory.SystemFactory;
+import NJU.HouseWang.nju_eas_server.systemService.SystemService;
+
 public class Server {
 
 	public void start() throws IOException {
@@ -21,7 +24,9 @@ public class Server {
 			public void run() {
 				SocketThread st = new SocketThread(socket);
 				try {
-					String msg = st.receiveCommand();
+					String cmd = st.receiveCommand();
+					SystemService ss = SystemFactory.create(cmd);
+					ss.operate(null, cmd);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
