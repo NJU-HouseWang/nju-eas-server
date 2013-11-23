@@ -8,9 +8,9 @@ import NJU.HouseWang.nju_eas_server.netService.NetService;
 import NJU.HouseWang.nju_eas_server.po.DataPOService;
 import NJU.HouseWang.nju_eas_server.po.Edu.CoursePO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
-import NJU.HouseWang.nju_eas_server.systemService.CourseInfSystemService;
+import NJU.HouseWang.nju_eas_server.systemService.CourseInfoSystemService;
 
-public class CourseInfoSystem implements CourseInfSystemService {
+public class CourseInfoSystem implements CourseInfoSystemService {
 	private NetService ns;
 	private DataService ds;
 

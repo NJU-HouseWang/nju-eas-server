@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import NJU.HouseWang.nju_eas_server.po.Edu.CoursePO;
 
-public interface CourseInfSystemService extends SystemService {
+public interface CourseInfoSystemService extends SystemService {
 	// 显示课程
 	public void showCourse(String id);
 

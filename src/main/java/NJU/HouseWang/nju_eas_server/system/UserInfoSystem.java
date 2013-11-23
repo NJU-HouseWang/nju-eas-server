@@ -3,6 +3,7 @@ package NJU.HouseWang.nju_eas_server.system;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import NJU.HouseWang.nju_eas_server.data.LoginList;
 import NJU.HouseWang.nju_eas_server.dataService.DataService;
 import NJU.HouseWang.nju_eas_server.netService.NetService;
 import NJU.HouseWang.nju_eas_server.po.DataPOService;
@@ -10,10 +11,12 @@ import NJU.HouseWang.nju_eas_server.po.User.GuestPO;
 import NJU.HouseWang.nju_eas_server.po.User.UserPO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 import NJU.HouseWang.nju_eas_server.systemMessage.UserType;
-import NJU.HouseWang.nju_eas_server.systemService.UserInfSystemService;
+import NJU.HouseWang.nju_eas_server.systemService.UserInfoSystemService;
 
-public class UserInfSystem implements UserInfSystemService {
-	private DataService ds;
+public class UserInfoSystem implements UserInfoSystemService {
+	private LoginList ll;
+	private TeacherList tl;
+	private StudentList sl;
 	private String uid;
 	private GuestPO guest = null;
 	private NetService ns;
@@ -21,7 +24,7 @@ public class UserInfSystem implements UserInfSystemService {
 	@Override
 	public void operate(String uid, String cmd) {
 		this.uid = uid;
-		guest = (GuestPO) ds.getData("login_list", uid);	
+		guest = (GuestPO) ll.getLoginer(uid);	
 		String[] cmdpart = cmd.split("；");
 		
 		if(cmdpart[0].equals("show")){
@@ -36,13 +39,13 @@ public class UserInfSystem implements UserInfSystemService {
 		
 		else if(cmdpart[0].equals("edit")){
 			if(cmdpart[1].equals("SelfInformation")){
-				String userType = ((GuestPO)ds.getData("LoginList", uid)).getType().toString();
+				String userType = ((GuestPO)ll.getLoginer(uid)).getType().toString();
 				UserPO upo = new UserPO(uid, UserType.valueOf(cmdpart[2]));
 				editSelfInformation(upo);
 				}
 			
 			if(cmdpart[1].equals("User")){
-				String userType = ((GuestPO)ds.getData("LoginList", uid)).getType().toString();
+				String userType = ((GuestPO)ll.getLoginer(uid)).getType().toString();
 				UserPO upo = new UserPO(uid, UserType.valueOf(cmdpart[2]));
 				editUser(upo);
 				}
@@ -75,7 +78,7 @@ public class UserInfSystem implements UserInfSystemService {
 		String listName = new String();
 		String result = null;
 		listName = userType.toLowerCase() + "_list";
-		UserPO u = (UserPO)ds.getData(listName, uid);
+		UserPO u = (UserPO)ll.getLoginer(uid);
 		result = u.toCommand();
 		try {
 			ns.sendFeedback(result);

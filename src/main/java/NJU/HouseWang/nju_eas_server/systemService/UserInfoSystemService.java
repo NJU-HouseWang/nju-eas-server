@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import NJU.HouseWang.nju_eas_server.po.User.GuestPO;
 import NJU.HouseWang.nju_eas_server.po.User.UserPO;
 
-public interface UserInfSystemService extends SystemService {
+public interface UserInfoSystemService extends SystemService {
 	// 查看个人信息
 	public void showSelfInformation();
 

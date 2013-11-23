@@ -9,8 +9,8 @@ public class TeacherPO extends UserPO {
 	public TeacherPO() {
 	}
 
-	public TeacherPO(String id, String name, String company) {
-		super(id, UserType.Teacher);
+	public TeacherPO(String id, String type,String name, String company) {
+		super(id, UserType.valueOf(type));
 		this.name = name;
 		this.company = company;
 	}
@@ -40,4 +40,6 @@ public class TeacherPO extends UserPO {
 	public String toCommand() {
 		return id + "；" + type + "；" + name + "；" + company;
 	}
+
+
 }
