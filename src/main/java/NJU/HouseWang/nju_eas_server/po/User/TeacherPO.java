@@ -4,12 +4,15 @@ import NJU.HouseWang.nju_eas_server.systemMessage.UserType;
 
 public class TeacherPO extends UserPO {
 	private String name;
-	private String department;
+	private String company;
 
-	public TeacherPO(String id, String name, String department) {
+	public TeacherPO() {
+	}
+
+	public TeacherPO(String id, String name, String company) {
 		super(id, UserType.Teacher);
 		this.name = name;
-		this.department = department;
+		this.company = company;
 	}
 
 	public String getName() {
@@ -20,16 +23,21 @@ public class TeacherPO extends UserPO {
 		this.name = name;
 	}
 
-	public String getDepartment() {
-		return department;
+	public String getCompany() {
+		return company;
 	}
 
-	public void setDepartment(String department) {
-		this.department = department;
+	public void setCompany(String company) {
+		this.company = company;
+	}
+
+	@Override
+	public String toString() {
+		return "TeacherPO [name=" + name + ", company=" + company + "]";
 	}
 
 	@Override
 	public String toCommand() {
-		return id + "；" + type + "；" + name + "；" + department;
+		return id + "；" + type + "；" + name + "；" + company;
 	}
 }

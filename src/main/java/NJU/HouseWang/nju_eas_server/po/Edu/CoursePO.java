@@ -5,11 +5,11 @@ import NJU.HouseWang.nju_eas_server.po.DataPOService;
 public class CoursePO implements DataPOService {
 	private String id;// 课程编号
 	private String name;// 课程名称
-	private String module;
+	private String module;// 所属模块
 	private String type;// 课程类别
 	private String nature;// 课程性质
-	private String credit;// 学分
-	private String period;// 学时
+	private int credit;// 学分
+	private int period;// 学时
 	private String department;// 院系
 	private String teacher;// 授课老师
 	private String time;// 上课时间
@@ -59,19 +59,19 @@ public class CoursePO implements DataPOService {
 		this.nature = nature;
 	}
 
-	public String getCredit() {
+	public int getCredit() {
 		return credit;
 	}
 
-	public void setCredit(String credit) {
+	public void setCredit(int credit) {
 		this.credit = credit;
 	}
 
-	public String getPeriod() {
+	public int getPeriod() {
 		return period;
 	}
 
-	public void setPeriod(String period) {
+	public void setPeriod(int period) {
 		this.period = period;
 	}
 

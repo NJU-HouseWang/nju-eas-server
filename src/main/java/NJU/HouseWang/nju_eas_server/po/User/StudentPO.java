@@ -7,9 +7,12 @@ public class StudentPO extends UserPO {
 	private String department;// 院系
 	private String major;// 专业
 	private String grade;// 年级
+	private String classNo;// 班级编号
 	private String duration;// 学制
 	private String enrollmentStatus;// 学籍状态
-	private String classNo;// 班级编号
+
+	public StudentPO() {
+	}
 
 	public StudentPO(String id, String name, String department, String major,
 			String grade, String duration, String enrollmentStatus,
@@ -82,10 +85,18 @@ public class StudentPO extends UserPO {
 	}
 
 	@Override
+	public String toString() {
+		return "StudentPO [name=" + name + ", department=" + department
+				+ ", major=" + major + ", grade=" + grade + ", classNo="
+				+ classNo + ", duration=" + duration + ", enrollmentStatus="
+				+ enrollmentStatus + "]";
+	}
+
+	@Override
 	public String toCommand() {
 		return id + "；" + type + "；" + name + "；" + department + "；" + major
-				+ "；" + grade + "；" + duration + "；" + enrollmentStatus + "；"
-				+ classNo;
+				+ "；" + grade + "；" + classNo + "；" + duration + "；"
+				+ enrollmentStatus + "；";
 	}
 
 }
