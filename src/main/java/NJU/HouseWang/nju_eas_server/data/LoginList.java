@@ -123,10 +123,11 @@ public class LoginList {
 
 	public ArrayList<GuestPO> getLoginList(String conditions) {
 		ArrayList<GuestPO> result = new ArrayList<GuestPO>();
-		sql = "select * from " + listName;
+		sql = "select * from " + listName + "?";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
+			ps.setString(1, conditions);
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				GuestPO r = new GuestPO();

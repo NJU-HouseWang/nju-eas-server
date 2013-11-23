@@ -127,10 +127,11 @@ public class TeacherList {
 
 	public ArrayList<TeacherPO> getTeacherList(String conditions) {
 		ArrayList<TeacherPO> result = new ArrayList<TeacherPO>();
-		sql = "select * from " + listName;
+		sql = "select * from " + listName + "?";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
+			ps.setString(1, conditions);
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				TeacherPO r = new TeacherPO();
