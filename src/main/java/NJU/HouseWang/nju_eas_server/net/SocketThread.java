@@ -26,7 +26,7 @@ public class SocketThread implements NetService {
 	}
 
 	@Override
-	public void sendFeedback(Feedback fb) throws IOException {
+	public void sendFeedback(String fb) throws IOException {
 		try {
 			out = new DataOutputStream(socket.getOutputStream());
 			out.writeUTF(fb.toString());
@@ -161,6 +161,11 @@ public class SocketThread implements NetService {
 			}
 			return;
 		}
+	}
+
+	@Override
+	public String getIp() throws IOException {
+		return socket.getInetAddress().toString();
 	}
 
 }
