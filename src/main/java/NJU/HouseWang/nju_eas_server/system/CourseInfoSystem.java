@@ -17,7 +17,7 @@ public class CourseInfoSystem implements CourseInfSystemService {
 	@Override
 	public void operate(String uid, String cmd) {
 		// TODO Auto-generated method stub
-		String[] cmdInfo = cmd.split(";");
+		String[] cmdInfo = cmd.split("；");
 		String cmdType = cmdInfo[0] + cmdInfo[1];
 		switch (cmdType) {
 		case "showCourse":
@@ -188,7 +188,7 @@ public class CourseInfoSystem implements CourseInfSystemService {
 	}
 
 	public CoursePO stringToCoursePO(String cmd) {
-		String[] cmdInfo = cmd.split(";");
+		String[] cmdInfo = cmd.split("；");
 		CoursePO c = new CoursePO(cmdInfo[0], cmdInfo[1]);
 		c.setModule(cmdInfo[2]);
 		c.setType(cmdInfo[3]);

@@ -22,7 +22,7 @@ public class UserInfSystem implements UserInfSystemService {
 	public void operate(String uid, String cmd) {
 		this.uid = uid;
 		guest = (GuestPO) ds.getData("login_list", uid);	
-		String[] cmdpart = cmd.split(";");
+		String[] cmdpart = cmd.split("；");
 		
 		if(cmdpart[0].equals("show")){
 			if(cmdpart[1].equals("SelfInformation")){
@@ -155,7 +155,7 @@ public class UserInfSystem implements UserInfSystemService {
 		}
 		
 		for(String str: list) {
-			String[] strpart = str.split(";");	
+			String[] strpart = str.split("；");	
 			GuestPO upo = new GuestPO(strpart[0], UserType.valueOf(strpart[1]), strpart[2]);
 			addUser(upo);
 		}

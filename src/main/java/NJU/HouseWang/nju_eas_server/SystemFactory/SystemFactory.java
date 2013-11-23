@@ -28,4 +28,8 @@ public class SystemFactory {
 		}
 		return null;
 	}
+	
+	public static void main(String[] args){
+		create("login；Student；121250157；bilicrazy123").operate("121250157","login；Student；121250157；bilicrazy123");
+	}
 }

@@ -4,7 +4,9 @@ import java.io.IOException;
 
 import NJU.HouseWang.nju_eas_server.SystemFactory.AuthorityManager;
 import NJU.HouseWang.nju_eas_server.data.LoginList;
+import NJU.HouseWang.nju_eas_server.data.LoginListStub;
 import NJU.HouseWang.nju_eas_server.dataService.DataService;
+import NJU.HouseWang.nju_eas_server.net.ServerStub;
 import NJU.HouseWang.nju_eas_server.netService.NetService;
 import NJU.HouseWang.nju_eas_server.po.User.GuestPO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
@@ -13,14 +15,18 @@ import NJU.HouseWang.nju_eas_server.systemService.LoginSystemService;
 
 public class LoginSystem implements LoginSystemService{
 	private NetService ns;
-	private LoginList ll;
+	private LoginList ll ;
 	private AuthorityManager am = AuthorityManager.getInstance();;
+	
+	public LoginSystem(){
+		ll.init();
+	}
 	
 	@Override
 	//命令格式：login/logout;(用户类型);(用户名);(密码)
 	public void operate(String uid, String cmd) {
 		
-		String[] cmdInfo = cmd.split(";");
+		String[] cmdInfo = cmd.split("；");
 		if(cmd.startsWith("login")){
 			UserType ut  = UserType.valueOf(cmdInfo[1]);
 			GuestPO newGuest = new GuestPO(cmdInfo[2],ut,cmdInfo[3]);
@@ -57,6 +63,7 @@ public class LoginSystem implements LoginSystemService{
 			}
 		} else{
 			GuestPO g = (GuestPO) ll.getLoginer(id);
+			ll.finish();
 			if(newGuest.equals(g)){
 			am.addGuest(ip, id);
 			try {
@@ -86,6 +93,11 @@ public class LoginSystem implements LoginSystemService{
 			
 			e.printStackTrace();
 		}
+	}
+	
+	public static void main(String[] args){
+		LoginSystem ls  = new LoginSystem();
+		ls.operate("121250157","login；Student；121250157；bilicrazy123");
 	}
 
 }
