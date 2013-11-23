@@ -193,8 +193,8 @@ public class CourseInfoSystem implements CourseInfSystemService {
 		c.setModule(cmdInfo[2]);
 		c.setType(cmdInfo[3]);
 		c.setNature(cmdInfo[4]);
-		c.setCredit(cmdInfo[5]);
-		c.setPeriod(cmdInfo[6]);
+		c.setCredit(Integer.parseInt(cmdInfo[5]));
+		c.setPeriod(Integer.parseInt(cmdInfo[6]));
 		c.setDepartment(cmdInfo[7]);
 		c.setTeacher(cmdInfo[8]);
 		c.setTime(cmdInfo[9]);
