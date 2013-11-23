@@ -205,4 +205,10 @@ public class CourseInfoSystem implements CourseInfSystemService {
 		return c;
 	}
 
+	@Override
+	public void initNetService(NetService ns) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

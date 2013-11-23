@@ -44,7 +44,7 @@ public class SocketThread implements NetService {
 		in = new DataInputStream(new BufferedInputStream(
 				socket.getInputStream()));
 		String netCmd = null;
-		while (in.available() != 0) {
+		while (in.available() > 0) {
 			netCmd = in.readUTF();
 		}
 		System.out.println("Received NetCmd: " + netCmd);

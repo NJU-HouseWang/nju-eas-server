@@ -26,6 +26,7 @@ public class Server {
 				try {
 					String cmd = st.receiveCommand();
 					SystemService ss = SystemFactory.create(cmd);
+					ss.initNetService(st);
 					ss.operate(null, cmd);
 				} catch (IOException e) {
 					e.printStackTrace();

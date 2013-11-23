@@ -187,4 +187,10 @@ public class UserInfSystem implements UserInfSystemService {
 			e.printStackTrace();
 		}
 	}
+
+	@Override
+	public void initNetService(NetService ns) {
+		// TODO Auto-generated method stub
+		
+	}
 }

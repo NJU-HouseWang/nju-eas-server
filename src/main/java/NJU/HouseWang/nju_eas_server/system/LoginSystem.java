@@ -16,6 +16,7 @@ public class LoginSystem implements LoginSystemService {
 	private AuthorityManager am = AuthorityManager.getInstance();;
 
 	public LoginSystem() {
+		ll = new LoginList();
 		ll.init();
 	}
 
@@ -95,6 +96,11 @@ public class LoginSystem implements LoginSystemService {
 	public static void main(String[] args) {
 		LoginSystem ls = new LoginSystem();
 		ls.operate("121250157", "login；Student；121250157；bilicrazy123");
+	}
+
+	@Override
+	public void initNetService(NetService ns) {
+		this.ns = ns;
 	}
 
 }
