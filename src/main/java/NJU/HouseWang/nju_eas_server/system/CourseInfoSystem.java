@@ -20,29 +20,29 @@ public class CourseInfoSystem implements CourseInfoSystemService {
 		String[] cmdInfo = cmd.split("；");
 		String cmdType = cmdInfo[0] + cmdInfo[1];
 		switch (cmdType) {
-		case "showCourse":
+		case "showcourse":
 			this.showCourse(cmdInfo[2]);
 			break;
-		case "editCourse":
+		case "editcourse":
 			CoursePO c1 = this.stringToCoursePO(cmd.substring(11,
 					cmd.length() - 1));
 			this.editCourse(c1);
 			break;
-		case "addCourse":
+		case "addcourse":
 			CoursePO c2 = this.stringToCoursePO(cmd.substring(10,
 					cmd.length() - 1));
 			this.editCourse(c2);
 			break;
-		case "delCourse":
+		case "delcourse":
 			this.delCourse(cmdInfo[2]);
 			break;
-		case "showCourseList":
+		case "showcourse_list":
 			this.showCourseList(cmdInfo[2]);
 			break;
-		case "addCourseList":
+		case "addcourse_list":
 			this.addCourseList();
 			break;
-		case "delCoureList":
+		case "delcourse_list":
 			this.delCourseList();
 			break;
 		default:

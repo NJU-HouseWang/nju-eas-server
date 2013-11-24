@@ -22,8 +22,14 @@ public interface UserInfoSystemService extends SystemService {
 	public void delUser(String id);
 
 	// 查看用户列表
-	public void showUserList(String listName, String conditions);
+	public void showLoginList(String conditions);
 
+	// 查看教师列表
+	public void showTeacherList(String conditions);
+
+	// 查看学生列表
+	public void showStudentList(String conditions);
+	
 	// 批量新增用户
 	public void addUserList();
 

@@ -31,10 +31,10 @@ public class UserInfoSystem implements UserInfoSystemService {
 		String[] cmdpart = cmd.split("；");
 		String cmdType = cmdpart[0] + cmdpart[1];
 		switch (cmdType) {
-		case "showSelfInformation":
+		case "showselfInformation":
 			showSelfInformation();
 			break;
-		case "editSelfInformation":
+		case "editselfInformation":
 			String userType = ((GuestPO) ll.getLoginer(uid)).getType()
 					.toString();
 			if ((userType.equals("Teacher")) || (userType.equals("SchoolDean"))
@@ -48,28 +48,34 @@ public class UserInfoSystem implements UserInfoSystemService {
 			}
 			editSelfInformation(upo);
 			break;
-		case "addUser":
+		case "adduser":
 			UserPO u = new UserPO(cmdpart[2], UserType.valueOf(cmdpart[3]));
 			addUser(u);
 			break;
-		case "editUser":
+		case "edituser":
 			GuestPO guest = new GuestPO(cmdpart[2],
 					UserType.valueOf(cmdpart[3]), cmdpart[4]);
 			editUser(guest);
 			break;
-		case "delUser":
+		case "deluser":
 			delUser(cmdpart[2]);
 			break;
-		case "showUserList":
-			showUserList(cmdpart[2], cmdpart[3]);
+		case "showlogin_list":
+			showLoginList(cmdpart[2]);
 			break;
-		case "addUserList":
+		case "showteacher_list":
+			showTeacherList(cmdpart[2]);
+			break;
+		case "showstudent_list":
+			showStudentList(cmdpart[2]);
+			break;
+		case "adduser_list":
 			addUserList();
 			break;
-		case "delUserList":
+		case "deluser_list":
 			delUserList();
 			break;
-		case "editPassword":
+		case "editpassword":
 			editPassword(cmdpart[2], cmdpart[3]);
 			break;
 		default:
@@ -193,61 +199,7 @@ public class UserInfoSystem implements UserInfoSystemService {
 
 	}
 
-	@Override
-	public void showUserList(String listName, String conditions) {
-		switch (listName) {
-		case "LoginList":
-			ArrayList<GuestPO> list1 = ll.getLoginList(conditions);
-			ArrayList<String> guestList = new ArrayList<String>();
-			for (int i = 0; i < list1.size(); i++) {
-				String guestInfo = (list1.get(i)).toCommand();
-				guestList.add(guestInfo);
-			}
-			try {
-				ns.sendList(guestList);
-			} catch (IOException e) {
-
-				e.printStackTrace();
-			}
-			break;
-		case "TeacherList":
-			ArrayList<TeacherPO> list2 = tl.getTeacherList(conditions);
-			ArrayList<String> teacherList = new ArrayList<String>();
-			for (int i = 0; i < list2.size(); i++) {
-				String teacherInfo = (list2.get(i)).toCommand();
-				teacherList.add(teacherInfo);
-			}
-			try {
-				ns.sendList(teacherList);
-			} catch (IOException e) {
-
-				e.printStackTrace();
-			}
-			break;
-		case "StudentList":
-			ArrayList<StudentPO> list3 = sl.getStudentList(conditions);
-			ArrayList<String> studentList = new ArrayList<String>();
-			for (int i = 0; i < list3.size(); i++) {
-				String studentInfo = (list3.get(i)).toCommand();
-				studentList.add(studentInfo);
-			}
-			try {
-				ns.sendList(studentList);
-			} catch (IOException e) {
-
-				e.printStackTrace();
-			}
-			break;
-		}
-		try {
-			ns.sendFeedback(Feedback.OPERATION_SUCCEED.toString());
-		} catch (IOException e) {
-
-			e.printStackTrace();
-		}
-
-	}
-
+	
 	@Override
 	public void addUserList() {
 		try {
@@ -347,5 +299,56 @@ public class UserInfoSystem implements UserInfoSystemService {
 		String[] info = str.split("；");
 		UserPO u = new UserPO(info[0], UserType.valueOf(info[1]));
 		return u;
+	}
+
+	@Override
+	public void showLoginList(String conditions) {
+		// TODO Auto-generated method stub
+		ArrayList<GuestPO> list1 = ll.getLoginList(conditions);
+		ArrayList<String> guestList = new ArrayList<String>();
+		for (int i = 0; i < list1.size(); i++) {
+			String guestInfo = (list1.get(i)).toCommand();
+			guestList.add(guestInfo);
+		}
+		try {
+			ns.sendList(guestList);
+		} catch (IOException e) {
+
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void showTeacherList(String conditions) {
+		// TODO Auto-generated method stub
+		ArrayList<TeacherPO> list2 = tl.getTeacherList(conditions);
+		ArrayList<String> teacherList = new ArrayList<String>();
+		for (int i = 0; i < list2.size(); i++) {
+			String teacherInfo = (list2.get(i)).toCommand();
+			teacherList.add(teacherInfo);
+		}
+		try {
+			ns.sendList(teacherList);
+		} catch (IOException e) {
+
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void showStudentList(String conditions) {
+		// TODO Auto-generated method stub
+		ArrayList<StudentPO> list3 = sl.getStudentList(conditions);
+		ArrayList<String> studentList = new ArrayList<String>();
+		for (int i = 0; i < list3.size(); i++) {
+			String studentInfo = (list3.get(i)).toCommand();
+			studentList.add(studentInfo);
+		}
+		try {
+			ns.sendList(studentList);
+		} catch (IOException e) {
+
+			e.printStackTrace();
+		}
 	}
 }
