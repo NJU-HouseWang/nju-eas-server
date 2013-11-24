@@ -1,6 +1,7 @@
 package NJU.HouseWang.nju_eas_server.SystemFactory;
 
 import NJU.HouseWang.nju_eas_server.system.CourseInfoSystem;
+import NJU.HouseWang.nju_eas_server.system.CourseSelectionSystem;
 import NJU.HouseWang.nju_eas_server.system.LogSystem;
 import NJU.HouseWang.nju_eas_server.system.LoginSystem;
 import NJU.HouseWang.nju_eas_server.system.UserInfoSystem;
@@ -29,7 +30,7 @@ public class SystemFactory {
 			case "course_list":
 				return (new CourseInfoSystem());
 			case "status_list":
-				
+				return (new CourseSelectionSystem());
 			}
 			break;
 		case "add":
@@ -52,6 +53,7 @@ public class SystemFactory {
 			case "course_list":
 				return (new CourseInfoSystem());
 			case "status_list":
+				return (new CourseSelectionSystem());
 			}
 			break;
 		case "del":
