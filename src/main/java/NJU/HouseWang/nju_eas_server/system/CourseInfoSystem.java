@@ -13,7 +13,11 @@ public class CourseInfoSystem implements CourseInfoSystemService {
 	private NetService ns;
 //	private DataService cl;
 	private CourseList cl;
-	
+	public CourseInfoSystem() {
+		// TODO Auto-generated constructor stub
+		cl = new CourseList();
+		cl.init();
+	}
 	@Override
 	public void operate(String uid, String cmd) {
 		// TODO Auto-generated method stub

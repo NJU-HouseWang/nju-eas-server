@@ -23,7 +23,16 @@ public class UserInfoSystem implements UserInfoSystemService {
 	private GuestPO guest = null;
 	private NetService ns;
 	private UserPO upo;
-
+	public UserInfoSystem() {
+		// TODO Auto-generated constructor stub
+		ll = new LoginList();
+		tl = new TeacherList();
+		sl = new StudentList();
+		ll.init();
+		tl.init();
+		sl.init();
+		
+	}
 	@Override
 	public void operate(String uid, String cmd) {
 		this.uid = uid;
