@@ -140,19 +140,19 @@ public class CoursePO implements DataPOService {
 	}
 	
 	public String toCommand(){
-		return(id + ";" + 
-				name+ ";" +
-				module+ ";" +
-				type+ ";" +
-				nature+ ";" +
-				credit+ ";" +
-				period+ ";" +
-				department+ ";" +
-				teacher+ ";" +
-				time+ ";" +
-				place+ ";" +
-				introduction+ ";" +
-				book+ ";" +
+		return(id + "；" + 
+				name+ "；" +
+				module+ "；" +
+				type+ "；" +
+				nature+ "；" +
+				credit+ "；" +
+				period+ "；" +
+				department+ "；" +
+				teacher+ "；" +
+				time+ "；" +
+				place+ "；" +
+				introduction+ "；" +
+				book+ "；" +
 				syllabus);
 	}
 

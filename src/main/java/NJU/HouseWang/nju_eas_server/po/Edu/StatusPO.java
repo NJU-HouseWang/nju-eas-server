@@ -46,6 +46,6 @@ public class StatusPO {
 	}
 	
 	public String toCommand(){
-		return (function + ";" + isopen);
+		return (function + "；" + isopen);
 	}
 }

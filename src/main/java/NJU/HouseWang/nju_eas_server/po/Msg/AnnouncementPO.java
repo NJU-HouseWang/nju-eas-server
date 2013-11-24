@@ -69,9 +69,9 @@ public class AnnouncementPO implements DataPOService {
 	}
 
 	public String toCommand() {
-		String re = id + ";" + giverId + ";" + title + ";" + content + ";";
+		String re = id + "；" + giverId + "；" + title + "；" + content + "；";
 		for (int i = 0; i < receiverType.length; i++) {
-			re += receiverType[i] + ",";
+			re += receiverType[i] + "，";
 		}
 		return re;
 	}

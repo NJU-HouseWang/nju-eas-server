@@ -78,7 +78,7 @@ public class StatusList {
 
 	public ArrayList<StatusPO> getStatusList() {
 		ArrayList<StatusPO> result = new ArrayList<StatusPO>();
-	//	sql = "select * from " + listName;
+		sql = "select * from " + listName;
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);

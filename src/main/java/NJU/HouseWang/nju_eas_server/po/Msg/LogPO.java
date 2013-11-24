@@ -13,7 +13,10 @@ public class LogPO {
 		this.time = time;
 		this.content = content;
 	}
-
+	
+	public LogPO(){	
+	}
+	
 	public String getName() {
 		return name;
 	}
@@ -44,6 +47,11 @@ public class LogPO {
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+	public String toCommand() {
+		// TODO Auto-generated method stub
+		return (name + "；" + ip + "；" + time + "；" + content);
 	}
 
 }

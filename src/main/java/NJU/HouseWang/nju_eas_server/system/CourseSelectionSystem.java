@@ -76,8 +76,8 @@ public class CourseSelectionSystem implements CourseSelectionSystemService {
 		ArrayList<StatusPO> list = sl.getStatusList();
 		ArrayList<String> statusList = new ArrayList<String>();
 		for (int i = 0; i < list.size(); i++) {
-			String courseInfo = (list.get(i)).toCommand();
-			statusList.add(courseInfo);
+			String statusInfo = (list.get(i)).toCommand();
+			statusList.add(statusInfo);
 		}
 		try {
 			ns.sendList(statusList);

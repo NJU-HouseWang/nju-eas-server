@@ -67,7 +67,7 @@ public class MessagePO implements DataPOService {
 	}
 
 	public String toCommand() {
-		return id + ";" + giverId + ";" + time + ";" + content + ";"
+		return id + "；" + giverId + "；" + time + "；" + content + "；"
 				+ achieverId;
 	}
 
