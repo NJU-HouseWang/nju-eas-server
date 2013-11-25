@@ -1,10 +1,11 @@
 package NJU.HouseWang.nju_eas_server.po.Edu;
 
-public class StatusPO {
+import NJU.HouseWang.nju_eas_server.po.DataPOService;
+
+public class StatusPO implements DataPOService{
 	private String function; //选课、补选、退选功能名
 	private Boolean isopen;	//功能是否开启
-	
-	public StatusPO(){		
+	public StatusPO() {		
 	}
 	
 	public StatusPO(String function, Boolean isopen){
@@ -47,5 +48,16 @@ public class StatusPO {
 	
 	public String toCommand(){
 		return (function + "；" + isopen);
+	}
+
+	@Override
+	public String getId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setId(String id) {
+		// TODO Auto-generated method stub
 	}
 }

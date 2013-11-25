@@ -3,44 +3,65 @@ package NJU.HouseWang.nju_eas_server.po.Msg;
 import NJU.HouseWang.nju_eas_server.po.DataPOService;
 
 public class MessagePO implements DataPOService {
-	private String id;
-	private String giverId;
-	private String time;
+	// 消息编号
+	private int id;
+	// 发信人ID
+	private String senderId;
+	// 收信人ID
+	private String recipientId;
+	//操作人ID
+	private String operatorId;
+	// 标题
+	private String title;
+	// 正文内容
 	private String content;
-	private String achieverId;
 
-	public MessagePO(String id, String giverId, String time, String content,
-			String achieverId) {
+	public MessagePO(String id, String senderId, String recipientId,String operatorId,
+			String title, String content) {
 		super();
-		this.id = id;
-		this.giverId = giverId;
-		this.time = time;
+		this.id = Integer.parseInt(id);
+		this.senderId = senderId;
+		this.title = title;
 		this.content = content;
-		this.achieverId = achieverId;
+		this.recipientId = recipientId;
+		this.operatorId  = operatorId;
+	}
+	
+	public MessagePO(String senderId, String recipientId,String operatorId,
+			String title, String content) {
+		super();
+		this.senderId = senderId;
+		this.title = title;
+		this.content = content;
+		this.recipientId = recipientId;
+		this.operatorId  = operatorId;
+	}
+	
+	public MessagePO(){
+		
 	}
 
-	public String getId() {
-		return id;
+	public String getSenderId() {
+		return senderId;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setSenderId(String senderId) {
+		this.senderId = senderId;
 	}
 
-	public String getGiverId() {
-		return giverId;
+	public String getOperatorId() {
+		return operatorId;
 	}
 
-	public void setGiverId(String giverId) {
-		this.giverId = giverId;
+	public void setOperatorId(String operatorId) {
+		this.operatorId = operatorId;
+	}
+	public String getTitle() {
+		return title;
 	}
 
-	public String getTime() {
-		return time;
-	}
-
-	public void setTime(String time) {
-		this.time = time;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	public String getContent() {
@@ -51,24 +72,36 @@ public class MessagePO implements DataPOService {
 		this.content = content;
 	}
 
-	public String getAchieverId() {
-		return achieverId;
+	public String getRecipientId() {
+		return recipientId;
 	}
 
-	public void setAchieverId(String achieverId) {
-		this.achieverId = achieverId;
+	public void setRecipientId(String recipientId) {
+		this.recipientId = recipientId;
 	}
 
 	@Override
 	public String toString() {
-		return "MessagePO [id=" + id + ", giverId=" + giverId + ", time="
-				+ time + ", content=" + content + ", achieverId=" + achieverId
-				+ "]";
+		return "MessagePO [id=" + id + ", senderId=" +  senderId +", recipientId=" + recipientId
+				+ ", operatorId=" +  operatorId 	+ ", title="
+				+ title + ", content=" + content + "]";
 	}
 
 	public String toCommand() {
-		return id + "；" + giverId + "；" + time + "；" + content + "；"
-				+ achieverId;
+		return id + "；" + senderId + "；" + recipientId + "；"+ operatorId + "；" + title + "；"
+				+ content;
+	}
+
+	@Override
+	public String getId() {
+		// TODO Auto-generated method stub
+		return (""+this.id);
+	}
+
+	@Override
+	public void setId(String id) {
+		// TODO Auto-generated method stub
+		this.id =Integer.parseInt(id);
 	}
 
 }

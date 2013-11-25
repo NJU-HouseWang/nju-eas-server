@@ -35,7 +35,7 @@ public class CourseInfoSystem implements CourseInfoSystemService {
 		case "addcourse":
 			CoursePO c2 = this.stringToCoursePO(cmd.substring(10,
 					cmd.length() - 1));
-			this.editCourse(c2);
+			this.addCourse(c2);
 			break;
 		case "delcourse":
 			this.delCourse(cmdInfo[2]);

@@ -1,6 +1,9 @@
 package NJU.HouseWang.nju_eas_server.po.Msg;
 
-public class LogPO {
+import NJU.HouseWang.nju_eas_server.dataService.DataListService;
+import NJU.HouseWang.nju_eas_server.po.DataPOService;
+
+public class LogPO implements DataPOService{
 	private String name;
 	private String ip;
 	private String time;
@@ -52,6 +55,18 @@ public class LogPO {
 	public String toCommand() {
 		// TODO Auto-generated method stub
 		return (name + "；" + ip + "；" + time + "；" + content);
+	}
+
+	@Override
+	public String getId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setId(String id) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -1,9 +1,11 @@
 package NJU.HouseWang.nju_eas_server.SystemFactory;
 
+import NJU.HouseWang.nju_eas_server.system.AnnouncementSystem;
 import NJU.HouseWang.nju_eas_server.system.CourseInfoSystem;
 import NJU.HouseWang.nju_eas_server.system.CourseSelectionSystem;
 import NJU.HouseWang.nju_eas_server.system.LogSystem;
 import NJU.HouseWang.nju_eas_server.system.LoginSystem;
+import NJU.HouseWang.nju_eas_server.system.MessageSystem;
 import NJU.HouseWang.nju_eas_server.system.UserInfoSystem;
 import NJU.HouseWang.nju_eas_server.systemService.SystemService;
 
@@ -37,6 +39,14 @@ public class SystemFactory {
 			case "status_list":
 			case "status_list_head":
 				return (new CourseSelectionSystem());
+			case "message":
+			case "message_list":
+			case "message_list_head":
+				return (new MessageSystem());
+			case "announcement":
+			case "announcement_list":
+			case "announcement_list_head":
+				return (new AnnouncementSystem());
 			}
 			break;
 		case "add":
@@ -47,6 +57,10 @@ public class SystemFactory {
 			case "course":
 			case "course_list":
 				return (new CourseInfoSystem());
+			case "message":
+				return (new MessageSystem());
+			case "announcement":
+				return (new AnnouncementSystem());
 			}
 			break;
 		case "edit":
@@ -60,6 +74,10 @@ public class SystemFactory {
 				return (new CourseInfoSystem());
 			case "status":
 				return (new CourseSelectionSystem());
+			case "message":
+				return (new MessageSystem());
+			case "announcement":
+				return (new AnnouncementSystem());
 			}
 			break;
 		case "del":
@@ -70,6 +88,16 @@ public class SystemFactory {
 			case "course":
 			case "course_list":
 				return (new CourseInfoSystem());
+			case "message":
+				return (new MessageSystem());
+			case "announcement":
+				return (new AnnouncementSystem());
+			}
+			break;
+		case "move":
+			switch(aim){
+			case "message":
+				return(new MessageSystem());
 			}
 			break;
 		case "publish":

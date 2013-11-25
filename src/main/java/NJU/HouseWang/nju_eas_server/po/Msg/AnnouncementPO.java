@@ -1,26 +1,47 @@
 package NJU.HouseWang.nju_eas_server.po.Msg;
 
-import java.util.Arrays;
-
 import NJU.HouseWang.nju_eas_server.po.DataPOService;
+import NJU.HouseWang.nju_eas_server.systemMessage.UserType;
 
 public class AnnouncementPO implements DataPOService {
+	// 公告编号
 	private String id;
-	private String giverId;
+	// 发信人ID
+	private String senderId;
+	// 接受者的用户类型
+	private UserType recipient;
+	// 标题
 	private String title;
+	// 内容
 	private String content;
-	private String[] receiverType;
+	// 公告的状态 0：草稿 1：已发布 2：已收到的公告 3：已删除
+	private int status;
 
-	public AnnouncementPO(String id, String giverId, String title,
-			String content, String[] receiverType) {
+	public AnnouncementPO(String id, String senderId, String title,
+			String content, UserType recipient, int status) {
 		super();
 		this.id = id;
-		this.giverId = giverId;
+		this.senderId = senderId;
 		this.title = title;
 		this.content = content;
-		this.receiverType = receiverType;
+		this.recipient = recipient;
+		this.status = status;
 	}
 
+	public AnnouncementPO(String senderId, UserType recipient, String content,
+			String title, int status) {
+		super();
+		this.senderId = senderId;
+		this.title = title;
+		this.content = content;
+		this.recipient = recipient;
+		this.status = status;
+	}
+	
+	public AnnouncementPO(){
+		
+	}
+	
 	public String getId() {
 		return id;
 	}
@@ -29,12 +50,12 @@ public class AnnouncementPO implements DataPOService {
 		this.id = id;
 	}
 
-	public String getGiverId() {
-		return giverId;
+	public String getSenderId() {
+		return senderId;
 	}
 
-	public void setGiverId(String giverId) {
-		this.giverId = giverId;
+	public void setSenderId(String senderId) {
+		this.senderId = senderId;
 	}
 
 	public String getTitle() {
@@ -53,26 +74,33 @@ public class AnnouncementPO implements DataPOService {
 		this.content = content;
 	}
 
-	public String[] getReceiverType() {
-		return receiverType;
+	public UserType getRecipient() {
+		return this.recipient;
 	}
 
-	public void setReceiverType(String[] receiverType) {
-		this.receiverType = receiverType;
+	public void setRecipient(UserType recipient) {
+		this.recipient = recipient;
+	}
+	
+	public void setStatus(int status){
+		this.status = status;
+	}
+	
+	public int getStatus(){
+		return this.status;
 	}
 
 	@Override
 	public String toString() {
-		return "NoticePO [id=" + id + ", giverId=" + giverId + ", title="
-				+ title + ", content=" + content + ", receiverType="
-				+ Arrays.toString(receiverType) + "]";
+		return "AnnouncementPO [id=" + id + ", senderId=" + senderId
+				+ ", recipient=" + recipient.toString() + ", title=" + title
+				+ ", content=" + content + ", status=" + status;
 	}
 
 	public String toCommand() {
-		String re = id + "；" + giverId + "；" + title + "；" + content + "；";
-		for (int i = 0; i < receiverType.length; i++) {
-			re += receiverType[i] + "，";
-		}
+		String re = id + "；" + senderId + "；" + recipient.toString() + "；"
+				+ title + "；" + content + "；" + status;
+
 		return re;
 	}
 }

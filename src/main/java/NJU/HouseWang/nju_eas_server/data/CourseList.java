@@ -172,8 +172,8 @@ public class CourseList {
 				r.setModule(rs.getString(3));
 				r.setType(rs.getString(4));
 				r.setNature(rs.getString(5));
-				r.setCredit(Integer.parseInt(rs.getString(6)));
-				r.setPeriod(Integer.parseInt(rs.getString(7)));
+				r.setCredit(rs.getInt(6));
+				r.setPeriod(rs.getInt(7));
 				r.setDepartment(rs.getString(8));
 				r.setTeacher(rs.getString(9));
 				r.setTime(rs.getString(10));

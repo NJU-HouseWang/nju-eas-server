@@ -11,4 +11,5 @@ public interface CourseSelectionSystemService extends SystemService {
 	public void showStatusList();
 	//显示状态列表的表头
 	public void showStatusListHead();
+	
 }
