@@ -159,10 +159,11 @@ public class CourseList {
 
 	public ArrayList<CoursePO> getCourseList(String conditions) {
 		ArrayList<CoursePO> result = new ArrayList<CoursePO>();
-		sql = "select * from " + listName;
+		sql = "select * from " + listName + "?";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
+			ps.setString(1, conditions);
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				CoursePO r = new CoursePO();
