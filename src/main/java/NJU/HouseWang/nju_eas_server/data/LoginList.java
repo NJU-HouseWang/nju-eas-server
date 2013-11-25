@@ -123,11 +123,10 @@ public class LoginList {
 
 	public ArrayList<GuestPO> getLoginList(String conditions) {
 		ArrayList<GuestPO> result = new ArrayList<GuestPO>();
-		sql = "select * from " + listName + "?";
+		sql = "select * from " + listName;
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
-			ps.setString(1, conditions);
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				GuestPO r = new GuestPO();
@@ -141,8 +140,8 @@ public class LoginList {
 		}
 		return result;
 	}
-	
-	public String getListHead(){
+
+	public String getListHead() {
 		return "用户名；用户类型；用户密码";
 	}
 
@@ -156,13 +155,15 @@ public class LoginList {
 		System.out.println(ll.containsID("121250157"));
 		System.out.println(ll.removeLoginer("121250157"));
 		System.out.println(ll.containsID("121250157"));
-		System.out.println(ll.addLoginer(new GuestPO("121250157",UserType.Student,"bilicrazy123")));
+		System.out.println(ll.addLoginer(new GuestPO("121250157",
+				UserType.Student, "bilicrazy123")));
 		System.out.println(ll.containsID("121250157"));
 		System.out.println(ll.getLoginer("121250157"));
-		System.out.println(ll.updateLoginer(new GuestPO("121250157",UserType.Student,"bilicrazy124")));
+		System.out.println(ll.updateLoginer(new GuestPO("121250157",
+				UserType.Student, "bilicrazy124")));
 		System.out.println(ll.getLoginer("121250157"));
 		ArrayList<GuestPO> l = ll.getLoginList(null);
-		for(GuestPO g:l) {
+		for (GuestPO g : l) {
 			System.out.println(g);
 		}
 		ll.finish();

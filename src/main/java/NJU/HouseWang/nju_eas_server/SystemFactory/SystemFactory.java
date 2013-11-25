@@ -110,7 +110,7 @@ public class SystemFactory {
 		return null;
 	}
 	
-	public static void main(String[] args){
+	/*public static void main(String[] args){
 //		create("login；Student；121250157；bilicrazy123").operate("121250157","login；Student；121250157；bilicrazy123");
 		create("show；log_list；null").operate("admin", "show；log_list；null");
 		create("show；login_list；null").operate("admin", "show；login_list；null");
@@ -122,5 +122,5 @@ public class SystemFactory {
 		create("del；user；0001").operate("admin", "del；user；0001");
 		create("del；user_list").operate("admin", "del；user_list");
 
-	}
+	}*/
 }

@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import NJU.HouseWang.nju_eas_server.data.StatusList;
-import NJU.HouseWang.nju_eas_server.data.StatusListStub;
+import NJU.HouseWang.nju_eas_server.dataStub.StatusListStub;
 import NJU.HouseWang.nju_eas_server.net.ServerStub;
 import NJU.HouseWang.nju_eas_server.netService.NetService;
 import NJU.HouseWang.nju_eas_server.po.Edu.StatusPO;

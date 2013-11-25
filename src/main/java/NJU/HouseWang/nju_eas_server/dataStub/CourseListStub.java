@@ -1,8 +1,9 @@
-package NJU.HouseWang.nju_eas_server.data;
+package NJU.HouseWang.nju_eas_server.dataStub;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import NJU.HouseWang.nju_eas_server.data.CourseList;
 import NJU.HouseWang.nju_eas_server.po.Edu.CoursePO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 

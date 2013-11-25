@@ -45,6 +45,9 @@ public class AuthorityManager {
 	}
 
 	public String getGuest(String ip) {
+		if (l.get(ip) == null) {
+			return null;
+		}
 		return l.get(ip).uid;
 	}
 
