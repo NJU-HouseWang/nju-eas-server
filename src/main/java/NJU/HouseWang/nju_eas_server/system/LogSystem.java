@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import NJU.HouseWang.nju_eas_server.data.LogList;
-import NJU.HouseWang.nju_eas_server.data.LogListStub;
+import NJU.HouseWang.nju_eas_server.dataStub.LogListStub;
 import NJU.HouseWang.nju_eas_server.net.ServerStub;
 import NJU.HouseWang.nju_eas_server.netService.NetService;
 import NJU.HouseWang.nju_eas_server.po.Msg.LogPO;

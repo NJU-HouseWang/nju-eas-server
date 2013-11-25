@@ -4,11 +4,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import NJU.HouseWang.nju_eas_server.data.LoginList;
-import NJU.HouseWang.nju_eas_server.data.LoginListStub;
 import NJU.HouseWang.nju_eas_server.data.StudentList;
-import NJU.HouseWang.nju_eas_server.data.StudentListStub;
 import NJU.HouseWang.nju_eas_server.data.TeacherList;
-import NJU.HouseWang.nju_eas_server.data.TeacherListStub;
+import NJU.HouseWang.nju_eas_server.dataStub.LoginListStub;
+import NJU.HouseWang.nju_eas_server.dataStub.StudentListStub;
+import NJU.HouseWang.nju_eas_server.dataStub.TeacherListStub;
 import NJU.HouseWang.nju_eas_server.net.ServerStub;
 import NJU.HouseWang.nju_eas_server.netService.NetService;
 import NJU.HouseWang.nju_eas_server.po.User.GuestPO;

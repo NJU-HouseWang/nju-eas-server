@@ -1,8 +1,9 @@
-package NJU.HouseWang.nju_eas_server.data;
+package NJU.HouseWang.nju_eas_server.dataStub;
 
 import java.util.ArrayList;
 import java.util.Date;
 
+import NJU.HouseWang.nju_eas_server.data.LogList;
 import NJU.HouseWang.nju_eas_server.po.Msg.LogPO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 
