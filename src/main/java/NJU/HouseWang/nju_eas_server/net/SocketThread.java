@@ -25,10 +25,11 @@ public class SocketThread implements NetService {
 	}
 
 	@Override
-	public void sendFeedback(String fb) throws IOException {
+	public void sendFeedback(String feedback) throws IOException {
 		try {
 			out = new DataOutputStream(socket.getOutputStream());
-			out.writeUTF(fb.toString());
+			System.out.println("Send Feedback:" + feedback);
+			out.writeUTF(feedback);
 			out.flush();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -44,20 +45,24 @@ public class SocketThread implements NetService {
 		in = new DataInputStream(new BufferedInputStream(
 				socket.getInputStream()));
 		String netCmd = null;
-		while (in.available() > 0) {
-			netCmd = in.readUTF();
+		while (true) {
+			if ((netCmd = in.readUTF()) != null) {
+				System.out.println("Receive Connamd: " + netCmd);
+				break;
+			}
 		}
-		System.out.println("Received NetCmd: " + netCmd);
 		return netCmd;
 	}
 
-	@Override
 	public void sendList(ArrayList<String> list) throws IOException {
 		try {
 			out = new DataOutputStream(socket.getOutputStream());
+			out.writeUTF("listStart");
 			for (String str : list) {
 				out.writeUTF(str);
+				System.out.println("Send List Item :" + str);
 			}
+			out.writeUTF("listEnd");
 			out.flush();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -68,16 +73,17 @@ public class SocketThread implements NetService {
 		}
 	}
 
-	@Override
 	public ArrayList<String> receiveList() throws IOException {
 		in = new DataInputStream(new BufferedInputStream(
 				socket.getInputStream()));
 		ArrayList<String> list = new ArrayList<String>();
 		String line;
-		while (in.available() != 0) {
-			line = in.readUTF();
+		while (!in.readUTF().equals("listStart")) {
+			System.out.println("Waiting for Client......");
+		}
+		while (!(line = in.readUTF()).trim().equals("listEnd")) {
+			System.out.println("Receive List Item :" + line);
 			list.add(line);
-			System.out.println("Received ListItem" + line);
 		}
 		return list;
 	}

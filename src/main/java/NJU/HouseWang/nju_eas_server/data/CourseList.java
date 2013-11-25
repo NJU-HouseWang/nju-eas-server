@@ -159,11 +159,11 @@ public class CourseList {
 
 	public ArrayList<CoursePO> getCourseList(String conditions) {
 		ArrayList<CoursePO> result = new ArrayList<CoursePO>();
-		sql = "select * from " + listName + "?";
+		sql = "select * from " + listName;
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
-			ps.setString(1, conditions);
+			// ps.setString(1, conditions);
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				CoursePO r = new CoursePO();
@@ -188,8 +188,8 @@ public class CourseList {
 		}
 		return result;
 	}
-	
-	public String getListHead(){
+
+	public String getListHead() {
 		return "课程号；课程名称；所属模块；课程类别；课程性质；学分；开设学期；院系；任课老师；上课时间；上课地点；课程简介；参考书目；课程大纲";
 	}
 }
