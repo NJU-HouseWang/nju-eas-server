@@ -7,4 +7,6 @@ public interface LogSystemService extends SystemService {
 	public void addLog(LogPO lp);
 	//显示日志列表
 	public void showLogList(String conditions);
+	//显示日志列表的表头
+	public void showLogListHead();
 }

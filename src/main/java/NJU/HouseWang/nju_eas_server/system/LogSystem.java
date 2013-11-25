@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import NJU.HouseWang.nju_eas_server.data.LogList;
+import NJU.HouseWang.nju_eas_server.data.LogListStub;
+import NJU.HouseWang.nju_eas_server.net.ServerStub;
 import NJU.HouseWang.nju_eas_server.netService.NetService;
 import NJU.HouseWang.nju_eas_server.po.Msg.LogPO;
 import NJU.HouseWang.nju_eas_server.systemService.LogSystemService;
@@ -25,11 +27,15 @@ public class LogSystem implements LogSystemService {
 		String[] cmdInfo = cmd.split("；");
 		String cmdType = cmdInfo[0] + cmdInfo[1];
 		switch (cmdType) {
+		
 		case "addlog":
 			this.addLog(new LogPO(cmdInfo[2],cmdInfo[3],cmdInfo[4],cmdInfo[5]));
 			break;
 		case "showlog_list":
 			this.showLogList(cmdInfo[2]);
+			break;
+		case "showlog_list_head":
+			this.showLogListHead();
 			break;
 		default:
 			break;
@@ -65,6 +71,16 @@ public class LogSystem implements LogSystemService {
 		try {
 			ns.sendList(logList);
 		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	@Override
+	public void showLogListHead() {
+		// TODO Auto-generated method stub
+		try {
+			ns.sendFeedback(ll.getListHead());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

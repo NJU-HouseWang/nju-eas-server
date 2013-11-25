@@ -25,4 +25,7 @@ public interface CourseInfoSystemService extends SystemService {
 
 	// 批量删除课程
 	public void delCourseList();
+	
+	//显示课程列表的表头
+	public void showCourseListHead();
 }

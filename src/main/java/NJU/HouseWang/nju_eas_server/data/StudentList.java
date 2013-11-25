@@ -161,5 +161,9 @@ public class StudentList {
 		}
 		return result;
 	}
+	
+	public String getListHead(){
+		return "学号；姓名；院系；专业；年级；班级编号；学制；学籍状态";
+	}
 
 }

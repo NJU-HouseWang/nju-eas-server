@@ -187,4 +187,8 @@ public class CourseList {
 		}
 		return result;
 	}
+	
+	public String getListHead(){
+		return "课程号；课程名称；所属模块；课程类别；课程性质；学分；开设学期；院系；任课老师；上课时间；上课地点；课程简介；参考书目；课程大纲";
+	}
 }

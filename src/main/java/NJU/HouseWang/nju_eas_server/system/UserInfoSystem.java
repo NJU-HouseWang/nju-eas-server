@@ -4,8 +4,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import NJU.HouseWang.nju_eas_server.data.LoginList;
+import NJU.HouseWang.nju_eas_server.data.LoginListStub;
 import NJU.HouseWang.nju_eas_server.data.StudentList;
+import NJU.HouseWang.nju_eas_server.data.StudentListStub;
 import NJU.HouseWang.nju_eas_server.data.TeacherList;
+import NJU.HouseWang.nju_eas_server.data.TeacherListStub;
+import NJU.HouseWang.nju_eas_server.net.ServerStub;
 import NJU.HouseWang.nju_eas_server.netService.NetService;
 import NJU.HouseWang.nju_eas_server.po.User.GuestPO;
 import NJU.HouseWang.nju_eas_server.po.User.StudentPO;
@@ -86,6 +90,15 @@ public class UserInfoSystem implements UserInfoSystemService {
 			break;
 		case "editpassword":
 			editPassword(cmdpart[2], cmdpart[3]);
+			break;
+		case "showlogin_list_head":
+			this.showLoginListHead();
+			break;
+		case "showteacher_list_head":
+			this.showTeacherListHead();
+			break;
+		case "showstudent_list_head":
+			this.showStudentListHead();
 			break;
 		default:
 			break;
@@ -357,6 +370,36 @@ public class UserInfoSystem implements UserInfoSystemService {
 			ns.sendList(studentList);
 		} catch (IOException e) {
 
+			e.printStackTrace();
+		}
+	}
+	@Override
+	public void showLoginListHead() {
+		// TODO Auto-generated method stub
+		try {
+			ns.sendFeedback(ll.getListHead());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	@Override
+	public void showTeacherListHead() {
+		// TODO Auto-generated method stub
+		try {
+			ns.sendFeedback(tl.getListHead());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	@Override
+	public void showStudentListHead() {
+		// TODO Auto-generated method stub
+		try {
+			ns.sendFeedback(sl.getListHead());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

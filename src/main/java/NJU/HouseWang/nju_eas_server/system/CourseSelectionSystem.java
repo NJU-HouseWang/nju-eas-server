@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import NJU.HouseWang.nju_eas_server.data.StatusList;
+import NJU.HouseWang.nju_eas_server.data.StatusListStub;
+import NJU.HouseWang.nju_eas_server.net.ServerStub;
 import NJU.HouseWang.nju_eas_server.netService.NetService;
 import NJU.HouseWang.nju_eas_server.po.Edu.StatusPO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
@@ -34,6 +36,9 @@ public class CourseSelectionSystem implements CourseSelectionSystemService {
 			break;
 		case "showstatus_list":
 			this.showStatusList();
+			break;
+		case "showstatus_list_head":
+			this.showStatusListHead();
 			break;
 		default:
 			break;
@@ -83,6 +88,16 @@ public class CourseSelectionSystem implements CourseSelectionSystemService {
 			ns.sendList(statusList);
 		} catch (IOException e) {
 
+			e.printStackTrace();
+		}
+	}
+	@Override
+	public void showStatusListHead() {
+		// TODO Auto-generated method stub
+		try {
+			ns.sendFeedback(sl.getListHead());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

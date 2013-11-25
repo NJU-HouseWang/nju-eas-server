@@ -140,6 +140,10 @@ public class LoginList {
 		}
 		return result;
 	}
+	
+	public String getListHead(){
+		return "用户名；用户类型；用户密码";
+	}
 
 	public static void main(String[] args) {
 		LoginList ll = new LoginList();

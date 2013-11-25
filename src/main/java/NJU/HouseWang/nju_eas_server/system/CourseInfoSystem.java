@@ -49,6 +49,9 @@ public class CourseInfoSystem implements CourseInfoSystemService {
 		case "delcourse_list":
 			this.delCourseList();
 			break;
+		case "showcourse_list_head":
+			this.showCourseListHead();
+			break;
 		default:
 			break;
 		}
@@ -212,6 +215,16 @@ public class CourseInfoSystem implements CourseInfoSystemService {
 	public void initNetService(NetService ns) {
 		// TODO Auto-generated method stub
 		this.ns = ns;
+	}
+	@Override
+	public void showCourseListHead() {
+		// TODO Auto-generated method stub
+		try {
+			ns.sendFeedback(cl.getListHead());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

@@ -30,6 +30,15 @@ public interface UserInfoSystemService extends SystemService {
 	// 查看学生列表
 	public void showStudentList(String conditions);
 	
+	//显示用户列表的表头
+	public void showLoginListHead();
+	
+	//显示教师列表的表头
+	public void showTeacherListHead();
+	
+	//显示学生列表的表头
+	public void showStudentListHead();
+	
 	// 批量新增用户
 	public void addUserList();
 

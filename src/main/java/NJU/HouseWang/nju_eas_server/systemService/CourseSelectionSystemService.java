@@ -9,4 +9,6 @@ public interface CourseSelectionSystemService extends SystemService {
 	public void editStatus(StatusPO sp);
 	//显示状态列表
 	public void showStatusList();
+	//显示状态列表的表头
+	public void showStatusListHead();
 }

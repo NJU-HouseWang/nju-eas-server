@@ -94,4 +94,8 @@ public class StatusList {
 		}
 		return result;
 	}
+	
+	public String getListHead(){
+		return "功能名称；开关状态";
+	}
 }

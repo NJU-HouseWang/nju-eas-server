@@ -30,7 +30,10 @@ public class ServerStub implements NetService {
 	@Override
 	public ArrayList<String> receiveList() throws IOException {
 		// TODO Auto-generated method stub
-		return null;
+		ArrayList<String> result  = new ArrayList<String>();
+		result.add("0001；Teacher");
+		result.add("0002；Teacher");
+		return result;
 	}
 
 	@Override

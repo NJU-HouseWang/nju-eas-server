@@ -145,6 +145,10 @@ public class TeacherList {
 		}
 		return result;
 	}
+	
+	public String getListHead(){
+		return "工号；教师类型；姓名；部门";
+	}
 	/*
 	public static void main(String[] args) {
 		TeacherList tl = new TeacherList();
