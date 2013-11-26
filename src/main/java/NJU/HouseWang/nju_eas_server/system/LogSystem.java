@@ -46,7 +46,11 @@ public class LogSystem implements LogSystemService {
 
 	@Override
 	public void addLog(LogPO lp) {
-		ll.addLog(lp);
+		String cmd = lp.getContent();
+		if(!cmd.startsWith("show")){
+			ll.addLog(lp);
+		}
+
 	}
 
 	@Override
