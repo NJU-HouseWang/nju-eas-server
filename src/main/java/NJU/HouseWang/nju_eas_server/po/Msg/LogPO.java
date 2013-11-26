@@ -13,7 +13,7 @@ public class LogPO implements DataPOService {
 		this.name = name;
 		this.ip = ip;
 		this.time = time;
-		this.content = content;
+		this.content = content.replaceAll("；", "-"); 
 	}
 
 	public LogPO() {
@@ -48,7 +48,7 @@ public class LogPO implements DataPOService {
 	}
 
 	public void setContent(String content) {
-		this.content = content;
+		this.content = content.replaceAll("；", "-"); 
 	}
 
 	public String toCommand() {
