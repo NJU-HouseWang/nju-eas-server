@@ -94,9 +94,8 @@ public class StudentPO extends UserPO {
 
 	@Override
 	public String toCommand() {
-		return id + "；" + type + "；" + name + "；" + department + "；" + major
-				+ "；" + grade + "；" + classNo + "；" + duration + "；"
-				+ enrollmentStatus + "；";
+		return id + "；" + name + "；" + department + "；" + major + "；" + grade
+				+ "；" + classNo + "；" + duration + "；" + enrollmentStatus + "；";
 	}
 
 }

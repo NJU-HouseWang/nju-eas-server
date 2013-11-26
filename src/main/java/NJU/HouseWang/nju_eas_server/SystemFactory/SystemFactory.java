@@ -20,7 +20,7 @@ public class SystemFactory {
 		case "logout":
 			return (new LoginSystem());
 		case "show":
-			switch(aim){
+			switch (aim) {
 			case "selfInformation":
 			case "login_list":
 			case "teacher_list":
@@ -50,7 +50,7 @@ public class SystemFactory {
 			}
 			break;
 		case "add":
-			switch(aim){
+			switch (aim) {
 			case "user":
 			case "user_list":
 			case "teacher":
@@ -66,7 +66,7 @@ public class SystemFactory {
 			}
 			break;
 		case "edit":
-			switch(aim){
+			switch (aim) {
 			case "user":
 			case "selfInformation":
 			case "password":
@@ -83,9 +83,13 @@ public class SystemFactory {
 			}
 			break;
 		case "del":
-			switch(aim){
+			switch (aim) {
 			case "user":
 			case "user_list":
+			case "teacher":
+			case "teacher_list":
+			case "student":
+			case "student_list":
 				return (new UserInfoSystem());
 			case "course":
 			case "course_list":
@@ -97,9 +101,9 @@ public class SystemFactory {
 			}
 			break;
 		case "move":
-			switch(aim){
+			switch (aim) {
 			case "message":
-				return(new MessageSystem());
+				return (new MessageSystem());
 			}
 			break;
 		case "publish":
@@ -111,18 +115,25 @@ public class SystemFactory {
 		}
 		return null;
 	}
-	
-	/*public static void main(String[] args){
-//		create("login；Student；121250157；bilicrazy123").operate("121250157","login；Student；121250157；bilicrazy123");
-		create("show；log_list；null").operate("admin", "show；log_list；null");
-		create("show；login_list；null").operate("admin", "show；login_list；null");
-		create("show；status_list；null").operate("admin", "show；status_list；null");
-		create("add；user；0001；Teacher").operate("admin", "add；user；0001；Teacher");
-		create("add；user_list").operate("admin", "add；user_list");
-		create("edit；status；selectCourse；false").operate("admin", "edit；status；selectCourse；false");
-		create("edit；user；0001；Teacher；123456").operate("admin", "edit；user；0001；Teacher；123456");
-		create("del；user；0001").operate("admin", "del；user；0001");
-		create("del；user_list").operate("admin", "del；user_list");
 
-	}*/
+	/*
+	 * public static void main(String[] args){ //
+	 * create("login；Student；121250157；bilicrazy123"
+	 * ).operate("121250157","login；Student；121250157；bilicrazy123");
+	 * create("show；log_list；null").operate("admin", "show；log_list；null");
+	 * create("show；login_list；null").operate("admin", "show；login_list；null");
+	 * create("show；status_list；null").operate("admin",
+	 * "show；status_list；null");
+	 * create("add；user；0001；Teacher").operate("admin",
+	 * "add；user；0001；Teacher"); create("add；user_list").operate("admin",
+	 * "add；user_list");
+	 * create("edit；status；selectCourse；false").operate("admin",
+	 * "edit；status；selectCourse；false");
+	 * create("edit；user；0001；Teacher；123456").operate("admin",
+	 * "edit；user；0001；Teacher；123456");
+	 * create("del；user；0001").operate("admin", "del；user；0001");
+	 * create("del；user_list").operate("admin", "del；user_list");
+	 * 
+	 * }
+	 */
 }
