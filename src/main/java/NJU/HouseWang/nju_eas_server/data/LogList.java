@@ -40,7 +40,7 @@ public class LogList {
 	}
 
 	public Feedback addLog(LogPO log) {
-		sql = "insert into " + listName + " values (?,?,?,?)";
+		sql = "insert into " + listName + "(name,ip,time,content) values (?,?,?,?)";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);

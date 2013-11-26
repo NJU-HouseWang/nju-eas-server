@@ -216,7 +216,7 @@ public class CourseInfoSystem implements CourseInfoSystemService {
 		// TODO Auto-generated method stub
 		this.ns = ns;
 	}
-	@Override
+	
 	public void showCourseListHead() {
 		// TODO Auto-generated method stub
 		try {

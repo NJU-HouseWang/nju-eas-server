@@ -1,9 +1,8 @@
 package NJU.HouseWang.nju_eas_server.po.Msg;
 
-import NJU.HouseWang.nju_eas_server.dataService.DataListService;
 import NJU.HouseWang.nju_eas_server.po.DataPOService;
 
-public class LogPO implements DataPOService{
+public class LogPO implements DataPOService {
 	private String name;
 	private String ip;
 	private String time;
@@ -16,10 +15,10 @@ public class LogPO implements DataPOService{
 		this.time = time;
 		this.content = content;
 	}
-	
-	public LogPO(){	
+
+	public LogPO() {
 	}
-	
+
 	public String getName() {
 		return name;
 	}
@@ -53,20 +52,19 @@ public class LogPO implements DataPOService{
 	}
 
 	public String toCommand() {
-		// TODO Auto-generated method stub
+
 		return (name + "；" + ip + "；" + time + "；" + content);
 	}
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
-		return null;
+		System.out.println("该方法为空");
+		return "0";
 	}
 
 	@Override
 	public void setId(String id) {
-		// TODO Auto-generated method stub
-		
+		System.out.println("该方法为空");
 	}
 
 }
