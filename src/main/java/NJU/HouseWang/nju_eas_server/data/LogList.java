@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import NJU.HouseWang.nju_eas_server.po.Msg.LogPO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 
-
 public class LogList {
 	private String listName = "log_list";
 	private String sql = null;
@@ -40,7 +39,8 @@ public class LogList {
 	}
 
 	public Feedback addLog(LogPO log) {
-		sql = "insert into " + listName + "(name,ip,time,content) values (?,?,?,?)";
+		sql = "insert into " + listName
+				+ "(name,ip,time,content) values (?,?,?,?)";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
@@ -55,7 +55,7 @@ public class LogList {
 			return Feedback.OPERATION_FAIL;
 		}
 	}
-	
+
 	public ArrayList<LogPO> getLogList(String conditions) {
 		ArrayList<LogPO> result = new ArrayList<LogPO>();
 		sql = "select * from " + listName;
@@ -65,10 +65,10 @@ public class LogList {
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				LogPO r = new LogPO();
-				r.setName(rs.getString(1));
-				r.setIp(rs.getString(2));
-				r.setTime(rs.getString(3));
-				r.setContent(rs.getString(4));
+				r.setName(rs.getString(2));
+				r.setIp(rs.getString(3));
+				r.setTime(rs.getString(4));
+				r.setContent(rs.getString(5));
 				result.add(r);
 			}
 		} catch (SQLException e) {
@@ -76,8 +76,8 @@ public class LogList {
 		}
 		return result;
 	}
-	
-	public String getListHead(){
+
+	public String getListHead() {
 		return "用户名；用户IP；操作时间；操作内容";
 	}
 }
