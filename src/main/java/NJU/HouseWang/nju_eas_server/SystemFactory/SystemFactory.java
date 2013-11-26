@@ -53,6 +53,8 @@ public class SystemFactory {
 			switch(aim){
 			case "user":
 			case "user_list":
+			case "teacher":
+			case "student":
 				return (new UserInfoSystem());
 			case "course":
 			case "course_list":

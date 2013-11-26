@@ -27,6 +27,7 @@ public class UserInfoSystem implements UserInfoSystemService {
 	private GuestPO guest = null;
 	private NetService ns;
 	private UserPO upo;
+
 	public UserInfoSystem() {
 		// TODO Auto-generated constructor stub
 		ll = new LoginList();
@@ -35,8 +36,9 @@ public class UserInfoSystem implements UserInfoSystemService {
 		ll.init();
 		tl.init();
 		sl.init();
-		
+
 	}
+
 	@Override
 	public void operate(String uid, String cmd) {
 		this.uid = uid;
@@ -72,6 +74,16 @@ public class UserInfoSystem implements UserInfoSystemService {
 			break;
 		case "deluser":
 			delUser(cmdpart[2]);
+			break;
+		case "addTeacher":
+			TeacherPO tp = new TeacherPO(cmdpart[2], cmdpart[3], cmdpart[4],
+					cmdpart[5]);
+			addTeacher(tp);
+			break;
+		case "addStudent":
+			StudentPO sp = new StudentPO(cmdpart[2], cmdpart[3], cmdpart[4],
+					cmdpart[5], cmdpart[6], cmdpart[7], cmdpart[8], cmdpart[9]);
+			addStudent(sp);
 			break;
 		case "showlogin_list":
 			showLoginList(cmdpart[2]);
@@ -153,9 +165,14 @@ public class UserInfoSystem implements UserInfoSystemService {
 			ll.addLoginer(guest);
 			if ((ut.equals("Teacher")) || (ut.equals("SchoolDean"))
 					|| (ut.equals("DeptAD"))) {
-				tl.addTeacher((TeacherPO) u);
+				TeacherPO tp = new TeacherPO();
+				tp.setId(id);
+				tp.setType(ut);
+				tl.addTeacher(tp);
 
 			} else {
+				StudentPO sp = new StudentPO();
+				sp.setId(id);
 				sl.addStudent((StudentPO) u);
 			}
 			try {
@@ -221,7 +238,6 @@ public class UserInfoSystem implements UserInfoSystemService {
 
 	}
 
-	
 	@Override
 	public void addUserList() {
 		try {
@@ -373,6 +389,7 @@ public class UserInfoSystem implements UserInfoSystemService {
 			e.printStackTrace();
 		}
 	}
+
 	@Override
 	public void showLoginListHead() {
 		// TODO Auto-generated method stub
@@ -383,6 +400,7 @@ public class UserInfoSystem implements UserInfoSystemService {
 			e.printStackTrace();
 		}
 	}
+
 	@Override
 	public void showTeacherListHead() {
 		// TODO Auto-generated method stub
@@ -393,6 +411,7 @@ public class UserInfoSystem implements UserInfoSystemService {
 			e.printStackTrace();
 		}
 	}
+
 	@Override
 	public void showStudentListHead() {
 		// TODO Auto-generated method stub
@@ -401,6 +420,58 @@ public class UserInfoSystem implements UserInfoSystemService {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void addTeacher(TeacherPO tp) {
+		// TODO Auto-generated method stub
+		String id = tp.getId();
+		if(!tl.containsID(id)){
+			tl.addTeacher(tp);
+			UserType up = tp.getType();
+			GuestPO gp = new GuestPO(id,up,this.generateInitialPassword(tp));
+			ll.addLoginer(gp);
+			try {
+				ns.sendFeedback(Feedback.OPERATION_SUCCEED.toString());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		} else{
+			try {
+				ns.sendFeedback(Feedback.ID_ALREADY_EXISTED.toString());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
+	@Override
+	public void addStudent(StudentPO sp) {
+		// TODO Auto-generated method stub
+		String id = sp.getId();
+		if(!sl.containsID(id)){
+			sl.addStudent(sp);
+			UserType up = sp.getType();
+			GuestPO gp = new GuestPO(id,up,this.generateInitialPassword(sp));
+			ll.addLoginer(gp);
+			try {
+				ns.sendFeedback(Feedback.OPERATION_SUCCEED.toString());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		} else{
+			try {
+				ns.sendFeedback(Feedback.ID_ALREADY_EXISTED.toString());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 }

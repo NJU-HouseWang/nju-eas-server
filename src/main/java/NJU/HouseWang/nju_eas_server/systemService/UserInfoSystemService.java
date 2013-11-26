@@ -3,6 +3,8 @@ package NJU.HouseWang.nju_eas_server.systemService;
 import java.util.ArrayList;
 
 import NJU.HouseWang.nju_eas_server.po.User.GuestPO;
+import NJU.HouseWang.nju_eas_server.po.User.StudentPO;
+import NJU.HouseWang.nju_eas_server.po.User.TeacherPO;
 import NJU.HouseWang.nju_eas_server.po.User.UserPO;
 
 public interface UserInfoSystemService extends SystemService {
@@ -20,6 +22,12 @@ public interface UserInfoSystemService extends SystemService {
 
 	// 删除用户
 	public void delUser(String id);
+	
+	//新增老师
+	public void addTeacher(TeacherPO tp);
+	
+	//新增学生
+	public void addStudent(StudentPO sp);
 
 	// 查看用户列表
 	public void showLoginList(String conditions);
