@@ -19,6 +19,12 @@ public interface UserInfoSystemService extends SystemService {
 
 	// 修改用户
 	public void editUser(GuestPO u);
+	
+	//修改教师
+	public void editTeacher(TeacherPO tp);
+	
+	//修改学生
+	public void editStudent(StudentPO sp);
 
 	// 删除用户
 	public void delUser(String id);

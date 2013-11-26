@@ -85,6 +85,16 @@ public class UserInfoSystem implements UserInfoSystemService {
 					cmdpart[5], cmdpart[6], cmdpart[7], cmdpart[8], cmdpart[9]);
 			addStudent(sp);
 			break;
+		case "editTeacher":
+			TeacherPO tp2 = new TeacherPO(cmdpart[2], cmdpart[3], cmdpart[4],
+					cmdpart[5]);
+			editTeacher(tp2);
+			break;
+		case "editStudent":
+			StudentPO sp2 = new StudentPO(cmdpart[2], cmdpart[3], cmdpart[4],
+					cmdpart[5], cmdpart[6], cmdpart[7], cmdpart[8], cmdpart[9]);
+			editStudent(sp2);
+			break;
 		case "showlogin_list":
 			showLoginList(cmdpart[2]);
 			break;
@@ -470,6 +480,50 @@ public class UserInfoSystem implements UserInfoSystemService {
 				ns.sendFeedback(Feedback.ID_ALREADY_EXISTED.toString());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
+	@Override
+	public void editTeacher(TeacherPO tp) {
+		// TODO Auto-generated method stub
+		String id = tp.getId();
+		if (tl.containsID(id)) {
+			tl.updateTeacher(tp);
+			try {
+				ns.sendFeedback(Feedback.OPERATION_SUCCEED.toString());
+			} catch (IOException e) {
+
+				e.printStackTrace();
+			}
+		} else {
+			try {
+				ns.sendFeedback(Feedback.DATA_NOT_FOUND.toString());
+			} catch (IOException e) {
+
+				e.printStackTrace();
+			}
+		}
+	}
+
+	@Override
+	public void editStudent(StudentPO sp) {
+		// TODO Auto-generated method stub
+		String id = sp.getId();
+		if (sl.containsID(id)) {
+			sl.updateStudent(sp);
+			try {
+				ns.sendFeedback(Feedback.OPERATION_SUCCEED.toString());
+			} catch (IOException e) {
+
+				e.printStackTrace();
+			}
+		} else {
+			try {
+				ns.sendFeedback(Feedback.DATA_NOT_FOUND.toString());
+			} catch (IOException e) {
+
 				e.printStackTrace();
 			}
 		}
