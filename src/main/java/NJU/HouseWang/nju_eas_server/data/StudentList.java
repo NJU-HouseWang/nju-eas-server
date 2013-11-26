@@ -139,11 +139,11 @@ public class StudentList {
 
 	public ArrayList<StudentPO> getStudentList(String conditions) {
 		ArrayList<StudentPO> result = new ArrayList<StudentPO>();
-		sql = "select * from " + listName + "?";
+		sql = "select * from " + listName;
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
-			ps.setString(1, conditions);
+//			ps.setString(1, conditions);
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				StudentPO r = new StudentPO();

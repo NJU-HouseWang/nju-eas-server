@@ -72,6 +72,8 @@ public class UserInfoSystem implements UserInfoSystemService {
 					UserType.valueOf(cmdpart[3]), cmdpart[4]);
 			editUser(guest);
 			break;
+		case "delstudent":
+		case "delteacher":
 		case "deluser":
 			delUser(cmdpart[2]);
 			break;
