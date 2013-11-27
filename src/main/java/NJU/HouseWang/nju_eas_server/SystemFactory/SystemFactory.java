@@ -3,6 +3,7 @@ package NJU.HouseWang.nju_eas_server.SystemFactory;
 import NJU.HouseWang.nju_eas_server.system.AnnouncementSystem;
 import NJU.HouseWang.nju_eas_server.system.CourseInfoSystem;
 import NJU.HouseWang.nju_eas_server.system.CourseSelectionSystem;
+import NJU.HouseWang.nju_eas_server.system.EduFrameworkSystem;
 import NJU.HouseWang.nju_eas_server.system.LogSystem;
 import NJU.HouseWang.nju_eas_server.system.LoginSystem;
 import NJU.HouseWang.nju_eas_server.system.MessageSystem;
@@ -47,6 +48,8 @@ public class SystemFactory {
 			case "announcement_list":
 			case "announcement_list_head":
 				return (new AnnouncementSystem());
+			case "eduframework":
+				return (new EduFrameworkSystem());
 			}
 			break;
 		case "add":
@@ -63,6 +66,8 @@ public class SystemFactory {
 				return (new MessageSystem());
 			case "announcement":
 				return (new AnnouncementSystem());
+			case "eduframework":
+				return (new EduFrameworkSystem());
 			}
 			break;
 		case "edit":
@@ -98,6 +103,8 @@ public class SystemFactory {
 				return (new MessageSystem());
 			case "announcement":
 				return (new AnnouncementSystem());
+			case "eduframework":
+				return (new EduFrameworkSystem());
 			}
 			break;
 		case "move":

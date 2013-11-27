@@ -1,0 +1,114 @@
+package NJU.HouseWang.nju_eas_server.data;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import NJU.HouseWang.nju_eas_server.po.Edu.CoursePO;
+import NJU.HouseWang.nju_eas_server.po.Edu.EduFrameworkItemPO;
+import NJU.HouseWang.nju_eas_server.po.User.GuestPO;
+import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
+
+public class EduFramework {
+	private String listName = "eduframework";
+	private String sql = null;
+	private SQLConnector sqlconn = new SQLConnector();
+	private Connection conn = null;
+	private PreparedStatement ps = null;
+	private ResultSet rs = null;
+
+	// 连接数据库
+	public void init() {
+		try {
+			sqlconn.createConnection();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	// 关闭数据库
+	public void finish() {
+		try {
+			sqlconn.shutdownConnection();
+			if (rs != null) {
+				rs.close();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+
+	public ArrayList<EduFrameworkItemPO> getEduFramework() {
+		ArrayList<EduFrameworkItemPO> result = new ArrayList<EduFrameworkItemPO>();
+		sql = "select * from " + listName;
+		try {
+			conn = sqlconn.getConnection();
+			ps = conn.prepareStatement(sql);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				EduFrameworkItemPO r = new EduFrameworkItemPO();
+				r.setModuleId(rs.getString(1));
+				r.setModuleName(rs.getString(2));
+				r.setModuleMinCredit(rs.getInt(3));
+				r.setModuleMaxCredit(rs.getInt(4));
+				r.setCourseNature(rs.getString(5));
+				r.setSerialNum(rs.getString(6));
+				r.setCourseType(rs.getString(7));
+				r.setTypeMinCredit(rs.getInt(8));
+				r.setTypeMaxCredit(rs.getInt(9));
+				r.setCourseId(rs.getString(10));
+				r.setCourseName(rs.getString(11));
+				r.setCourseMinCredit(rs.getInt(12));
+				r.setCourseMaxCredit(rs.getInt(13));
+				r.setStartTerm(rs.getInt(14));
+				r.setEndTerm(rs.getInt(15));
+				result.add(r);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	public Feedback delEduFramework(){
+		sql ="truncate " +listName;
+		return Feedback.OPERATION_SUCCEED;
+	}
+	
+	public Feedback addEduFrameworkItem(EduFrameworkItemPO ep){	
+		sql = "insert into " + listName + " values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+			try {
+				conn = sqlconn.getConnection();
+				ps = conn.prepareStatement(sql);
+				ps.setString(1, ep.getModuleId());
+				ps.setString(2, ep.getModuleName());
+				ps.setInt(3, ep.getModuleMinCredit());
+				ps.setInt(4,ep.getModuleMaxCredit());
+				ps.setString(5,ep.getCourseNature());
+				ps.setString(6,ep.getSerialNum());
+				ps.setString(7,ep.getCourseType());
+				ps.setInt(8,ep.getTypeMinCredit());
+				ps.setInt(9,ep.getTypeMaxCredit());
+				ps.setString(10,ep.getCourseId());
+				ps.setString(11,ep.getCourseName());
+				ps.setInt(12,ep.getCourseMinCredit());
+				ps.setInt(13,ep.getCourseMaxCredit());
+				ps.setInt(14,ep.getStartTerm());
+				ps.setInt(15,ep.getEndTerm());
+				
+				ps.execute();
+				return Feedback.OPERATION_SUCCEED;
+			} catch (SQLException e) {
+				// e.printStackTrace();
+				return Feedback.OPERATION_FAIL;
+			}
+	}
+	
+	public String getListHead() {
+		return "课程模块(学分)；课程性质；序列；课程类别(学分)；课程名称(部分)；建议学分；开设学期";
+	}
+
+}
