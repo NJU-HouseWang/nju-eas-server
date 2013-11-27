@@ -59,12 +59,12 @@ public class EduFramework {
 				r.setCourseType(rs.getString(7));
 				r.setTypeMinCredit(rs.getInt(8));
 				r.setTypeMaxCredit(rs.getInt(9));
-				r.setCourseId(rs.getString(10));
-				r.setCourseName(rs.getString(11));
-				r.setCourseMinCredit(rs.getInt(12));
-				r.setCourseMaxCredit(rs.getInt(13));
-				r.setStartTerm(rs.getInt(14));
-				r.setEndTerm(rs.getInt(15));
+//				r.setCourseId(rs.getString(10));
+				r.setCourseName(rs.getString(10));
+				r.setCourseMinCredit(rs.getInt(11));
+				r.setCourseMaxCredit(rs.getInt(12));
+				r.setStartTerm(rs.getInt(13));
+				r.setEndTerm(rs.getInt(14));
 				result.add(r);
 			}
 		} catch (SQLException e) {
@@ -92,12 +92,12 @@ public class EduFramework {
 				ps.setString(7,ep.getCourseType());
 				ps.setInt(8,ep.getTypeMinCredit());
 				ps.setInt(9,ep.getTypeMaxCredit());
-				ps.setString(10,ep.getCourseId());
-				ps.setString(11,ep.getCourseName());
-				ps.setInt(12,ep.getCourseMinCredit());
-				ps.setInt(13,ep.getCourseMaxCredit());
-				ps.setInt(14,ep.getStartTerm());
-				ps.setInt(15,ep.getEndTerm());
+//				ps.setString(10,ep.getCourseId());
+				ps.setString(10,ep.getCourseName());
+				ps.setInt(11,ep.getCourseMinCredit());
+				ps.setInt(12,ep.getCourseMaxCredit());
+				ps.setInt(13,ep.getStartTerm());
+				ps.setInt(14,ep.getEndTerm());
 				
 				ps.execute();
 				return Feedback.OPERATION_SUCCEED;

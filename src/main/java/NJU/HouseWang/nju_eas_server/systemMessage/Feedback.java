@@ -12,7 +12,8 @@ public enum Feedback {
 	ID_PW_NOT_FOUND("登录信息错误"),
 	PW_WRONG_INPUT("旧密码输入错误"),
 	PW_REPEATED("新密码不得与旧密码重复"),
-	PW_TOO_SHORT("新密码不得少于6位");
+	PW_TOO_SHORT("新密码不得少于6位"),
+	FORMAT_ERROR("提交的学分范围不符合规范");
 	
 	private String content;
 

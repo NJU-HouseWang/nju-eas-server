@@ -12,7 +12,7 @@ public class EduFrameworkItemPO implements DataPOService {
 	private String courseType;
 	private int typeMinCredit;
 	private int typeMaxCredit;
-	private String courseId;
+//	private String courseId;
 	private String courseName;
 	private int courseMinCredit;
 	private int courseMaxCredit;
@@ -26,7 +26,7 @@ public class EduFrameworkItemPO implements DataPOService {
 	public EduFrameworkItemPO(String moduleId, String moduleName,
 			int moduleMinCredit, int moduleMaxCredit, String courseNature,
 			String serialNum, String courseType, int typeMinCredit,
-			int typeMaxCredit, String courseId, String courseName,
+			int typeMaxCredit,String courseName,
 			int courseMinCredit, int courseMaxCredit, int startTerm, int endTerm) {
 		super();
 		this.moduleId = moduleId;
@@ -38,7 +38,7 @@ public class EduFrameworkItemPO implements DataPOService {
 		this.courseType = courseType;
 		this.typeMinCredit = typeMinCredit;
 		this.typeMaxCredit = typeMaxCredit;
-		this.courseId = courseId;
+//		this.courseId = courseId;
 		this.courseName = courseName;
 		this.courseMinCredit = courseMinCredit;
 		this.courseMaxCredit = courseMaxCredit;
@@ -49,7 +49,7 @@ public class EduFrameworkItemPO implements DataPOService {
 	public EduFrameworkItemPO(String moduleId, String moduleName,
 			String moduleMinCredit, String moduleMaxCredit, String courseNature,
 			String serialNum, String courseType, String typeMinCredit,
-			String typeMaxCredit, String courseId, String courseName,
+			String typeMaxCredit,String courseName,
 			String courseMinCredit, String courseMaxCredit, String startTerm, String endTerm) {
 		super();
 		this.moduleId = moduleId;
@@ -61,7 +61,7 @@ public class EduFrameworkItemPO implements DataPOService {
 		this.courseType = courseType;
 		this.typeMinCredit = Integer.parseInt(typeMinCredit);
 		this.typeMaxCredit = Integer.parseInt(typeMaxCredit);
-		this.courseId = courseId;
+//		this.courseId = courseId;
 		this.courseName = courseName;
 		this.courseMinCredit = Integer.parseInt(courseMinCredit);
 		this.courseMaxCredit = Integer.parseInt(courseMaxCredit);
@@ -141,13 +141,13 @@ public class EduFrameworkItemPO implements DataPOService {
 		this.typeMaxCredit = typeMaxCredit;
 	}
 
-	public String getCourseId() {
-		return courseId;
-	}
-
-	public void setCourseId(String courseId) {
-		this.courseId = courseId;
-	}
+//	public String getCourseId() {
+//		return courseId;
+//	}
+//
+//	public void setCourseId(String courseId) {
+//		this.courseId = courseId;
+//	}
 
 	public String getCourseName() {
 		return courseName;
@@ -190,11 +190,11 @@ public class EduFrameworkItemPO implements DataPOService {
 	}
 
 	public String toCommand() {
-		return (moduleId + "；" + moduleName + "；" + moduleMinCredit + "；"
-				+ moduleMaxCredit + "；" + courseNature + "；" + serialNum + "；"
-				+ courseType + "；" + typeMinCredit + "；" + typeMaxCredit + "；"
-				+ courseId + "；" + courseName + "；" + courseMinCredit + "；"
-				+ courseMaxCredit + "；" + startTerm + "；" + endTerm);
+		return (moduleId + " " + moduleName + "(" + moduleMinCredit + "-"
+				+ moduleMaxCredit + ")；" + courseNature + "；" + serialNum + "；"
+				+ courseType + "(" + typeMinCredit + "-" + typeMaxCredit + ")；"
+				 + courseName + "；" + courseMinCredit + "-"
+				+ courseMaxCredit + "；" + startTerm + "-" + endTerm);
 	}
 
 	@Override
