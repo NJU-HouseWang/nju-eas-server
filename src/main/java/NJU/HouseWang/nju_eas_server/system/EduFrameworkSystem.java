@@ -150,7 +150,7 @@ public class EduFrameworkSystem implements EduFrameworkSystemService {
 		try {
 			ns.sendFeedback(ef.delEduFramework().toString());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 	}
@@ -166,7 +166,7 @@ public class EduFrameworkSystem implements EduFrameworkSystemService {
 		try {
 			ns.sendList(feedback);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 	}

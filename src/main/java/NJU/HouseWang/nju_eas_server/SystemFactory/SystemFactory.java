@@ -7,6 +7,7 @@ import NJU.HouseWang.nju_eas_server.system.EduFrameworkSystem;
 import NJU.HouseWang.nju_eas_server.system.LogSystem;
 import NJU.HouseWang.nju_eas_server.system.LoginSystem;
 import NJU.HouseWang.nju_eas_server.system.MessageSystem;
+import NJU.HouseWang.nju_eas_server.system.TeachingPlanSystem;
 import NJU.HouseWang.nju_eas_server.system.UserInfoSystem;
 import NJU.HouseWang.nju_eas_server.systemService.SystemService;
 
@@ -50,6 +51,11 @@ public class SystemFactory {
 				return (new AnnouncementSystem());
 			case "eduframework":
 				return (new EduFrameworkSystem());
+			case "teachingplan":
+			case "teachingplanlist":
+			case "teachingplan_head":
+			case "teachingplanlist_head":
+				return (new TeachingPlanSystem());
 			}
 			break;
 		case "add":
@@ -68,6 +74,8 @@ public class SystemFactory {
 				return (new AnnouncementSystem());
 			case "eduframework":
 				return (new EduFrameworkSystem());
+			case "teachingplan":
+				return (new TeachingPlanSystem());
 			}
 			break;
 		case "edit":
@@ -85,6 +93,8 @@ public class SystemFactory {
 				return (new MessageSystem());
 			case "announcement":
 				return (new AnnouncementSystem());
+			case "teachingplan":
+				return (new TeachingPlanSystem());
 			}
 			break;
 		case "del":
@@ -105,6 +115,8 @@ public class SystemFactory {
 				return (new AnnouncementSystem());
 			case "eduframework":
 				return (new EduFrameworkSystem());
+			case "teachingplan":
+				return (new TeachingPlanSystem());
 			}
 			break;
 		case "move":
@@ -118,7 +130,23 @@ public class SystemFactory {
 		case "byElect":
 		case "set":
 		case "audit":
-		case "":
+			switch (aim) {
+			case "teachingplan":
+				return (new TeachingPlanSystem());
+			}
+			break;
+		case "upload":
+			switch (aim) {
+			case "teachingplanfile":
+				return (new TeachingPlanSystem());
+			}
+			break;
+		case "download":
+			switch (aim) {
+			case "teachingplanfile":
+				return (new TeachingPlanSystem());
+			}
+			break;
 		}
 		return null;
 	}
