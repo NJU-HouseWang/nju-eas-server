@@ -21,7 +21,7 @@ public class EduFrameworkSystem implements EduFrameworkSystemService {
 
 	@Override
 	public void operate(String uid, String cmd) {
-		// TODO Auto-generated method stub
+
 		String[] cmdInfo = cmd.split("；");
 		String cmdType = cmdInfo[0] + cmdInfo[1];
 		switch (cmdType) {
@@ -42,13 +42,13 @@ public class EduFrameworkSystem implements EduFrameworkSystemService {
 
 	@Override
 	public void initNetService(NetService ns) {
-		// TODO Auto-generated method stub
+
 		this.ns = ns;
 	}
 
 	@Override
 	public void addEduFramework() {
-		// TODO Auto-generated method stub
+
 		boolean isValid = true;
 		try {
 			ArrayList<String> list = ns.receiveList();
@@ -146,7 +146,7 @@ public class EduFrameworkSystem implements EduFrameworkSystemService {
 
 	@Override
 	public void delEduFramework() {
-		// TODO Auto-generated method stub
+
 		try {
 			ns.sendFeedback(ef.delEduFramework().toString());
 		} catch (IOException e) {
@@ -157,7 +157,7 @@ public class EduFrameworkSystem implements EduFrameworkSystemService {
 
 	@Override
 	public void showEduFramework() {
-		// TODO Auto-generated method stub
+
 		ArrayList<EduFrameworkItemPO> el = ef.getEduFramework();
 		ArrayList<String> feedback = new ArrayList<String>();
 		for (int i = 0; i < el.size(); i++) {
