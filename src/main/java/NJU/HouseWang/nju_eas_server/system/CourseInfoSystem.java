@@ -3,7 +3,7 @@ package NJU.HouseWang.nju_eas_server.system;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import NJU.HouseWang.nju_eas_server.data.CourseList;
+import NJU.HouseWang.nju_eas_server.data.PlannedCourseList;
 import NJU.HouseWang.nju_eas_server.netService.NetService;
 import NJU.HouseWang.nju_eas_server.po.Edu.CoursePO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
@@ -12,10 +12,10 @@ import NJU.HouseWang.nju_eas_server.systemService.CourseInfoSystemService;
 public class CourseInfoSystem implements CourseInfoSystemService {
 	private NetService ns;
 //	private DataService cl;
-	private CourseList cl;
+	private PlannedCourseList cl;
 	public CourseInfoSystem() {
 		// TODO Auto-generated constructor stub
-		cl = new CourseList();
+		cl = new PlannedCourseList();
 		cl.init();
 	}
 	@Override

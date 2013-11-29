@@ -3,11 +3,11 @@ package NJU.HouseWang.nju_eas_server.dataStub;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import NJU.HouseWang.nju_eas_server.data.CourseList;
+import NJU.HouseWang.nju_eas_server.data.PlannedCourseList;
 import NJU.HouseWang.nju_eas_server.po.Edu.CoursePO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 
-public class CourseListStub extends CourseList{
+public class CourseListStub extends PlannedCourseList{
 	// 连接数据库
 		public void init() {
 			

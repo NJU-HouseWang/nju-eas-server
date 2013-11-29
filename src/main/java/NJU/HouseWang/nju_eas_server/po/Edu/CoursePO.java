@@ -2,16 +2,13 @@ package NJU.HouseWang.nju_eas_server.po.Edu;
 
 import NJU.HouseWang.nju_eas_server.po.DataPOService;
 
-public class CoursePO implements DataPOService {
-	private String id;// 课程编号
-	private String name;// 课程名称
-	private String module;// 所属模块
-	private String type;// 课程类别
-	private String nature;// 课程性质
-	private int credit;// 学分
-	private int period;// 学时
-	private String department;// 院系
-	private String teacher;// 授课老师
+public class CoursePO extends PlannedCoursePO {
+
+	private String department;// 开设的院系
+	private String grade; // 上课的年级
+	private int studentNum; //学生人数
+	private String teacherId;// 授课老师的工号
+	private String teacherName;// 授课老师的姓名
 	private String time;// 上课时间
 	private String place;// 上课地点
 	private String introduction;// 介绍
@@ -21,58 +18,21 @@ public class CoursePO implements DataPOService {
 	public CoursePO() {
 	}
 
-	public CoursePO(String courseNo, String name) {
-		super();
-		this.id = courseNo;
-		this.name = name;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String courseNo) {
-		this.id = courseNo;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
-	public String getNature() {
-		return nature;
-	}
-
-	public void setNature(String nature) {
-		this.nature = nature;
-	}
-
-	public int getCredit() {
-		return credit;
-	}
-
-	public void setCredit(int credit) {
-		this.credit = credit;
-	}
-
-	public int getPeriod() {
-		return period;
-	}
-
-	public void setPeriod(int period) {
-		this.period = period;
+	public CoursePO(String id, String name, String module, String type,
+			String nature, int credit, int period, String term, String department,
+			String grade, int studentNum, String teacherId, String teacherName, String time,
+			String place, String introduction, String book, String syllabus) {
+		super(id, name, module, type, nature, credit, period,term);
+		this.department = department;
+		this.grade = grade;
+		this.studentNum = studentNum;
+		this.teacherId = teacherId;
+		this.teacherName = teacherName;
+		this.time = time;
+		this.place = place;
+		this.introduction = introduction;
+		this.book = book;
+		this.syllabus = syllabus;
 	}
 
 	public String getDepartment() {
@@ -83,12 +43,28 @@ public class CoursePO implements DataPOService {
 		this.department = department;
 	}
 
-	public String getTeacher() {
-		return teacher;
+	public String getGrade() {
+		return grade;
 	}
 
-	public void setTeacher(String teacher) {
-		this.teacher = teacher;
+	public void setGrade(String grade) {
+		this.grade = grade;
+	}
+
+	public String getTeacherId() {
+		return teacherId;
+	}
+
+	public void setTeacherId(String teacherId) {
+		this.teacherId = teacherId;
+	}
+
+	public String getTeacherName() {
+		return teacherName;
+	}
+
+	public void setTeacherName(String teacherName) {
+		this.teacherName = teacherName;
 	}
 
 	public String getTime() {
@@ -131,29 +107,18 @@ public class CoursePO implements DataPOService {
 		this.syllabus = syllabus;
 	}
 
-	public String getModule() {
-		return module;
+	public int getStudentNum() {
+		return studentNum;
 	}
 
-	public void setModule(String module) {
-		this.module = module;
+	public void setStudentNum(int studentNum) {
+		this.studentNum = studentNum;
 	}
-	
-	public String toCommand(){
-		return(id + "；" + 
-				name+ "；" +
-				module+ "；" +
-				type+ "；" +
-				nature+ "；" +
-				credit+ "；" +
-				period+ "；" +
-				department+ "；" +
-				teacher+ "；" +
-				time+ "；" +
-				place+ "；" +
-				introduction+ "；" +
-				book+ "；" +
-				syllabus);
+
+	public String toCommand() {
+		return (super.toCommand() + "；" + grade + "；" + studentNum + "；" + teacherId + "；"
+				+ teacherName + "；" + time + "；" + place + "；" + introduction
+				+ "；" + book + "；" + syllabus);
 	}
 
 }
