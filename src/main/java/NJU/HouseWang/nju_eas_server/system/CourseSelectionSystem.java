@@ -101,5 +101,35 @@ public class CourseSelectionSystem implements CourseSelectionSystemService {
 			e.printStackTrace();
 		}
 	}
+	@Override
+	public void selectCourse(String courseId, String studentId) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void selectCommonCourse(String courseId, String studentId) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void quitCourse(String courseId, String studentId) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void addCourse_StudentList() {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void delCourse_StudentList() {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void processCommonCourseSelection() {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

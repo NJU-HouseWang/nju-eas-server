@@ -1,8 +1,6 @@
 package NJU.HouseWang.nju_eas_server.SystemFactory;
 
 import NJU.HouseWang.nju_eas_server.system.AnnouncementSystem;
-import NJU.HouseWang.nju_eas_server.system.CourseInfoSystem;
-import NJU.HouseWang.nju_eas_server.system.CourseSelectionSystem;
 import NJU.HouseWang.nju_eas_server.system.EduFrameworkSystem;
 import NJU.HouseWang.nju_eas_server.system.LogSystem;
 import NJU.HouseWang.nju_eas_server.system.LoginSystem;
@@ -34,13 +32,8 @@ public class SystemFactory {
 			case "log_list":
 			case "log_list_head":
 				return (new LogSystem());
-			case "course":
-			case "course_list":
-			case "course_list_head":
-				return (new CourseInfoSystem());
-			case "status_list":
-			case "status_list_head":
-				return (new CourseSelectionSystem());
+			
+		
 			case "message":
 			case "message_list":
 			case "message_list_head":
@@ -50,6 +43,7 @@ public class SystemFactory {
 			case "announcement_list_head":
 				return (new AnnouncementSystem());
 			case "eduframework":
+			case "modulenum":
 				return (new EduFrameworkSystem());
 			case "teachingplan":
 			case "teachingplanlist":
@@ -65,9 +59,7 @@ public class SystemFactory {
 			case "teacher":
 			case "student":
 				return (new UserInfoSystem());
-			case "course":
-			case "course_list":
-				return (new CourseInfoSystem());
+			
 			case "message":
 				return (new MessageSystem());
 			case "announcement":
@@ -84,11 +76,7 @@ public class SystemFactory {
 			case "selfInformation":
 			case "password":
 				return (new UserInfoSystem());
-			case "course":
-			case "course_list":
-				return (new CourseInfoSystem());
-			case "status":
-				return (new CourseSelectionSystem());
+			
 			case "message":
 				return (new MessageSystem());
 			case "announcement":
@@ -106,9 +94,7 @@ public class SystemFactory {
 			case "student":
 			case "student_list":
 				return (new UserInfoSystem());
-			case "course":
-			case "course_list":
-				return (new CourseInfoSystem());
+			
 			case "message":
 				return (new MessageSystem());
 			case "announcement":

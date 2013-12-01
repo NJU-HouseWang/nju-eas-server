@@ -35,6 +35,9 @@ public class EduFrameworkSystem implements EduFrameworkSystemService {
 		case "deleduframwwork":
 			this.delEduFramework();
 			break;
+		case "showmodulenum":
+			this.showModuleNum();
+			break;
 		default:
 			break;
 		}
@@ -177,6 +180,26 @@ public class EduFrameworkSystem implements EduFrameworkSystemService {
 				info[2], info[3], info[4], info[5], info[6], info[7], info[8],
 				info[11], info[12], info[13], info[9], info[10]);
 		return ep;
+	}
+
+	@Override
+	public void showModuleNum() {
+		// TODO Auto-generated method stub
+		ArrayList<EduFrameworkItemPO> el = ef.getEduFramework();
+		ArrayList<String> moduleList = new ArrayList<String>();
+		moduleList.add(el.get(0).getModuleName());
+		for(int i = 1; i < el.size(); i++){
+			String moduleName = el.get(i).getModuleName();
+			if(!moduleList.contains(moduleName)){
+				moduleList.add(moduleName);
+			}
+		}
+		try {
+			ns.sendFeedback(""+(moduleList.size()+1));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

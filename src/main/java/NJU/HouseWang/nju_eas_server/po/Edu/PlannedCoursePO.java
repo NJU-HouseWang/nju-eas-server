@@ -10,14 +10,15 @@ public class PlannedCoursePO implements DataPOService {
 	private String nature;// 课程性质
 	private int credit;// 学分
 	private int period;// 学时
-	private String term; //开设学期
+	private int term; //开设学期
+	private String department;// 开设的院系
 
 	public PlannedCoursePO(){
 		
 	}
 	
 	public PlannedCoursePO(String id, String name, String module, String type,
-			String nature, int credit, int period, String term) {
+			String nature, int credit, int period, int term,String department) {
 		this.id = id;
 		this.name = name;
 		this.module = module;
@@ -26,6 +27,7 @@ public class PlannedCoursePO implements DataPOService {
 		this.credit = credit;
 		this.period = period;
 		this.term = term;
+		this.department = department;
 	}
 
 	public String getName() {
@@ -88,16 +90,24 @@ public class PlannedCoursePO implements DataPOService {
 
 	}
 	
-	public String getTerm() {
+	public int getTerm() {
 		return term;
 	}
 
-	public void setTerm(String term) {
+	public void setTerm(int term) {
 		this.term = term;
 	}
 
 	public String toCommand() {
 		return (id + "；" + name + "；" + module + "；" + type + "；" + nature
-				+ "；" + credit + "；" + period + "；" + term);
+				+ "；" + credit + "；" + period + "；" + term + "；" + department);
+	}
+
+	public String getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(String department) {
+		this.department = department;
 	}
 }

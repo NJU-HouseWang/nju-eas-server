@@ -10,8 +10,8 @@ public class Course_StudentPO implements DataPOService {
 	private String dept; // 院系
 	private String courseId; // 课程编号
 	private String studentId; // 学生学号
-	private String originalScore; // 原始成绩
-	private String secondScore; // 补考成绩
+	private int originalScore; // 原始成绩
+	private int secondScore; // 补考成绩
 
 	public Course_StudentPO() {
 
@@ -47,19 +47,21 @@ public class Course_StudentPO implements DataPOService {
 		this.studentId = studentId;
 	}
 
-	public String getOriginalScore() {
+	
+
+	public int getOriginalScore() {
 		return originalScore;
 	}
 
-	public void setOriginalScore(String originalScore) {
+	public void setOriginalScore(int originalScore) {
 		this.originalScore = originalScore;
 	}
 
-	public String getSecondScore() {
+	public int getSecondScore() {
 		return secondScore;
 	}
 
-	public void setSecondScore(String secondScore) {
+	public void setSecondScore(int secondScore) {
 		this.secondScore = secondScore;
 	}
 

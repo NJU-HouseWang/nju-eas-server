@@ -37,15 +37,16 @@ public class CourseList {
 		}
 	}
 
-	// 是否包含ID
-	public boolean containsID(String year, String id) {
+	// 是否包含院系课程
+	public boolean containsCourse(String year, String department, String id) {
 		String listName = year + "_course_list";
 		Boolean result = false;
-		sql = "select id from " + listName + " where id=?;";
+		sql = "select id from " + listName + " where department=?, id=?;";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
-			ps.setString(1, id);
+			ps.setString(1, department);
+			ps.setString(2, id);
 			rs = ps.executeQuery();
 			result = (rs.next() != false);
 
@@ -55,14 +56,15 @@ public class CourseList {
 		return result;
 	}
 
-	public CoursePO getCourse(String year, String id) {
+	public CoursePO getCourse(String year,String department, String id) {
 		String listName = year + "_course_list";
 		CoursePO result = new CoursePO();
-		sql = "select * from " + listName + " where id=?";
+		sql = "select * from " + listName + " where department=?, id=?";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
-			ps.setString(1, id);
+			ps.setString(1, department);
+			ps.setString(2, id);
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				result.setId(rs.getString(1));
@@ -72,17 +74,16 @@ public class CourseList {
 				result.setNature(rs.getString(5));
 				result.setCredit(rs.getInt(6));
 				result.setPeriod(rs.getInt(7));
-				result.setTerm(rs.getString(8));
+				result.setTerm(rs.getInt(8));
 				result.setDepartment(rs.getString(9));
-				result.setGrade(rs.getString(10));
-				result.setStudentNum(rs.getInt(11));
-				result.setTeacherId(rs.getString(12));
-				result.setTeacherName(rs.getString(13));
-				result.setTime(rs.getString(14));
-				result.setPlace(rs.getString(15));
-				result.setIntroduction(rs.getString(16));
-				result.setBook(rs.getString(17));
-				result.setSyllabus(rs.getString(18));
+				result.setStudentNum(rs.getInt(10));
+				result.setTeacherId(rs.getString(11));
+				result.setTeacherName(rs.getString(12));
+				result.setTimeAndPlace(rs.getString(13));
+				result.setIntroduction(rs.getString(14));
+				result.setBook(rs.getString(15));
+				result.setSyllabus(rs.getString(16));
+				result.setGrade(rs.getString(17));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -90,13 +91,14 @@ public class CourseList {
 		return result;
 	}
 
-	public Feedback removeCourse(String year, String id) {
+	public Feedback removeCourse(String year, String department, String id) {
 		String listName = year + "_course_list";
-		sql = "delete from " + listName + " where id=?";
+		sql = "delete from " + listName + " where department=?, id=?";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
-			ps.setString(1, id);
+			ps.setString(1, department);
+			ps.setString(2, id);
 			ps.execute();
 			return Feedback.OPERATION_SUCCEED;
 		} catch (SQLException e) {
@@ -108,7 +110,7 @@ public class CourseList {
 	public Feedback addCourse(String year, CoursePO Course) {
 		String listName = year + "_course_list";
 		sql = "insert into " + listName
-				+ " values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+				+ " values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
@@ -119,17 +121,16 @@ public class CourseList {
 			ps.setString(5, Course.getNature());
 			ps.setInt(6, Course.getCredit());
 			ps.setInt(7, Course.getPeriod());
-			ps.setString(8, Course.getTerm());
+			ps.setInt(8, Course.getTerm());
 			ps.setString(9, Course.getDepartment());
-			ps.setString(10, Course.getGrade());
-			ps.setInt(11, Course.getStudentNum());
-			ps.setString(12, Course.getTeacherId());
-			ps.setString(13, Course.getTeacherName());
-			ps.setString(14, Course.getTime());
-			ps.setString(15, Course.getPlace());
-			ps.setString(16, Course.getIntroduction());
-			ps.setString(17, Course.getBook());
-			ps.setString(18, Course.getSyllabus());
+			ps.setInt(10, Course.getStudentNum());
+			ps.setString(11, Course.getTeacherId());
+			ps.setString(12, Course.getTeacherName());
+			ps.setString(13, Course.getTimeAndPlace());
+			ps.setString(14, Course.getIntroduction());
+			ps.setString(15, Course.getBook());
+			ps.setString(16, Course.getSyllabus());
+			ps.setString(17, Course.getGrade());
 			ps.execute();
 			return Feedback.OPERATION_SUCCEED;
 		} catch (SQLException e) {
@@ -142,7 +143,7 @@ public class CourseList {
 		String listName = year + "_course_list";
 		sql = "update "
 				+ listName
-				+ " set name=?, module=?,type=?, nature=?,credit=?, period=?, term=?, department=?, grade=?, studentNum=?, teacherId=?, teacherName=?, time=?, place=?, introduction=?, book=?, syllabus=? where id=?";
+				+ " set name=?, module=?,type=?, nature=?,credit=?, period=?, term=?, studentNum=?, teacherId=?, teacherName=?, timeAndPlace=?, introduction=?, book=?, syllabus=?, grade=? where id=?, department=?";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
@@ -152,18 +153,17 @@ public class CourseList {
 			ps.setString(4, Course.getNature());
 			ps.setInt(5, Course.getCredit());
 			ps.setInt(6, Course.getPeriod());
-			ps.setString(7, Course.getTerm());
-			ps.setString(8, Course.getDepartment());
-			ps.setString(9, Course.getGrade());
-			ps.setInt(10, Course.getStudentNum());
-			ps.setString(11, Course.getTeacherId());
-			ps.setString(12, Course.getTeacherName());
-			ps.setString(13, Course.getTime());
-			ps.setString(14, Course.getPlace());
-			ps.setString(15, Course.getIntroduction());
-			ps.setString(16, Course.getBook());
-			ps.setString(17, Course.getSyllabus());
-			ps.setString(18, Course.getId());
+			ps.setInt(7, Course.getTerm());
+			ps.setInt(8, Course.getStudentNum());
+			ps.setString(9, Course.getTeacherId());
+			ps.setString(10, Course.getTeacherName());
+			ps.setString(11, Course.getTimeAndPlace());
+			ps.setString(12, Course.getIntroduction());
+			ps.setString(13, Course.getBook());
+			ps.setString(14, Course.getSyllabus());
+			ps.setString(15, Course.getGrade());
+			ps.setString(16, Course.getId());
+			ps.setString(17, Course.getDepartment());
 			ps.execute();
 			return Feedback.OPERATION_SUCCEED;
 		} catch (SQLException e) {
@@ -172,14 +172,14 @@ public class CourseList {
 		}
 	}
 
-	public ArrayList<CoursePO> getCourseList(String year, String conditions) {
+	public ArrayList<CoursePO> getCourseListFromTeacherId(String year, String teacherId) {
 		String listName = year + "_course_list";
 		ArrayList<CoursePO> result = new ArrayList<CoursePO>();
-		sql = "select * from " + listName;
+		sql = "select * from " + listName+"where teacherId=?";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
-			// ps.setString(1, conditions);
+			ps.setString(1, teacherId);
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				CoursePO r = new CoursePO();
@@ -190,17 +190,53 @@ public class CourseList {
 				r.setNature(rs.getString(5));
 				r.setCredit(rs.getInt(6));
 				r.setPeriod(rs.getInt(7));
-				r.setTerm(rs.getString(8));
+				r.setTerm(rs.getInt(8));
 				r.setDepartment(rs.getString(9));
-				r.setGrade(rs.getString(10));
-				r.setStudentNum(rs.getInt(11));
-				r.setTeacherId(rs.getString(12));
-				r.setTeacherName(rs.getString(13));
-				r.setTerm(rs.getString(14));
-				r.setTerm(rs.getString(15));
-				r.setTerm(rs.getString(16));
-				r.setTerm(rs.getString(17));
-				r.setTerm(rs.getString(18));
+				r.setStudentNum(rs.getInt(10));
+				r.setTeacherId(rs.getString(11));
+				r.setTeacherName(rs.getString(12));
+				r.setTimeAndPlace(rs.getString(13));
+				r.setIntroduction(rs.getString(14));
+				r.setBook(rs.getString(15));
+				r.setSyllabus(rs.getString(16));
+				r.setGrade(rs.getString(17));
+				result.add(r);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	public ArrayList<CoursePO> getCourseListFromGradeAndDept(String year, String grade, String department) {
+		String listName = year + "_course_list";
+		ArrayList<CoursePO> result = new ArrayList<CoursePO>();
+		sql = "select * from " + listName+"where grade=?,department=?";
+		try {
+			conn = sqlconn.getConnection();
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, grade);
+			ps.setString(2, department);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				CoursePO r = new CoursePO();
+				r.setId(rs.getString(1));
+				r.setName(rs.getString(2));
+				r.setModule(rs.getString(3));
+				r.setType(rs.getString(4));
+				r.setNature(rs.getString(5));
+				r.setCredit(rs.getInt(6));
+				r.setPeriod(rs.getInt(7));
+				r.setTerm(rs.getInt(8));
+				r.setDepartment(rs.getString(9));
+				r.setStudentNum(rs.getInt(10));
+				r.setTeacherId(rs.getString(11));
+				r.setTeacherName(rs.getString(12));
+				r.setTimeAndPlace(rs.getString(13));
+				r.setIntroduction(rs.getString(14));
+				r.setBook(rs.getString(15));
+				r.setSyllabus(rs.getString(16));
+				r.setGrade(rs.getString(17));
 				result.add(r);
 			}
 		} catch (SQLException e) {
@@ -209,7 +245,8 @@ public class CourseList {
 		return result;
 	}
 
+	
 	public String getListHead() {
-		return "课程号；课程名称；所属模块；课程类别；课程性质；学分；学时；开设学期";
+		return "课程号；课程名称；所属模块；课程类别；课程性质；学分；学时；开设学期；开设院系；学生人数；任课教师工号；任课教师姓名；上课时间及地点；课程介绍；推荐书目；课程大纲；年级";
 	}
 }
