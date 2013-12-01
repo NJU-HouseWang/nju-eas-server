@@ -10,12 +10,13 @@ import NJU.HouseWang.nju_eas_server.po.Edu.CourseSelectionPO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 
 public class CourseSelectionList {
-	private String listName = "CourseSelection_selection_list";
+	private String listName = "course_selection_list";
 	private String sql = null;
 	private SQLConnector sqlconn = new SQLConnector();
 	private Connection conn = null;
 	private PreparedStatement ps = null;
 	private ResultSet rs = null;
+
 
 	// 连接数据库
 	public void init() {
@@ -38,14 +39,19 @@ public class CourseSelectionList {
 		}
 	}
 
+	public Feedback delList(){
+		sql ="truncate " +listName;
+		return Feedback.OPERATION_SUCCEED;
+	}
+
 	// 是否包含选课记录
-	public boolean containsCourseSelection(String CourseSelectionId, String studentId) {
+	public boolean containsCourseSelection(String courseId, String studentId) {
 		Boolean result = false;
-		sql = "select id from " + listName + " where CourseSelectionId=?, studentId=?;";
+		sql = "select id from " + listName + " where courseId=?, studentId=?;";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
-			ps.setString(1, CourseSelectionId);
+			ps.setString(1, courseId);
 			ps.setString(2, studentId);
 			rs = ps.executeQuery();
 			result = (rs.next() != false);
@@ -57,12 +63,12 @@ public class CourseSelectionList {
 	}
 
 
-	public Feedback removeCourseSelection(String CourseSelectionId, String studentId) {
-		sql = "delete from " + listName + " where CourseSelectionId=?, studentId=?";
+	public Feedback removeCourseSelection(String courseId, String studentId) {
+		sql = "delete from " + listName + " where courseId=?, studentId=?";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
-			ps.setString(1, CourseSelectionId);
+			ps.setString(1, courseId);
 			ps.setString(2, studentId);
 			ps.execute();
 			return Feedback.OPERATION_SUCCEED;
@@ -90,7 +96,7 @@ public class CourseSelectionList {
 	}
 
 
-	public ArrayList<CourseSelectionPO> getCourseSelectionList(String courseId) {
+	public ArrayList<CourseSelectionPO> getCourseSelectionListFromCourseId(String courseId) {
 		ArrayList<CourseSelectionPO> result = new ArrayList<CourseSelectionPO>();
 		sql = "select * from " + listName +"where courseId=?";
 		try {
@@ -110,6 +116,45 @@ public class CourseSelectionList {
 		}
 		return result;
 	}
-
+	public ArrayList<CourseSelectionPO> getCourseSelectionListFromStudentId(String studentId) {
+		ArrayList<CourseSelectionPO> result = new ArrayList<CourseSelectionPO>();
+		sql = "select * from " + listName +"where studentId=?";
+		try {
+			conn = sqlconn.getConnection();
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, studentId);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				CourseSelectionPO r = new CourseSelectionPO();
+				r.setCourseId(rs.getString(1));
+				r.setStudentId(rs.getString(2));
+				r.setPriority(rs.getInt(3));
+				result.add(r);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	public ArrayList<CourseSelectionPO> getCourseSelectionList() {
+		ArrayList<CourseSelectionPO> result = new ArrayList<CourseSelectionPO>();
+		sql = "select * from " + listName;
+		try {
+			conn = sqlconn.getConnection();
+			ps = conn.prepareStatement(sql);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				CourseSelectionPO r = new CourseSelectionPO();
+				r.setCourseId(rs.getString(1));
+				r.setStudentId(rs.getString(2));
+				r.setPriority(rs.getInt(3));
+				result.add(r);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
 	
 }

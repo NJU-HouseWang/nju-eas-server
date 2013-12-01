@@ -11,22 +11,36 @@ public interface CourseSelectionSystemService extends SystemService {
 	public void showStatusList();
 	//显示状态列表的表头
 	public void showStatusListHead();
+	
 	//选课
-	public void selectCourse(String courseId, String studentId);
+	public void selectCourse(String listName, String courseId, String studentId);
 	
 	//通识课选课
 	public void selectCommonCourse(String courseId, String studentId);
 	
+	//补选
+	public void byElectCourse(String listName, String courseId, String studentId);
 	//退选
-	public void quitCourse(String courseId, String studentId);
+	public void quitCourse(String listName, String courseId, String studentId);
 	
 	//批量添加选课记录
-	public void addCourse_StudentList();
+	public void addCourse_StudentList(String listName);
+	
+	//单独添加选课记录
+	public void delCourse_StudentPO(String listName, String courseId, String studentId);
 	
 	//批量删除选课记录
-	public void delCourse_StudentList();
+	public void delCourse_StudentList(String listName);
 	
 	//通识课选课抽签
-	public void processCommonCourseSelection();
+	public void processCommonCourseSelection(String listName);
 	
+	//返回最大选课数量
+	public void showMaxSelectionNum();
+	
+	//判断是否达到最大选课数量
+	public boolean isMax(String studentId);
+	
+	//显示已选通识课列表
+	public void showSelectedCouse(String listName, String studentId);
 }

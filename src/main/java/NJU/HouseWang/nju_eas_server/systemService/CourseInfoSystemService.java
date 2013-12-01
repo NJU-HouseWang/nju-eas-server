@@ -1,9 +1,7 @@
 package NJU.HouseWang.nju_eas_server.systemService;
 
-import java.util.ArrayList;
 
 import NJU.HouseWang.nju_eas_server.po.Edu.CoursePO;
-import NJU.HouseWang.nju_eas_server.po.Edu.Course_StudentPO;
 
 public interface CourseInfoSystemService extends SystemService {
 	// 显示课程条目的详细信息
@@ -31,7 +29,7 @@ public interface CourseInfoSystemService extends SystemService {
 	public void showCourseListHead();
 	
 	//登记成绩
-	public void editCourse_Student(String time, Course_StudentPO csp);
+	public void registerScore(String time);
 	
 	//查看学生课程列表
 	public void showStudentCourseList(String studentId);

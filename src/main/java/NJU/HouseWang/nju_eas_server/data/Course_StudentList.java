@@ -37,8 +37,7 @@ public class Course_StudentList {
 		}
 	}
 	// 是否包含课程对应学生的记录
-		public boolean containsCourse_StudentPO(String year, String courseId, String studentId) {
-			String listName = year + "_course_student_list";
+		public boolean containsCourse_StudentPO(String listName, String courseId, String studentId) {
 			Boolean result = false;
 			sql = "select id from " + listName + " where courseId=?, studentId=?;";
 			try {
@@ -56,8 +55,7 @@ public class Course_StudentList {
 		}
 
 	
-	public Course_StudentPO getCourse_StudentPO(String year, String courseId,String studentId) {
-		String listName = year + "_course_student_list";
+	public Course_StudentPO getCourse_StudentPO(String listName, String courseId,String studentId) {
 		Course_StudentPO result = new Course_StudentPO();
 		sql = "select * from " + listName + " where courseId=?, studentId=?";
 		try {
@@ -79,8 +77,7 @@ public class Course_StudentList {
 		return result;
 	}
 
-	public Feedback removeCourse_StudentPO(String year, String courseId, String studentId) {
-		String listName = year + "_course_student_list";
+	public Feedback removeCourse_StudentPO(String listName, String courseId, String studentId) {
 		sql = "delete from " + listName + " where courseId=?, studentId=?";
 		try {
 			conn = sqlconn.getConnection();
@@ -95,8 +92,7 @@ public class Course_StudentList {
 		}
 	}
 
-	public Feedback addCourse_StudentPO(String year, Course_StudentPO po) {
-		String listName = year + "_course_student_list";
+	public Feedback addCourse_StudentPO(String listName, Course_StudentPO po) {
 		sql = "insert into " + listName
 				+ " values (?,?,?,?,?)";
 		try {
@@ -115,8 +111,7 @@ public class Course_StudentList {
 		}
 	}
 
-	public Feedback updateCourse_StudentPO(String year, Course_StudentPO po) {
-		String listName = year + "_course_student_list";
+	public Feedback updateCourse_StudentPO(String listName, Course_StudentPO po) {
 		sql = "update "
 				+ listName
 				+ " set originalScore=?, secondScore=? where dept=?, courseId=?, studentId=?";
@@ -136,8 +131,7 @@ public class Course_StudentList {
 		}
 	}
 
-	public ArrayList<Course_StudentPO> getListFromCourseId(String year, String dept, String courseId) {
-		String listName = year + "_course_student_list";
+	public ArrayList<Course_StudentPO> getListFromCourseId(String listName, String dept, String courseId) {
 		ArrayList<Course_StudentPO> result = new ArrayList<Course_StudentPO>();
 		sql = "select * from " + listName + "where dept=?,courseId=?";
 		try {
@@ -159,8 +153,7 @@ public class Course_StudentList {
 		return result;
 	}
 	
-	public ArrayList<Course_StudentPO> getListFromStudentId(String year, String dept, String studentId) {
-		String listName = year + "_course_student_list";
+	public ArrayList<Course_StudentPO> getListFromStudentId(String listName, String dept, String studentId) {
 		ArrayList<Course_StudentPO> result = new ArrayList<Course_StudentPO>();
 		sql = "select * from " + listName + "where dept=?,studentId=?";
 		try {

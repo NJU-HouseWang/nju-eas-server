@@ -38,8 +38,7 @@ public class CourseList {
 	}
 
 	// 是否包含院系课程
-	public boolean containsCourse(String year, String department, String id) {
-		String listName = year + "_course_list";
+	public boolean containsCourse(String listName, String department, String id) {
 		Boolean result = false;
 		sql = "select id from " + listName + " where department=?, id=?;";
 		try {
@@ -56,8 +55,7 @@ public class CourseList {
 		return result;
 	}
 
-	public CoursePO getCourse(String year,String department, String id) {
-		String listName = year + "_course_list";
+	public CoursePO getCourse(String listName,String department, String id) {
 		CoursePO result = new CoursePO();
 		sql = "select * from " + listName + " where department=?, id=?";
 		try {
@@ -91,8 +89,7 @@ public class CourseList {
 		return result;
 	}
 
-	public Feedback removeCourse(String year, String department, String id) {
-		String listName = year + "_course_list";
+	public Feedback removeCourse(String listName, String department, String id) {
 		sql = "delete from " + listName + " where department=?, id=?";
 		try {
 			conn = sqlconn.getConnection();
@@ -107,8 +104,7 @@ public class CourseList {
 		}
 	}
 
-	public Feedback addCourse(String year, CoursePO Course) {
-		String listName = year + "_course_list";
+	public Feedback addCourse(String listName, CoursePO Course) {
 		sql = "insert into " + listName
 				+ " values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		try {
@@ -139,8 +135,7 @@ public class CourseList {
 		}
 	}
 
-	public Feedback updateCourse(String year, CoursePO Course) {
-		String listName = year + "_course_list";
+	public Feedback updateCourse(String listName, CoursePO Course) {
 		sql = "update "
 				+ listName
 				+ " set name=?, module=?,type=?, nature=?,credit=?, period=?, term=?, studentNum=?, teacherId=?, teacherName=?, timeAndPlace=?, introduction=?, book=?, syllabus=?, grade=? where id=?, department=?";
@@ -172,8 +167,7 @@ public class CourseList {
 		}
 	}
 
-	public ArrayList<CoursePO> getCourseListFromTeacherId(String year, String teacherId) {
-		String listName = year + "_course_list";
+	public ArrayList<CoursePO> getCourseListFromTeacherId(String listName, String teacherId) {
 		ArrayList<CoursePO> result = new ArrayList<CoursePO>();
 		sql = "select * from " + listName+"where teacherId=?";
 		try {
@@ -208,8 +202,7 @@ public class CourseList {
 		return result;
 	}
 	
-	public ArrayList<CoursePO> getCourseListFromGradeAndDept(String year, String grade, String department) {
-		String listName = year + "_course_list";
+	public ArrayList<CoursePO> getCourseListFromGradeAndDept(String listName, String grade, String department) {
 		ArrayList<CoursePO> result = new ArrayList<CoursePO>();
 		sql = "select * from " + listName+"where grade=?,department=?";
 		try {

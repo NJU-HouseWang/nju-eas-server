@@ -14,7 +14,9 @@ public enum Feedback {
 	PW_REPEATED("新密码不得与旧密码重复"),
 	PW_TOO_SHORT("新密码不得少于6位"),
 	FORMAT_ERROR("提交的学分不符合规范"),
-	AUDIT_REPEATED("该教学计划已审核");
+	AUDIT_REPEATED("该教学计划已审核"),
+	MAX_SELECTION("已达到选课上限"),
+	SELECTION_REPEATED("该选课记录已存在");
 	
 	private String content;
 
