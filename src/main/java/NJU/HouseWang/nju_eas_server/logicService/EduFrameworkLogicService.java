@@ -1,8 +1,11 @@
-package NJU.HouseWang.nju_eas_server.systemService;
+package NJU.HouseWang.nju_eas_server.logicService;
 
-public interface EduFrameworkSystemService extends SystemService {
+public interface EduFrameworkLogicService extends LogicService {
 	public void addEduFramework();
+
 	public void delEduFramework();
+
 	public void showEduFramework();
+
 	public void showModuleNum();
 }

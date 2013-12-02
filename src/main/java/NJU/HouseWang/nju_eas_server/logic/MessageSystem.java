@@ -1,14 +1,14 @@
-package NJU.HouseWang.nju_eas_server.system;
+package NJU.HouseWang.nju_eas_server.logic;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 import NJU.HouseWang.nju_eas_server.data.MessageList;
+import NJU.HouseWang.nju_eas_server.logicService.MessageLogicService;
 import NJU.HouseWang.nju_eas_server.netService.NetService;
 import NJU.HouseWang.nju_eas_server.po.Msg.MessagePO;
-import NJU.HouseWang.nju_eas_server.systemService.MessageSystemService;
 
-public class MessageSystem implements MessageSystemService {
+public class MessageSystem implements MessageLogicService {
 	private NetService ns;
 	private MessageList ml;
 	

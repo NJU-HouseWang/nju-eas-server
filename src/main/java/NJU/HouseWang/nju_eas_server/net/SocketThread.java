@@ -54,13 +54,13 @@ public class SocketThread implements NetService {
 		return netCmd;
 	}
 
-	public void sendList(ArrayList<String> list) throws IOException {
+	public void sendList(ArrayList<?> list) throws IOException {
 		try {
 			out = new DataOutputStream(socket.getOutputStream());
 			out.writeUTF("listStart");
-			for (String str : list) {
-				out.writeUTF(str);
-				System.out.println("Send List Item :" + str);
+			for (Object o : list) {
+				out.writeUTF(o.toString());
+				System.out.println("Send List Item :" + o.toString());
 			}
 			out.writeUTF("listEnd");
 			out.flush();

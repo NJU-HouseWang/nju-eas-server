@@ -1,4 +1,4 @@
-package NJU.HouseWang.nju_eas_server.system;
+package NJU.HouseWang.nju_eas_server.logic;
 
 import java.io.File;
 import java.io.IOException;
@@ -7,14 +7,14 @@ import java.util.ArrayList;
 import NJU.HouseWang.nju_eas_server.data.EduFramework;
 import NJU.HouseWang.nju_eas_server.data.TeachingPlan;
 import NJU.HouseWang.nju_eas_server.data.TeachingPlanList;
+import NJU.HouseWang.nju_eas_server.logicService.TeachingPlanLogicService;
 import NJU.HouseWang.nju_eas_server.netService.NetService;
 import NJU.HouseWang.nju_eas_server.po.Edu.EduFrameworkItemPO;
 import NJU.HouseWang.nju_eas_server.po.Edu.TeachingPlanItemPO;
 import NJU.HouseWang.nju_eas_server.po.Edu.TeachingPlanPO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
-import NJU.HouseWang.nju_eas_server.systemService.TeachingPlanSystemService;
 
-public class TeachingPlanSystem implements TeachingPlanSystemService {
+public class TeachingPlanSystem implements TeachingPlanLogicService {
 	NetService ns;
 	TeachingPlan tp;
 	TeachingPlanList tl;

@@ -1,14 +1,14 @@
-package NJU.HouseWang.nju_eas_server.system;
+package NJU.HouseWang.nju_eas_server.logic;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 import NJU.HouseWang.nju_eas_server.data.LogList;
+import NJU.HouseWang.nju_eas_server.logicService.LogLogicService;
 import NJU.HouseWang.nju_eas_server.netService.NetService;
 import NJU.HouseWang.nju_eas_server.po.Msg.LogPO;
-import NJU.HouseWang.nju_eas_server.systemService.LogSystemService;
 
-public class LogSystem implements LogSystemService {
+public class LogSystem implements LogLogicService {
 	NetService ns;
 	LogList ll;
 

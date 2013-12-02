@@ -1,4 +1,4 @@
-package NJU.HouseWang.nju_eas_server.system;
+package NJU.HouseWang.nju_eas_server.logic;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,6 +9,7 @@ import NJU.HouseWang.nju_eas_server.data.TeacherList;
 import NJU.HouseWang.nju_eas_server.dataStub.LoginListStub;
 import NJU.HouseWang.nju_eas_server.dataStub.StudentListStub;
 import NJU.HouseWang.nju_eas_server.dataStub.TeacherListStub;
+import NJU.HouseWang.nju_eas_server.logicService.UserInfoLogicService;
 import NJU.HouseWang.nju_eas_server.net.ServerStub;
 import NJU.HouseWang.nju_eas_server.netService.NetService;
 import NJU.HouseWang.nju_eas_server.po.User.GuestPO;
@@ -17,9 +18,8 @@ import NJU.HouseWang.nju_eas_server.po.User.TeacherPO;
 import NJU.HouseWang.nju_eas_server.po.User.UserPO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 import NJU.HouseWang.nju_eas_server.systemMessage.UserType;
-import NJU.HouseWang.nju_eas_server.systemService.UserInfoSystemService;
 
-public class UserInfoSystem implements UserInfoSystemService {
+public class UserInfoSystem implements UserInfoLogicService {
 	private LoginList ll;
 	private TeacherList tl;
 	private StudentList sl;

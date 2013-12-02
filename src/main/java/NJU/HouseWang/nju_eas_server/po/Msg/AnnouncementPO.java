@@ -4,22 +4,16 @@ import NJU.HouseWang.nju_eas_server.po.DataPOService;
 import NJU.HouseWang.nju_eas_server.systemMessage.UserType;
 
 public class AnnouncementPO implements DataPOService {
-	// 公告编号
-	private String id;
-	// 发信人ID
-	private String senderId;
-	// 接受者的用户类型
-	private UserType recipient;
-	// 标题
-	private String title;
-	// 内容
-	private String content;
-	// 公告的状态 0：草稿 1：已发布 2：已收到的公告 3：已删除
-	private int status;
+	private String id;// 公告编号
+	private String senderId;// 发信人ID
+	private UserType recipient;// 接受者的用户类型
+	private String title;// 标题
+	private String content;// 内容
+	private int status;// 公告的状态 0：草稿 1：已发布 2：已收到的公告 3：已删除
 
+	// edit时使用
 	public AnnouncementPO(String id, String senderId, String title,
 			String content, UserType recipient, int status) {
-		super();
 		this.id = id;
 		this.senderId = senderId;
 		this.title = title;
@@ -28,20 +22,29 @@ public class AnnouncementPO implements DataPOService {
 		this.status = status;
 	}
 
+	// 非edit时使用
 	public AnnouncementPO(String senderId, UserType recipient, String content,
 			String title, int status) {
-		super();
 		this.senderId = senderId;
-		this.title = title;
-		this.content = content;
 		this.recipient = recipient;
+		this.content = content;
+		this.title = title;
 		this.status = status;
 	}
-	
-	public AnnouncementPO(){
-		
+
+	public AnnouncementPO(String str) {
+		String[] info = str.split("；");
+		this.senderId = info[0];
+		this.recipient = UserType.valueOf(info[1]);
+		this.content = info[2];
+		this.title = info[3];
+		this.status = Integer.parseInt(info[4]);
 	}
-	
+
+	public AnnouncementPO() {
+
+	}
+
 	public String getId() {
 		return id;
 	}
@@ -81,12 +84,12 @@ public class AnnouncementPO implements DataPOService {
 	public void setRecipient(UserType recipient) {
 		this.recipient = recipient;
 	}
-	
-	public void setStatus(int status){
+
+	public void setStatus(int status) {
 		this.status = status;
 	}
-	
-	public int getStatus(){
+
+	public int getStatus() {
 		return this.status;
 	}
 

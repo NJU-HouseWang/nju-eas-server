@@ -1,8 +1,8 @@
-package NJU.HouseWang.nju_eas_server.systemService;
+package NJU.HouseWang.nju_eas_server.logicService;
 
 import NJU.HouseWang.nju_eas_server.po.User.GuestPO;
 
-public interface LoginSystemService extends SystemService {
+public interface LoginLogicService extends LogicService {
 	// 登录
 	public void login(GuestPO logger, String ip);
 

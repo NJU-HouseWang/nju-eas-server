@@ -1,16 +1,16 @@
-package NJU.HouseWang.nju_eas_server.system;
+package NJU.HouseWang.nju_eas_server.logic;
 
 import java.io.IOException;
 
 import NJU.HouseWang.nju_eas_server.SystemFactory.AuthorityManager;
 import NJU.HouseWang.nju_eas_server.data.LoginList;
+import NJU.HouseWang.nju_eas_server.logicService.LoginLogicService;
 import NJU.HouseWang.nju_eas_server.netService.NetService;
 import NJU.HouseWang.nju_eas_server.po.User.GuestPO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 import NJU.HouseWang.nju_eas_server.systemMessage.UserType;
-import NJU.HouseWang.nju_eas_server.systemService.LoginSystemService;
 
-public class LoginSystem implements LoginSystemService {
+public class LoginSystem implements LoginLogicService {
 	private NetService ns;
 	private LoginList ll;
 	private AuthorityManager am = AuthorityManager.getInstance();;

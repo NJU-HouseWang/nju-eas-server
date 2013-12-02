@@ -1,17 +1,17 @@
 package NJU.HouseWang.nju_eas_server.SystemFactory;
 
-import NJU.HouseWang.nju_eas_server.system.AnnouncementSystem;
-import NJU.HouseWang.nju_eas_server.system.EduFrameworkSystem;
-import NJU.HouseWang.nju_eas_server.system.LogSystem;
-import NJU.HouseWang.nju_eas_server.system.LoginSystem;
-import NJU.HouseWang.nju_eas_server.system.MessageSystem;
-import NJU.HouseWang.nju_eas_server.system.TeachingPlanSystem;
-import NJU.HouseWang.nju_eas_server.system.UserInfoSystem;
-import NJU.HouseWang.nju_eas_server.systemService.SystemService;
+import NJU.HouseWang.nju_eas_server.logic.AnnouncementLogic;
+import NJU.HouseWang.nju_eas_server.logic.EduFrameworkSystem;
+import NJU.HouseWang.nju_eas_server.logic.LogSystem;
+import NJU.HouseWang.nju_eas_server.logic.LoginSystem;
+import NJU.HouseWang.nju_eas_server.logic.MessageSystem;
+import NJU.HouseWang.nju_eas_server.logic.TeachingPlanSystem;
+import NJU.HouseWang.nju_eas_server.logic.UserInfoSystem;
+import NJU.HouseWang.nju_eas_server.logicService.LogicService;
 
 public class SystemFactory {
 
-	public static SystemService create(String cmd) {
+	public static LogicService create(String cmd) {
 		String[] cmdtmp = cmd.split("；");
 		String action = cmdtmp[0];
 		String aim = cmdtmp[1];
@@ -32,8 +32,7 @@ public class SystemFactory {
 			case "log_list":
 			case "log_list_head":
 				return (new LogSystem());
-			
-		
+
 			case "message":
 			case "message_list":
 			case "message_list_head":
@@ -41,7 +40,7 @@ public class SystemFactory {
 			case "announcement":
 			case "announcement_list":
 			case "announcement_list_head":
-				return (new AnnouncementSystem());
+				return (new AnnouncementLogic());
 			case "eduframework":
 			case "modulenum":
 				return (new EduFrameworkSystem());
@@ -59,11 +58,11 @@ public class SystemFactory {
 			case "teacher":
 			case "student":
 				return (new UserInfoSystem());
-			
+
 			case "message":
 				return (new MessageSystem());
 			case "announcement":
-				return (new AnnouncementSystem());
+				return (new AnnouncementLogic());
 			case "eduframework":
 				return (new EduFrameworkSystem());
 			case "teachingplan":
@@ -76,11 +75,11 @@ public class SystemFactory {
 			case "selfInformation":
 			case "password":
 				return (new UserInfoSystem());
-			
+
 			case "message":
 				return (new MessageSystem());
 			case "announcement":
-				return (new AnnouncementSystem());
+				return (new AnnouncementLogic());
 			case "teachingplan":
 				return (new TeachingPlanSystem());
 			}
@@ -94,11 +93,11 @@ public class SystemFactory {
 			case "student":
 			case "student_list":
 				return (new UserInfoSystem());
-			
+
 			case "message":
 				return (new MessageSystem());
 			case "announcement":
-				return (new AnnouncementSystem());
+				return (new AnnouncementLogic());
 			case "eduframework":
 				return (new EduFrameworkSystem());
 			case "teachingplan":

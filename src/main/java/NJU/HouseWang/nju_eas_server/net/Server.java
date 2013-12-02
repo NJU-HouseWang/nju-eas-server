@@ -1,15 +1,17 @@
 package NJU.HouseWang.nju_eas_server.net;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Date;
 
 import NJU.HouseWang.nju_eas_server.SystemFactory.AuthorityManager;
 import NJU.HouseWang.nju_eas_server.SystemFactory.SystemFactory;
+import NJU.HouseWang.nju_eas_server.logic.LogSystem;
+import NJU.HouseWang.nju_eas_server.logicService.LogicService;
 import NJU.HouseWang.nju_eas_server.po.Msg.LogPO;
-import NJU.HouseWang.nju_eas_server.system.LogSystem;
-import NJU.HouseWang.nju_eas_server.systemService.SystemService;
 
 public class Server {
 
@@ -30,22 +32,35 @@ public class Server {
 				String ip = null;
 				AuthorityManager am = null;
 				try {
-					ip = st.getIp();
+					// 读取命令
 					String cmd = st.receiveCommand();
-					SystemService ss = SystemFactory.create(cmd);
-					ss.initNetService(st);
+					// 创建逻辑
+					LogicService ss = SystemFactory.create(cmd);
+					// 得到IP
+					ip = st.getIp();
+					// 得到权限管理器
 					am = AuthorityManager.getInstance();
-					String userName = am.getGuest(ip);
-					ss.operate(userName, cmd);
+					// 从权限管理器中取得用户，如果无则为null
+					String uid = am.getGuest(ip);
+					// 逻辑层执行指令，取得反馈
+					Object feedback = ss.operate(uid, cmd);
+					// 根据反馈的类型向客户端发送反馈结果
+					if (feedback instanceof String) {
+						st.sendFeedback((String) feedback);
+					} else if (feedback instanceof ArrayList<?>) {
+						st.sendList((ArrayList<?>) feedback);
+					} else if (feedback instanceof File) {
+						st.sendFile((File) feedback);
+					}
+					// 日志系统记录操作日志
 					LogSystem ls = new LogSystem();
-					ls.addLog(new LogPO(userName, ip, new Date().toString(),
-							cmd));
-				} catch (IOException e) {
+					ls.addLog(new LogPO(uid, ip, new Date().toString(), cmd));
+				} catch (IOException e) { // 如果用户异常离线
+					// 得到权限管理器
 					am = AuthorityManager.getInstance();
+					// 删除用户的IP
 					am.removeGuest(ip);
-					e.printStackTrace();
 				}
-
 			}
 		}).start();
 	}

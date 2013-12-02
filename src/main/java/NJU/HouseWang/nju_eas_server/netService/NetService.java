@@ -15,7 +15,7 @@ public interface NetService {
 	public String receiveCommand() throws IOException;
 
 	// 发送列表
-	public void sendList(ArrayList<String> list) throws IOException;
+	public void sendList(ArrayList<?> list) throws IOException;
 
 	// 接收列表
 	public ArrayList<String> receiveList() throws IOException;

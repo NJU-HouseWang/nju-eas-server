@@ -1,15 +1,15 @@
-package NJU.HouseWang.nju_eas_server.system;
+package NJU.HouseWang.nju_eas_server.logic;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 import NJU.HouseWang.nju_eas_server.data.EduFramework;
+import NJU.HouseWang.nju_eas_server.logicService.EduFrameworkLogicService;
 import NJU.HouseWang.nju_eas_server.netService.NetService;
 import NJU.HouseWang.nju_eas_server.po.Edu.EduFrameworkItemPO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
-import NJU.HouseWang.nju_eas_server.systemService.EduFrameworkSystemService;
 
-public class EduFrameworkSystem implements EduFrameworkSystemService {
+public class EduFrameworkSystem implements EduFrameworkLogicService {
 	EduFramework ef;
 	NetService ns;
 

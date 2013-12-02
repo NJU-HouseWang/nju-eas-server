@@ -21,16 +21,17 @@ public class ServerStub implements NetService {
 	}
 
 	@Override
-	public void sendList(ArrayList<String> list) throws IOException {
+	public void sendList(ArrayList<?> list) throws IOException {
 		// TODO Auto-generated method stub
-		System.out.println("Receive a list, the first line is : " + list.get(0));
+		System.out
+				.println("Receive a list, the first line is : " + list.get(0));
 
 	}
 
 	@Override
 	public ArrayList<String> receiveList() throws IOException {
 		// TODO Auto-generated method stub
-		ArrayList<String> result  = new ArrayList<String>();
+		ArrayList<String> result = new ArrayList<String>();
 		result.add("0001；Teacher");
 		result.add("0002；Teacher");
 		return result;

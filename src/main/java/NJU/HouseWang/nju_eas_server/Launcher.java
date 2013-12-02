@@ -6,14 +6,14 @@
  * 修改时间：
  * 版本：0.1
  */
-package NJU.HouseWang.nju_eas_server.launcher;
+package NJU.HouseWang.nju_eas_server;
 
 import java.io.IOException;
 
 import NJU.HouseWang.nju_eas_server.SystemFactory.AuthorityManager;
 import NJU.HouseWang.nju_eas_server.net.Server;
 
-public class ServerLauncher {
+public class Launcher {
 
 	public static void main(String[] args) {
 		Server server = new Server();
