@@ -3,6 +3,7 @@ package NJU.HouseWang.nju_eas_server.logic;
 import java.util.ArrayList;
 
 import NJU.HouseWang.nju_eas_server.data.AnnouncementList;
+import NJU.HouseWang.nju_eas_server.data.AuthorityManager;
 import NJU.HouseWang.nju_eas_server.data.LoginList;
 import NJU.HouseWang.nju_eas_server.logicService.AnnouncementLogicService;
 import NJU.HouseWang.nju_eas_server.po.Msg.AnnouncementPO;
@@ -11,24 +12,26 @@ import NJU.HouseWang.nju_eas_server.systemMessage.UserType;
 
 public class AnnouncementLogic implements AnnouncementLogicService {
 	private AnnouncementList al;
+	private AuthorityManager am;
 
 	public AnnouncementLogic() {
-		al = getAnnList();
+		al = initAnnouncementList();
+		am = initAuthorityManager();
 	}
 
-	public AnnouncementList getAnnList() {
+	public AnnouncementList initAnnouncementList() {
 		AnnouncementList al = new AnnouncementList();
 		al.init();
 		return al;
 	}
-
-	public AnnouncementList getAl() {
-		return al;
+	public AuthorityManager initAuthorityManager(){
+		AuthorityManager a = AuthorityManager.getInstance();
+		return a;
 	}
-
 	@Override
-	public Object operate(String uid, String cmd) {
+	public Object operate(String cmd) {
 		String[] cmdInfo = cmd.split("；");
+		String uid = am.getGuest(cmdInfo[cmdInfo.length-1]);
 		String cmdType = cmdInfo[0] + cmdInfo[1];
 		switch (cmdType) {
 		case "showannouncement":
@@ -91,6 +94,12 @@ public class AnnouncementLogic implements AnnouncementLogicService {
 	@Override
 	public String showAnnouncementListHead() {
 		return al.getListHead();
+	}
+
+	@Override
+	public Object operate(String cmd, ArrayList<String> list) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

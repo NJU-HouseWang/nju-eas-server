@@ -3,113 +3,105 @@ package NJU.HouseWang.nju_eas_server.logic;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import NJU.HouseWang.nju_eas_server.data.AuthorityManager;
 import NJU.HouseWang.nju_eas_server.data.MessageList;
 import NJU.HouseWang.nju_eas_server.logicService.MessageLogicService;
 import NJU.HouseWang.nju_eas_server.netService.NetService;
 import NJU.HouseWang.nju_eas_server.po.Msg.MessagePO;
+import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 
 public class MessageSystem implements MessageLogicService {
-	private NetService ns;
 	private MessageList ml;
+	private AuthorityManager am;
 	
 	public MessageSystem(){
-		ml = new MessageList();
-		ml.init();
+		 ml = this.initMessageList();
+		 am = this.initAuthorityManager();
 	}
+	
+	public MessageList initMessageList(){
+		MessageList m = new MessageList();
+		m.init();
+		return m;
+	}
+	
+	public AuthorityManager initAuthorityManager(){
+		AuthorityManager a = AuthorityManager.getInstance();
+		return a;
+	}
+
 	@Override
-	public void operate(String uid, String cmd) {
+	public Object operate(String cmd) {
 		// TODO Auto-generated method stub
 		String[] cmdInfo = cmd.split("；");
+		String uid = am.getGuest(cmdInfo[cmdInfo.length-1]);
 		String cmdType = cmdInfo[0] + cmdInfo[1];
 		switch (cmdType) {
 		case "showmessage":
-			this.showMessage(cmdInfo[2],cmdInfo[3]);
-			break;
+			return this.showMessage(cmdInfo[2],cmdInfo[3]);
+			
 		case "editmessage":
 			MessagePO m1 = new MessagePO(cmdInfo[2],cmdInfo[3],cmdInfo[4],uid,cmdInfo[5],cmdInfo[6]);
-			this.editMessage(m1);
-			break;
+			return this.editMessage(m1);
+			
 		case "addmessage":
 			MessagePO m2 =  new MessagePO(cmdInfo[3],cmdInfo[4],uid,cmdInfo[5],cmdInfo[6]);
-			this.addMessage(cmdInfo[2],m2);
-			break;
+			return this.addMessage(cmdInfo[2],m2);
+			
 		case "delmessage":
-			this.delMessage(cmdInfo[2],cmdInfo[3]);
-			break;
+			return this.delMessage(cmdInfo[2],cmdInfo[3]);
+			
 		case "showmessage_list":
-			this.showMessageList(cmdInfo[2],uid);
-			break;
+			return this.showMessageList(cmdInfo[2],uid);
+			
 		case "showmessage_list_head":
-			this.showMessageListHead();
-			break;
+			return this.showMessageListHead();
+			
 		case "movemessage":
-			this.moveMessage(cmdInfo[2], cmdInfo[3], cmdInfo[4]);
-			break;
+			return this.moveMessage(cmdInfo[2], cmdInfo[3], cmdInfo[4]);
+			
 		default:
-			break;
+			return null;
 		}
 	}
-
+	
 	@Override
-	public void initNetService(NetService ns) {
+	public Object operate(String cmd, ArrayList<String> list) {
 		// TODO Auto-generated method stub
-		this.ns = ns;
+		return null;
 	}
 
 	@Override
-	public void showMessage(String listName, String id) {
-		// TODO Auto-generated method stub
-		try {
-			ns.sendFeedback(ml.getMessage(listName, id).toCommand());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public String showMessage(String listName, String id) {
+		return (ml.getMessage(listName, id).toCommand());
 	}
 
 	@Override
-	public void addMessage(String listName, MessagePO mp) {
-		// TODO Auto-generated method stub
-		try {
-			ns.sendFeedback(ml.addMessage(listName, mp).toString());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public String addMessage(String listName, MessagePO mp) {
+		return (ml.addMessage(listName, mp).toString());
 	}
 
 	@Override
-	public void editMessage(MessagePO mp) {
-		// TODO Auto-generated method stub
-		try {
-			ns.sendFeedback(ml.updateMessage("unsent_message_list",mp).toString());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public String editMessage(MessagePO mp) {
+		return (ml.updateMessage("unsent_message_list",mp).toString());
 	}
 
 	@Override
-	public void moveMessage(String fromList, String toList, String id) {
+	public String moveMessage(String fromList, String toList, String id) {
 		// TODO Auto-generated method stub
 		MessagePO mp = ml.getMessage(fromList, id);
 		this.delMessage(fromList, id);
 		this.addMessage(toList, mp);
+		return Feedback.OPERATION_SUCCEED.toString();
 	}
 
 	@Override
-	public void delMessage(String listName, String id) {
-		// TODO Auto-generated method stub
-		try {
-			ns.sendFeedback(ml.removeMessage(listName, id).toString());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public String delMessage(String listName, String id) {
+		return (ml.removeMessage(listName, id).toString());
 	}
 
 	@Override
-	public void showMessageList(String listName, String uid) {
+	public ArrayList<String> showMessageList(String listName, String uid) {
 		// TODO Auto-generated method stub
 		ArrayList<MessagePO> list = ml.getMessageList(listName, uid);
 		ArrayList<String> MessageList = new ArrayList<String>();
@@ -117,23 +109,12 @@ public class MessageSystem implements MessageLogicService {
 			String MessageInfo = (list.get(i)).toCommand();
 			MessageList.add(MessageInfo);
 		}
-		try {
-			ns.sendList(MessageList);
-		} catch (IOException e) {
-
-			e.printStackTrace();
-		}
+		return MessageList;
 	}
 
 	@Override
-	public void showMessageListHead() {
-		// TODO Auto-generated method stub
-		try {
-			ns.sendFeedback(ml.getListHead().toString());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public String showMessageListHead() {
+		return (ml.getListHead().toString());
 	}
 
 }

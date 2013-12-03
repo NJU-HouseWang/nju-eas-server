@@ -3,45 +3,59 @@ package NJU.HouseWang.nju_eas_server.logic;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import NJU.HouseWang.nju_eas_server.data.AuthorityManager;
 import NJU.HouseWang.nju_eas_server.data.LogList;
 import NJU.HouseWang.nju_eas_server.logicService.LogLogicService;
 import NJU.HouseWang.nju_eas_server.netService.NetService;
 import NJU.HouseWang.nju_eas_server.po.Msg.LogPO;
 
 public class LogSystem implements LogLogicService {
-	NetService ns;
-	LogList ll;
-
+	private LogList ll;
+	private AuthorityManager am;
+	
 	public LogSystem() {
-		ll = new LogList();
-		ll.init();
+		ll = this.initLogList();
+		am = this.initAuthorityManager();
+	}
+	
+	public LogList initLogList(){
+		LogList l = new LogList();
+		l.init();
+		return l;
+	}
+	
+	public AuthorityManager initAuthorityManager(){
+		AuthorityManager a = AuthorityManager.getInstance();
+		return a;
 	}
 
 	@Override
-	public void operate(String uid, String cmd) {
+	public Object operate(String cmd) {
 
 		String[] cmdInfo = cmd.split("；");
+		String uid = am.getGuest(cmdInfo[cmdInfo.length-1]);
 		String cmdType = cmdInfo[0] + cmdInfo[1];
 		switch (cmdType) {
 
 		case "addlog":
 			this.addLog(new LogPO(cmdInfo[2], cmdInfo[3], cmdInfo[4],
 					cmdInfo[5]));
-			break;
+			return null;
 		case "showlog_list":
-			this.showLogList(cmdInfo[2]);
-			break;
+			return this.showLogList(cmdInfo[2]);
+			
 		case "showlog_list_head":
-			this.showLogListHead();
-			break;
+			return this.showLogListHead();
+			
 		default:
-			break;
+			return null;
 		}
 	}
 
 	@Override
-	public void initNetService(NetService ns) {
-		this.ns = ns;
+	public Object operate(String cmd, ArrayList<String> list) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
@@ -54,7 +68,7 @@ public class LogSystem implements LogLogicService {
 	}
 
 	@Override
-	public void showLogList(String conditions) {
+	public ArrayList<String> showLogList(String conditions) {
 
 		ArrayList<LogPO> list = ll.getLogList(conditions);
 		ArrayList<String> logList = new ArrayList<String>();
@@ -62,21 +76,15 @@ public class LogSystem implements LogLogicService {
 			String logInfo = (list.get(i)).toCommand();
 			logList.add(logInfo);
 		}
-		try {
-			ns.sendList(logList);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		return logList;
 	}
 
 	@Override
-	public void showLogListHead() {
+	public String showLogListHead() {
 
-		try {
-			ns.sendFeedback(ll.getListHead());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		return (ll.getListHead());
 	}
+
+	
 
 }

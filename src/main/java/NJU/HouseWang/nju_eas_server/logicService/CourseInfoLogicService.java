@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import NJU.HouseWang.nju_eas_server.po.Edu.CoursePO;
 
 public interface CourseInfoLogicService extends LogicService {
+	
+	
 	// 显示课程条目的详细信息
 	public String showCourseDetail(String time, String department, String id,
 			String item);

@@ -1,6 +1,7 @@
 package NJU.HouseWang.nju_eas_server.SystemFactory;
 
 import NJU.HouseWang.nju_eas_server.logic.AnnouncementLogic;
+import NJU.HouseWang.nju_eas_server.logic.CourseSelectionSystem;
 import NJU.HouseWang.nju_eas_server.logic.EduFrameworkSystem;
 import NJU.HouseWang.nju_eas_server.logic.LogSystem;
 import NJU.HouseWang.nju_eas_server.logic.LoginSystem;
@@ -43,12 +44,21 @@ public class SystemFactory {
 				return (new AnnouncementLogic());
 			case "eduframework":
 			case "modulenum":
+			case "eduframeworkhead":
 				return (new EduFrameworkSystem());
 			case "teachingplan":
 			case "teachingplanlist":
 			case "teachingplan_head":
 			case "teachingplanlist_head":
 				return (new TeachingPlanSystem());
+			case "status":
+			case "status_list":
+			case "status_list_head":
+			case "max_selection_num":
+			case "selected_course":
+				return (new CourseSelectionSystem());
+			
+			
 			}
 			break;
 		case "add":
@@ -67,6 +77,8 @@ public class SystemFactory {
 				return (new EduFrameworkSystem());
 			case "teachingplan":
 				return (new TeachingPlanSystem());
+			case "course_student_list":
+				return (new CourseSelectionSystem());
 			}
 			break;
 		case "edit":
@@ -82,6 +94,9 @@ public class SystemFactory {
 				return (new AnnouncementLogic());
 			case "teachingplan":
 				return (new TeachingPlanSystem());
+			case "status":
+				return (new CourseSelectionSystem());
+				
 			}
 			break;
 		case "del":
@@ -102,6 +117,9 @@ public class SystemFactory {
 				return (new EduFrameworkSystem());
 			case "teachingplan":
 				return (new TeachingPlanSystem());
+			case "course_student_list":
+			case "course_student_po":
+				return (new CourseSelectionSystem());
 			}
 			break;
 		case "move":
@@ -112,7 +130,31 @@ public class SystemFactory {
 			break;
 		case "publish":
 		case "select":
-		case "byElect":
+			switch(aim){
+			case "common_course":
+			case "course":
+			
+				return (new CourseSelectionSystem());
+			}
+			break;
+		case "byelect":
+			switch(aim){
+			case "course":
+				return (new CourseSelectionSystem());
+			}
+			break;
+		case "quit":
+			switch(aim){
+			case "course":
+				return (new CourseSelectionSystem());
+			}
+			break;
+		case "process":
+			switch(aim){
+			case "common_course_selection":
+				return (new CourseSelectionSystem());
+			}
+			break;
 		case "set":
 		case "audit":
 			switch (aim) {

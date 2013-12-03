@@ -3,6 +3,7 @@ package NJU.HouseWang.nju_eas_server.logic;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import NJU.HouseWang.nju_eas_server.data.AuthorityManager;
 import NJU.HouseWang.nju_eas_server.data.LoginList;
 import NJU.HouseWang.nju_eas_server.data.StudentList;
 import NJU.HouseWang.nju_eas_server.data.TeacherList;
@@ -25,113 +26,150 @@ public class UserInfoSystem implements UserInfoLogicService {
 	private StudentList sl;
 	private String uid;
 	private GuestPO guest = null;
-	private NetService ns;
 	private UserPO upo;
+	private AuthorityManager am;
 
 	public UserInfoSystem() {
 		// TODO Auto-generated constructor stub
-		ll = new LoginList();
-		tl = new TeacherList();
-		sl = new StudentList();
-		ll.init();
-		tl.init();
-		sl.init();
+		ll = this.initLoginList();
+		tl = this.initTeacherList();
+		sl = this.initStudentList();
+		am = this.initAuthorityManager();
 
 	}
+	
+	public LoginList initLoginList(){
+		LoginList l = new LoginList();
+		l.init();
+		return l;
+	}
+	
+	public TeacherList initTeacherList(){
+		TeacherList t = new TeacherList();
+		t.init();
+		return t;
+	}
+	
+	public StudentList initStudentList(){
+		StudentList s = new StudentList();
+		s.init();
+		return s;
+	}
 
+	public AuthorityManager initAuthorityManager(){
+		AuthorityManager a = AuthorityManager.getInstance();
+		return a;
+	}
 	@Override
-	public void operate(String uid, String cmd) {
+	public Object operate(String cmd) {
+		String[] cmdInfo = cmd.split("；");
+		String uid = am.getGuest(cmdInfo[cmdInfo.length-1]);
 		this.uid = uid;
 		guest = (GuestPO) ll.getLoginer(uid);
-		String[] cmdpart = cmd.split("；");
-		String cmdType = cmdpart[0] + cmdpart[1];
+		String cmdType = cmdInfo[0] + cmdInfo[1];
 		switch (cmdType) {
 		case "showselfInformation":
-			showSelfInformation();
-			break;
+			return showSelfInformation();
+			
 		case "editselfInformation":
 			String userType = ((GuestPO) ll.getLoginer(uid)).getType()
 					.toString();
 			if ((userType.equals("Teacher")) || (userType.equals("SchoolDean"))
 					|| (userType.equals("DeptAD"))) {
-				upo = new TeacherPO(cmdpart[2], cmdpart[3], cmdpart[4],
-						cmdpart[5]);
+				upo = new TeacherPO(cmdInfo[2], cmdInfo[3], cmdInfo[4],
+						cmdInfo[5]);
 			} else {
-				upo = new StudentPO(cmdpart[2], cmdpart[3], cmdpart[4],
-						cmdpart[5], cmdpart[6], cmdpart[7], cmdpart[8],
-						cmdpart[9]);
+				upo = new StudentPO(cmdInfo[2], cmdInfo[3], cmdInfo[4],
+						cmdInfo[5], cmdInfo[6], cmdInfo[7], cmdInfo[8],
+						cmdInfo[9]);
 			}
-			editSelfInformation(upo);
-			break;
+			return editSelfInformation(upo);
+			
 		case "adduser":
-			UserPO u = new UserPO(cmdpart[2], UserType.valueOf(cmdpart[3]));
-			addUser(u);
-			break;
+			UserPO u = new UserPO(cmdInfo[2], UserType.valueOf(cmdInfo[3]));
+			return addUser(u);
+			
 		case "edituser":
-			GuestPO guest = new GuestPO(cmdpart[2],
-					UserType.valueOf(cmdpart[3]), cmdpart[4]);
-			editUser(guest);
-			break;
+			GuestPO guest = new GuestPO(cmdInfo[2],
+					UserType.valueOf(cmdInfo[3]), cmdInfo[4]);
+			return editUser(guest);
+			
 		case "delstudent":
 		case "delteacher":
 		case "deluser":
-			delUser(cmdpart[2]);
-			break;
+			return delUser(cmdInfo[2]);
+			
 		case "addTeacher":
-			TeacherPO tp = new TeacherPO(cmdpart[2], cmdpart[3], cmdpart[4],
-					cmdpart[5]);
-			addTeacher(tp);
-			break;
+			TeacherPO tp = new TeacherPO(cmdInfo[2], cmdInfo[3], cmdInfo[4],
+					cmdInfo[5]);
+			return addTeacher(tp);
+			
 		case "addStudent":
-			StudentPO sp = new StudentPO(cmdpart[2], cmdpart[3], cmdpart[4],
-					cmdpart[5], cmdpart[6], cmdpart[7], cmdpart[8], cmdpart[9]);
-			addStudent(sp);
-			break;
+			StudentPO sp = new StudentPO(cmdInfo[2], cmdInfo[3], cmdInfo[4],
+					cmdInfo[5], cmdInfo[6], cmdInfo[7], cmdInfo[8], cmdInfo[9]);
+			return addStudent(sp);
+			
 		case "editTeacher":
-			TeacherPO tp2 = new TeacherPO(cmdpart[2], cmdpart[3], cmdpart[4],
-					cmdpart[5]);
-			editTeacher(tp2);
-			break;
+			TeacherPO tp2 = new TeacherPO(cmdInfo[2], cmdInfo[3], cmdInfo[4],
+					cmdInfo[5]);
+			return editTeacher(tp2);
+			
 		case "editStudent":
-			StudentPO sp2 = new StudentPO(cmdpart[2], cmdpart[3], cmdpart[4],
-					cmdpart[5], cmdpart[6], cmdpart[7], cmdpart[8], cmdpart[9]);
-			editStudent(sp2);
-			break;
+			StudentPO sp2 = new StudentPO(cmdInfo[2], cmdInfo[3], cmdInfo[4],
+					cmdInfo[5], cmdInfo[6], cmdInfo[7], cmdInfo[8], cmdInfo[9]);
+			return editStudent(sp2);
+			
 		case "showlogin_list":
-			showLoginList(cmdpart[2]);
-			break;
+			return showLoginList(cmdInfo[2]);
+			
 		case "showteacher_list":
-			showTeacherList(cmdpart[2]);
-			break;
+			return showTeacherList(cmdInfo[2]);
+			
 		case "showstudent_list":
-			showStudentList(cmdpart[2]);
-			break;
+			return showStudentList(cmdInfo[2]);
+			
 		case "adduser_list":
-			addUserList();
-			break;
+			return "list";
+			
 		case "deluser_list":
-			delUserList();
-			break;
+			return "list";
+			
 		case "editpassword":
-			editPassword(cmdpart[2], cmdpart[3]);
-			break;
+			return editPassword(cmdInfo[2], cmdInfo[3]);
+			
 		case "showlogin_list_head":
-			this.showLoginListHead();
-			break;
+			return this.showLoginListHead();
+			
 		case "showteacher_list_head":
-			this.showTeacherListHead();
-			break;
+			return this.showTeacherListHead();
+			
 		case "showstudent_list_head":
-			this.showStudentListHead();
-			break;
+			return this.showStudentListHead();
+			
 		default:
-			break;
-
+			return null;
+		}
+	}
+	
+	@Override
+	public Object operate(String cmd,ArrayList<String> list) {
+		String[] cmdInfo = cmd.split("；");
+		String uid = am.getGuest(cmdInfo[cmdInfo.length-1]);
+		this.uid = uid;
+		guest = (GuestPO) ll.getLoginer(uid);
+		String cmdType = cmdInfo[0] + cmdInfo[1];
+		switch (cmdType) {
+		case "adduser_list":
+			return addUserList(list);
+		case "deluser_list":
+			return delUserList(list);
+		default:
+			return null;
 		}
 	}
 
 	@Override
-	public void showSelfInformation() {
+	public String showSelfInformation() {
 		String userType = guest.getType().toString();
 		String feedback = null;
 		if ((userType.equals("Teacher")) || (userType.equals("SchoolDean"))
@@ -141,16 +179,11 @@ public class UserInfoSystem implements UserInfoLogicService {
 		} else {
 			feedback = sl.getStudent(uid).toCommand();
 		}
-		try {
-			ns.sendFeedback(feedback);
-		} catch (IOException e) {
-
-			e.printStackTrace();
-		}
+		return feedback;
 	}
 
 	@Override
-	public void editSelfInformation(UserPO u) {
+	public String editSelfInformation(UserPO u) {
 		String userType = guest.getType().toString();
 		if ((userType.equals("Teacher")) || (userType.equals("SchoolDean"))
 				|| (userType.equals("DeptAD"))) {
@@ -159,16 +192,11 @@ public class UserInfoSystem implements UserInfoLogicService {
 		} else {
 			sl.updateStudent((StudentPO) u);
 		}
-		try {
-			ns.sendFeedback(Feedback.OPERATION_SUCCEED.toString());
-		} catch (IOException e) {
-
-			e.printStackTrace();
-		}
+		return (Feedback.OPERATION_SUCCEED.toString());
 	}
 
 	@Override
-	public void addUser(UserPO u) {
+	public String addUser(UserPO u) {
 		String id = u.getId();
 		UserType ut = u.getType();
 		if (!ll.containsID(id)) {
@@ -187,45 +215,25 @@ public class UserInfoSystem implements UserInfoLogicService {
 				sp.setId(id);
 				sl.addStudent((StudentPO) u);
 			}
-			try {
-				ns.sendFeedback(Feedback.OPERATION_SUCCEED.toString());
-			} catch (IOException e) {
-
-				e.printStackTrace();
-			}
+			return(Feedback.OPERATION_SUCCEED.toString());
 		} else {
-			try {
-				ns.sendFeedback(Feedback.DATA_ALREADY_EXISTED.toString());
-			} catch (IOException e) {
-
-				e.printStackTrace();
-			}
+			return(Feedback.DATA_ALREADY_EXISTED.toString());
 		}
 	}
 
 	@Override
-	public void editUser(GuestPO u) {
+	public String editUser(GuestPO u) {
 		String id = u.getId();
 		if (ll.containsID(id)) {
 			ll.updateLoginer(u);
-			try {
-				ns.sendFeedback(Feedback.OPERATION_SUCCEED.toString());
-			} catch (IOException e) {
-
-				e.printStackTrace();
-			}
+			return(Feedback.OPERATION_SUCCEED.toString());
 		} else {
-			try {
-				ns.sendFeedback(Feedback.DATA_NOT_FOUND.toString());
-			} catch (IOException e) {
-
-				e.printStackTrace();
-			}
+			return(Feedback.DATA_NOT_FOUND.toString());
 		}
 	}
 
 	@Override
-	public void delUser(String id) {
+	public String delUser(String id) {
 		if (ll.containsID(id)) {
 			ll.removeLoginer(id);
 			if (tl.containsID(id)) {
@@ -233,94 +241,61 @@ public class UserInfoSystem implements UserInfoLogicService {
 			} else {
 				sl.removeStudent(id);
 			}
-			try {
-				ns.sendFeedback(Feedback.OPERATION_SUCCEED.toString());
-			} catch (IOException e) {
-
-				e.printStackTrace();
-			}
+			return(Feedback.OPERATION_SUCCEED.toString());
 		} else {
-			try {
-				ns.sendFeedback(Feedback.DATA_NOT_FOUND.toString());
-			} catch (IOException e) {
-
-				e.printStackTrace();
-			}
+			return(Feedback.DATA_NOT_FOUND.toString());
 		}
 
 	}
 
 	@Override
-	public void addUserList() {
-		try {
-			ArrayList<String> list = ns.receiveList();
-			for (int i = 0; i < list.size(); i++) {
-				UserPO user = this.stringToUserPO(list.get(i));
-				this.addUser(user);
+	public String addUserList(ArrayList<String> list) {
+		for(int i = 0; i < list.size(); i++){
+			String[] info = list.get(i).split("；");
+			if(ll.containsID(info[0])){
+				return Feedback.DATA_ALREADY_EXISTED.toString();
 			}
-		} catch (IOException e) {
-
-			e.printStackTrace();
+					
 		}
+		for (int i = 0; i < list.size(); i++) {
+			UserPO user = this.stringToUserPO(list.get(i));
+			this.addUser(user);
+		}
+		return Feedback.OPERATION_SUCCEED.toString();
 	}
 
 	@Override
-	public void delUserList() {
-		ArrayList<String> list;
-		try {
-			list = ns.receiveList();
-			for (int i = 0; i < list.size(); i++) {
-				this.delUser(list.get(i));
+	public String delUserList(ArrayList<String> list) {
+		for(int i = 0; i < list.size(); i++){
+			String[] info = list.get(i).split("；");
+			if(!ll.containsID(info[0])){
+				return Feedback.DATA_NOT_FOUND.toString();
 			}
-		} catch (IOException e) {
-
-			e.printStackTrace();
+					
 		}
+		for (int i = 0; i < list.size(); i++) {
+			this.delUser(list.get(i));
+		}
+		return Feedback.OPERATION_SUCCEED.toString();
 	}
 
 	@Override
-	public void initNetService(NetService ns) {
-		// TODO Auto-generated method stub
-		this.ns = ns;
-	}
-
-	@Override
-	public void editPassword(String oldPW, String newPW) {
+	public String editPassword(String oldPW, String newPW) {
 		// TODO Auto-generated method stub
 		if (oldPW.equals(guest.getPassword())) {
 			if (newPW.length() > 5) {
 				if (!newPW.equals(oldPW)) {
 					guest.setPassword(newPW);
 					ll.updateLoginer(guest);
-					try {
-						ns.sendFeedback(Feedback.OPERATION_SUCCEED.toString());
-					} catch (IOException e) {
-
-						e.printStackTrace();
-					}
+					return (Feedback.OPERATION_SUCCEED.toString());
 				} else {
-					try {
-						ns.sendFeedback(Feedback.PW_REPEATED.toString());
-					} catch (IOException e) {
-
-						e.printStackTrace();
-					}
+					return (Feedback.PW_REPEATED.toString());
 				}
 			} else {
-				try {
-					ns.sendFeedback(Feedback.PW_TOO_SHORT.toString());
-				} catch (IOException e) {
-
-					e.printStackTrace();
-				}
+				return(Feedback.PW_TOO_SHORT.toString());
 			}
 		} else {
-			try {
-				ns.sendFeedback(Feedback.PW_WRONG_INPUT.toString());
-			} catch (IOException e) {
-
-				e.printStackTrace();
-			}
+			return(Feedback.PW_WRONG_INPUT.toString());
 		}
 	}
 
@@ -352,7 +327,7 @@ public class UserInfoSystem implements UserInfoLogicService {
 	}
 
 	@Override
-	public void showLoginList(String conditions) {
+	public ArrayList<String> showLoginList(String conditions) {
 		// TODO Auto-generated method stub
 		ArrayList<GuestPO> list1 = ll.getLoginList(conditions);
 		ArrayList<String> guestList = new ArrayList<String>();
@@ -360,16 +335,11 @@ public class UserInfoSystem implements UserInfoLogicService {
 			String guestInfo = (list1.get(i)).toCommand();
 			guestList.add(guestInfo);
 		}
-		try {
-			ns.sendList(guestList);
-		} catch (IOException e) {
-
-			e.printStackTrace();
-		}
+		return guestList;
 	}
 
 	@Override
-	public void showTeacherList(String conditions) {
+	public ArrayList<String> showTeacherList(String conditions) {
 		// TODO Auto-generated method stub
 		ArrayList<TeacherPO> list2 = tl.getTeacherList(conditions);
 		ArrayList<String> teacherList = new ArrayList<String>();
@@ -377,16 +347,11 @@ public class UserInfoSystem implements UserInfoLogicService {
 			String teacherInfo = (list2.get(i)).toCommand();
 			teacherList.add(teacherInfo);
 		}
-		try {
-			ns.sendList(teacherList);
-		} catch (IOException e) {
-
-			e.printStackTrace();
-		}
+		return teacherList;
 	}
 
 	@Override
-	public void showStudentList(String conditions) {
+	public ArrayList<String> showStudentList(String conditions) {
 		// TODO Auto-generated method stub
 		ArrayList<StudentPO> list3 = sl.getStudentList(conditions);
 		ArrayList<String> studentList = new ArrayList<String>();
@@ -394,49 +359,26 @@ public class UserInfoSystem implements UserInfoLogicService {
 			String studentInfo = (list3.get(i)).toCommand();
 			studentList.add(studentInfo);
 		}
-		try {
-			ns.sendList(studentList);
-		} catch (IOException e) {
-
-			e.printStackTrace();
-		}
+		return studentList;
 	}
 
 	@Override
-	public void showLoginListHead() {
-		// TODO Auto-generated method stub
-		try {
-			ns.sendFeedback(ll.getListHead());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public String showLoginListHead() {
+		return (ll.getListHead());
 	}
 
 	@Override
-	public void showTeacherListHead() {
-		// TODO Auto-generated method stub
-		try {
-			ns.sendFeedback(tl.getListHead());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public String showTeacherListHead() {
+		return (tl.getListHead());
 	}
 
 	@Override
-	public void showStudentListHead() {
-		// TODO Auto-generated method stub
-		try {
-			ns.sendFeedback(sl.getListHead());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public String showStudentListHead() {
+		return(sl.getListHead());
 	}
 
 	@Override
-	public void addTeacher(TeacherPO tp) {
+	public String addTeacher(TeacherPO tp) {
 		// TODO Auto-generated method stub
 		String id = tp.getId();
 		if(!tl.containsID(id)){
@@ -444,25 +386,15 @@ public class UserInfoSystem implements UserInfoLogicService {
 			UserType up = tp.getType();
 			GuestPO gp = new GuestPO(id,up,this.generateInitialPassword(tp));
 			ll.addLoginer(gp);
-			try {
-				ns.sendFeedback(Feedback.OPERATION_SUCCEED.toString());
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			return (Feedback.OPERATION_SUCCEED.toString());
 			
 		} else{
-			try {
-				ns.sendFeedback(Feedback.ID_ALREADY_EXISTED.toString());
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			return (Feedback.ID_ALREADY_EXISTED.toString());
 		}
 	}
 
 	@Override
-	public void addStudent(StudentPO sp) {
+	public String addStudent(StudentPO sp) {
 		// TODO Auto-generated method stub
 		String id = sp.getId();
 		if(!sl.containsID(id)){
@@ -470,64 +402,34 @@ public class UserInfoSystem implements UserInfoLogicService {
 			UserType up = sp.getType();
 			GuestPO gp = new GuestPO(id,up,this.generateInitialPassword(sp));
 			ll.addLoginer(gp);
-			try {
-				ns.sendFeedback(Feedback.OPERATION_SUCCEED.toString());
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			return (Feedback.OPERATION_SUCCEED.toString());
 			
 		} else{
-			try {
-				ns.sendFeedback(Feedback.ID_ALREADY_EXISTED.toString());
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			return (Feedback.ID_ALREADY_EXISTED.toString());
 		}
 	}
 
 	@Override
-	public void editTeacher(TeacherPO tp) {
+	public String editTeacher(TeacherPO tp) {
 		// TODO Auto-generated method stub
 		String id = tp.getId();
 		if (tl.containsID(id)) {
 			tl.updateTeacher(tp);
-			try {
-				ns.sendFeedback(Feedback.OPERATION_SUCCEED.toString());
-			} catch (IOException e) {
-
-				e.printStackTrace();
-			}
+			return (Feedback.OPERATION_SUCCEED.toString());
 		} else {
-			try {
-				ns.sendFeedback(Feedback.DATA_NOT_FOUND.toString());
-			} catch (IOException e) {
-
-				e.printStackTrace();
-			}
+			return(Feedback.DATA_NOT_FOUND.toString());
 		}
 	}
 
 	@Override
-	public void editStudent(StudentPO sp) {
+	public String editStudent(StudentPO sp) {
 		// TODO Auto-generated method stub
 		String id = sp.getId();
 		if (sl.containsID(id)) {
 			sl.updateStudent(sp);
-			try {
-				ns.sendFeedback(Feedback.OPERATION_SUCCEED.toString());
-			} catch (IOException e) {
-
-				e.printStackTrace();
-			}
+			return (Feedback.OPERATION_SUCCEED.toString());
 		} else {
-			try {
-				ns.sendFeedback(Feedback.DATA_NOT_FOUND.toString());
-			} catch (IOException e) {
-
-				e.printStackTrace();
-			}
+			return (Feedback.DATA_NOT_FOUND.toString());
 		}
 	}
 }

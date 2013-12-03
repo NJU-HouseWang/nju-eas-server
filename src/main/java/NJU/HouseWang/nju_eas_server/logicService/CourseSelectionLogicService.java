@@ -32,14 +32,14 @@ public interface CourseSelectionLogicService extends LogicService {
 	public String quitCourse(String listName, String courseId, String studentId);
 
 	// 批量添加选课记录
-	public String addCourse_StudentList(String listName);
+	public String addCourse_StudentList(String listName, ArrayList<String> list);
 
 	// 单独添加选课记录
 	public String delCourse_StudentPO(String listName, String courseId,
 			String studentId);
 
 	// 批量删除选课记录
-	public String delCourse_StudentList(String listName);
+	public String delCourse_StudentList(String listName, ArrayList<String> list);
 
 	// 通识课选课抽签
 	public String processCommonCourseSelection(String listName);

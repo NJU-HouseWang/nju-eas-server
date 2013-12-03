@@ -1,11 +1,15 @@
 package NJU.HouseWang.nju_eas_server.logicService;
 
+import java.util.ArrayList;
+
 public interface EduFrameworkLogicService extends LogicService {
-	public void addEduFramework();
+	public String addEduFramework(ArrayList<String> list);
 
-	public void delEduFramework();
+	public String delEduFramework();
 
-	public void showEduFramework();
+	public ArrayList<String> showEduFramework();
 
-	public void showModuleNum();
+	public String showModuleNum();
+	
+	public String showEduFrameworkHead();
 }

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import NJU.HouseWang.nju_eas_server.data.AuthorityManager;
 import NJU.HouseWang.nju_eas_server.data.EduFramework;
 import NJU.HouseWang.nju_eas_server.data.TeachingPlan;
 import NJU.HouseWang.nju_eas_server.data.TeachingPlanList;
@@ -15,145 +16,163 @@ import NJU.HouseWang.nju_eas_server.po.Edu.TeachingPlanPO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 
 public class TeachingPlanSystem implements TeachingPlanLogicService {
-	NetService ns;
-	TeachingPlan tp;
-	TeachingPlanList tl;
-	EduFramework ef;
-
+	private TeachingPlan tp;
+	private TeachingPlanList tl;
+	private EduFramework ef;
+	private AuthorityManager am;
+	
 	public TeachingPlanSystem() {
-		tp = new TeachingPlan();
-		tl = new TeachingPlanList();
-		ef = new EduFramework();
-		tp.init();
-		tl.init();
-		ef.init();
+		tp = this.initTeachingPlan();
+		tl = this.initTeachingPlanList();
+		ef = this.initEduFramework();
+		am = this.initAuthorityManager();
+	}
+	
+	public TeachingPlan initTeachingPlan(){
+		TeachingPlan t = new TeachingPlan();
+		t.init();
+		return t;
+	}
+	
+	public TeachingPlanList initTeachingPlanList(){
+		TeachingPlanList t = new TeachingPlanList();
+		t.init();
+		return t;
+	}
+	
+	public EduFramework initEduFramework(){
+		EduFramework e = new EduFramework();
+		e.init();
+		return e;
+	}
+	
+	public AuthorityManager initAuthorityManager(){
+		AuthorityManager a = AuthorityManager.getInstance();
+		return a;
 	}
 
 	@Override
-	public void operate(String uid, String cmd) {
+	public Object operate(String cmd) {
 
 		String[] cmdInfo = cmd.split("；");
+		String uid = am.getGuest(cmdInfo[cmdInfo.length-1]);
 		String cmdType = cmdInfo[0] + cmdInfo[1];
 		switch (cmdType) {
 		case "showteachingplan":
-			this.showTeachingPlan(cmdInfo[2]);
-			break;
+			return this.showTeachingPlan(cmdInfo[2]);
+			
 		case "showteachingplanlist":
-			this.showTeachingPlanList();
-			break;
+			return this.showTeachingPlanList();
+			
 		case "addteachingplan":
-			this.addTeachingPlan(cmdInfo[2]);
-			break;
+			return "list";
+			
 		case "editteachingplan":
-			this.editTeachingPlan(cmdInfo[2]);
-			break;
+			return "list";
+			
 		case "delteachingplan":
-			this.delTeachingPlan(cmdInfo[2]);
-			break;
+			return this.delTeachingPlan(cmdInfo[2]);
+			
 		case "auditteachingplan":
-			this.auditTeachingPlan(cmdInfo[2], Integer.parseInt(cmdInfo[3]));
-			break;
+			return this.auditTeachingPlan(cmdInfo[2], Integer.parseInt(cmdInfo[3]));
+			
 		case "uploadteachingplanfile":
-			this.uploadTeachingPlanFile(cmdInfo[2], cmdInfo[3]);
-			break;
+			if(cmd.contains("ok")){
+				return this.uploadTeachingPlanFile(cmdInfo[2], cmdInfo[3]);
+			} else {
+				return "file";
+			}
+			
 		case "downloadteachingplanfile":
-			this.downloadTeachingPlanFile(cmdInfo[2], cmdInfo[3]);
-			break;
+			return this.downloadTeachingPlanFile(cmdInfo[2], cmdInfo[3]);
+			
 		case "showteachingplan_head":
-			this.showTeachingPlanHead();
-			break;
+			return this.showTeachingPlanHead();
+			
 		case "showteachingplanlist_head":
-			this.showTeachingPlanListHead();
-			break;
+			return this.showTeachingPlanListHead();
+			
 		default:
-			break;
+			return null;
+		}
+	}
+	
+	@Override
+	public Object operate(String cmd, ArrayList<String> list) {
+
+		String[] cmdInfo = cmd.split("；");
+		String uid = am.getGuest(cmdInfo[cmdInfo.length-1]);
+		String cmdType = cmdInfo[0] + cmdInfo[1];
+		switch (cmdType) {
+		case "addteachingplan":
+			return this.addTeachingPlan(cmdInfo[2], list);
+			
+		case "editteachingplan":
+			return this.editTeachingPlan(cmdInfo[2], list);
+			
+		default:
+			return null;
 		}
 	}
 
 	@Override
-	public void initNetService(NetService ns) {
-
-		this.ns = ns;
-	}
-
-	@Override
-	public void showTeachingPlan(String dept) {
+	public ArrayList<String> showTeachingPlan(String dept) {
 
 		ArrayList<TeachingPlanItemPO> tl = tp.getTeachingPlan(dept);
 		ArrayList<String> feedback = new ArrayList<String>();
 		for (int i = 0; i < tl.size(); i++) {
 			feedback.add(tl.get(i).toCommand());
 		}
-		try {
-			ns.sendList(feedback);
-		} catch (IOException e) {
-
-			e.printStackTrace();
-		}
+		return feedback;
 	}
 
 	@Override
-	public void showTeachingPlanList() {
+	public ArrayList<String> showTeachingPlanList() {
 
 		ArrayList<TeachingPlanPO> t = tl.getTeachingPlanList();
 		ArrayList<String> feedback = new ArrayList<String>();
 		for (int i = 0; i < t.size(); i++) {
 			feedback.add(t.get(i).toCommand());
 		}
-		try {
-			ns.sendList(feedback);
-		} catch (IOException e) {
-
-			e.printStackTrace();
-		}
+		return feedback;
 	}
 
 	@Override
-	public void addTeachingPlan(String dept) {
+	public String addTeachingPlan(String dept, ArrayList<String> list) {
 
 		TeachingPlanPO tpp = tl.getTeachingPlan(dept);
 		if (!tpp.isCommitted()) {
-			try {
-				ArrayList<String> list = ns.receiveList();
-				ArrayList<TeachingPlanItemPO> tpl = new ArrayList<TeachingPlanItemPO>();
+			ArrayList<TeachingPlanItemPO> tpl = new ArrayList<TeachingPlanItemPO>();
 
-				for(int i = 0; i<list.size();i++){
-					tpl.add(stringToTeachingPlanItem(list.get(i)));
+			for(int i = 0; i<list.size();i++){
+				tpl.add(stringToTeachingPlanItem(list.get(i)));
+			}
+			
+			boolean isValid = this.judgeTeachingPlan(tpl);
+			if (isValid) {
+				for (int i = 0; i < tpl.size(); i++) {
+					tp.addTeachingPlanItem(dept, tpl.get(i));
 				}
-				
-				boolean isValid = this.judgeTeachingPlan(tpl);
-				if (isValid) {
-					for (int i = 0; i < tpl.size(); i++) {
-						tp.addTeachingPlanItem(dept, tpl.get(i));
-					}
-					ns.sendFeedback(Feedback.OPERATION_SUCCEED.toString());
-				} else {
-					ns.sendFeedback(Feedback.FORMAT_ERROR.toString());
-				}
-			} catch (IOException e) {
-	
-				e.printStackTrace();
+				return (Feedback.OPERATION_SUCCEED.toString());
+			} else {
+				return (Feedback.FORMAT_ERROR.toString());
 			}
 		} else {
-			try {
-				ns.sendFeedback(Feedback.DATA_ALREADY_EXISTED.toString());
-			} catch (IOException e) {
-	
-				e.printStackTrace();
-			}
+			return (Feedback.DATA_ALREADY_EXISTED.toString());
 		}
 
 	}
 
 	@Override
-	public void editTeachingPlan(String dept) {
+	public String editTeachingPlan(String dept,ArrayList<String> list) {
 
 		this.delTeachingPlan(dept);
-		this.addTeachingPlan(dept);
+		return this.addTeachingPlan(dept,list);
+		
 	}
 
 	@Override
-	public void delTeachingPlan(String dept) {
+	public String delTeachingPlan(String dept) {
 
 		tp.delTeachingPlan(dept);
 		TeachingPlanPO tpp = tl.getTeachingPlan(dept);
@@ -161,77 +180,41 @@ public class TeachingPlanSystem implements TeachingPlanLogicService {
 		tpp.setStatus(0);
 		tpp.getTpFile().delete();
 		tpp.setTpFile(null);
-		try {
-			ns.sendFeedback(Feedback.OPERATION_SUCCEED.toString());
-		} catch (IOException e) {
-
-			e.printStackTrace();
-		}
+		return (Feedback.OPERATION_SUCCEED.toString());
 	}
 
 	@Override
-	public void auditTeachingPlan(String dept, int status) {
+	public String auditTeachingPlan(String dept, int status) {
 
 		TeachingPlanPO tpp = tl.getTeachingPlan(dept);
 		if (tpp.getStatus() == 0) {
 			tpp.setStatus(status);
-			try {
-				ns.sendFeedback(Feedback.OPERATION_SUCCEED.toString());
-			} catch (IOException e) {
-	
-				e.printStackTrace();
-			}
+			return (Feedback.OPERATION_SUCCEED.toString());
 		} else {
-			try {
-				ns.sendFeedback(Feedback.AUDIT_REPEATED.toString());
-			} catch (IOException e) {
-	
-				e.printStackTrace();
-			}
+			return (Feedback.AUDIT_REPEATED.toString());
 		}
 	}
 
 	@Override
-	public void uploadTeachingPlanFile(String dept, String filePath) {
+	public String uploadTeachingPlanFile(String dept, String filePath) {
 
 		TeachingPlanPO tpp = tl.getTeachingPlan(dept);
 		if (tpp.getTpFile() == null) {
-			try {
-				ns.receiveFile(filePath);
-				tpp.setTpFile(new File(filePath));
-				ns.sendFeedback(Feedback.OPERATION_SUCCEED.toString());
-			} catch (IOException e) {
-	
-				e.printStackTrace();
-			}
+			tpp.setTpFile(new File(filePath));
+			return (Feedback.OPERATION_SUCCEED.toString());
 		} else {
-			try {
-				ns.sendFeedback(Feedback.DATA_ALREADY_EXISTED.toString());
-			} catch (IOException e) {
-	
-				e.printStackTrace();
-			}
+			return (Feedback.DATA_ALREADY_EXISTED.toString());
 		}
 	}
 
 	@Override
-	public void downloadTeachingPlanFile(String dept, String filePath) {
+	public Object downloadTeachingPlanFile(String dept, String filePath) {
 
 		TeachingPlanPO tpp = tl.getTeachingPlan(dept);
 		if (tpp.getTpFile() != null) {
-			try {
-				ns.sendFile(new File(filePath));
-			} catch (IOException e) {
-	
-				e.printStackTrace();
-			}
+			return (new File(filePath));
 		} else {
-			try {
-				ns.sendFeedback(Feedback.DATA_NOT_FOUND.toString());
-			} catch (IOException e) {
-	
-				e.printStackTrace();
-			}
+			return (Feedback.DATA_NOT_FOUND.toString());
 		}
 	}
 
@@ -320,25 +303,15 @@ public class TeachingPlanSystem implements TeachingPlanLogicService {
 	}
 
 	@Override
-	public void showTeachingPlanHead() {
+	public String showTeachingPlanHead() {
 
-		try {
-			ns.sendFeedback(tp.getListHead());
-		} catch (IOException e) {
-
-			e.printStackTrace();
-		}
+		return (tp.getListHead());
 	}
 
 	@Override
-	public void showTeachingPlanListHead() {
+	public String showTeachingPlanListHead() {
 
-		try {
-			ns.sendFeedback(tl.getListHead());
-		} catch (IOException e) {
-
-			e.printStackTrace();
-		}
+		return (tl.getListHead());
 	}
 
 }

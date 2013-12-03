@@ -7,8 +7,8 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Date;
 
-import NJU.HouseWang.nju_eas_server.SystemFactory.AuthorityManager;
 import NJU.HouseWang.nju_eas_server.SystemFactory.SystemFactory;
+import NJU.HouseWang.nju_eas_server.data.AuthorityManager;
 import NJU.HouseWang.nju_eas_server.logic.LogSystem;
 import NJU.HouseWang.nju_eas_server.logicService.LogicService;
 import NJU.HouseWang.nju_eas_server.po.Msg.LogPO;
@@ -43,7 +43,7 @@ public class Server {
 					// 从权限管理器中取得用户，如果无则为null
 					String uid = am.getGuest(ip);
 					// 逻辑层执行指令，取得反馈
-					Object feedback = ss.operate(uid, cmd);
+					Object feedback = ss.operate(cmd);
 					// 根据反馈的类型向客户端发送反馈结果
 					if (feedback instanceof String) {
 						st.sendFeedback((String) feedback);

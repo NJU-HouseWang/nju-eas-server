@@ -2,24 +2,40 @@ package NJU.HouseWang.nju_eas_server.logic;
 
 import java.util.ArrayList;
 
+import NJU.HouseWang.nju_eas_server.data.AuthorityManager;
+import NJU.HouseWang.nju_eas_server.data.CourseList;
 import NJU.HouseWang.nju_eas_server.logicService.CourseInfoLogicService;
 import NJU.HouseWang.nju_eas_server.po.Edu.CoursePO;
 
 public class CourseInfoSystem implements CourseInfoLogicService {
-
-	@Override
-	public void setUid(String uid) {
-
+	private CourseList cl;
+	private AuthorityManager am;
+	
+	public CourseInfoSystem(){
+		cl = initCourseList();
+		am = initAuthorityManager();
+	}
+	
+	public CourseList initCourseList(){
+		CourseList cl = new CourseList();
+		cl.init();
+		return cl;
+	}
+	
+	public AuthorityManager initAuthorityManager(){
+		AuthorityManager a = AuthorityManager.getInstance();
+		return a;
 	}
 
 	@Override
-	public void setCmd(String cmd) {
+	public Object operate(String cmd) {
 
+		return null;
 	}
-
+	
 	@Override
-	public Object operate() {
-
+	public Object operate(String cmd, ArrayList<String> list) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 

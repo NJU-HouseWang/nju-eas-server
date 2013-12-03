@@ -3,6 +3,7 @@ package NJU.HouseWang.nju_eas_server.logic;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import NJU.HouseWang.nju_eas_server.data.AuthorityManager;
 import NJU.HouseWang.nju_eas_server.data.EduFramework;
 import NJU.HouseWang.nju_eas_server.logicService.EduFrameworkLogicService;
 import NJU.HouseWang.nju_eas_server.netService.NetService;
@@ -10,168 +11,173 @@ import NJU.HouseWang.nju_eas_server.po.Edu.EduFrameworkItemPO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 
 public class EduFrameworkSystem implements EduFrameworkLogicService {
-	EduFramework ef;
-	NetService ns;
+	private EduFramework ef;
+	private AuthorityManager am;
+	
 
 	public EduFrameworkSystem() {
-		ef = new EduFramework();
-		ef.init();
+		ef = this.intEduFramework();
+		am = this.initAuthorityManager();
+	}
 
+	public EduFramework intEduFramework() {
+		EduFramework e = new EduFramework();
+		e.init();
+		return e;
+	}
+	
+	public AuthorityManager initAuthorityManager(){
+		AuthorityManager a = AuthorityManager.getInstance();
+		return a;
 	}
 
 	@Override
-	public void operate(String uid, String cmd) {
+	public Object operate(String cmd) {
 
 		String[] cmdInfo = cmd.split("；");
+		String uid = am.getGuest(cmdInfo[cmdInfo.length-1]);
 		String cmdType = cmdInfo[0] + cmdInfo[1];
 		switch (cmdType) {
 
 		case "showeduframework":
-			this.showEduFramework();
-			break;
+			return this.showEduFramework();
+
 		case "addeduframework":
-			this.addEduFramework();
-			break;
+			return "list";
+
 		case "deleduframwwork":
-			this.delEduFramework();
-			break;
+			return this.delEduFramework();
+
 		case "showmodulenum":
-			this.showModuleNum();
-			break;
+			return this.showModuleNum();
+			
+		case "showeduframeworkhead":
+			return this.showEduFrameworkHead();
+
 		default:
-			break;
+			return null;
 		}
 	}
 
 	@Override
-	public void initNetService(NetService ns) {
-
-		this.ns = ns;
+	public Object operate(String cmd, ArrayList<String> list) {
+		String[] cmdInfo = cmd.split("；");
+		String uid = am.getGuest(cmdInfo[cmdInfo.length-1]);
+		String cmdType = cmdInfo[0] + cmdInfo[1];
+		switch (cmdType) {
+		case "addeduframework":
+			return this.addEduFramework(list);
+		default:
+			return null;
+		}
 	}
 
 	@Override
-	public void addEduFramework() {
+	public String addEduFramework(ArrayList<String> list) {
 
 		boolean isValid = true;
-		try {
-			ArrayList<String> list = ns.receiveList();
-			ArrayList<EduFrameworkItemPO> efList = new ArrayList<EduFrameworkItemPO>();
-			ArrayList<String> moduleList = new ArrayList<String>();
-			ArrayList<String> courseTypeList = new ArrayList<String>();
-			int minCreditSum = 0;
-			int maxCreditSum = 0;
-			int minCredit = 0;
-			int maxCredit = 0;
-			String moduleName = "";
-			String courseType = "";
-			for (int i = 0; i < list.size(); i++) {
-				EduFrameworkItemPO EduFrameworkItem = this
-						.stringToEduFrameworkItemPO(list.get(i));
-				efList.add(EduFrameworkItem);
-			}
-			// 将所有的课程模块添加到模块列表，所有的类型添加到类型列表
-			moduleList.add(efList.get(0).getModuleName() + "；"
-					+ efList.get(0).getModuleMinCredit() + "；"
-					+ efList.get(0).getModuleMaxCredit());
-			courseTypeList.add(efList.get(0).getCourseType() + "；"
-					+ efList.get(0).getTypeMinCredit() + "；"
-					+ efList.get(0).getTypeMaxCredit());
-			for (int i = 1; i < efList.size(); i++) {
-				if (!moduleList.contains(efList.get(i).getModuleName() + "；"
+		ArrayList<EduFrameworkItemPO> efList = new ArrayList<EduFrameworkItemPO>();
+		ArrayList<String> moduleList = new ArrayList<String>();
+		ArrayList<String> courseTypeList = new ArrayList<String>();
+		int minCreditSum = 0;
+		int maxCreditSum = 0;
+		int minCredit = 0;
+		int maxCredit = 0;
+		String moduleName = "";
+		String courseType = "";
+		for (int i = 0; i < list.size(); i++) {
+			EduFrameworkItemPO EduFrameworkItem = this
+					.stringToEduFrameworkItemPO(list.get(i));
+			efList.add(EduFrameworkItem);
+		}
+		// 将所有的课程模块添加到模块列表，所有的类型添加到类型列表
+		moduleList.add(efList.get(0).getModuleName() + "；"
+				+ efList.get(0).getModuleMinCredit() + "；"
+				+ efList.get(0).getModuleMaxCredit());
+		courseTypeList.add(efList.get(0).getCourseType() + "；"
+				+ efList.get(0).getTypeMinCredit() + "；"
+				+ efList.get(0).getTypeMaxCredit());
+		for (int i = 1; i < efList.size(); i++) {
+			if (!moduleList.contains(efList.get(i).getModuleName() + "；"
+					+ efList.get(i).getModuleMinCredit() + "；"
+					+ efList.get(i).getModuleMaxCredit())) {
+				moduleList.add(efList.get(i).getModuleName() + "；"
 						+ efList.get(i).getModuleMinCredit() + "；"
-						+ efList.get(i).getModuleMaxCredit())) {
-					moduleList.add(efList.get(i).getModuleName() + "；"
-							+ efList.get(i).getModuleMinCredit() + "；"
-							+ efList.get(i).getModuleMaxCredit());
-				}
-				if (!courseTypeList.contains(efList.get(i).getCourseType()
-						+ "；" + efList.get(i).getTypeMinCredit() + "；"
-						+ efList.get(i).getTypeMaxCredit())) {
-					courseTypeList.add(efList.get(i).getCourseType() + "；"
-							+ efList.get(i).getTypeMinCredit() + "；"
-							+ efList.get(i).getTypeMaxCredit());
+						+ efList.get(i).getModuleMaxCredit());
+			}
+			if (!courseTypeList.contains(efList.get(i).getCourseType() + "；"
+					+ efList.get(i).getTypeMinCredit() + "；"
+					+ efList.get(i).getTypeMaxCredit())) {
+				courseTypeList.add(efList.get(i).getCourseType() + "；"
+						+ efList.get(i).getTypeMinCredit() + "；"
+						+ efList.get(i).getTypeMaxCredit());
+			}
+		}
+		// 计算所有相同课程模块的课程的最小、最大学分之和，判断是否与该模块的最小最大学分相同，有一个不同则isValid = false
+		for (int i = 0; i < moduleList.size(); i++) {
+			String[] info = moduleList.get(i).split("；");
+			moduleName = info[0];
+			minCredit = Integer.parseInt(info[1]);
+			maxCredit = Integer.parseInt(info[2]);
+			for (int j = 0; j < efList.size(); j++) {
+				if (efList.get(j).getModuleName().equals(moduleName)) {
+					minCreditSum += efList.get(j).getCourseMinCredit();
+					maxCreditSum += efList.get(j).getCourseMaxCredit();
 				}
 			}
-			// 计算所有相同课程模块的课程的最小、最大学分之和，判断是否与该模块的最小最大学分相同，有一个不同则isValid = false
-			for (int i = 0; i < moduleList.size(); i++) {
-				String[] info = moduleList.get(i).split("；");
-				moduleName = info[0];
-				minCredit = Integer.parseInt(info[1]);
-				maxCredit = Integer.parseInt(info[2]);
-				for (int j = 0; j < efList.size(); j++) {
-					if (efList.get(j).getModuleName().equals(moduleName)) {
-						minCreditSum += efList.get(j).getCourseMinCredit();
-						maxCreditSum += efList.get(j).getCourseMaxCredit();
-					}
-				}
-				if ((minCreditSum != minCredit) || (maxCreditSum != maxCredit)) {
-					isValid = false;
-				}
-				minCreditSum = 0;
-				maxCreditSum = 0;
+			if ((minCreditSum != minCredit) || (maxCreditSum != maxCredit)) {
+				isValid = false;
 			}
+			minCreditSum = 0;
+			maxCreditSum = 0;
+		}
 
-			// 计算所有相同课程类型的课程的最小、最大学分之和，判断是否与该类型的最小最大学分相同，有一个不同则isValid = false
-			for (int i = 0; i < courseTypeList.size(); i++) {
-				String[] info = courseTypeList.get(i).split("；");
-				courseType = info[0];
-				minCredit = Integer.parseInt(info[1]);
-				maxCredit = Integer.parseInt(info[2]);
-				for (int j = 0; j < efList.size(); j++) {
-					if (efList.get(j).getCourseType().equals(courseType)) {
-						minCreditSum += efList.get(j).getCourseMinCredit();
-						maxCreditSum += efList.get(j).getCourseMaxCredit();
-					}
+		// 计算所有相同课程类型的课程的最小、最大学分之和，判断是否与该类型的最小最大学分相同，有一个不同则isValid = false
+		for (int i = 0; i < courseTypeList.size(); i++) {
+			String[] info = courseTypeList.get(i).split("；");
+			courseType = info[0];
+			minCredit = Integer.parseInt(info[1]);
+			maxCredit = Integer.parseInt(info[2]);
+			for (int j = 0; j < efList.size(); j++) {
+				if (efList.get(j).getCourseType().equals(courseType)) {
+					minCreditSum += efList.get(j).getCourseMinCredit();
+					maxCreditSum += efList.get(j).getCourseMaxCredit();
 				}
-				if ((minCreditSum != minCredit) || (maxCreditSum != maxCredit)) {
-					isValid = false;
-				}
-				minCreditSum = 0;
-				maxCreditSum = 0;
 			}
-			
-			//如果isValid = false，则返回错误信息，否则添加成功
-			if(isValid){
-				for(int i = 0; i < efList.size();i++){
-					ef.addEduFrameworkItem(efList.get(i));
-				}
-				ns.sendFeedback(Feedback.OPERATION_SUCCEED.toString());
-			} else {
-				ns.sendFeedback(Feedback.FORMAT_ERROR.toString());
+			if ((minCreditSum != minCredit) || (maxCreditSum != maxCredit)) {
+				isValid = false;
 			}
+			minCreditSum = 0;
+			maxCreditSum = 0;
+		}
 
-		} catch (IOException e) {
-
-			e.printStackTrace();
+		// 如果isValid = false，则返回错误信息，否则添加成功
+		if (isValid) {
+			for (int i = 0; i < efList.size(); i++) {
+				ef.addEduFrameworkItem(efList.get(i));
+			}
+			return (Feedback.OPERATION_SUCCEED.toString());
+		} else {
+			return (Feedback.FORMAT_ERROR.toString());
 		}
 
 	}
 
 	@Override
-	public void delEduFramework() {
+	public String delEduFramework() {
 
-		try {
-			ns.sendFeedback(ef.delEduFramework().toString());
-		} catch (IOException e) {
-
-			e.printStackTrace();
-		}
+		return (ef.delEduFramework().toString());
 	}
 
 	@Override
-	public void showEduFramework() {
+	public ArrayList<String> showEduFramework() {
 
 		ArrayList<EduFrameworkItemPO> el = ef.getEduFramework();
 		ArrayList<String> feedback = new ArrayList<String>();
 		for (int i = 0; i < el.size(); i++) {
 			feedback.add(el.get(i).toCommand());
 		}
-		try {
-			ns.sendList(feedback);
-		} catch (IOException e) {
-
-			e.printStackTrace();
-		}
+		return feedback;
 	}
 
 	public EduFrameworkItemPO stringToEduFrameworkItemPO(String str) {
@@ -183,23 +189,24 @@ public class EduFrameworkSystem implements EduFrameworkLogicService {
 	}
 
 	@Override
-	public void showModuleNum() {
+	public String showModuleNum() {
 		// TODO Auto-generated method stub
 		ArrayList<EduFrameworkItemPO> el = ef.getEduFramework();
 		ArrayList<String> moduleList = new ArrayList<String>();
 		moduleList.add(el.get(0).getModuleName());
-		for(int i = 1; i < el.size(); i++){
+		for (int i = 1; i < el.size(); i++) {
 			String moduleName = el.get(i).getModuleName();
-			if(!moduleList.contains(moduleName)){
+			if (!moduleList.contains(moduleName)) {
 				moduleList.add(moduleName);
 			}
 		}
-		try {
-			ns.sendFeedback(""+(moduleList.size()+1));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		return ("" + (moduleList.size() + 1));
+	}
+
+	@Override
+	public String showEduFrameworkHead() {
+		// TODO Auto-generated method stub
+		return ef.getListHead();
 	}
 
 }

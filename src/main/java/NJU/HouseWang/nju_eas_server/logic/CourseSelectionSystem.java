@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import NJU.HouseWang.nju_eas_server.data.AuthorityManager;
 import NJU.HouseWang.nju_eas_server.data.CourseList;
 import NJU.HouseWang.nju_eas_server.data.CourseSelectionList;
 import NJU.HouseWang.nju_eas_server.data.CourseSelectorNumList;
@@ -22,51 +23,59 @@ public class CourseSelectionSystem implements CourseSelectionLogicService {
 	private CourseSelectionList csl;
 	private CourseSelectorNumList csnl;
 	private CourseList cl;
+	private AuthorityManager am;
 	private static final int MAXSELECTIONNUM = 4; // 最大的选课数量
 
 	public CourseSelectionSystem() {
-		sl = setStatusList();
-		c_sl = setCourse_StudentList();
-		csl = setCourseSelectionList();
-		csnl = setCourseSelectorNumList();
-		cl = setCourseList();
+		sl = initStatusList();
+		c_sl = initCourse_StudentList();
+		csl = initCourseSelectionList();
+		csnl = initCourseSelectorNumList();
+		cl = initCourseList();
+		am = this.initAuthorityManager();
 
 	}
 
-	public StatusList setStatusList() {
+	public StatusList initStatusList() {
 		StatusList l = new StatusList();
 		l.init();
 		return l;
 
 	}
 
-	public Course_StudentList setCourse_StudentList() {
+	public Course_StudentList initCourse_StudentList() {
 		Course_StudentList l = new Course_StudentList();
 		l.init();
 		return l;
 	}
 
-	public CourseSelectionList setCourseSelectionList() {
+	public CourseSelectionList initCourseSelectionList() {
 		CourseSelectionList l = new CourseSelectionList();
 		l.init();
 		return l;
 	}
 
-	public CourseSelectorNumList setCourseSelectorNumList() {
+	public CourseSelectorNumList initCourseSelectorNumList() {
 		CourseSelectorNumList l = new CourseSelectorNumList();
 		l.init();
 		return l;
 	}
 
-	public CourseList setCourseList() {
+	public CourseList initCourseList() {
 		CourseList l = new CourseList();
 		l.init();
 		return l;
 	}
 
+	public AuthorityManager initAuthorityManager(){
+		AuthorityManager a = AuthorityManager.getInstance();
+		return a;
+	}
+	
 	@Override
-	public Object operate(String uid, String cmd) {
+	public Object operate(String cmd) {
 		String[] cmdInfo = cmd.split("；");
+		String uid = am.getGuest(cmdInfo[cmdInfo.length-1]);
 		String cmdType = cmdInfo[0] + cmdInfo[1];
 		switch (cmdType) {
 		case "showstatus":
@@ -80,37 +89,62 @@ public class CourseSelectionSystem implements CourseSelectionLogicService {
 			return showStatusList();
 		case "showstatus_list_head":
 			return showStatusListHead();
+		case "selectcommon_course":
+			return this.selectCommonCourse(cmdInfo[2], cmdInfo[3]);
+		case "selectcourse":
+			return this.selectCourse(cmdInfo[2], cmdInfo[3], cmdInfo[4]);
+		case "byelectcourse":
+			return this.byElectCourse(cmdInfo[2], cmdInfo[3], cmdInfo[4]);
+		case "quitcourse":
+			return this.quitCourse(cmdInfo[2], cmdInfo[3], cmdInfo[4]);
+		case "addcourse_student_list":
+			return "list";
+		case "delcourse_student_list":
+			return "list";	
+		case "processcommon_course_selection":
+			return this.processCommonCourseSelection(cmdInfo[2]);
+		case "showmax_selection_num":
+			return this.showMaxSelectionNum();
+		case "showselected_course":
+			return this.showSelectedCouse(cmdInfo[2], cmdInfo[3]);
+		case "delcourse_student_po":
+			return this.delCourse_StudentPO(cmdInfo[2], cmdInfo[3], cmdInfo[4]);
+		default:
+			return null;
+		}
+	}
+	
+	@Override
+	public Object operate(String cmd, ArrayList<String> list) {
+		String[] cmdInfo = cmd.split("；");
+		String uid = am.getGuest(cmdInfo[cmdInfo.length-1]);
+		String cmdType = cmdInfo[0] + cmdInfo[1];
+		switch (cmdType) {
+		case "addcourse_student_list":
+			return this.addCourse_StudentList(cmdInfo[2], list);
+		case "delcourse_student_list":
+			return this.delCourse_StudentList(cmdInfo[2], list);	
 		default:
 			return null;
 		}
 	}
 
 	@Override
-	public void showStatus(String function) {
+	public String showStatus(String function) {
 
 		StatusPO sp = sl.getStatus(function);
-		try {
-			ns.sendFeedback(sp.getIsopenToString());
-		} catch (IOException e) {
-
-			e.printStackTrace();
-		}
+		return(sp.getIsopenToString());
 	}
 
 	@Override
-	public void editStatus(StatusPO sp) {
+	public String editStatus(StatusPO sp) {
 
 		sl.updateStatus(sp);
-		try {
-			ns.sendFeedback(Feedback.OPERATION_SUCCEED.toString());
-		} catch (IOException e) {
-
-			e.printStackTrace();
-		}
+		return(Feedback.OPERATION_SUCCEED.toString());
 	}
 
 	@Override
-	public void showStatusList() {
+	public ArrayList<String> showStatusList() {
 
 		ArrayList<StatusPO> list = sl.getStatusList();
 		ArrayList<String> statusList = new ArrayList<String>();
@@ -118,82 +152,47 @@ public class CourseSelectionSystem implements CourseSelectionLogicService {
 			String statusInfo = (list.get(i)).toCommand();
 			statusList.add(statusInfo);
 		}
-		try {
-			ns.sendList(statusList);
-		} catch (IOException e) {
-
-			e.printStackTrace();
-		}
+		return statusList;
 	}
 
 	@Override
-	public void showStatusListHead() {
+	public String showStatusListHead() {
 
-		try {
-			ns.sendFeedback(sl.getListHead());
-		} catch (IOException e) {
-
-			e.printStackTrace();
-		}
+		return(sl.getListHead());
 	}
 
 	@Override
-	public void selectCommonCourse(String courseId, String studentId) {
+	public String selectCommonCourse(String courseId, String studentId) {
 
 		if (!isMax(studentId)) {
 			if (!csl.containsCourseSelection(courseId, studentId)) {
 
 				csl.addCourseSelection(new CourseSelectionPO(courseId,
 						studentId, getPriority(studentId)));
-				try {
-					ns.sendFeedback(Feedback.OPERATION_SUCCEED.toString());
-				} catch (IOException e) {
-
-					e.printStackTrace();
-				}
+				return(Feedback.OPERATION_SUCCEED.toString());
 			} else {
-				try {
-					ns.sendFeedback(Feedback.SELECTION_REPEATED.toString());
-				} catch (IOException e) {
-
-					e.printStackTrace();
-				}
+				return(Feedback.SELECTION_REPEATED.toString());
 			}
 		} else {
-			try {
-				ns.sendFeedback(Feedback.MAX_SELECTION.toString());
-			} catch (IOException e) {
-
-				e.printStackTrace();
-			}
+			return(Feedback.MAX_SELECTION.toString());
 		}
 	}
 
 	@Override
-	public void selectCourse(String listName, String courseId, String studentId) {
+	public String selectCourse(String listName, String courseId, String studentId) {
 
 		if (!c_sl.containsCourse_StudentPO(listName, courseId, studentId)) {
 
 			c_sl.addCourse_StudentPO(listName, new Course_StudentPO(listName,
 					courseId, studentId));
-			try {
-				ns.sendFeedback(Feedback.OPERATION_SUCCEED.toString());
-			} catch (IOException e) {
-
-				e.printStackTrace();
-			}
+			return(Feedback.OPERATION_SUCCEED.toString());
 		} else {
-			try {
-				ns.sendFeedback(Feedback.SELECTION_REPEATED.toString());
-			} catch (IOException e) {
-
-				e.printStackTrace();
-			}
+			return(Feedback.SELECTION_REPEATED.toString());
 		}
 	}
 
 	@Override
-	public void byElectCourse(String listName, String courseId, String studentId) {
+	public String byElectCourse(String listName, String courseId, String studentId) {
 
 		CourseSelectorNumPO csnp = csnl.getCourseSelectorNumPO(courseId);
 		if (csnp.getSelectorNum() < csnp.getTotalNum()) {
@@ -201,81 +200,60 @@ public class CourseSelectionSystem implements CourseSelectionLogicService {
 			c_sl.addCourse_StudentPO(listName, new Course_StudentPO("通识课",
 					courseId, studentId));
 			csnl.updateCourseSelectorNumPO(csnp);
-			try {
-				ns.sendFeedback(Feedback.OPERATION_SUCCEED.toString());
-			} catch (IOException e) {
-
-				e.printStackTrace();
-			}
+			return(Feedback.OPERATION_SUCCEED.toString());
 		} else {
-			try {
-				ns.sendFeedback(Feedback.MAX_SELECTION.toString());
-			} catch (IOException e) {
-
-				e.printStackTrace();
-			}
+			return(Feedback.MAX_SELECTION.toString());
 		}
 	}
 
 	@Override
-	public void quitCourse(String listName, String courseId, String studentId) {
+	public String quitCourse(String listName, String courseId, String studentId) {
 
 		if (c_sl.containsCourse_StudentPO(listName, courseId, studentId)) {
 			c_sl.removeCourse_StudentPO(listName, courseId, studentId);
 			CourseSelectorNumPO csnp = csnl.getCourseSelectorNumPO(courseId);
 			csnp.setSelectorNum(csnp.getSelectorNum() - 1);
 			csnl.updateCourseSelectorNumPO(csnp);
-			try {
-				ns.sendFeedback(Feedback.OPERATION_SUCCEED.toString());
-			} catch (IOException e) {
-
-				e.printStackTrace();
-			}
+			return(Feedback.OPERATION_SUCCEED.toString());
 		} else {
-			try {
-				ns.sendFeedback(Feedback.OPERATION_FAIL.toString());
-			} catch (IOException e) {
-
-				e.printStackTrace();
-			}
+			return(Feedback.OPERATION_FAIL.toString());
 		}
 	}
 
 	@Override
-	public void addCourse_StudentList(String listName) {
+	public String addCourse_StudentList(String listName, ArrayList<String> list) {
+		//先检查所添加的列表中是否有重复添加的课程，若重复，则返回错误信息，否则，则添加所有项
+		for(int i = 0; i < list.size();i++){
+			String[] info = list.get(i).split("；");
+			if(c_sl.containsCourse_StudentPO(listName, info[0], info[1])){
+				return Feedback.SELECTION_REPEATED.toString();
+			}
+		}
+		for (int i = 0; i < list.size(); i++) {
+				String[] info = list.get(i).split("；");
+				c_sl.addCourse_StudentPO(listName, new Course_StudentPO(listName,
+						info[0], info[1]));
+		}
+		return(Feedback.OPERATION_SUCCEED.toString());
+	}
 
-		ArrayList<String> list;
-		try {
-			list = ns.receiveList();
+	@Override
+	public String delCourse_StudentList(String listName, ArrayList<String> list) {
 			for (int i = 0; i < list.size(); i++) {
 				String[] info = list.get(i).split("；");
-				this.selectCourse(listName, info[0], info[1]);
+				if(!c_sl.containsCourse_StudentPO(listName,info[0], info[1])){
+					return Feedback.DATA_NOT_FOUND.toString();
+				}
 			}
-		} catch (IOException e) {
-
-			e.printStackTrace();
-		}
-
-	}
-
-	@Override
-	public void delCourse_StudentList(String listName) {
-
-		ArrayList<String> list;
-		try {
-			list = ns.receiveList();
 			for (int i = 0; i < list.size(); i++) {
 				String[] info = list.get(i).split("；");
-				this.delCourse_StudentPO(listName, info[0], info[1]);
+				c_sl.removeCourse_StudentPO(listName, info[0], info[1]);
 			}
-		} catch (IOException e) {
-
-			e.printStackTrace();
-		}
+			return Feedback.OPERATION_SUCCEED.toString();
 	}
 
 	@Override
-	public void processCommonCourseSelection(String listName) {
+	public String processCommonCourseSelection(String listName) {
 
 		ArrayList<CourseSelectionPO> courseSelectionList = csl
 				.getCourseSelectionList();
@@ -307,8 +285,8 @@ public class CourseSelectionSystem implements CourseSelectionLogicService {
 				// 未完成
 
 			}
-
 		}
+		return Feedback.OPERATION_SUCCEED.toString();
 	}
 
 	// 抽签逻辑
@@ -320,14 +298,8 @@ public class CourseSelectionSystem implements CourseSelectionLogicService {
 	}
 
 	@Override
-	public void showMaxSelectionNum() {
-
-		try {
-			ns.sendFeedback("" + MAXSELECTIONNUM);
-		} catch (IOException e) {
-
-			e.printStackTrace();
-		}
+	public String showMaxSelectionNum() {
+		return("" + MAXSELECTIONNUM);
 	}
 
 	@Override
@@ -343,7 +315,7 @@ public class CourseSelectionSystem implements CourseSelectionLogicService {
 	}
 
 	@Override
-	public void showSelectedCouse(String listName, String studentId) {
+	public ArrayList<String> showSelectedCouse(String listName, String studentId) {
 
 		ArrayList<CourseSelectionPO> list = csl
 				.getCourseSelectionListFromStudentId(studentId);
@@ -352,12 +324,7 @@ public class CourseSelectionSystem implements CourseSelectionLogicService {
 			courseList.add(cl.getCourse(listName, "通识课",
 					list.get(i).getCourseId()).toString());
 		}
-		try {
-			ns.sendList(courseList);
-		} catch (IOException e) {
-
-			e.printStackTrace();
-		}
+		return courseList;
 	}
 
 	public int getPriority(String studentId) {
@@ -367,23 +334,16 @@ public class CourseSelectionSystem implements CourseSelectionLogicService {
 	}
 
 	@Override
-	public void delCourse_StudentPO(String listName, String courseId,
+	public String delCourse_StudentPO(String listName, String courseId,
 			String studentId) {
 		if (c_sl.containsCourse_StudentPO(listName, courseId, studentId)) {
 			c_sl.removeCourse_StudentPO(listName, courseId, studentId);
-			try {
-				ns.sendFeedback(Feedback.OPERATION_SUCCEED.toString());
-			} catch (IOException e) {
-
-				e.printStackTrace();
-			}
+			return(Feedback.OPERATION_SUCCEED.toString());
 		} else {
-			try {
-				ns.sendFeedback(Feedback.DATA_NOT_FOUND.toString());
-			} catch (IOException e) {
-
-				e.printStackTrace();
-			}
+			return(Feedback.DATA_NOT_FOUND.toString());
 		}
 	}
+	
+
+
 }

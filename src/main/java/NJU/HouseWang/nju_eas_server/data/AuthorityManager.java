@@ -1,4 +1,4 @@
-package NJU.HouseWang.nju_eas_server.SystemFactory;
+package NJU.HouseWang.nju_eas_server.data;
 
 import java.util.ArrayList;
 import java.util.Date;

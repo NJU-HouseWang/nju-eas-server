@@ -10,7 +10,7 @@ package NJU.HouseWang.nju_eas_server;
 
 import java.io.IOException;
 
-import NJU.HouseWang.nju_eas_server.SystemFactory.AuthorityManager;
+import NJU.HouseWang.nju_eas_server.data.AuthorityManager;
 import NJU.HouseWang.nju_eas_server.net.Server;
 
 public class Launcher {

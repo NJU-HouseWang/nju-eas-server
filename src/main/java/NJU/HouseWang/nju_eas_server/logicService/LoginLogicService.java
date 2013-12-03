@@ -4,8 +4,8 @@ import NJU.HouseWang.nju_eas_server.po.User.GuestPO;
 
 public interface LoginLogicService extends LogicService {
 	// 登录
-	public void login(GuestPO logger, String ip);
+	public String login(GuestPO logger, String ip);
 
 	// 注销
-	public void logout(String ip);
+	public String logout(String ip);
 }

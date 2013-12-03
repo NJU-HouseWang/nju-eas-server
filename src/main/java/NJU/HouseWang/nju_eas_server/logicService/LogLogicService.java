@@ -1,5 +1,7 @@
 package NJU.HouseWang.nju_eas_server.logicService;
 
+import java.util.ArrayList;
+
 import NJU.HouseWang.nju_eas_server.po.Msg.LogPO;
 
 public interface LogLogicService extends LogicService {
@@ -7,8 +9,8 @@ public interface LogLogicService extends LogicService {
 	public void addLog(LogPO lp);
 
 	// 显示日志列表
-	public void showLogList(String conditions);
+	public ArrayList<String> showLogList(String conditions);
 
 	// 显示日志列表的表头
-	public void showLogListHead();
+	public String showLogListHead();
 }
