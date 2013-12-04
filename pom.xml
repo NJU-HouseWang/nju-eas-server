@@ -42,6 +42,13 @@
     	<scope>system</scope>
     	<systemPath>${project.basedir}/src/main/resources/mysql-connector-java-5.1.27-bin.jar</systemPath>
     </dependency>
+    <dependency>
+    	<groupId>org.eclipse.swt</groupId>
+    	<artifactId>swt</artifactId>
+    	<scope>system</scope>
+    	<systemPath>${project.basedir}/src/main/resources/org.eclipse.swt.win32.win32.x86_64_3.102.0.v20130605-1544.jar</systemPath>
+    	<version>win32.win32.x86_64_3.102.0.v20130605-1544</version>
+    </dependency>
   </dependencies>
   <organization>
   	<name>NJU-HouseWang</name>
