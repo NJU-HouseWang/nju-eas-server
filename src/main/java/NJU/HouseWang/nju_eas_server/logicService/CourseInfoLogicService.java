@@ -24,7 +24,7 @@ public interface CourseInfoLogicService extends LogicService {
 	public ArrayList<String> showCourseList(String time, String conditions);
 
 	// 批量新增课程
-	public String addCourseList();
+	public String addCourseList(ArrayList<String> list);
 
 	// 从教学计划中自动生成课程列表
 	public String addCourseListFromTP();
@@ -33,7 +33,7 @@ public interface CourseInfoLogicService extends LogicService {
 	public String showCourseListHead();
 
 	// 登记成绩
-	public String registerScore(String time);
+	public String registerScore(String time, ArrayList<String> list);
 
 	// 查看学生课程列表
 	public ArrayList<String> showStudentCourseList(String studentId);
@@ -47,4 +47,7 @@ public interface CourseInfoLogicService extends LogicService {
 
 	// 根据系统时间返回学年学期
 	public String getTime();
+	
+	// 发布通识课
+	public String publishCommonCourse(ArrayList<String> list);
 }
