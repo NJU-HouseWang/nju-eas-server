@@ -93,7 +93,7 @@ public class MessageList implements MessageListService {
 				result.setRecipientId(rs.getString(3));
 				result.setTitle(rs.getString(4));
 				result.setContent(rs.getString(5));
-				result.setStatus(rs.getInt(5));
+				result.setStatus(rs.getInt(6));
 
 			}
 		} catch (SQLException e) {
@@ -117,16 +117,15 @@ public class MessageList implements MessageListService {
 	}
 
 	public Feedback addMessage(int listType, MessagePO Message) {
-		sql = "insert into " + listName[listType] + " values (?,?,?,?,?,?)";
+		sql = "insert into " + listName[listType] + "(senderId,recipientId,title,content,status) values (?,?,?,?,?)";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
-			ps.setInt(1, Integer.parseInt(Message.getId()));
-			ps.setString(2, Message.getSenderId());
-			ps.setString(3, Message.getRecipientId());
-			ps.setString(4, Message.getTitle());
-			ps.setString(5, Message.getContent());
-			ps.setInt(6, Message.getStatus());
+			ps.setString(1, Message.getSenderId());
+			ps.setString(2, Message.getRecipientId());
+			ps.setString(3, Message.getTitle());
+			ps.setString(4, Message.getContent());
+			ps.setInt(5, Message.getStatus());
 			ps.execute();
 			return Feedback.OPERATION_SUCCEED;
 		} catch (SQLException e) {

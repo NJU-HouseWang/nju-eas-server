@@ -1,12 +1,10 @@
 package NJU.HouseWang.nju_eas_server.logic;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import NJU.HouseWang.nju_eas_server.data.AuthorityManager;
 import NJU.HouseWang.nju_eas_server.data.MessageList;
 import NJU.HouseWang.nju_eas_server.logicService.MessageLogicService;
-import NJU.HouseWang.nju_eas_server.netService.NetService;
 import NJU.HouseWang.nju_eas_server.po.Msg.MessagePO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 
@@ -42,11 +40,12 @@ public class MessageLogic implements MessageLogicService {
 			if (!cmd.endsWith("；ok")) {
 				feedback = "ip";
 			} else {
-				uid = am.getGuest(cmdInfo[cmdInfo.length - 1]);
+				uid = am.getGuest(cmdInfo[cmdInfo.length - 2]);
 				MessagePO m = new MessagePO(uid, cmdInfo[3], cmdInfo[4],
 						cmdInfo[5], "0");
 				feedback = this.sendMessage(m);
 			}
+			break;
 		case "showmessage":
 			feedback = this.showMessage(cmdInfo[2], cmdInfo[3]);
 			break;
@@ -61,7 +60,7 @@ public class MessageLogic implements MessageLogicService {
 			if (!cmd.endsWith("；ok")) {
 				feedback = "ip";
 			} else {
-				uid = am.getGuest(cmdInfo[cmdInfo.length - 1]);
+				uid = am.getGuest(cmdInfo[cmdInfo.length - 2]);
 				feedback = this.showMessageList(cmdInfo[2], uid);
 			}
 			break;
@@ -75,7 +74,7 @@ public class MessageLogic implements MessageLogicService {
 			if (!cmd.endsWith("；ok")) {
 				feedback = "ip";
 			} else {
-				uid = am.getGuest(cmdInfo[cmdInfo.length - 1]);
+				uid = am.getGuest(cmdInfo[cmdInfo.length - 2]);
 				MessagePO m = new MessagePO(uid, cmdInfo[3], cmdInfo[4],
 						cmdInfo[5], "0");
 				feedback = this.saveDraft(m);
@@ -138,7 +137,7 @@ public class MessageLogic implements MessageLogicService {
 		try {
 			MessagePO mp = ml.getMessageWithoutId(Integer.parseInt(fromList),
 					id);
-			this.delMessage(fromList, id);
+			this.eraseMessage(fromList, id);
 			this.addMessage(toList, mp);
 			return Feedback.OPERATION_SUCCEED.toString();
 		} catch (Exception e) {
