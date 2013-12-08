@@ -15,13 +15,13 @@ import NJU.HouseWang.nju_eas_server.po.Edu.TeachingPlanItemPO;
 import NJU.HouseWang.nju_eas_server.po.Edu.TeachingPlanPO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 
-public class TeachingPlanSystem implements TeachingPlanLogicService {
+public class TeachingPlanLogic implements TeachingPlanLogicService {
 	private TeachingPlan tp;
 	private TeachingPlanList tl;
 	private EduFramework ef;
 	private AuthorityManager am;
 	
-	public TeachingPlanSystem() {
+	public TeachingPlanLogic() {
 		tp = this.initTeachingPlan();
 		tl = this.initTeachingPlanList();
 		ef = this.initEduFramework();

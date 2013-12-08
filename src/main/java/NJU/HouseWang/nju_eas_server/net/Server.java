@@ -9,7 +9,7 @@ import java.util.Date;
 
 import NJU.HouseWang.nju_eas_server.SystemFactory.SystemFactory;
 import NJU.HouseWang.nju_eas_server.data.AuthorityManager;
-import NJU.HouseWang.nju_eas_server.logic.LogSystem;
+import NJU.HouseWang.nju_eas_server.logic.LogLogic;
 import NJU.HouseWang.nju_eas_server.logicService.LogicService;
 import NJU.HouseWang.nju_eas_server.po.Msg.LogPO;
 
@@ -53,7 +53,7 @@ public class Server {
 						st.sendFile((File) feedback);
 					}
 					// 日志系统记录操作日志
-					LogSystem ls = new LogSystem();
+					LogLogic ls = new LogLogic();
 					ls.addLog(new LogPO(uid, ip, new Date().toString(), cmd));
 				} catch (IOException e) { // 如果用户异常离线
 					// 得到权限管理器

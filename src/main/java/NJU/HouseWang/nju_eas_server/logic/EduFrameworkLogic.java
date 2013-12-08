@@ -10,12 +10,12 @@ import NJU.HouseWang.nju_eas_server.netService.NetService;
 import NJU.HouseWang.nju_eas_server.po.Edu.EduFrameworkItemPO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 
-public class EduFrameworkSystem implements EduFrameworkLogicService {
+public class EduFrameworkLogic implements EduFrameworkLogicService {
 	private EduFramework ef;
 	private AuthorityManager am;
 	
 
-	public EduFrameworkSystem() {
+	public EduFrameworkLogic() {
 		ef = this.intEduFramework();
 		am = this.initAuthorityManager();
 	}

@@ -1,13 +1,13 @@
 package NJU.HouseWang.nju_eas_server.SystemFactory;
 
 import NJU.HouseWang.nju_eas_server.logic.AnnouncementLogic;
-import NJU.HouseWang.nju_eas_server.logic.CourseSelectionSystem;
-import NJU.HouseWang.nju_eas_server.logic.EduFrameworkSystem;
-import NJU.HouseWang.nju_eas_server.logic.LogSystem;
-import NJU.HouseWang.nju_eas_server.logic.LoginSystem;
-import NJU.HouseWang.nju_eas_server.logic.MessageSystem;
-import NJU.HouseWang.nju_eas_server.logic.TeachingPlanSystem;
-import NJU.HouseWang.nju_eas_server.logic.UserInfoSystem;
+import NJU.HouseWang.nju_eas_server.logic.CourseSelectionLogic;
+import NJU.HouseWang.nju_eas_server.logic.EduFrameworkLogic;
+import NJU.HouseWang.nju_eas_server.logic.LogLogic;
+import NJU.HouseWang.nju_eas_server.logic.LoginLogic;
+import NJU.HouseWang.nju_eas_server.logic.MessageLogic;
+import NJU.HouseWang.nju_eas_server.logic.TeachingPlanLogic;
+import NJU.HouseWang.nju_eas_server.logic.UserInfoLogic;
 import NJU.HouseWang.nju_eas_server.logicService.LogicService;
 
 public class SystemFactory {
@@ -19,7 +19,7 @@ public class SystemFactory {
 		switch (action) {
 		case "login":
 		case "logout":
-			return (new LoginSystem());
+			return (new LoginLogic());
 		case "show":
 			switch (aim) {
 			case "selfInformation":
@@ -29,15 +29,15 @@ public class SystemFactory {
 			case "login_list_head":
 			case "teacher_list_head":
 			case "student_list_head":
-				return (new UserInfoSystem());
+				return (new UserInfoLogic());
 			case "log_list":
 			case "log_list_head":
-				return (new LogSystem());
+				return (new LogLogic());
 
 			case "message":
 			case "message_list":
 			case "message_list_head":
-				return (new MessageSystem());
+				return (new MessageLogic());
 			case "announcement":
 			case "announcement_list":
 			case "announcement_list_head":
@@ -45,18 +45,18 @@ public class SystemFactory {
 			case "eduframework":
 			case "modulenum":
 			case "eduframeworkhead":
-				return (new EduFrameworkSystem());
+				return (new EduFrameworkLogic());
 			case "teachingplan":
 			case "teachingplanlist":
 			case "teachingplan_head":
 			case "teachingplanlist_head":
-				return (new TeachingPlanSystem());
+				return (new TeachingPlanLogic());
 			case "status":
 			case "status_list":
 			case "status_list_head":
 			case "max_selection_num":
 			case "selected_course":
-				return (new CourseSelectionSystem());
+				return (new CourseSelectionLogic());
 			
 			
 			}
@@ -67,18 +67,18 @@ public class SystemFactory {
 			case "user_list":
 			case "teacher":
 			case "student":
-				return (new UserInfoSystem());
+				return (new UserInfoLogic());
 
 			case "message":
-				return (new MessageSystem());
+				return (new MessageLogic());
 			case "announcement":
 				return (new AnnouncementLogic());
 			case "eduframework":
-				return (new EduFrameworkSystem());
+				return (new EduFrameworkLogic());
 			case "teachingplan":
-				return (new TeachingPlanSystem());
+				return (new TeachingPlanLogic());
 			case "course_student_list":
-				return (new CourseSelectionSystem());
+				return (new CourseSelectionLogic());
 			}
 			break;
 		case "edit":
@@ -86,16 +86,16 @@ public class SystemFactory {
 			case "user":
 			case "selfInformation":
 			case "password":
-				return (new UserInfoSystem());
+				return (new UserInfoLogic());
 
 			case "message":
-				return (new MessageSystem());
+				return (new MessageLogic());
 			case "announcement":
 				return (new AnnouncementLogic());
 			case "teachingplan":
-				return (new TeachingPlanSystem());
+				return (new TeachingPlanLogic());
 			case "status":
-				return (new CourseSelectionSystem());
+				return (new CourseSelectionLogic());
 				
 			}
 			break;
@@ -107,25 +107,25 @@ public class SystemFactory {
 			case "teacher_list":
 			case "student":
 			case "student_list":
-				return (new UserInfoSystem());
+				return (new UserInfoLogic());
 
 			case "message":
-				return (new MessageSystem());
+				return (new MessageLogic());
 			case "announcement":
 				return (new AnnouncementLogic());
 			case "eduframework":
-				return (new EduFrameworkSystem());
+				return (new EduFrameworkLogic());
 			case "teachingplan":
-				return (new TeachingPlanSystem());
+				return (new TeachingPlanLogic());
 			case "course_student_list":
 			case "course_student_po":
-				return (new CourseSelectionSystem());
+				return (new CourseSelectionLogic());
 			}
 			break;
 		case "move":
 			switch (aim) {
 			case "message":
-				return (new MessageSystem());
+				return (new MessageLogic());
 			}
 			break;
 		case "publish":
@@ -134,44 +134,44 @@ public class SystemFactory {
 			case "common_course":
 			case "course":
 			
-				return (new CourseSelectionSystem());
+				return (new CourseSelectionLogic());
 			}
 			break;
 		case "byelect":
 			switch(aim){
 			case "course":
-				return (new CourseSelectionSystem());
+				return (new CourseSelectionLogic());
 			}
 			break;
 		case "quit":
 			switch(aim){
 			case "course":
-				return (new CourseSelectionSystem());
+				return (new CourseSelectionLogic());
 			}
 			break;
 		case "process":
 			switch(aim){
 			case "common_course_selection":
-				return (new CourseSelectionSystem());
+				return (new CourseSelectionLogic());
 			}
 			break;
 		case "set":
 		case "audit":
 			switch (aim) {
 			case "teachingplan":
-				return (new TeachingPlanSystem());
+				return (new TeachingPlanLogic());
 			}
 			break;
 		case "upload":
 			switch (aim) {
 			case "teachingplanfile":
-				return (new TeachingPlanSystem());
+				return (new TeachingPlanLogic());
 			}
 			break;
 		case "download":
 			switch (aim) {
 			case "teachingplanfile":
-				return (new TeachingPlanSystem());
+				return (new TeachingPlanLogic());
 			}
 			break;
 		}

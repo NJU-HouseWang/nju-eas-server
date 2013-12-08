@@ -17,7 +17,7 @@ import NJU.HouseWang.nju_eas_server.po.Edu.Course_StudentPO;
 import NJU.HouseWang.nju_eas_server.po.Edu.StatusPO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 
-public class CourseSelectionSystem implements CourseSelectionLogicService {
+public class CourseSelectionLogic implements CourseSelectionLogicService {
 	private StatusList sl;
 	private Course_StudentList c_sl;
 	private CourseSelectionList csl;
@@ -26,7 +26,7 @@ public class CourseSelectionSystem implements CourseSelectionLogicService {
 	private AuthorityManager am;
 	private static final int MAXSELECTIONNUM = 4; // 最大的选课数量
 
-	public CourseSelectionSystem() {
+	public CourseSelectionLogic() {
 		sl = initStatusList();
 		c_sl = initCourse_StudentList();
 		csl = initCourseSelectionList();

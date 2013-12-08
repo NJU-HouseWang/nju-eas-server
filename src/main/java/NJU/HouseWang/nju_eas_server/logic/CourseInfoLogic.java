@@ -7,11 +7,11 @@ import NJU.HouseWang.nju_eas_server.data.CourseList;
 import NJU.HouseWang.nju_eas_server.logicService.CourseInfoLogicService;
 import NJU.HouseWang.nju_eas_server.po.Edu.CoursePO;
 
-public class CourseInfoSystem implements CourseInfoLogicService {
+public class CourseInfoLogic implements CourseInfoLogicService {
 	private CourseList cl;
 	private AuthorityManager am;
 	
-	public CourseInfoSystem(){
+	public CourseInfoLogic(){
 		cl = initCourseList();
 		am = initAuthorityManager();
 	}
