@@ -8,9 +8,10 @@ import java.util.ArrayList;
 
 import NJU.HouseWang.nju_eas_server.po.Msg.MessagePO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
-import NJU.HouseWang.nju_eas_server.systemMessage.UserType;
 
 public class MessageList {
+	private static String[] listName = { "msg_in_list", "msg_out_list",
+			"msg_draft_list", "msg_trash_list" };
 	private String sql = null;
 	private SQLConnector sqlconn = new SQLConnector();
 	private Connection conn = null;
@@ -39,9 +40,9 @@ public class MessageList {
 	}
 
 	// 是否包含ID
-	public boolean containsID(String listName,String id) {
+	public boolean containsID(int listType, String id) {
 		Boolean result = false;
-		sql = "select id from " + listName + " where id=?;";
+		sql = "select id from " + listName[listType] + " where id=?;";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
@@ -55,9 +56,9 @@ public class MessageList {
 		return result;
 	}
 
-	public MessagePO getMessage(String listName,String id) {
+	public MessagePO getMessage(int listType, String id) {
 		MessagePO result = new MessagePO();
-		sql = "select * from " + listName + " where id=?";
+		sql = "select * from " + listName[listType] + " where id=?";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
@@ -70,7 +71,7 @@ public class MessageList {
 				result.setOperatorId(rs.getString(4));
 				result.setTitle(rs.getString(5));
 				result.setContent(rs.getString(6));
-				
+
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -78,8 +79,8 @@ public class MessageList {
 		return result;
 	}
 
-	public Feedback removeMessage(String listName,String id) {
-		sql = "delete from " + listName + " where id=?";
+	public Feedback removeMessage(int listType, String id) {
+		sql = "delete from " + listName[listType] + " where id=?";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
@@ -92,9 +93,8 @@ public class MessageList {
 		}
 	}
 
-	public Feedback addMessage(String listName,MessagePO Message) {
-		sql = "insert into " + listName
-				+ " values (?,?,?,?,?,?)";
+	public Feedback addMessage(int listType, MessagePO Message) {
+		sql = "insert into " + listName[listType] + " values (?,?,?,?,?,?)";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
@@ -112,9 +112,9 @@ public class MessageList {
 		}
 	}
 
-	public Feedback updateMessage(String listName, MessagePO Message) {
+	public Feedback updateMessage(int listType, MessagePO Message) {
 		sql = "update "
-				+ listName
+				+ listName[listType]
 				+ " set senderId=?, recipientId=?, operatorId=?, title=?, content=? where id=?";
 		try {
 			conn = sqlconn.getConnection();
@@ -133,10 +133,10 @@ public class MessageList {
 		}
 	}
 
-	public ArrayList<MessagePO> getMessageList(String listName, String operatorId) {
+	public ArrayList<MessagePO> getMessageList(int listType, String operatorId) {
 		ArrayList<MessagePO> result = new ArrayList<MessagePO>();
-		
-		sql = "select * from " + listName + "where operatorId=?";
+
+		sql = "select * from " + listName[listType] + "where operatorId=?";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
@@ -148,7 +148,7 @@ public class MessageList {
 				r.setSenderId(rs.getString(2));
 				r.setRecipientId(rs.getString(3));
 				r.setTitle(rs.getString(5));
-			//	r.setContent(rs.getString(6));
+				// r.setContent(rs.getString(6));
 				result.add(r);
 			}
 		} catch (SQLException e) {
@@ -156,8 +156,8 @@ public class MessageList {
 		}
 		return result;
 	}
-	
-	public String getListHead(){
+
+	public String getListHead() {
 		return "私信编号；发信人ID；收信人ID；标题";
 	}
 }
