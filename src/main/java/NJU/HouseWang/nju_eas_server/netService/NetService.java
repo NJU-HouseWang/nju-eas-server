@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
-
 public interface NetService {
 
 	// 发送反馈
@@ -24,7 +22,7 @@ public interface NetService {
 	public void sendFile(File fileName) throws IOException;
 
 	// 接收文件
-	public void receiveFile(String fileName) throws IOException;
+	public File receiveFile(String fileName) throws IOException;
 	
 	//得到ip
 	public String getIp() throws IOException;

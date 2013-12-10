@@ -1,18 +1,12 @@
 package NJU.HouseWang.nju_eas_server.logic;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import NJU.HouseWang.nju_eas_server.data.AuthorityManager;
 import NJU.HouseWang.nju_eas_server.data.LoginList;
 import NJU.HouseWang.nju_eas_server.data.StudentList;
 import NJU.HouseWang.nju_eas_server.data.TeacherList;
-import NJU.HouseWang.nju_eas_server.dataStub.LoginListStub;
-import NJU.HouseWang.nju_eas_server.dataStub.StudentListStub;
-import NJU.HouseWang.nju_eas_server.dataStub.TeacherListStub;
 import NJU.HouseWang.nju_eas_server.logicService.UserInfoLogicService;
-import NJU.HouseWang.nju_eas_server.net.ServerStub;
-import NJU.HouseWang.nju_eas_server.netService.NetService;
 import NJU.HouseWang.nju_eas_server.po.User.GuestPO;
 import NJU.HouseWang.nju_eas_server.po.User.StudentPO;
 import NJU.HouseWang.nju_eas_server.po.User.TeacherPO;
@@ -37,40 +31,41 @@ public class UserInfoLogic implements UserInfoLogicService {
 		am = this.initAuthorityManager();
 
 	}
-	
-	public LoginList initLoginList(){
+
+	public LoginList initLoginList() {
 		LoginList l = new LoginList();
 		l.init();
 		return l;
 	}
-	
-	public TeacherList initTeacherList(){
+
+	public TeacherList initTeacherList() {
 		TeacherList t = new TeacherList();
 		t.init();
 		return t;
 	}
-	
-	public StudentList initStudentList(){
+
+	public StudentList initStudentList() {
 		StudentList s = new StudentList();
 		s.init();
 		return s;
 	}
 
-	public AuthorityManager initAuthorityManager(){
+	public AuthorityManager initAuthorityManager() {
 		AuthorityManager a = AuthorityManager.getInstance();
 		return a;
 	}
+
 	@Override
 	public Object operate(String cmd) {
 		String[] cmdInfo = cmd.split("；");
-		String uid = am.getGuest(cmdInfo[cmdInfo.length-1]);
+		String uid = am.getGuest(cmdInfo[cmdInfo.length - 1]);
 		this.uid = uid;
 		guest = (GuestPO) ll.getLoginer(uid);
 		String cmdType = cmdInfo[0] + cmdInfo[1];
 		switch (cmdType) {
 		case "showselfInformation":
 			return showSelfInformation();
-			
+
 		case "editselfInformation":
 			String userType = ((GuestPO) ll.getLoginer(uid)).getType()
 					.toString();
@@ -84,77 +79,77 @@ public class UserInfoLogic implements UserInfoLogicService {
 						cmdInfo[9]);
 			}
 			return editSelfInformation(upo);
-			
+
 		case "adduser":
 			UserPO u = new UserPO(cmdInfo[2], UserType.valueOf(cmdInfo[3]));
 			return addUser(u);
-			
+
 		case "edituser":
 			GuestPO guest = new GuestPO(cmdInfo[2],
 					UserType.valueOf(cmdInfo[3]), cmdInfo[4]);
 			return editUser(guest);
-			
+
 		case "delstudent":
 		case "delteacher":
 		case "deluser":
 			return delUser(cmdInfo[2]);
-			
+
 		case "addTeacher":
 			TeacherPO tp = new TeacherPO(cmdInfo[2], cmdInfo[3], cmdInfo[4],
 					cmdInfo[5]);
 			return addTeacher(tp);
-			
+
 		case "addStudent":
 			StudentPO sp = new StudentPO(cmdInfo[2], cmdInfo[3], cmdInfo[4],
 					cmdInfo[5], cmdInfo[6], cmdInfo[7], cmdInfo[8], cmdInfo[9]);
 			return addStudent(sp);
-			
+
 		case "editTeacher":
 			TeacherPO tp2 = new TeacherPO(cmdInfo[2], cmdInfo[3], cmdInfo[4],
 					cmdInfo[5]);
 			return editTeacher(tp2);
-			
+
 		case "editStudent":
 			StudentPO sp2 = new StudentPO(cmdInfo[2], cmdInfo[3], cmdInfo[4],
 					cmdInfo[5], cmdInfo[6], cmdInfo[7], cmdInfo[8], cmdInfo[9]);
 			return editStudent(sp2);
-			
+
 		case "showlogin_list":
-			return showLoginList(cmdInfo[2]);
-			
+			return showLoginList();
+
 		case "showteacher_list":
-			return showTeacherList(cmdInfo[2]);
-			
+			return showTeacherList();
+
 		case "showstudent_list":
-			return showStudentList(cmdInfo[2]);
-			
+			return showStudentList();
+
 		case "adduser_list":
 			return "list";
-			
+
 		case "deluser_list":
 			return "list";
-			
+
 		case "editpassword":
 			return editPassword(cmdInfo[2], cmdInfo[3]);
-			
+
 		case "showlogin_list_head":
 			return this.showLoginListHead();
-			
+
 		case "showteacher_list_head":
 			return this.showTeacherListHead();
-			
+
 		case "showstudent_list_head":
 			return this.showStudentListHead();
-			
+
 		default:
 			return null;
 		}
 	}
-	
+
 	@Override
-	public Object operate(String cmd,ArrayList<String> list) {
+	public Object operate(String cmd, ArrayList<String> list) {
 		String[] cmdInfo = cmd.split("；");
-		String uid = am.getGuest(cmdInfo[cmdInfo.length-1]);
+		String uid = am.getGuest(cmdInfo[cmdInfo.length - 1]);
 		this.uid = uid;
 		guest = (GuestPO) ll.getLoginer(uid);
 		String cmdType = cmdInfo[0] + cmdInfo[1];
@@ -215,9 +210,9 @@ public class UserInfoLogic implements UserInfoLogicService {
 				sp.setId(id);
 				sl.addStudent((StudentPO) u);
 			}
-			return(Feedback.OPERATION_SUCCEED.toString());
+			return (Feedback.OPERATION_SUCCEED.toString());
 		} else {
-			return(Feedback.DATA_ALREADY_EXISTED.toString());
+			return (Feedback.DATA_ALREADY_EXISTED.toString());
 		}
 	}
 
@@ -226,9 +221,9 @@ public class UserInfoLogic implements UserInfoLogicService {
 		String id = u.getId();
 		if (ll.containsID(id)) {
 			ll.updateLoginer(u);
-			return(Feedback.OPERATION_SUCCEED.toString());
+			return (Feedback.OPERATION_SUCCEED.toString());
 		} else {
-			return(Feedback.DATA_NOT_FOUND.toString());
+			return (Feedback.DATA_NOT_FOUND.toString());
 		}
 	}
 
@@ -241,21 +236,21 @@ public class UserInfoLogic implements UserInfoLogicService {
 			} else {
 				sl.removeStudent(id);
 			}
-			return(Feedback.OPERATION_SUCCEED.toString());
+			return (Feedback.OPERATION_SUCCEED.toString());
 		} else {
-			return(Feedback.DATA_NOT_FOUND.toString());
+			return (Feedback.DATA_NOT_FOUND.toString());
 		}
 
 	}
 
 	@Override
 	public String addUserList(ArrayList<String> list) {
-		for(int i = 0; i < list.size(); i++){
+		for (int i = 0; i < list.size(); i++) {
 			String[] info = list.get(i).split("；");
-			if(ll.containsID(info[0])){
+			if (ll.containsID(info[0])) {
 				return Feedback.DATA_ALREADY_EXISTED.toString();
 			}
-					
+
 		}
 		for (int i = 0; i < list.size(); i++) {
 			UserPO user = this.stringToUserPO(list.get(i));
@@ -266,12 +261,12 @@ public class UserInfoLogic implements UserInfoLogicService {
 
 	@Override
 	public String delUserList(ArrayList<String> list) {
-		for(int i = 0; i < list.size(); i++){
+		for (int i = 0; i < list.size(); i++) {
 			String[] info = list.get(i).split("；");
-			if(!ll.containsID(info[0])){
+			if (!ll.containsID(info[0])) {
 				return Feedback.DATA_NOT_FOUND.toString();
 			}
-					
+
 		}
 		for (int i = 0; i < list.size(); i++) {
 			this.delUser(list.get(i));
@@ -292,10 +287,10 @@ public class UserInfoLogic implements UserInfoLogicService {
 					return (Feedback.PW_REPEATED.toString());
 				}
 			} else {
-				return(Feedback.PW_TOO_SHORT.toString());
+				return (Feedback.PW_TOO_SHORT.toString());
 			}
 		} else {
-			return(Feedback.PW_WRONG_INPUT.toString());
+			return (Feedback.PW_WRONG_INPUT.toString());
 		}
 	}
 
@@ -327,9 +322,9 @@ public class UserInfoLogic implements UserInfoLogicService {
 	}
 
 	@Override
-	public ArrayList<String> showLoginList(String conditions) {
+	public ArrayList<String> showLoginList() {
 		// TODO Auto-generated method stub
-		ArrayList<GuestPO> list1 = ll.getLoginList(conditions);
+		ArrayList<GuestPO> list1 = ll.getLoginList();
 		ArrayList<String> guestList = new ArrayList<String>();
 		for (int i = 0; i < list1.size(); i++) {
 			String guestInfo = (list1.get(i)).toCommand();
@@ -339,9 +334,9 @@ public class UserInfoLogic implements UserInfoLogicService {
 	}
 
 	@Override
-	public ArrayList<String> showTeacherList(String conditions) {
+	public ArrayList<String> showTeacherList() {
 		// TODO Auto-generated method stub
-		ArrayList<TeacherPO> list2 = tl.getTeacherList(conditions);
+		ArrayList<TeacherPO> list2 = tl.getTeacherList();
 		ArrayList<String> teacherList = new ArrayList<String>();
 		for (int i = 0; i < list2.size(); i++) {
 			String teacherInfo = (list2.get(i)).toCommand();
@@ -351,9 +346,9 @@ public class UserInfoLogic implements UserInfoLogicService {
 	}
 
 	@Override
-	public ArrayList<String> showStudentList(String conditions) {
+	public ArrayList<String> showStudentList() {
 		// TODO Auto-generated method stub
-		ArrayList<StudentPO> list3 = sl.getStudentList(conditions);
+		ArrayList<StudentPO> list3 = sl.getStudentList();
 		ArrayList<String> studentList = new ArrayList<String>();
 		for (int i = 0; i < list3.size(); i++) {
 			String studentInfo = (list3.get(i)).toCommand();
@@ -374,21 +369,21 @@ public class UserInfoLogic implements UserInfoLogicService {
 
 	@Override
 	public String showStudentListHead() {
-		return(sl.getListHead());
+		return (sl.getListHead());
 	}
 
 	@Override
 	public String addTeacher(TeacherPO tp) {
 		// TODO Auto-generated method stub
 		String id = tp.getId();
-		if(!tl.containsID(id)){
+		if (!tl.containsID(id)) {
 			tl.addTeacher(tp);
 			UserType up = tp.getType();
-			GuestPO gp = new GuestPO(id,up,this.generateInitialPassword(tp));
+			GuestPO gp = new GuestPO(id, up, this.generateInitialPassword(tp));
 			ll.addLoginer(gp);
 			return (Feedback.OPERATION_SUCCEED.toString());
-			
-		} else{
+
+		} else {
 			return (Feedback.ID_ALREADY_EXISTED.toString());
 		}
 	}
@@ -397,14 +392,14 @@ public class UserInfoLogic implements UserInfoLogicService {
 	public String addStudent(StudentPO sp) {
 		// TODO Auto-generated method stub
 		String id = sp.getId();
-		if(!sl.containsID(id)){
+		if (!sl.containsID(id)) {
 			sl.addStudent(sp);
 			UserType up = sp.getType();
-			GuestPO gp = new GuestPO(id,up,this.generateInitialPassword(sp));
+			GuestPO gp = new GuestPO(id, up, this.generateInitialPassword(sp));
 			ll.addLoginer(gp);
 			return (Feedback.OPERATION_SUCCEED.toString());
-			
-		} else{
+
+		} else {
 			return (Feedback.ID_ALREADY_EXISTED.toString());
 		}
 	}
@@ -417,7 +412,7 @@ public class UserInfoLogic implements UserInfoLogicService {
 			tl.updateTeacher(tp);
 			return (Feedback.OPERATION_SUCCEED.toString());
 		} else {
-			return(Feedback.DATA_NOT_FOUND.toString());
+			return (Feedback.DATA_NOT_FOUND.toString());
 		}
 	}
 

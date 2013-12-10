@@ -121,7 +121,7 @@ public class LoginList {
 		}
 	}
 
-	public ArrayList<GuestPO> getLoginList(String conditions) {
+	public ArrayList<GuestPO> getLoginList() {
 		ArrayList<GuestPO> result = new ArrayList<GuestPO>();
 		sql = "select * from " + listName;
 		try {
@@ -162,7 +162,7 @@ public class LoginList {
 		System.out.println(ll.updateLoginer(new GuestPO("121250157",
 				UserType.Student, "bilicrazy124")));
 		System.out.println(ll.getLoginer("121250157"));
-		ArrayList<GuestPO> l = ll.getLoginList(null);
+		ArrayList<GuestPO> l = ll.getLoginList();
 		for (GuestPO g : l) {
 			System.out.println(g);
 		}

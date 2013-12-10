@@ -16,7 +16,10 @@ public class SystemFactory {
 	public static LogicService create(String cmd) {
 		String[] cmdtmp = cmd.split("；");
 		String action = cmdtmp[0];
-		String aim = cmdtmp[1];
+		String aim = null;
+		if (cmdtmp.length > 1) {
+			aim = cmdtmp[1];
+		}
 		switch (action) {
 		case "login":
 		case "logout":

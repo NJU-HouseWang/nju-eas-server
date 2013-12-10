@@ -137,13 +137,13 @@ public class StudentList {
 		}
 	}
 
-	public ArrayList<StudentPO> getStudentList(String conditions) {
+	public ArrayList<StudentPO> getStudentList() {
 		ArrayList<StudentPO> result = new ArrayList<StudentPO>();
 		sql = "select * from " + listName;
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
-//			ps.setString(1, conditions);
+			// ps.setString(1, conditions);
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				StudentPO r = new StudentPO();
@@ -162,8 +162,8 @@ public class StudentList {
 		}
 		return result;
 	}
-	
-	public String getListHead(){
+
+	public String getListHead() {
 		return "学号；姓名；院系；专业；年级；班级编号；学制；学籍状态";
 	}
 

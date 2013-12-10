@@ -1,12 +1,10 @@
 package NJU.HouseWang.nju_eas_server.logic;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import NJU.HouseWang.nju_eas_server.data.AuthorityManager;
 import NJU.HouseWang.nju_eas_server.data.LoginList;
 import NJU.HouseWang.nju_eas_server.logicService.LoginLogicService;
-import NJU.HouseWang.nju_eas_server.netService.NetService;
 import NJU.HouseWang.nju_eas_server.po.User.GuestPO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 import NJU.HouseWang.nju_eas_server.systemMessage.UserType;
@@ -19,14 +17,14 @@ public class LoginLogic implements LoginLogicService {
 		ll = this.initLoginList();
 		am = this.initAuthorityManager();
 	}
-	
-	public LoginList initLoginList(){
+
+	public LoginList initLoginList() {
 		LoginList l = new LoginList();
 		l.init();
 		return l;
 	}
-	
-	public AuthorityManager initAuthorityManager(){
+
+	public AuthorityManager initAuthorityManager() {
 		AuthorityManager a = AuthorityManager.getInstance();
 		return a;
 	}
@@ -36,23 +34,29 @@ public class LoginLogic implements LoginLogicService {
 	public Object operate(String cmd) {
 
 		String[] cmdInfo = cmd.split("；");
-		String uid = am.getGuest(cmdInfo[cmdInfo.length-1]);
+		String uid = am.getGuest(cmdInfo[cmdInfo.length - 1]);
 		if (cmd.startsWith("login")) {
-			UserType ut = UserType.valueOf(cmdInfo[1]);
-			GuestPO newGuest = new GuestPO(cmdInfo[2], ut, cmdInfo[3]);
-			return this.login(newGuest, cmdInfo[cmdInfo.length-1]);
-		} else{
-			return this.logout(cmdInfo[cmdInfo.length-1]);
+			if (cmd.endsWith("；ok")) {
+				UserType ut = UserType.valueOf(cmdInfo[1]);
+				GuestPO newGuest = new GuestPO(cmdInfo[2], ut, cmdInfo[3]);
+				return this.login(newGuest, cmdInfo[cmdInfo.length - 1]);
+			} else {
+				return "ip";
+			}
+		} else {
+			if (cmd.endsWith("；ok")) {
+				return this.logout(cmdInfo[cmdInfo.length - 1]);
+			} else {
+				return "ip";
+			}
 		}
 
 	}
-	
+
 	@Override
 	public Object operate(String cmd, ArrayList<String> list) {
-		// TODO Auto-generated method stub
 		return null;
 	}
-
 
 	@Override
 	public String login(GuestPO logger, String ip) {
@@ -79,11 +83,8 @@ public class LoginLogic implements LoginLogicService {
 
 	@Override
 	public String logout(String ip) {
-
 		am.removeGuest(ip);
 		return (Feedback.OPERATION_SUCCEED.toString());
 	}
-
-	
 
 }

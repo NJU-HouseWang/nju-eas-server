@@ -80,7 +80,7 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 			if (cmd.contains("ok")) {
 				return this.uploadTeachingPlanFile(cmdInfo[2]);
 			} else {
-				return "file;d:/tpFile/";
+				return "file；d:/tpFile/";
 			}
 
 		case "downloadteachingplanfile":

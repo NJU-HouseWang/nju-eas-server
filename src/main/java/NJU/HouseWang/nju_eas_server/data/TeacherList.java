@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import NJU.HouseWang.nju_eas_server.po.User.GuestPO;
 import NJU.HouseWang.nju_eas_server.po.User.TeacherPO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 import NJU.HouseWang.nju_eas_server.systemMessage.UserType;
@@ -109,7 +108,8 @@ public class TeacherList {
 	}
 
 	public Feedback updateTeacher(TeacherPO teacher) {
-		sql = "update " + listName + " set type=?, name=?, company=? where id=?";
+		sql = "update " + listName
+				+ " set type=?, name=?, company=? where id=?";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
@@ -125,13 +125,13 @@ public class TeacherList {
 		}
 	}
 
-	public ArrayList<TeacherPO> getTeacherList(String conditions) {
+	public ArrayList<TeacherPO> getTeacherList() {
 		ArrayList<TeacherPO> result = new ArrayList<TeacherPO>();
 		sql = "select * from " + listName;
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
-			//ps.setString(1, conditions);
+			// ps.setString(1, conditions);
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				TeacherPO r = new TeacherPO();
@@ -146,30 +146,27 @@ public class TeacherList {
 		}
 		return result;
 	}
-	
-	public String getListHead(){
+
+	public String getListHead() {
 		return "工号；教师类型；姓名；部门";
 	}
 	/*
-	public static void main(String[] args) {
-		TeacherList tl = new TeacherList();
-		tl.init();
-		System.out.println(tl.containsID("admin"));
-		System.out.println(tl.containsID("admin1"));
-		System.out.println(tl.getLoginer("121250157"));
-		System.out.println(tl.removeLoginer("121250157"));
-		System.out.println(tl.containsID("121250157"));
-		System.out.println(tl.removeLoginer("121250157"));
-		System.out.println(tl.containsID("121250157"));
-		System.out.println(tl.addLoginer(new GuestPO("121250157",UserType.Student,"bilicrazy123")));
-		System.out.println(tl.containsID("121250157"));
-		System.out.println(tl.getLoginer("121250157"));
-		System.out.println(tl.updateLoginer(new GuestPO("121250157",UserType.Student,"bilicrazy124")));
-		System.out.println(tl.getLoginer("121250157"));
-		ArrayList<GuestPO> l = tl.getLoginList();
-		for(GuestPO g:l) {
-			System.out.println(g);
-		}
-		tl.finish();
-	}*/
+	 * public static void main(String[] args) { TeacherList tl = new
+	 * TeacherList(); tl.init(); System.out.println(tl.containsID("admin"));
+	 * System.out.println(tl.containsID("admin1"));
+	 * System.out.println(tl.getLoginer("121250157"));
+	 * System.out.println(tl.removeLoginer("121250157"));
+	 * System.out.println(tl.containsID("121250157"));
+	 * System.out.println(tl.removeLoginer("121250157"));
+	 * System.out.println(tl.containsID("121250157"));
+	 * System.out.println(tl.addLoginer(new
+	 * GuestPO("121250157",UserType.Student,"bilicrazy123")));
+	 * System.out.println(tl.containsID("121250157"));
+	 * System.out.println(tl.getLoginer("121250157"));
+	 * System.out.println(tl.updateLoginer(new
+	 * GuestPO("121250157",UserType.Student,"bilicrazy124")));
+	 * System.out.println(tl.getLoginer("121250157")); ArrayList<GuestPO> l =
+	 * tl.getLoginList(); for(GuestPO g:l) { System.out.println(g); }
+	 * tl.finish(); }
+	 */
 }

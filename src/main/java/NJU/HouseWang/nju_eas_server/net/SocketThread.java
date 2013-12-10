@@ -47,7 +47,7 @@ public class SocketThread implements NetService {
 		String netCmd = null;
 		while (true) {
 			if ((netCmd = in.readUTF()) != null) {
-				System.out.println("Receive Connamd: " + netCmd);
+				System.out.println("Receive Command: " + netCmd);
 				break;
 			}
 		}
@@ -84,6 +84,9 @@ public class SocketThread implements NetService {
 		while (!(line = in.readUTF()).trim().equals("listEnd")) {
 			System.out.println("Receive List Item :" + line);
 			list.add(line);
+		}
+		if (list.isEmpty()) {
+			return null;
 		}
 		return list;
 	}
@@ -126,10 +129,9 @@ public class SocketThread implements NetService {
 	}
 
 	@Override
-	public void receiveFile(String fileName) throws IOException {
+	public File receiveFile(String savePath) throws IOException {
 		try {
 			// 本地保存路径，文件名会自动从服务器端继承而来。
-			String savePath = "E:\\";
 			int bufferSize = 8192;
 			byte[] buf = new byte[bufferSize];
 			int passedlen = 0;
@@ -164,7 +166,12 @@ public class SocketThread implements NetService {
 			if (fos != null) {
 				fos.close();
 			}
-			return;
+		}
+		File f = new File(savePath);
+		if (f.exists()) {
+			return f;
+		} else {
+			return null;
 		}
 	}
 

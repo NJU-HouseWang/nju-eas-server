@@ -12,6 +12,7 @@ import NJU.HouseWang.nju_eas_server.data.AuthorityManager;
 import NJU.HouseWang.nju_eas_server.logic.LogLogic;
 import NJU.HouseWang.nju_eas_server.logicService.LogicService;
 import NJU.HouseWang.nju_eas_server.po.Msg.LogPO;
+import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 
 public class Server {
 
@@ -46,6 +47,27 @@ public class Server {
 					Object feedback = ss.operate(cmd);
 					// 根据反馈的类型向客户端发送反馈结果
 					if (feedback instanceof String) {
+						if (((String) feedback).equals("ip")) {
+							cmd += "；" + ip + "；ok";
+							feedback = ss.operate(cmd);
+						} else if (((String) feedback).startsWith("file；")) {
+							File file = st.receiveFile(((String) feedback)
+									.split("；")[1]);
+							if (file != null) {
+								cmd += "；ok";
+								feedback = ss.operate(cmd);
+							} else {
+								feedback = Feedback.OPERATION_FAIL;
+							}
+						} else if (((String) feedback).equals("list")) {
+							ArrayList<String> list = null;
+							list = st.receiveList();
+							if (list != null) {
+								feedback = ss.operate(cmd, list);
+							} else {
+								feedback = Feedback.OPERATION_FAIL;
+							}
+						}
 						st.sendFeedback((String) feedback);
 					} else if (feedback instanceof ArrayList<?>) {
 						st.sendList((ArrayList<?>) feedback);
