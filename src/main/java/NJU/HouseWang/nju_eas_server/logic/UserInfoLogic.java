@@ -85,6 +85,7 @@ public class UserInfoLogic implements UserInfoLogicService {
 			return addUser(u);
 
 		case "edituser":
+			System.out.println(cmdInfo[2] + "  " + cmdInfo[3] + "  " + cmdInfo[4]);
 			GuestPO guest = new GuestPO(cmdInfo[2],
 					UserType.valueOf(cmdInfo[3]), cmdInfo[4]);
 			return editUser(guest);

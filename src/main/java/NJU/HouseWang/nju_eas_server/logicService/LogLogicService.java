@@ -9,7 +9,7 @@ public interface LogLogicService extends LogicService {
 	public void addLog(LogPO lp);
 
 	// 显示日志列表
-	public ArrayList<String> showLogList(String conditions);
+	public ArrayList<String> showLogList();
 
 	// 显示日志列表的表头
 	public String showLogListHead();
