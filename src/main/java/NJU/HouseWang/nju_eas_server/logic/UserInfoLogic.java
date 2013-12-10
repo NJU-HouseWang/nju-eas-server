@@ -84,7 +84,7 @@ public class UserInfoLogic implements UserInfoLogicService {
 			UserPO u = new UserPO(cmdInfo[2], UserType.valueOf(cmdInfo[3]));
 			return addUser(u);
 
-		case "edituser":
+		case "editlogin":
 			GuestPO guest = new GuestPO(cmdInfo[2],
 					UserType.valueOf(cmdInfo[3]), cmdInfo[4]);
 			return editUser(guest);
@@ -118,7 +118,7 @@ public class UserInfoLogic implements UserInfoLogicService {
 			return showLoginList();
 
 		case "showteacher_list":
-			return showTeacherList();
+			return showTeacherList(cmdInfo[2]);
 
 		case "showstudent_list":
 			return showStudentList();
@@ -334,9 +334,9 @@ public class UserInfoLogic implements UserInfoLogicService {
 	}
 
 	@Override
-	public ArrayList<String> showTeacherList() {
+	public ArrayList<String> showTeacherList(String type) {
 		// TODO Auto-generated method stub
-		ArrayList<TeacherPO> list2 = tl.getTeacherList();
+		ArrayList<TeacherPO> list2 = tl.getTeacherList(type);
 		ArrayList<String> teacherList = new ArrayList<String>();
 		for (int i = 0; i < list2.size(); i++) {
 			String teacherInfo = (list2.get(i)).toCommand();

@@ -101,7 +101,7 @@ public class SystemFactory {
 			break;
 		case "edit":
 			switch (aim) {
-			case "user":
+			case "login":
 			case "selfInformation":
 			case "password":
 				return (new UserInfoLogic());

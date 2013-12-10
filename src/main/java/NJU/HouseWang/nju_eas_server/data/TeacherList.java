@@ -125,13 +125,13 @@ public class TeacherList {
 		}
 	}
 
-	public ArrayList<TeacherPO> getTeacherList() {
+	public ArrayList<TeacherPO> getTeacherList(String type) {
 		ArrayList<TeacherPO> result = new ArrayList<TeacherPO>();
-		sql = "select * from " + listName;
+		sql = "select * from " + listName + "where type=?";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
-			// ps.setString(1, conditions);
+			 ps.setString(1, type);
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				TeacherPO r = new TeacherPO();
