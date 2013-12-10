@@ -19,7 +19,6 @@ import NJU.HouseWang.nju_eas_server.po.Edu.Course_StudentPO;
 import NJU.HouseWang.nju_eas_server.po.Edu.StatusPO;
 import NJU.HouseWang.nju_eas_server.po.Edu.TeachingPlanItemPO;
 import NJU.HouseWang.nju_eas_server.po.Edu.TeachingPlanPO;
-import NJU.HouseWang.nju_eas_server.po.Msg.LogPO;
 import NJU.HouseWang.nju_eas_server.po.User.StudentPO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 

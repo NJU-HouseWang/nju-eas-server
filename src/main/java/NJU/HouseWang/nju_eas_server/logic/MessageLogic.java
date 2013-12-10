@@ -2,7 +2,6 @@ package NJU.HouseWang.nju_eas_server.logic;
 
 import java.io.IOException;
 import java.util.ArrayList;
-
 import NJU.HouseWang.nju_eas_server.data.AuthorityManager;
 import NJU.HouseWang.nju_eas_server.data.MessageList;
 import NJU.HouseWang.nju_eas_server.logicService.MessageLogicService;
@@ -73,23 +72,24 @@ public class MessageLogic implements MessageLogicService {
 
 	@Override
 	public String showMessage(String listName, String id) {
-		return (ml.getMessage(listName, id).toCommand());
+		int list = Integer.parseInt(listName);
+		return (ml.getMessage(list, id).toCommand());
 	}
 
 	@Override
 	public String addMessage(String listName, MessagePO mp) {
-		return (ml.addMessage(listName, mp).toString());
+		int list = Integer.parseInt(listName);
+		return (ml.addMessage(list, mp).toString());
 	}
 
 	@Override
 	public String editMessage(MessagePO mp) {
-		return (ml.updateMessage("unsent_message_list",mp).toString());
+		return (ml.updateMessage(2,mp).toString());
 	}
-
 	@Override
 	public String moveMessage(String fromList, String toList, String id) {
 		// TODO Auto-generated method stub
-		MessagePO mp = ml.getMessage(fromList, id);
+		MessagePO mp = ml.getMessage(Integer.parseInt(fromList), id);
 		this.delMessage(fromList, id);
 		this.addMessage(toList, mp);
 		return Feedback.OPERATION_SUCCEED.toString();
@@ -97,13 +97,15 @@ public class MessageLogic implements MessageLogicService {
 
 	@Override
 	public String delMessage(String listName, String id) {
-		return (ml.removeMessage(listName, id).toString());
+		int list = Integer.parseInt(listName);
+		return (ml.removeMessage(list, id).toString());
 	}
 
 	@Override
 	public ArrayList<String> showMessageList(String listName, String uid) {
 		// TODO Auto-generated method stub
-		ArrayList<MessagePO> list = ml.getMessageList(listName, uid);
+		int listNum = Integer.parseInt(listName);
+		ArrayList<MessagePO> list = ml.getMessageList(listNum, uid);
 		ArrayList<String> MessageList = new ArrayList<String>();
 		for (int i = 0; i < list.size(); i++) {
 			String MessageInfo = (list.get(i)).toCommand();

@@ -20,7 +20,6 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 	private TeachingPlanList tl;
 	private EduFramework ef;
 	private AuthorityManager am;
-
 	public TeachingPlanLogic() {
 		tp = this.initTeachingPlan();
 		tl = this.initTeachingPlanList();
@@ -327,7 +326,5 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 		} else {
 			return Feedback.FILE_NOT_FOUND.toString();
 		}
-		
-	}
-
+	}	
 }

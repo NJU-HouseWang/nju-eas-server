@@ -70,7 +70,6 @@ public class SystemFactory {
 			case "term":
 			case "term_list":
 				return (new CourseInfoLogic());
-
 			}
 			break;
 		case "add":
@@ -159,7 +158,6 @@ public class SystemFactory {
 			switch (aim) {
 			case "common_course":
 			case "course":
-
 				return (new CourseSelectionLogic());
 			}
 			break;
