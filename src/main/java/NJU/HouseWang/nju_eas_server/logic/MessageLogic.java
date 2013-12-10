@@ -10,11 +10,11 @@ import NJU.HouseWang.nju_eas_server.netService.NetService;
 import NJU.HouseWang.nju_eas_server.po.Msg.MessagePO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 
-public class MessageSystem implements MessageLogicService {
+public class MessageLogic implements MessageLogicService {
 	private MessageList ml;
 	private AuthorityManager am;
 	
-	public MessageSystem(){
+	public MessageLogic(){
 		 ml = this.initMessageList();
 		 am = this.initAuthorityManager();
 	}

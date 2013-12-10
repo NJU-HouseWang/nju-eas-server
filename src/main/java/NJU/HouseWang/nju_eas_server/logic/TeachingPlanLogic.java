@@ -15,38 +15,38 @@ import NJU.HouseWang.nju_eas_server.po.Edu.TeachingPlanItemPO;
 import NJU.HouseWang.nju_eas_server.po.Edu.TeachingPlanPO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 
-public class TeachingPlanSystem implements TeachingPlanLogicService {
+public class TeachingPlanLogic implements TeachingPlanLogicService {
 	private TeachingPlan tp;
 	private TeachingPlanList tl;
 	private EduFramework ef;
 	private AuthorityManager am;
-	
-	public TeachingPlanSystem() {
+
+	public TeachingPlanLogic() {
 		tp = this.initTeachingPlan();
 		tl = this.initTeachingPlanList();
 		ef = this.initEduFramework();
 		am = this.initAuthorityManager();
 	}
-	
-	public TeachingPlan initTeachingPlan(){
+
+	public TeachingPlan initTeachingPlan() {
 		TeachingPlan t = new TeachingPlan();
 		t.init();
 		return t;
 	}
-	
-	public TeachingPlanList initTeachingPlanList(){
+
+	public TeachingPlanList initTeachingPlanList() {
 		TeachingPlanList t = new TeachingPlanList();
 		t.init();
 		return t;
 	}
-	
-	public EduFramework initEduFramework(){
+
+	public EduFramework initEduFramework() {
 		EduFramework e = new EduFramework();
 		e.init();
 		return e;
 	}
-	
-	public AuthorityManager initAuthorityManager(){
+
+	public AuthorityManager initAuthorityManager() {
 		AuthorityManager a = AuthorityManager.getInstance();
 		return a;
 	}
@@ -55,61 +55,63 @@ public class TeachingPlanSystem implements TeachingPlanLogicService {
 	public Object operate(String cmd) {
 
 		String[] cmdInfo = cmd.split("；");
-		String uid = am.getGuest(cmdInfo[cmdInfo.length-1]);
+		String uid = am.getGuest(cmdInfo[cmdInfo.length - 1]);
 		String cmdType = cmdInfo[0] + cmdInfo[1];
 		switch (cmdType) {
 		case "showteachingplan":
 			return this.showTeachingPlan(cmdInfo[2]);
-			
+
 		case "showteachingplanlist":
 			return this.showTeachingPlanList();
-			
+
 		case "addteachingplan":
 			return "list";
-			
+
 		case "editteachingplan":
 			return "list";
-			
+
 		case "delteachingplan":
 			return this.delTeachingPlan(cmdInfo[2]);
-			
+
 		case "auditteachingplan":
-			return this.auditTeachingPlan(cmdInfo[2], Integer.parseInt(cmdInfo[3]));
-			
+			return this.auditTeachingPlan(cmdInfo[2],
+					Integer.parseInt(cmdInfo[3]));
+
 		case "uploadteachingplanfile":
-			if(cmd.contains("ok")){
-				return this.uploadTeachingPlanFile(cmdInfo[2], cmdInfo[3]);
+			if (cmd.contains("ok")) {
+				return this.uploadTeachingPlanFile(cmdInfo[2]);
 			} else {
-				return "file";
+				return "file;d:/tpFile/";
 			}
-			
+
 		case "downloadteachingplanfile":
-			return this.downloadTeachingPlanFile(cmdInfo[2], cmdInfo[3]);
-			
+			return this.downloadTeachingPlanFile(cmdInfo[2]);
+
 		case "showteachingplan_head":
 			return this.showTeachingPlanHead();
-			
+
 		case "showteachingplanlist_head":
 			return this.showTeachingPlanListHead();
-			
+		case "showfilename":
+			return this.showFlieName(cmdInfo[2]);
 		default:
 			return null;
 		}
 	}
-	
+
 	@Override
 	public Object operate(String cmd, ArrayList<String> list) {
 
 		String[] cmdInfo = cmd.split("；");
-		String uid = am.getGuest(cmdInfo[cmdInfo.length-1]);
+		String uid = am.getGuest(cmdInfo[cmdInfo.length - 1]);
 		String cmdType = cmdInfo[0] + cmdInfo[1];
 		switch (cmdType) {
 		case "addteachingplan":
 			return this.addTeachingPlan(cmdInfo[2], list);
-			
+
 		case "editteachingplan":
 			return this.editTeachingPlan(cmdInfo[2], list);
-			
+
 		default:
 			return null;
 		}
@@ -117,11 +119,12 @@ public class TeachingPlanSystem implements TeachingPlanLogicService {
 
 	@Override
 	public ArrayList<String> showTeachingPlan(String dept) {
-
-		ArrayList<TeachingPlanItemPO> tl = tp.getTeachingPlan(dept);
 		ArrayList<String> feedback = new ArrayList<String>();
-		for (int i = 0; i < tl.size(); i++) {
-			feedback.add(tl.get(i).toCommand());
+		if (tl.getTeachingPlan(dept).isCommitted()) {
+			ArrayList<TeachingPlanItemPO> tl = tp.getTeachingPlan(dept);
+			for (int i = 0; i < tl.size(); i++) {
+				feedback.add(tl.get(i).toCommand());
+			}
 		}
 		return feedback;
 	}
@@ -144,10 +147,10 @@ public class TeachingPlanSystem implements TeachingPlanLogicService {
 		if (!tpp.isCommitted()) {
 			ArrayList<TeachingPlanItemPO> tpl = new ArrayList<TeachingPlanItemPO>();
 
-			for(int i = 0; i<list.size();i++){
+			for (int i = 0; i < list.size(); i++) {
 				tpl.add(stringToTeachingPlanItem(list.get(i)));
 			}
-			
+
 			boolean isValid = this.judgeTeachingPlan(tpl);
 			if (isValid) {
 				for (int i = 0; i < tpl.size(); i++) {
@@ -164,11 +167,11 @@ public class TeachingPlanSystem implements TeachingPlanLogicService {
 	}
 
 	@Override
-	public String editTeachingPlan(String dept,ArrayList<String> list) {
+	public String editTeachingPlan(String dept, ArrayList<String> list) {
 
 		this.delTeachingPlan(dept);
-		return this.addTeachingPlan(dept,list);
-		
+		return this.addTeachingPlan(dept, list);
+
 	}
 
 	@Override
@@ -180,6 +183,7 @@ public class TeachingPlanSystem implements TeachingPlanLogicService {
 		tpp.setStatus(0);
 		tpp.getTpFile().delete();
 		tpp.setTpFile(null);
+		
 		return (Feedback.OPERATION_SUCCEED.toString());
 	}
 
@@ -196,25 +200,25 @@ public class TeachingPlanSystem implements TeachingPlanLogicService {
 	}
 
 	@Override
-	public String uploadTeachingPlanFile(String dept, String filePath) {
-
+	public String uploadTeachingPlanFile(String dept) {
+		String filePath = "d:/tpFile/";
 		TeachingPlanPO tpp = tl.getTeachingPlan(dept);
 		if (tpp.getTpFile() == null) {
 			tpp.setTpFile(new File(filePath));
 			return (Feedback.OPERATION_SUCCEED.toString());
 		} else {
-			return (Feedback.DATA_ALREADY_EXISTED.toString());
+			return (Feedback.FILE_ALREADY_EXISTED.toString());
 		}
 	}
 
 	@Override
-	public Object downloadTeachingPlanFile(String dept, String filePath) {
-
+	public File downloadTeachingPlanFile(String dept) {
+		String filePath = "d:/tpFile/fileNotExit.png";
 		TeachingPlanPO tpp = tl.getTeachingPlan(dept);
 		if (tpp.getTpFile() != null) {
-			return (new File(filePath));
+			return (tpp.getTpFile());
 		} else {
-			return (Feedback.DATA_NOT_FOUND.toString());
+			return (new File(filePath));
 		}
 	}
 
@@ -312,6 +316,18 @@ public class TeachingPlanSystem implements TeachingPlanLogicService {
 	public String showTeachingPlanListHead() {
 
 		return (tl.getListHead());
+	}
+
+	@Override
+	public String showFlieName(String dept) {
+		// TODO Auto-generated method stub
+		if(tl.getTeachingPlan(dept).getTpFile().exists()){
+			String fileName = tl.getTeachingPlan(dept).getTpFile().getName();
+			return fileName;
+		} else {
+			return Feedback.FILE_NOT_FOUND.toString();
+		}
+		
 	}
 
 }

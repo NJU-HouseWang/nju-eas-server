@@ -9,11 +9,11 @@ import NJU.HouseWang.nju_eas_server.logicService.LogLogicService;
 import NJU.HouseWang.nju_eas_server.netService.NetService;
 import NJU.HouseWang.nju_eas_server.po.Msg.LogPO;
 
-public class LogSystem implements LogLogicService {
+public class LogLogic implements LogLogicService {
 	private LogList ll;
 	private AuthorityManager am;
 	
-	public LogSystem() {
+	public LogLogic() {
 		ll = this.initLogList();
 		am = this.initAuthorityManager();
 	}

@@ -3,51 +3,34 @@ package NJU.HouseWang.nju_eas_server.po.Edu;
 import NJU.HouseWang.nju_eas_server.po.DataPOService;
 
 public class StatusPO implements DataPOService{
-	private String function; //选课、补选、退选功能名
-	private Boolean isopen;	//功能是否开启
+	private String status; //选课、补选、退选、学期的状态名
+	private String content;	//状态的内容
 	public StatusPO() {		
 	}
 	
-	public StatusPO(String function, Boolean isopen){
-		this.function = function;
-		this.isopen = isopen;
+	public StatusPO(String status, String content){
+		this.status = status;
+		this.content = content;
 	}
 	
-	public void setFunction(String function){
-		this.function = function;
+	public void setStatus(String status){
+		this.status = status;
 	}
 	
-	public void setIsopen(Boolean isopen){
-		this.isopen  = isopen;
+	public void setContent(String content){
+		this.content  = content;
 	}
 	
-	public void setIsopen(String status){
-		if(status.toLowerCase().equals("true")){
-			this.isopen  = true;
-		} else{
-			this.isopen = false;
-		}
+	public String getStatus(){
+		return this.status;
 	}
 	
-	public String getFunction(){
-		return this.function;
-	}
-	
-	public Boolean getIsopen(){
-		return this.isopen;
-	}
-	
-	public String getIsopenToString(){
-		Boolean s = this.getIsopen();
-		String str = "false";
-		if(s){
-			str = "true";
-		}
-		return str;
+	public String getContent(){
+		return this.content;
 	}
 	
 	public String toCommand(){
-		return (function + "；" + isopen);
+		return (status + "；" + content);
 	}
 
 	@Override

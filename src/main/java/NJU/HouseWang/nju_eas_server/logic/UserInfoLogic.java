@@ -20,7 +20,7 @@ import NJU.HouseWang.nju_eas_server.po.User.UserPO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 import NJU.HouseWang.nju_eas_server.systemMessage.UserType;
 
-public class UserInfoSystem implements UserInfoLogicService {
+public class UserInfoLogic implements UserInfoLogicService {
 	private LoginList ll;
 	private TeacherList tl;
 	private StudentList sl;
@@ -29,7 +29,7 @@ public class UserInfoSystem implements UserInfoLogicService {
 	private UserPO upo;
 	private AuthorityManager am;
 
-	public UserInfoSystem() {
+	public UserInfoLogic() {
 		// TODO Auto-generated constructor stub
 		ll = this.initLoginList();
 		tl = this.initTeacherList();

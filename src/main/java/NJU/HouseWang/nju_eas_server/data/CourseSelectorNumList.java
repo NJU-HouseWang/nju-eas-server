@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import NJU.HouseWang.nju_eas_server.po.Edu.CoursePO;
 import NJU.HouseWang.nju_eas_server.po.Edu.CourseSelectorNumPO;
@@ -96,4 +97,24 @@ public class CourseSelectorNumList {
 		}
 		return result;
 	}
+	/*
+	public ArrayList<CourseSelectorNumPO> getCourseSelectorNumList() {
+		ArrayList<CourseSelectorNumPO> result = new ArrayList<CourseSelectorNumPO>();
+		sql = "select * from " + listName;
+		try {
+			conn = sqlconn.getConnection();
+			ps = conn.prepareStatement(sql);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				CourseSelectorNumPO r = new CourseSelectorNumPO();
+				r.setCourseId(rs.getString(1));
+				r.setSelectorNum(rs.getInt(2));
+				r.setTotalNum(rs.getInt(3));
+				result.add(r);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}*/
 }

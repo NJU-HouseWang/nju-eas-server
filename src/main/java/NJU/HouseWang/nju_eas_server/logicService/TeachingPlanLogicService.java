@@ -25,10 +25,10 @@ public interface TeachingPlanLogicService extends LogicService {
 	public String auditTeachingPlan(String dept, int status);
 
 	// 上传教学计划doc文档
-	public String uploadTeachingPlanFile(String dept, String filePath);
+	public String uploadTeachingPlanFile(String dept);
 
 	// 下载教学计划doc文档
-	public Object downloadTeachingPlanFile(String dept, String filePath);
+	public File downloadTeachingPlanFile(String dept);
 
 	// 判断教学计划是否合法
 	public boolean judgeTeachingPlan(ArrayList<TeachingPlanItemPO> teachingPlan);
@@ -38,4 +38,7 @@ public interface TeachingPlanLogicService extends LogicService {
 
 	// 返回teachingPlanList表头
 	public String showTeachingPlanListHead();
+	
+	//返回附件的名称
+	public String showFlieName(String dept);
 }

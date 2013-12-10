@@ -37,7 +37,6 @@ public class TeachingPlan {
 		}
 	}
 
-
 	public ArrayList<TeachingPlanItemPO> getTeachingPlan(String dept) {
 		ArrayList<TeachingPlanItemPO> result = new ArrayList<TeachingPlanItemPO>();
 		String listName = dept + "_teachingplan_list";
@@ -57,8 +56,8 @@ public class TeachingPlan {
 				r.setCourseId(rs.getString(7));
 				r.setCourseName(rs.getString(8));
 				r.setCourseCredit(rs.getInt(9));
-				r.setStartTerm(rs.getInt(10));
-				r.setEndTerm(rs.getInt(11));
+				r.setPeriod(rs.getString(10));
+				r.setStartTerm(rs.getInt(11));
 				result.add(r);
 			}
 		} catch (SQLException e) {
@@ -66,40 +65,39 @@ public class TeachingPlan {
 		}
 		return result;
 	}
-	
-	public Feedback delTeachingPlan(String dept){
+
+	public Feedback delTeachingPlan(String dept) {
 		String listName = dept + "_teachingplan_list";
-		sql ="truncate " +listName;
+		sql = "truncate " + listName;
 		return Feedback.OPERATION_SUCCEED;
 	}
-	
-	public Feedback addTeachingPlanItem(String dept, TeachingPlanItemPO ep){	
+
+	public Feedback addTeachingPlanItem(String dept, TeachingPlanItemPO ep) {
 		String listName = dept + "_teachingplan_list";
 		sql = "insert into " + listName + " values (?,?,?,?,?,?,?,?,?,?,?)";
-			try {
-				conn = sqlconn.getConnection();
-				ps = conn.prepareStatement(sql);
-				ps.setString(1, ep.getModuleId());
-				ps.setString(2, ep.getModuleName());
-				ps.setInt(3, ep.getModuleCredit());
-				ps.setString(4,ep.getCourseNature());
-				ps.setString(5,ep.getCourseType());
-				ps.setInt(6,ep.getTypeCredit());
-				ps.setString(7,ep.getCourseId());
-				ps.setString(8,ep.getCourseName());
-				ps.setInt(9,ep.getCourseCredit());
-				ps.setInt(10,ep.getStartTerm());
-				ps.setInt(11,ep.getEndTerm());
-				
-				ps.execute();
-				return Feedback.OPERATION_SUCCEED;
-			} catch (SQLException e) {
-				// e.printStackTrace();
-				return Feedback.OPERATION_FAIL;
-			}
+		try {
+			conn = sqlconn.getConnection();
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, ep.getModuleId());
+			ps.setString(2, ep.getModuleName());
+			ps.setInt(3, ep.getModuleCredit());
+			ps.setString(4, ep.getCourseNature());
+			ps.setString(5, ep.getCourseType());
+			ps.setInt(6, ep.getTypeCredit());
+			ps.setString(7, ep.getCourseId());
+			ps.setString(8, ep.getCourseName());
+			ps.setInt(9, ep.getCourseCredit());
+			ps.setString(10, ep.getPeriod());
+			ps.setInt(11, ep.getStartTerm());
+			ps.execute();
+			return Feedback.OPERATION_SUCCEED;
+		} catch (SQLException e) {
+			// e.printStackTrace();
+			return Feedback.OPERATION_FAIL;
+		}
 	}
-	
+
 	public String getListHead() {
-		return "课程模块(学分)；课程性质；课程类别(学分)；课程号；课程名称；课程学分；开设学期";
+		return "课程模块(学分)；课程性质；课程类别(学分)；课程号；课程名称；课程学分；学时；开设学期";
 	}
 }

@@ -153,9 +153,9 @@ public class Course_StudentList {
 		return result;
 	}
 	
-	public ArrayList<Course_StudentPO> getListFromStudentId(String listName, String dept, String studentId) {
+	public ArrayList<Course_StudentPO> getListFromStudentId(String listName,String studentId) {
 		ArrayList<Course_StudentPO> result = new ArrayList<Course_StudentPO>();
-		sql = "select * from " + listName + "where dept=?,studentId=?";
+		sql = "select * from " + listName + "where studentId=?";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);

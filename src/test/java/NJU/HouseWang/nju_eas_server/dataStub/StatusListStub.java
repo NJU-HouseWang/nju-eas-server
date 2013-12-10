@@ -20,7 +20,7 @@ public class StatusListStub extends StatusList{
 
 
 		public StatusPO getStatus(String function) {
-			StatusPO result = new StatusPO(function,true);
+			StatusPO result = new StatusPO(function,"true");
 			return result;
 		}
 
@@ -32,9 +32,9 @@ public class StatusListStub extends StatusList{
 
 		public ArrayList<StatusPO> getStatusList() {
 			ArrayList<StatusPO> result = new ArrayList<StatusPO>();
-			StatusPO s1 = new StatusPO("selectCourse",true);
-			StatusPO s2 = new StatusPO("byelectCourse",false);
-			StatusPO s3 = new StatusPO("quitCourse",false);
+			StatusPO s1 = new StatusPO("selectCourse","true");
+			StatusPO s2 = new StatusPO("byelectCourse","false");
+			StatusPO s3 = new StatusPO("quitCourse","false");
 			result.add(s1);
 			result.add(s2);
 			result.add(s3);

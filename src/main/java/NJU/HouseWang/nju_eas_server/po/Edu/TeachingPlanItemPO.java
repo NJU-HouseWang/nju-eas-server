@@ -12,8 +12,8 @@ public class TeachingPlanItemPO implements DataPOService {
 	private String courseId;
 	private String courseName;
 	private int courseCredit;
+	private String period;
 	private int startTerm;
-	private int endTerm;
 
 	public TeachingPlanItemPO() {
 
@@ -22,7 +22,7 @@ public class TeachingPlanItemPO implements DataPOService {
 	public TeachingPlanItemPO(String moduleId, String moduleName,
 			int moduleCredit, String courseNature, String courseType,
 			int typeCredit, String courseId, String courseName,
-			int courseCredit, int startTerm, int endTerm) {
+			int courseCredit, String period, int startTerm) {
 		super();
 		this.moduleId = moduleId;
 		this.moduleName = moduleName;
@@ -33,14 +33,14 @@ public class TeachingPlanItemPO implements DataPOService {
 		this.courseId = courseId;
 		this.courseName = courseName;
 		this.courseCredit = courseCredit;
+		this.period = period;
 		this.startTerm = startTerm;
-		this.endTerm = endTerm;
 	}
 
 	public TeachingPlanItemPO(String moduleId, String moduleName,
 			String moduleCredit, String courseNature, String courseType,
 			String typeCredit, String courseId, String courseName,
-			String courseCredit, String startTerm, String endTerm) {
+			String courseCredit, String period, String startTerm) {
 		super();
 		this.moduleId = moduleId;
 		this.moduleName = moduleName;
@@ -51,8 +51,8 @@ public class TeachingPlanItemPO implements DataPOService {
 		this.courseId = courseId;
 		this.courseName = courseName;
 		this.courseCredit = Integer.parseInt(courseCredit);
+		this.period = period;
 		this.startTerm = Integer.parseInt(startTerm);
-		this.endTerm = Integer.parseInt(endTerm);
 	}
 
 	public String getModuleId() {
@@ -85,6 +85,14 @@ public class TeachingPlanItemPO implements DataPOService {
 
 	public void setCourseNature(String courseNature) {
 		this.courseNature = courseNature;
+	}
+
+	public String getPeriod() {
+		return period;
+	}
+
+	public void setPeriod(String period) {
+		this.period = period;
 	}
 
 	public String getCourseType() {
@@ -135,19 +143,11 @@ public class TeachingPlanItemPO implements DataPOService {
 		this.startTerm = startTerm;
 	}
 
-	public int getEndTerm() {
-		return endTerm;
-	}
-
-	public void setEndTerm(int endTerm) {
-		this.endTerm = endTerm;
-	}
-
 	public String toCommand() {
 		return (moduleId + " " + moduleName + "(" + moduleCredit + ")；"
 				+ courseNature + "；" + courseType + "(" + typeCredit + ")；"
 				+ courseId + "；" + courseName + "；" + courseCredit + "；"
-				+ startTerm + "-" + endTerm);
+				+ period + "；" + startTerm);
 	}
 
 	@Override

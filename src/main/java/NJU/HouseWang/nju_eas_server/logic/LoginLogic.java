@@ -11,11 +11,11 @@ import NJU.HouseWang.nju_eas_server.po.User.GuestPO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 import NJU.HouseWang.nju_eas_server.systemMessage.UserType;
 
-public class LoginSystem implements LoginLogicService {
+public class LoginLogic implements LoginLogicService {
 	private LoginList ll;
 	private AuthorityManager am;
 
-	public LoginSystem() {
+	public LoginLogic() {
 		ll = this.initLoginList();
 		am = this.initAuthorityManager();
 	}

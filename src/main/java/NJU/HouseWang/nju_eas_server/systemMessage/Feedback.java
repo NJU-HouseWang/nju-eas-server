@@ -7,6 +7,8 @@ public enum Feedback {
 	LISTNAME_EMPTY("未设置列表名"), 
 	DATA_NOT_FOUND("数据不存在"), 
 	DATA_ALREADY_EXISTED("数据已存在"),
+	FILE_NOT_FOUND("文件不存在"), 
+	FILE_ALREADY_EXISTED("文件已存在"),
 	IP_ALREADY_EXISTED("该IP已登录"),
 	ID_ALREADY_EXISTED("该账号已在别地登录"),
 	ID_PW_NOT_FOUND("登录信息错误"),
@@ -16,7 +18,8 @@ public enum Feedback {
 	FORMAT_ERROR("提交的学分不符合规范"),
 	AUDIT_REPEATED("该教学计划已审核"),
 	MAX_SELECTION("已达到选课上限"),
-	SELECTION_REPEATED("该选课记录已存在");
+	SELECTION_REPEATED("该选课记录已存在"),
+	COURSE_STUDENT_NOT_FOUND("该学生不在课程名单中");
 	
 	private String content;
 
