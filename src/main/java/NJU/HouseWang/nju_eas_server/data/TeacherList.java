@@ -131,7 +131,7 @@ public class TeacherList {
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
-			 ps.setString(1, type);
+			ps.setString(1, type);
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				TeacherPO r = new TeacherPO();
