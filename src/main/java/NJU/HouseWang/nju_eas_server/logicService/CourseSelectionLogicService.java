@@ -42,7 +42,7 @@ public interface CourseSelectionLogicService extends LogicService {
 	public String delCourse_StudentList(String listName, ArrayList<String> list);
 
 	// 通识课选课抽签
-	public String processCommonCourseSelection(String listName);
+	public String processCommonCourseSelection();
 
 	// 返回最大选课数量
 	public String showMaxSelectionNum();
