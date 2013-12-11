@@ -455,7 +455,8 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	@Override
 	public String editTerm(String term) {
 		// TODO Auto-generated method stub
-		StatusPO sp = new StatusPO("currentTerm",term);
+		StatusPO sp = statusList.getStatus("currentTerm");
+		sp.setContent(term);
 		statusList.updateStatus(sp);
 		termList.addTerm(term);
 		return Feedback.OPERATION_SUCCEED.toString();
