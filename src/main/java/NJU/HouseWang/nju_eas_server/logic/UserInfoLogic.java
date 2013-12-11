@@ -230,11 +230,12 @@ public class UserInfoLogic implements UserInfoLogicService {
 	@Override
 	public String delUser(String id) {
 		if (ll.containsID(id)) {
-			ll.removeLoginer(id);
 			if (tl.containsID(id)) {
 				tl.removeTeacher(id);
+				ll.removeLoginer(id);
 			} else {
 				sl.removeStudent(id);
+				ll.removeLoginer(id);
 			}
 			return (Feedback.OPERATION_SUCCEED.toString());
 		} else {
