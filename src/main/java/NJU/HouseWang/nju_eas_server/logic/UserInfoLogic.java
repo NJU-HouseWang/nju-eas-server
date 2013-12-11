@@ -63,10 +63,10 @@ public class UserInfoLogic implements UserInfoLogicService {
 		guest = (GuestPO) ll.getLoginer(uid);
 		String cmdType = cmdInfo[0] + cmdInfo[1];
 		switch (cmdType) {
-		case "showselfInformation":
+		case "showself_information":
 			return showSelfInformation();
 
-		case "editselfInformation":
+		case "editself_information":
 			String userType = ((GuestPO) ll.getLoginer(uid)).getType()
 					.toString();
 			if ((userType.equals("Teacher")) || (userType.equals("SchoolDean"))
@@ -95,22 +95,22 @@ public class UserInfoLogic implements UserInfoLogicService {
 		case "deluser":
 			return delUser(cmdInfo[2]);
 
-		case "addTeacher":
+		case "addteacher":
 			TeacherPO tp = new TeacherPO(cmdInfo[2], cmdInfo[3], cmdInfo[4],
 					cmdInfo[5]);
 			return addTeacher(tp);
 
-		case "addStudent":
+		case "addstudent":
 			StudentPO sp = new StudentPO(cmdInfo[2], cmdInfo[3], cmdInfo[4],
 					cmdInfo[5], cmdInfo[6], cmdInfo[7], cmdInfo[8], cmdInfo[9]);
 			return addStudent(sp);
 
-		case "editTeacher":
+		case "editseacher":
 			TeacherPO tp2 = new TeacherPO(cmdInfo[2], cmdInfo[3], cmdInfo[4],
 					cmdInfo[5]);
 			return editTeacher(tp2);
 
-		case "editStudent":
+		case "editstudent":
 			StudentPO sp2 = new StudentPO(cmdInfo[2], cmdInfo[3], cmdInfo[4],
 					cmdInfo[5], cmdInfo[6], cmdInfo[7], cmdInfo[8], cmdInfo[9]);
 			return editStudent(sp2);
