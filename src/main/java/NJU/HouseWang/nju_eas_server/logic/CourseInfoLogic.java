@@ -165,8 +165,8 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		case "showstudent_list_from_teacher_and_course":
 			feedback = this.showStudentListFromTeacherAndCourse(cmdInfo[2], cmdInfo[3]);
 			break;
-		case "getTerm":
-			feedback = this.getTerm();
+		case "showterm":
+			feedback = this.showTerm();
 			break;
 		case "editterm":
 			feedback = this.editTerm(cmdInfo[2]);
@@ -441,8 +441,7 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 
 	public String getTerm() {
 		// TODO Auto-generated method stub
-		String s = statusList.getStatus("currentTerm").getContent();
-		String term = this.termTransfer(s);
+		String term = this.termTransfer(showTerm());
 		return term;
 	}
 	
