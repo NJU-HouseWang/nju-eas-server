@@ -298,6 +298,7 @@ public class CourseSelectionLogic implements CourseSelectionLogicService {
 		String course_StudentListName =courseInfoSystem.termTransfer(term) +"_course_student_list";
 		ArrayList<CourseSelectionPO> courseSelectionList = csl
 				.getCourseSelectionList();
+		if(!courseSelectionList.isEmpty()){
 		ArrayList<String> courseList = new ArrayList<String>();
 		courseList.add(courseSelectionList.get(0).getCourseId());
 		for (int i = 0; i < courseSelectionList.size(); i++) {
@@ -330,6 +331,9 @@ public class CourseSelectionLogic implements CourseSelectionLogicService {
 		// 通识课抽签完成，清空选课列表
 		csl.delList();
 		return Feedback.OPERATION_SUCCEED.toString();
+		} else {
+			return Feedback.DATA_NOT_FOUND.toString();
+		}
 	}
 
 	// 抽签逻辑
