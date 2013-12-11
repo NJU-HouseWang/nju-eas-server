@@ -442,7 +442,7 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	@Override
 	public String showTerm() {
 		// TODO Auto-generated method stub
-		String s = statusList.getStatus("当前学期").getContent();
+		String s = statusList.getStatus("currentTerm").getContent();
 		String term = this.termTransfer(s);
 		return term;
 	}
@@ -450,7 +450,7 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	@Override
 	public String editTerm(String term) {
 		// TODO Auto-generated method stub
-		StatusPO sp = new StatusPO("当前学期",term);
+		StatusPO sp = new StatusPO("currentTerm",term);
 		statusList.updateStatus(sp);
 		termList.addTerm(term);
 		return Feedback.OPERATION_SUCCEED.toString();
