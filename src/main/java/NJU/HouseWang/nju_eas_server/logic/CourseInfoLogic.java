@@ -165,8 +165,8 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		case "showstudent_list_from_teacher_and_course":
 			feedback = this.showStudentListFromTeacherAndCourse(cmdInfo[2], cmdInfo[3]);
 			break;
-		case "showterm":
-			feedback = this.showTerm();
+		case "getTerm":
+			feedback = this.getTerm();
 			break;
 		case "editterm":
 			feedback = this.editTerm(cmdInfo[2]);
@@ -174,7 +174,7 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		case "publishcommon_course":
 			feedback = "list";
 			break;
-		case "showterm_list":
+		case "getTerm_list":
 			feedback = this.showTermList();
 			break;
 		default:
@@ -252,7 +252,7 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	@Override
 	public String addCourse(CoursePO c) {
 		// TODO Auto-generated method stub
-		String listName = this.showTerm() + "_course_list";
+		String listName = this.getTerm() + "_course_list";
 		if (!cl.containsCourse(listName, c.getDepartment(), c.getId())) {
 			cl.addCourse(listName, c);
 			return Feedback.OPERATION_SUCCEED.toString();
@@ -296,7 +296,7 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	@Override
 	public ArrayList<String> showCommonCourseList() {
 		// TODO Auto-generated method stub
-		String listName = this.showTerm() + "_course_list";
+		String listName = this.getTerm() + "_course_list";
 		ArrayList<String> list = new ArrayList<String>();
 		ArrayList<CoursePO> courseList = cl.getCourseListFromDept(listName,
 				"通识课");
@@ -314,7 +314,7 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	public String addCourseList(ArrayList<String> list) {
 		// TODO Auto-generated method stub
 		ArrayList<CoursePO> courseList = new ArrayList<CoursePO>();
-		String listName = this.showTerm() + "_course_list";
+		String listName = this.getTerm() + "_course_list";
 		for (int i = 0; i < list.size(); i++) {
 			courseList.add(stringToCoursePO(list.get(i)));
 		}
@@ -400,7 +400,7 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		ArrayList<String> list = new ArrayList<String>();
 		StudentPO sp = sl.getStudent(studentId);
 		String department = sp.getDepartment();
-		String listName = this.showTerm() + "_course_student_list";
+		String listName = this.getTerm() + "_course_student_list";
 		ArrayList<Course_StudentPO> course_StudentList = csl
 				.getListFromStudentId(listName, studentId);
 		for (int i = 0; i < course_StudentList.size(); i++) {
@@ -428,7 +428,7 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	public ArrayList<String> showStudentListFromTeacherAndCourse(
 			String courseId, String teacherId) {
 		// TODO Auto-generated method stub
-		String listName = this.showTerm() + "_course_student_list";
+		String listName = this.getTerm() + "_course_student_list";
 		String department = tl.getTeacher(teacherId).getCompany();
 		ArrayList<String> list = new ArrayList<String>();
 		ArrayList<Course_StudentPO> course_studentList = csl
@@ -439,12 +439,18 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		return list;
 	}
 
-	@Override
-	public String showTerm() {
+	public String getTerm() {
 		// TODO Auto-generated method stub
 		String s = statusList.getStatus("currentTerm").getContent();
 		String term = this.termTransfer(s);
 		return term;
+	}
+	
+	@Override
+	public String showTerm() {
+		// TODO Auto-generated method stub
+		String s = statusList.getStatus("currentTerm").getContent();
+		return s;
 	}
 	
 	@Override
@@ -462,7 +468,7 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		// TODO Auto-generated method stub
 		//清空courSelectorNumList
 		csnl.delList();
-		String listName = this.showTerm() + "_course_list";
+		String listName = this.getTerm() + "_course_list";
 		ArrayList<CoursePO> courseList = new ArrayList<CoursePO>();
 		for(int i = 0; i <list.size();i++){
 			CoursePO cp = this.stringToCoursePO(list.get(i));
@@ -493,7 +499,7 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	@Override
 	public CoursePO tpPOToCoursePO(String dept, TeachingPlanItemPO tpip) {
 		// TODO Auto-generated method stub
-		String term = this.showTerm();
+		String term = this.getTerm();
 		String[] yearInfo = term.split("-");
 		String[] termInfo = term.split("_");
 		String grade = ""
