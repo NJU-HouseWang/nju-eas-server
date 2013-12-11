@@ -51,7 +51,7 @@ public class EduFrameworkLogic implements EduFrameworkLogicService {
 		case "showmodulenum":
 			return this.showModuleNum();
 			
-		case "showeduframeworkhead":
+		case "showeduframework_head":
 			return this.showEduFrameworkHead();
 
 		default:

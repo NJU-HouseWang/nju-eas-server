@@ -60,7 +60,7 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 		case "showteachingplan":
 			return this.showTeachingPlan(cmdInfo[2]);
 
-		case "showteachingplanlist":
+		case "showteachingplan_list":
 			return this.showTeachingPlanList();
 
 		case "addteachingplan":
@@ -76,22 +76,22 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 			return this.auditTeachingPlan(cmdInfo[2],
 					Integer.parseInt(cmdInfo[3]));
 
-		case "uploadteachingplanfile":
+		case "uploadteachingplan_file":
 			if (cmd.contains("ok")) {
 				return this.uploadTeachingPlanFile(cmdInfo[2]);
 			} else {
 				return "file；d:/tpFile/";
 			}
 
-		case "downloadteachingplanfile":
+		case "downloadteachingplan_file":
 			return this.downloadTeachingPlanFile(cmdInfo[2]);
 
 		case "showteachingplan_head":
 			return this.showTeachingPlanHead();
 
-		case "showteachingplanlist_head":
+		case "showteachingplan_list_head":
 			return this.showTeachingPlanListHead();
-		case "showfilename":
+		case "showfile_name":
 			return this.showFlieName(cmdInfo[2]);
 		default:
 			return null;

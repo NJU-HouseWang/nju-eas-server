@@ -115,7 +115,7 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		String cmdType = cmdInfo[0] + cmdInfo[1];
 		switch (cmdType) {
 
-		case "showcoursedetail":
+		case "showcourse_detail":
 			return this.showCourseDetail(cmdInfo[2], cmdInfo[3], cmdInfo[4] );
 		case "editcourse":
 			course = cmdInfo[3]; 

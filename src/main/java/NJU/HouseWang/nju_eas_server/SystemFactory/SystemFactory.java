@@ -26,7 +26,7 @@ public class SystemFactory {
 			return (new LoginLogic());
 		case "show":
 			switch (aim) {
-			case "selfInformation":
+			case "self_information":
 			case "login_list":
 			case "teacher_list":
 			case "student_list":
@@ -48,13 +48,13 @@ public class SystemFactory {
 				return (new AnnouncementLogic());
 			case "eduframework":
 			case "modulenum":
-			case "eduframeworkhead":
+			case "eduframework_head":
 				return (new EduFrameworkLogic());
 			case "teachingplan":
-			case "teachingplanlist":
+			case "teachingplan_list":
 			case "teachingplan_head":
-			case "teachingplanlist_head":
-			case "filename":
+			case "teachingplan_list_head":
+			case "file_name":
 				return (new TeachingPlanLogic());
 			case "status":
 			case "status_list":
@@ -62,7 +62,7 @@ public class SystemFactory {
 			case "max_selection_num":
 			case "selected_course":
 				return (new CourseSelectionLogic());
-			case "coursedetail":
+			case "course_detail":
 			case "course_list":
 			case "common_course_list":
 			case "course_list_head":
@@ -102,7 +102,7 @@ public class SystemFactory {
 		case "edit":
 			switch (aim) {
 			case "user":
-			case "selfInformation":
+			case "self_information":
 			case "password":
 				return (new UserInfoLogic());
 
@@ -191,13 +191,13 @@ public class SystemFactory {
 			break;
 		case "upload":
 			switch (aim) {
-			case "teachingplanfile":
+			case "teachingplan_file":
 				return (new TeachingPlanLogic());
 			}
 			break;
 		case "download":
 			switch (aim) {
-			case "teachingplanfile":
+			case "teachingplan_file":
 				return (new TeachingPlanLogic());
 			}
 			break;
