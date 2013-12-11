@@ -59,13 +59,14 @@ public class UserInfoLogic implements UserInfoLogicService {
 	public Object operate(String cmd) {
 		String[] cmdInfo = cmd.split("；");
 		String uid = am.getGuest(cmdInfo[cmdInfo.length - 1]);
+		Object feedback = null;
 		this.uid = uid;
 		guest = (GuestPO) ll.getLoginer(uid);
 		String cmdType = cmdInfo[0] + cmdInfo[1];
 		switch (cmdType) {
 		case "showself_information":
-			return showSelfInformation();
-
+			feedback =  showSelfInformation();
+			break;
 		case "editself_information":
 			String userType = ((GuestPO) ll.getLoginer(uid)).getType()
 					.toString();
@@ -78,90 +79,101 @@ public class UserInfoLogic implements UserInfoLogicService {
 						cmdInfo[5], cmdInfo[6], cmdInfo[7], cmdInfo[8],
 						cmdInfo[9]);
 			}
-			return editSelfInformation(upo);
-
+			feedback =  editSelfInformation(upo);
+			break;
 		case "adduser":
 			UserPO u = new UserPO(cmdInfo[2], UserType.valueOf(cmdInfo[3]));
-			return addUser(u);
-
+			feedback = addUser(u);
+			break;
 		case "edituser":
 			System.out.println(cmdInfo[2] + "  " + cmdInfo[3] + "  " + cmdInfo[4]);
 			GuestPO guest = new GuestPO(cmdInfo[2],
 					UserType.valueOf(cmdInfo[3]), cmdInfo[4]);
-			return editUser(guest);
-
+			feedback = editUser(guest);
+			break;
 		case "delstudent":
 		case "delteacher":
 		case "deluser":
-			return delUser(cmdInfo[2]);
-
+			feedback = delUser(cmdInfo[2]);
+			break;
 		case "addteacher":
 			TeacherPO tp = new TeacherPO(cmdInfo[2], cmdInfo[3], cmdInfo[4],
 					cmdInfo[5]);
-			return addTeacher(tp);
-
+			feedback = addTeacher(tp);
+			break;
 		case "addstudent":
 			StudentPO sp = new StudentPO(cmdInfo[2], cmdInfo[3], cmdInfo[4],
 					cmdInfo[5], cmdInfo[6], cmdInfo[7], cmdInfo[8], cmdInfo[9]);
-			return addStudent(sp);
-
+			feedback = addStudent(sp);
+			break;
 		case "editseacher":
 			TeacherPO tp2 = new TeacherPO(cmdInfo[2], cmdInfo[3], cmdInfo[4],
 					cmdInfo[5]);
-			return editTeacher(tp2);
-
+			feedback = editTeacher(tp2);
+			break;
 		case "editstudent":
 			StudentPO sp2 = new StudentPO(cmdInfo[2], cmdInfo[3], cmdInfo[4],
 					cmdInfo[5], cmdInfo[6], cmdInfo[7], cmdInfo[8], cmdInfo[9]);
-			return editStudent(sp2);
-
+			feedback = editStudent(sp2);
+			break;
 		case "showlogin_list":
-			return showLoginList();
-
+			feedback = showLoginList();
+			break;
 		case "showteacher_list":
-			return showTeacherList(cmdInfo[2]);
-
+			feedback = showTeacherList(cmdInfo[2]);
+			break;
 		case "showstudent_list":
-			return showStudentList();
-
+			feedback = showStudentList();
+			break;
 		case "adduser_list":
-			return "list";
-
+			feedback = "list";
+			break;
 		case "deluser_list":
-			return "list";
-
+			feedback = "list";
+			break;
 		case "editpassword":
-			return editPassword(cmdInfo[2], cmdInfo[3]);
-
+			feedback = editPassword(cmdInfo[2], cmdInfo[3]);
+			break;
 		case "showlogin_list_head":
-			return this.showLoginListHead();
-
+			feedback = this.showLoginListHead();
+			break;
 		case "showteacher_list_head":
-			return this.showTeacherListHead();
-
+			feedback = this.showTeacherListHead();
+			break;
 		case "showstudent_list_head":
-			return this.showStudentListHead();
-
+			feedback = this.showStudentListHead();
+			break;
 		default:
-			return null;
+			break;
 		}
+		ll.finish();
+		tl.finish();
+		sl.finish();
+		return feedback;
 	}
 
 	@Override
 	public Object operate(String cmd, ArrayList<String> list) {
 		String[] cmdInfo = cmd.split("；");
+		Object feedback = null;
 		String uid = am.getGuest(cmdInfo[cmdInfo.length - 1]);
 		this.uid = uid;
 		guest = (GuestPO) ll.getLoginer(uid);
 		String cmdType = cmdInfo[0] + cmdInfo[1];
 		switch (cmdType) {
 		case "adduser_list":
-			return addUserList(list);
+			feedback = addUserList(list);
+			break;
 		case "deluser_list":
-			return delUserList(list);
+			feedback = delUserList(list);
+			break;
 		default:
-			return null;
+			break;
 		}
+		ll.finish();
+		tl.finish();
+		sl.finish();
+		return feedback;
 	}
 
 	@Override

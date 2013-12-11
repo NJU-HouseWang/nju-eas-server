@@ -32,24 +32,26 @@ public class LoginLogic implements LoginLogicService {
 	@Override
 	// 命令格式：login/logout;(用户类型);(用户名);(密码)
 	public Object operate(String cmd) {
-
+		Object feedback = null;
 		String[] cmdInfo = cmd.split("；");
 		String uid = am.getGuest(cmdInfo[cmdInfo.length - 1]);
 		if (cmd.startsWith("login")) {
 			if (cmd.endsWith("；ok")) {
 				UserType ut = UserType.valueOf(cmdInfo[1]);
 				GuestPO newGuest = new GuestPO(cmdInfo[2], ut, cmdInfo[3]);
-				return this.login(newGuest, cmdInfo[cmdInfo.length - 1]);
+				feedback = this.login(newGuest, cmdInfo[cmdInfo.length - 1]);
 			} else {
-				return "ip";
+				feedback = "ip";
 			}
 		} else {
 			if (cmd.endsWith("；ok")) {
-				return this.logout(cmdInfo[cmdInfo.length - 1]);
+				feedback = this.logout(cmdInfo[cmdInfo.length - 1]);
 			} else {
-				return "ip";
+				feedback = "ip";
 			}
 		}
+		ll.finish();
+		return feedback;
 
 	}
 

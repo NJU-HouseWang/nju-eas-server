@@ -33,43 +33,48 @@ public class EduFrameworkLogic implements EduFrameworkLogicService {
 
 	@Override
 	public Object operate(String cmd) {
-
+		Object feedback = null;
 		String[] cmdInfo = cmd.split("；");
 		String uid = am.getGuest(cmdInfo[cmdInfo.length-1]);
 		String cmdType = cmdInfo[0] + cmdInfo[1];
 		switch (cmdType) {
-
 		case "showeduframework":
-			return this.showEduFramework();
-
+			feedback = this.showEduFramework();
+			break;
 		case "addeduframework":
-			return "list";
-
+			feedback = "list";
+			break;
 		case "deleduframwwork":
-			return this.delEduFramework();
-
+			feedback = this.delEduFramework();
+			break;
 		case "showmodulenum":
-			return this.showModuleNum();
-			
+			feedback = this.showModuleNum();
+			break;
 		case "showeduframework_head":
-			return this.showEduFrameworkHead();
-
+			feedback = this.showEduFrameworkHead();
+			break;
 		default:
-			return null;
+			break;
 		}
+		ef.finish();
+		return feedback;
 	}
 
 	@Override
 	public Object operate(String cmd, ArrayList<String> list) {
+		Object feedback = null;
 		String[] cmdInfo = cmd.split("；");
 		String uid = am.getGuest(cmdInfo[cmdInfo.length-1]);
 		String cmdType = cmdInfo[0] + cmdInfo[1];
 		switch (cmdType) {
 		case "addeduframework":
-			return this.addEduFramework(list);
+			feedback = this.addEduFramework(list);
+			break;
 		default:
-			return null;
+			break;
 		}
+		ef.finish();
+		return feedback;
 	}
 
 	@Override

@@ -31,7 +31,7 @@ public class LogLogic implements LogLogicService {
 
 	@Override
 	public Object operate(String cmd) {
-
+		Object feedback = null;
 		String[] cmdInfo = cmd.split("；");
 		String uid = am.getGuest(cmdInfo[cmdInfo.length-1]);
 		String cmdType = cmdInfo[0] + cmdInfo[1];
@@ -40,16 +40,18 @@ public class LogLogic implements LogLogicService {
 		case "addlog":
 			this.addLog(new LogPO(cmdInfo[2], cmdInfo[3], cmdInfo[4],
 					cmdInfo[5]));
-			return null;
+			break;
 		case "showlog_list":
-			return this.showLogList();
-			
+			feedback = this.showLogList();
+			break;
 		case "showlog_list_head":
-			return this.showLogListHead();
-			
+			feedback = this.showLogListHead();
+			break;
 		default:
-			return null;
+			break;
 		}
+		ll.finish();
+		return feedback;
 	}
 
 	@Override

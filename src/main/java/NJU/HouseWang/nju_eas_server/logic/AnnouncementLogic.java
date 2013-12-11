@@ -30,30 +30,39 @@ public class AnnouncementLogic implements AnnouncementLogicService {
 	}
 	@Override
 	public Object operate(String cmd) {
+		Object feedback = null;
 		String[] cmdInfo = cmd.split("；");
 		String uid = am.getGuest(cmdInfo[cmdInfo.length-1]);
 		String cmdType = cmdInfo[0] + cmdInfo[1];
 		switch (cmdType) {
 		case "showannouncement":
-			return showAnnouncement(cmdInfo[2]);
+			feedback = showAnnouncement(cmdInfo[2]);
+			break;
 		case "editannouncement":
 			AnnouncementPO a1 = new AnnouncementPO(cmd.substring(18,
 					cmd.length() - 1));
-			return editAnnouncement(a1);
+			feedback =  editAnnouncement(a1);
+			break;
 		case "addannouncement":
 			AnnouncementPO a2 = new AnnouncementPO(cmd.substring(17,
 					cmd.length() - 1));
-			return addAnnouncement(a2);
+			feedback = addAnnouncement(a2);
+			break;
 		case "delannouncement":
-			return delAnnouncement(cmdInfo[2]);
+			feedback = delAnnouncement(cmdInfo[2]);
+			break;
 		case "showannouncement_list":
-			return showAnnouncementList(Integer.parseInt(cmdInfo[2]),
+			feedback = showAnnouncementList(Integer.parseInt(cmdInfo[2]),
 					cmdInfo[3]);
+			break;
 		case "showannouncement_list_head":
-			return showAnnouncementListHead();
+			feedback =  showAnnouncementListHead();
+			break;
 		default:
-			return null;
+			break;
 		}
+		al.finish();
+		return feedback;
 	}
 
 	@Override

@@ -110,97 +110,120 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 
 	@Override
 	public Object operate(String cmd) {
+		Object feedback = null;
 		String[] cmdInfo = cmd.split("；");
 		String uid = am.getGuest(cmdInfo[cmdInfo.length-1]);
 		String cmdType = cmdInfo[0] + cmdInfo[1];
 		switch (cmdType) {
-
 		case "showcourse_detail":
-			return this.showCourseDetail(cmdInfo[2], cmdInfo[3], cmdInfo[4] );
+			feedback = this.showCourseDetail(cmdInfo[2], cmdInfo[3], cmdInfo[4] );
+			break;
 		case "editcourse":
 			course = cmdInfo[3]; 
 			for(int i = 4 ; i < cmdInfo.length; i++ ){
 				course = course + "；" + cmdInfo[i];
 			}
-			return this.editCourse(cmdInfo[2],this.stringToCoursePO(course));
-			
+			feedback = this.editCourse(cmdInfo[2],this.stringToCoursePO(course));
+			break;
 		case "addcourse":
 			course = cmdInfo[2]; 
 			for(int i = 3 ; i < cmdInfo.length; i++ ){
 				course = course + "；" + cmdInfo[i];
 			}
-			return this.editCourse(cmdInfo[2],this.stringToCoursePO(course));
-			
+			feedback = this.editCourse(cmdInfo[2],this.stringToCoursePO(course));
+			break;
 		case "delcourse":
-			return this.delCourse(cmdInfo[2], cmdInfo[3], cmdInfo[4]);
-			
+			feedback = this.delCourse(cmdInfo[2], cmdInfo[3], cmdInfo[4]);
+			break;
 		case "showcourse_list":
-			return this.showCourseList(cmdInfo[2], cmdInfo[3]);
-			
+			feedback = this.showCourseList(cmdInfo[2], cmdInfo[3]);
+			break;
 		case "showcommon_course_list":
-			return this.showCommonCourseList();
-			
+			feedback = this.showCommonCourseList();
+			break;
 		case "addcourse_list":
-			return "list";
-			
+			feedback = "list";
+			break;
 		case "addcourse_list_from_tp":
-			return this.addCourseListFromTP();
-			
+			feedback = this.addCourseListFromTP();
+			break;
 		case "showcourse_list_head":
-			return this.showCourseListHead();
-			
+			feedback = this.showCourseListHead();
+			break;
 		case "showcommon_course_list_head":
-			return this.showCommonCourseListHead();
-		
+			feedback = this.showCommonCourseListHead();
+			break;
 		case "registerscore":
-			return "list";
-			
+			feedback = "list";
+			break;
 		case "showstudent_course_list":
-			return this.showStudentCourseList(cmdInfo[2]);
-			
+			feedback = this.showStudentCourseList(cmdInfo[2]);
+			break;
 		case "showstudent_score_list":
-			return this.showStudentScoreList(cmdInfo[2], cmdInfo[3]);
-			
+			feedback = this.showStudentScoreList(cmdInfo[2], cmdInfo[3]);
+			break;
 		case "showstudent_list_from_teacher_and_course":
-			return this.showStudentListFromTeacherAndCourse(cmdInfo[2], cmdInfo[3]);
-			
+			feedback = this.showStudentListFromTeacherAndCourse(cmdInfo[2], cmdInfo[3]);
+			break;
 		case "showterm":
-			return this.showTerm();
-			
+			feedback = this.showTerm();
+			break;
 		case "editterm":
-			return this.editTerm(cmdInfo[2]);
-			
+			feedback = this.editTerm(cmdInfo[2]);
+			break;
 		case "publishcommon_course":
-			return "list";
-		
+			feedback = "list";
+			break;
 		case "showterm_list":
-			return this.showTermList();
-			
+			feedback = this.showTermList();
+			break;
 		default:
-			return null;
+			break;
 		}
+		
+		cl.finish();
+		tpl.finish();
+		tp.finish();
+		csnl.finish();
+		csl.finish();
+		sl.finish();
+		tl.finish();
+		statusList.finish();
+		termList.finish();
+		return feedback;
 	}
 
 	@Override
 	public Object operate(String cmd, ArrayList<String> list) {
 		// TODO Auto-generated method stub
+		Object feedback = null;
 		String[] cmdInfo = cmd.split("；");
 		String uid = am.getGuest(cmdInfo[cmdInfo.length-1]);
 		String cmdType = cmdInfo[0] + cmdInfo[1];
 		switch (cmdType) {
 
 		case "addcourse_list":
-			return this.addCourseList(list);
-			
+			feedback = this.addCourseList(list);
+			break;
 		case "registerscore":
-			return this.registerScore(cmdInfo[2], list, cmdInfo[3]);
-			
+			feedback = this.registerScore(cmdInfo[2], list, cmdInfo[3]);
+			break;
 		case "publishcommon_course":
-			return this.publishCommonCourse(list);
-		
+			feedback = this.publishCommonCourse(list);
+			break;
 		default:
-			return null;
+			break;
 		}
+		cl.finish();
+		tpl.finish();
+		tp.finish();
+		csnl.finish();
+		csl.finish();
+		sl.finish();
+		tl.finish();
+		statusList.finish();
+		termList.finish();
+		return feedback;
 	}
 
 	@Override
@@ -429,6 +452,7 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		// TODO Auto-generated method stub
 		StatusPO sp = new StatusPO("当前学期",term);
 		statusList.updateStatus(sp);
+		termList.addTerm(term);
 		return Feedback.OPERATION_SUCCEED.toString();
 	}
 	

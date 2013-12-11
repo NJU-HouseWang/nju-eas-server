@@ -52,68 +52,78 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 
 	@Override
 	public Object operate(String cmd) {
-
+		Object feedback = null;
 		String[] cmdInfo = cmd.split("；");
 		String uid = am.getGuest(cmdInfo[cmdInfo.length - 1]);
 		String cmdType = cmdInfo[0] + cmdInfo[1];
 		switch (cmdType) {
 		case "showteachingplan":
-			return this.showTeachingPlan(cmdInfo[2]);
-
+			feedback = this.showTeachingPlan(cmdInfo[2]);
+			break;
 		case "showteachingplan_list":
-			return this.showTeachingPlanList();
-
+			feedback = this.showTeachingPlanList();
+			break;
 		case "addteachingplan":
-			return "list";
-
+			feedback = "list";
+			break;
 		case "editteachingplan":
-			return "list";
-
+			feedback = "list";
+			break;
 		case "delteachingplan":
-			return this.delTeachingPlan(cmdInfo[2]);
-
+			feedback = this.delTeachingPlan(cmdInfo[2]);
+			break;
 		case "auditteachingplan":
-			return this.auditTeachingPlan(cmdInfo[2],
+			feedback = this.auditTeachingPlan(cmdInfo[2],
 					Integer.parseInt(cmdInfo[3]));
-
+			break;
 		case "uploadteachingplan_file":
 			if (cmd.contains("ok")) {
-				return this.uploadTeachingPlanFile(cmdInfo[2]);
+				feedback = this.uploadTeachingPlanFile(cmdInfo[2]);
 			} else {
-				return "file；d:/tpFile/";
+				feedback = "file；d:/tpFile/";
 			}
-
+			break;
 		case "downloadteachingplan_file":
-			return this.downloadTeachingPlanFile(cmdInfo[2]);
-
+			feedback = this.downloadTeachingPlanFile(cmdInfo[2]);
+			break;
 		case "showteachingplan_head":
-			return this.showTeachingPlanHead();
-
+			feedback = this.showTeachingPlanHead();
+			break;
 		case "showteachingplan_list_head":
-			return this.showTeachingPlanListHead();
+			feedback = this.showTeachingPlanListHead();
+			break;
 		case "showfile_name":
-			return this.showFlieName(cmdInfo[2]);
+			feedback = this.showFlieName(cmdInfo[2]);
+			break;
 		default:
-			return null;
+			break;
 		}
+		tp.finish();
+		tl.finish();
+		ef.finish();
+		return feedback;
 	}
 
 	@Override
 	public Object operate(String cmd, ArrayList<String> list) {
-
+		Object feedback = null;
 		String[] cmdInfo = cmd.split("；");
 		String uid = am.getGuest(cmdInfo[cmdInfo.length - 1]);
 		String cmdType = cmdInfo[0] + cmdInfo[1];
 		switch (cmdType) {
 		case "addteachingplan":
-			return this.addTeachingPlan(cmdInfo[2], list);
-
+			feedback = this.addTeachingPlan(cmdInfo[2], list);
+			break;
 		case "editteachingplan":
-			return this.editTeachingPlan(cmdInfo[2], list);
-
+			feedback = this.editTeachingPlan(cmdInfo[2], list);
+			break;
 		default:
-			return null;
+			break;
 		}
+		tp.finish();
+		tl.finish();
+		ef.finish();
+		return feedback;
 	}
 
 	@Override

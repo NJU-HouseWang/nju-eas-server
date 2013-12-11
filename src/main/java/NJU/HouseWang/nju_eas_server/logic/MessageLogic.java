@@ -32,36 +32,39 @@ public class MessageLogic implements MessageLogicService {
 	@Override
 	public Object operate(String cmd) {
 		// TODO Auto-generated method stub
+		Object feedback = null;
 		String[] cmdInfo = cmd.split("；");
 		String uid = am.getGuest(cmdInfo[cmdInfo.length-1]);
 		String cmdType = cmdInfo[0] + cmdInfo[1];
 		switch (cmdType) {
 		case "showmessage":
-			return this.showMessage(cmdInfo[2],cmdInfo[3]);
-			
+			feedback = this.showMessage(cmdInfo[2],cmdInfo[3]);
+			break;
 		case "editmessage":
 			MessagePO m1 = new MessagePO(cmdInfo[2],cmdInfo[3],cmdInfo[4],uid,cmdInfo[5],cmdInfo[6]);
-			return this.editMessage(m1);
-			
+			feedback = this.editMessage(m1);
+			break;
 		case "addmessage":
 			MessagePO m2 =  new MessagePO(cmdInfo[3],cmdInfo[4],uid,cmdInfo[5],cmdInfo[6]);
-			return this.addMessage(cmdInfo[2],m2);
-			
+			feedback = this.addMessage(cmdInfo[2],m2);
+			break;
 		case "delmessage":
-			return this.delMessage(cmdInfo[2],cmdInfo[3]);
-			
+			feedback = this.delMessage(cmdInfo[2],cmdInfo[3]);
+			break;
 		case "showmessage_list":
-			return this.showMessageList(cmdInfo[2],uid);
-			
+			feedback = this.showMessageList(cmdInfo[2],uid);
+			break;
 		case "showmessage_list_head":
-			return this.showMessageListHead();
-			
+			feedback = this.showMessageListHead();
+			break;
 		case "movemessage":
-			return this.moveMessage(cmdInfo[2], cmdInfo[3], cmdInfo[4]);
-			
+			feedback = this.moveMessage(cmdInfo[2], cmdInfo[3], cmdInfo[4]);
+			break;
 		default:
-			return null;
+			break;
 		}
+		ml.finish();
+		return feedback;
 	}
 	
 	@Override

@@ -75,59 +75,89 @@ public class CourseSelectionLogic implements CourseSelectionLogicService {
 
 	@Override
 	public Object operate(String cmd) {
+		Object feedback = null;
 		String[] cmdInfo = cmd.split("；");
 		String uid = am.getGuest(cmdInfo[cmdInfo.length - 1]);
 		String cmdType = cmdInfo[0] + cmdInfo[1];
 		switch (cmdType) {
 		case "showstatus":
-			return showStatus(cmdInfo[2]);
+			feedback = showStatus(cmdInfo[2]);
+			break;
 		case "editstatus":
 			StatusPO sp = new StatusPO();
 			sp.setStatus(cmdInfo[2]);
 			sp.setContent(cmdInfo[3]);
-			return editStatus(sp);
+			feedback = editStatus(sp);
+			break;
 		case "showstatus_list":
-			return showStatusList();
+			feedback = showStatusList();
+			break;
 		case "showstatus_list_head":
-			return showStatusListHead();
+			feedback = showStatusListHead();
+			break;
 		case "selectcommon_course":
-			return this.selectCommonCourse(cmdInfo[2], cmdInfo[3]);
+			feedback = this.selectCommonCourse(cmdInfo[2], cmdInfo[3]);
+			break;
 		case "selectcourse":
-			return this.selectCourse(cmdInfo[2], cmdInfo[3], cmdInfo[4]);
+			feedback = this.selectCourse(cmdInfo[2], cmdInfo[3], cmdInfo[4]);
+			break;
 		case "byelectcourse":
-			return this.byElectCourse(cmdInfo[2], cmdInfo[3], cmdInfo[4]);
+			feedback = this.byElectCourse(cmdInfo[2], cmdInfo[3], cmdInfo[4]);
+			break;
 		case "quitcourse":
-			return this.quitCourse(cmdInfo[2], cmdInfo[3], cmdInfo[4]);
+			feedback = this.quitCourse(cmdInfo[2], cmdInfo[3], cmdInfo[4]);
+			break;
 		case "addcourse_student_list":
-			return "list";
+			feedback = "list";
+			break;
 		case "delcourse_student_list":
-			return "list";
+			feedback = "list";
+			break;
 		case "processcommon_course_selection":
-			return this.processCommonCourseSelection(cmdInfo[2]);
+			feedback = this.processCommonCourseSelection(cmdInfo[2]);
+			break;
 		case "showmax_selection_num":
-			return this.showMaxSelectionNum();
+			feedback = this.showMaxSelectionNum();
+			break;
 		case "showselected_course":
-			return this.showSelectedCouse(cmdInfo[2], cmdInfo[3]);
+			feedback = this.showSelectedCouse(cmdInfo[2], cmdInfo[3]);
+			break;
 		case "delcourse_student_po":
-			return this.delCourse_StudentPO(cmdInfo[2], cmdInfo[3], cmdInfo[4]);
+			feedback = this.delCourse_StudentPO(cmdInfo[2], cmdInfo[3], cmdInfo[4]);
+			break;
 		default:
-			return null;
+			break;
 		}
+		sl.finish();
+		c_sl.finish();
+		csl.finish();
+		csnl.finish();
+		cl.finish();
+		return feedback;
 	}
 
 	@Override
 	public Object operate(String cmd, ArrayList<String> list) {
+		Object feedback = null;
 		String[] cmdInfo = cmd.split("；");
 		String uid = am.getGuest(cmdInfo[cmdInfo.length - 1]);
 		String cmdType = cmdInfo[0] + cmdInfo[1];
 		switch (cmdType) {
 		case "addcourse_student_list":
-			return this.addCourse_StudentList(cmdInfo[2], list);
+			feedback = this.addCourse_StudentList(cmdInfo[2], list);
+			break;
 		case "delcourse_student_list":
-			return this.delCourse_StudentList(cmdInfo[2], list);
+			feedback = this.delCourse_StudentList(cmdInfo[2], list);
+			break;
 		default:
-			return null;
+			break;
 		}
+		sl.finish();
+		c_sl.finish();
+		csl.finish();
+		csnl.finish();
+		cl.finish();
+		return feedback;
 	}
 
 	@Override
