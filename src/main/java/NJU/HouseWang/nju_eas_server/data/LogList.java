@@ -56,7 +56,7 @@ public class LogList {
 		}
 	}
 
-	public ArrayList<LogPO> getLogList(String conditions) {
+	public ArrayList<LogPO> getLogList() {
 		ArrayList<LogPO> result = new ArrayList<LogPO>();
 		sql = "select * from " + listName;
 		try {

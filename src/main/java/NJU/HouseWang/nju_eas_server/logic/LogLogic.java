@@ -42,7 +42,7 @@ public class LogLogic implements LogLogicService {
 					cmdInfo[5]));
 			return null;
 		case "showlog_list":
-			return this.showLogList(cmdInfo[2]);
+			return this.showLogList();
 			
 		case "showlog_list_head":
 			return this.showLogListHead();
@@ -68,9 +68,9 @@ public class LogLogic implements LogLogicService {
 	}
 
 	@Override
-	public ArrayList<String> showLogList(String conditions) {
+	public ArrayList<String> showLogList() {
 
-		ArrayList<LogPO> list = ll.getLogList(conditions);
+		ArrayList<LogPO> list = ll.getLogList();
 		ArrayList<String> logList = new ArrayList<String>();
 		for (int i = 0; i < list.size(); i++) {
 			String logInfo = (list.get(i)).toCommand();
