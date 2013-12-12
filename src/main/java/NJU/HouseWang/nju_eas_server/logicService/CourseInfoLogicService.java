@@ -16,15 +16,27 @@ public interface CourseInfoLogicService extends LogicService {
 
 	// 新增课程
 	public String addCourse(CoursePO c);
+	
+	//新增通识课
+	public String addCommonCourse(CoursePO c);
 
 	// 删除课程
 	public String delCourse(String listName, String department, String id);
 
+	//删除通识课
+	public String delCommonCourse(String id);
+	
+	//修改通识课
+	public String editCommonCourse(CoursePO c);
+	
 	// 查看课程列表
 	public ArrayList<String> showCourseList(String listName, String conditions);
 
 	//查看通识课列表
 	public ArrayList<String> showCommonCourseList();
+	
+	//查看可选的通识课列表
+	public ArrayList<String> showSelectedCommonCourseList();
 	
 	// 批量新增课程
 	public String addCourseList(ArrayList<String> list);
@@ -38,6 +50,9 @@ public interface CourseInfoLogicService extends LogicService {
 	//显示通识课列表的表头
 	public String showCommonCourseListHead();
 
+	//显示可选的通识课列表的表头
+		public String showSelectedCommonCourseListHead();
+		
 	// 登记成绩
 	public String registerScore(String listName, ArrayList<String> list, String scoreType);
 

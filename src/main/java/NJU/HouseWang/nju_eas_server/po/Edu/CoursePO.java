@@ -43,6 +43,22 @@ public class CoursePO implements DataPOService {
 		this.timeAndPlace = timeAndPlace;
 	}
 
+	
+	public CoursePO(String id, String name, String module, String type,
+			String nature, int credit, int period, String grade, int studentNum, String teacherId,
+			String teacherName, String timeAndPlace, String place) {
+		this.id = id;
+		this.name = name;
+		this.module = module;
+		this.type = type;
+		this.nature = nature;
+		this.credit = credit;
+		this.period = period;
+		this.studentNum = studentNum;
+		this.teacherId = teacherId;
+		this.teacherName = teacherName;
+		this.timeAndPlace = timeAndPlace;
+	}
 	public CoursePO(String id, String name, String module, String type,
 			String nature, int credit, int period, String grade, String term,
 			String department) {

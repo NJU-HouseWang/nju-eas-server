@@ -7,6 +7,7 @@ import NJU.HouseWang.nju_eas_server.logic.EduFrameworkLogic;
 import NJU.HouseWang.nju_eas_server.logic.LogLogic;
 import NJU.HouseWang.nju_eas_server.logic.LoginLogic;
 import NJU.HouseWang.nju_eas_server.logic.MessageLogic;
+import NJU.HouseWang.nju_eas_server.logic.SystemInfoLogic;
 import NJU.HouseWang.nju_eas_server.logic.TeachingPlanLogic;
 import NJU.HouseWang.nju_eas_server.logic.UserInfoLogic;
 import NJU.HouseWang.nju_eas_server.logicService.LogicService;
@@ -72,7 +73,11 @@ public class SystemFactory {
 			case "student_list_from_teacher_and_course":
 			case "term":
 			case "term_list":
+			case "seleced_common_course_list_head":
+			case "seleced_common_course_list":
 				return (new CourseInfoLogic());
+			case "dept_list":
+				return (new SystemInfoLogic());
 			}
 			break;
 		case "add":
@@ -96,6 +101,7 @@ public class SystemFactory {
 			case "course":
 			case "course_list":
 			case "course_list_from_tp":
+			case "common_course":
 				return (new CourseInfoLogic());
 			}
 			break;
@@ -116,6 +122,7 @@ public class SystemFactory {
 				return (new CourseSelectionLogic());
 			case "course":
 			case "term":
+			case "common_course":
 				return (new CourseInfoLogic());
 
 			}
@@ -142,6 +149,7 @@ public class SystemFactory {
 			case "course_student_po":
 				return (new CourseSelectionLogic());
 			case "course":
+			case "common_course":
 				return (new CourseInfoLogic());
 			}
 			break;

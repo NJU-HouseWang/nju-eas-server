@@ -69,7 +69,7 @@ public class TeachingPlanList {
 			ps = conn.prepareStatement(sql);
 			ps.setBoolean(1, TeachingPlan.isCommitted());
 			ps.setInt(2, TeachingPlan.getStatus());
-			ps.setString(3, TeachingPlan.getTpFile().toString());
+			ps.setString(3, TeachingPlan.getTpFile().getName());
 			ps.setString(4, TeachingPlan.getDept());
 			ps.execute();
 			return Feedback.OPERATION_SUCCEED;
