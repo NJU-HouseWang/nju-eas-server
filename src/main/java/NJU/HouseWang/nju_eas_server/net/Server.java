@@ -47,6 +47,7 @@ public class Server {
 					Object feedback = ss.operate(cmd);
 					// 根据反馈的类型向客户端发送反馈结果
 					if (feedback instanceof String) {
+						ss = SystemFactory.create(cmd);
 						if (((String) feedback).equals("ip")) {
 							cmd += "；" + ip + "；ok";
 							feedback = ss.operate(cmd);

@@ -34,18 +34,17 @@ public class LoginLogic implements LoginLogicService {
 	public Object operate(String cmd) {
 		Object feedback = null;
 		String[] cmdInfo = cmd.split("；");
-		String uid = am.getGuest(cmdInfo[cmdInfo.length - 1]);
 		if (cmd.startsWith("login")) {
 			if (cmd.endsWith("；ok")) {
 				UserType ut = UserType.valueOf(cmdInfo[1]);
 				GuestPO newGuest = new GuestPO(cmdInfo[2], ut, cmdInfo[3]);
-				feedback = this.login(newGuest, cmdInfo[cmdInfo.length - 1]);
+				feedback = this.login(newGuest, cmdInfo[4]);
 			} else {
 				feedback = "ip";
 			}
 		} else {
 			if (cmd.endsWith("；ok")) {
-				feedback = this.logout(cmdInfo[cmdInfo.length - 1]);
+				feedback = this.logout(cmdInfo[1]);
 			} else {
 				feedback = "ip";
 			}
@@ -73,7 +72,6 @@ public class LoginLogic implements LoginLogicService {
 			return (Feedback.ID_ALREADY_EXISTED.toString());
 		} else {
 			GuestPO g = (GuestPO) ll.getLoginer(id);
-			ll.finish();
 			if (newGuest.equals(g)) {
 				am.addGuest(ip, id);
 				return (Feedback.OPERATION_SUCCEED.toString());

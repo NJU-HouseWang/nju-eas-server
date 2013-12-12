@@ -1,30 +1,28 @@
 package NJU.HouseWang.nju_eas_server.logic;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import NJU.HouseWang.nju_eas_server.data.AuthorityManager;
 import NJU.HouseWang.nju_eas_server.data.LogList;
 import NJU.HouseWang.nju_eas_server.logicService.LogLogicService;
-import NJU.HouseWang.nju_eas_server.netService.NetService;
 import NJU.HouseWang.nju_eas_server.po.Msg.LogPO;
 
 public class LogLogic implements LogLogicService {
 	private LogList ll;
 	private AuthorityManager am;
-	
+
 	public LogLogic() {
 		ll = this.initLogList();
 		am = this.initAuthorityManager();
 	}
-	
-	public LogList initLogList(){
+
+	public LogList initLogList() {
 		LogList l = new LogList();
 		l.init();
 		return l;
 	}
-	
-	public AuthorityManager initAuthorityManager(){
+
+	public AuthorityManager initAuthorityManager() {
 		AuthorityManager a = AuthorityManager.getInstance();
 		return a;
 	}
@@ -33,7 +31,7 @@ public class LogLogic implements LogLogicService {
 	public Object operate(String cmd) {
 		Object feedback = null;
 		String[] cmdInfo = cmd.split("；");
-		String uid = am.getGuest(cmdInfo[cmdInfo.length-1]);
+		String uid = am.getGuest(cmdInfo[cmdInfo.length - 1]);
 		String cmdType = cmdInfo[0] + cmdInfo[1];
 		switch (cmdType) {
 
@@ -63,7 +61,7 @@ public class LogLogic implements LogLogicService {
 	@Override
 	public void addLog(LogPO lp) {
 		String cmd = lp.getContent();
-		if(!cmd.startsWith("show")){
+		if (!cmd.startsWith("show")) {
 			ll.addLog(lp);
 		}
 
@@ -71,7 +69,6 @@ public class LogLogic implements LogLogicService {
 
 	@Override
 	public ArrayList<String> showLogList() {
-
 		ArrayList<LogPO> list = ll.getLogList();
 		ArrayList<String> logList = new ArrayList<String>();
 		for (int i = 0; i < list.size(); i++) {
@@ -83,10 +80,7 @@ public class LogLogic implements LogLogicService {
 
 	@Override
 	public String showLogListHead() {
-
 		return (ll.getListHead());
 	}
-
-	
 
 }

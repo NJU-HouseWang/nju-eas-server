@@ -7,9 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import NJU.HouseWang.nju_eas_server.po.Edu.StatusPO;
-
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
-
 
 public class StatusList {
 	private String listName = "status_list";
@@ -40,7 +38,6 @@ public class StatusList {
 		}
 	}
 
-
 	public StatusPO getStatus(String status) {
 		StatusPO result = new StatusPO();
 		sql = "select * from " + listName + " where status=?";
@@ -59,15 +56,13 @@ public class StatusList {
 		return result;
 	}
 
-	
-
 	public Feedback updateStatus(StatusPO status) {
-		sql = "update " + listName + " set content = ? where status =?";
+		sql = "update " + listName + " set content=? where status=?";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
-			ps.setString(1, status.getStatus());
-			ps.setString(2, status.getContent());
+			ps.setString(1, status.getContent());
+			ps.setString(2, status.getStatus());
 			ps.execute();
 			return Feedback.OPERATION_SUCCEED;
 		} catch (SQLException e) {
@@ -94,8 +89,8 @@ public class StatusList {
 		}
 		return result;
 	}
-	
-	public String getListHead(){
+
+	public String getListHead() {
 		return "系统状态；内容";
 	}
 }
