@@ -7,6 +7,7 @@ import NJU.HouseWang.nju_eas_server.logic.EduFrameworkLogic;
 import NJU.HouseWang.nju_eas_server.logic.LogLogic;
 import NJU.HouseWang.nju_eas_server.logic.LoginLogic;
 import NJU.HouseWang.nju_eas_server.logic.MessageLogic;
+import NJU.HouseWang.nju_eas_server.logic.SystemInfoLogic;
 import NJU.HouseWang.nju_eas_server.logic.TeachingPlanLogic;
 import NJU.HouseWang.nju_eas_server.logic.UserInfoLogic;
 import NJU.HouseWang.nju_eas_server.logicService.LogicService;
@@ -73,6 +74,8 @@ public class SystemFactory {
 			case "term":
 			case "term_list":
 				return (new CourseInfoLogic());
+			case "dept_list":
+				return (new SystemInfoLogic());
 			}
 			break;
 		case "add":
