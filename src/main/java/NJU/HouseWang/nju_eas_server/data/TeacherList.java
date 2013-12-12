@@ -145,6 +145,28 @@ public class TeacherList {
 		}
 		return result;
 	}
+	
+	public ArrayList<TeacherPO> getTeacherList(String type) {
+		ArrayList<TeacherPO> result = new ArrayList<TeacherPO>();
+		sql = "select * from " + listName + "where type=?";
+		try {
+			conn = sqlconn.getConnection();
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, type);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				TeacherPO r = new TeacherPO();
+				r.setId(rs.getString(1));
+				r.setType(UserType.valueOf(rs.getString(2)));
+				r.setName(rs.getString(3));
+				r.setCompany(rs.getString(4));
+				result.add(r);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
 
 	public String getListHead() {
 		return "工号；教师类型；姓名；部门";

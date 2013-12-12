@@ -65,7 +65,7 @@ public class UserInfoLogic implements UserInfoLogicService {
 		String cmdType = cmdInfo[0] + cmdInfo[1];
 		switch (cmdType) {
 		case "showself_information":
-			feedback =  showSelfInformation();
+			feedback = showSelfInformation();
 			break;
 		case "editself_information":
 			String userType = ((GuestPO) ll.getLoginer(uid)).getType()
@@ -79,14 +79,15 @@ public class UserInfoLogic implements UserInfoLogicService {
 						cmdInfo[5], cmdInfo[6], cmdInfo[7], cmdInfo[8],
 						cmdInfo[9]);
 			}
-			feedback =  editSelfInformation(upo);
+			feedback = editSelfInformation(upo);
 			break;
 		case "adduser":
 			UserPO u = new UserPO(cmdInfo[2], UserType.valueOf(cmdInfo[3]));
 			feedback = addUser(u);
 			break;
 		case "edituser":
-			System.out.println(cmdInfo[2] + "  " + cmdInfo[3] + "  " + cmdInfo[4]);
+			System.out.println(cmdInfo[2] + "  " + cmdInfo[3] + "  "
+					+ cmdInfo[4]);
 			GuestPO guest = new GuestPO(cmdInfo[2],
 					UserType.valueOf(cmdInfo[3]), cmdInfo[4]);
 			feedback = editUser(guest);
@@ -120,7 +121,7 @@ public class UserInfoLogic implements UserInfoLogicService {
 			feedback = showLoginList();
 			break;
 		case "showteacher_list":
-			feedback = showTeacherList();
+			feedback = showTeacherList(cmdInfo[2]);
 			break;
 		case "showstudent_list":
 			feedback = showStudentList(cmdInfo[2]);
@@ -348,9 +349,14 @@ public class UserInfoLogic implements UserInfoLogicService {
 	}
 
 	@Override
-	public ArrayList<String> showTeacherList() {
+	public ArrayList<String> showTeacherList(String condition) {
 		// TODO Auto-generated method stub
-		ArrayList<TeacherPO> list2 = tl.getTeacherList();
+		ArrayList<TeacherPO> list2 = new ArrayList<TeacherPO>();
+		if (condition.equals("all")) {
+			list2 = tl.getTeacherList();
+		} else {
+			list2 = tl.getTeacherList(condition);
+		}
 		ArrayList<String> teacherList = new ArrayList<String>();
 		for (int i = 0; i < list2.size(); i++) {
 			String teacherInfo = (list2.get(i)).toCommand();
@@ -362,8 +368,13 @@ public class UserInfoLogic implements UserInfoLogicService {
 	@Override
 	public ArrayList<String> showStudentList(String condition) {
 		// TODO Auto-generated method stub
-		String[] info = condition.split("，");
-		ArrayList<StudentPO> list3 = sl.getStudentList(info[0],info[1]);
+		ArrayList<StudentPO> list3 = new ArrayList<StudentPO>();
+		if (condition.equals("all")) {
+			list3 = sl.getStudentList();
+		} else {
+			String[] info = condition.split("，");
+			list3 = sl.getStudentList(info[0], info[1]);
+		}
 		ArrayList<String> studentList = new ArrayList<String>();
 		for (int i = 0; i < list3.size(); i++) {
 			String studentInfo = (list3.get(i)).toCommand();
