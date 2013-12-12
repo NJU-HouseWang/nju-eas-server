@@ -39,10 +39,10 @@ public interface UserInfoLogicService extends LogicService {
 	public ArrayList<String> showLoginList();
 
 	// 查看教师列表
-	public ArrayList<String> showTeacherList(String type);
+	public ArrayList<String> showTeacherList();
 
 	// 查看学生列表
-	public ArrayList<String> showStudentList();
+	public ArrayList<String> showStudentList(String condition);
 
 	// 显示用户列表的表头
 	public String showLoginListHead();

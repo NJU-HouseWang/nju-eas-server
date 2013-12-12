@@ -137,13 +137,14 @@ public class StudentList {
 		}
 	}
 
-	public ArrayList<StudentPO> getStudentList() {
+	public ArrayList<StudentPO> getStudentList(String grade, String department) {
 		ArrayList<StudentPO> result = new ArrayList<StudentPO>();
-		sql = "select * from " + listName;
+		sql = "select * from " + listName + "where grade=?, department=?";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
-			// ps.setString(1, conditions);
+			ps.setString(1, grade);
+			ps.setString(2, department);
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				StudentPO r = new StudentPO();

@@ -120,10 +120,10 @@ public class UserInfoLogic implements UserInfoLogicService {
 			feedback = showLoginList();
 			break;
 		case "showteacher_list":
-			feedback = showTeacherList(cmdInfo[2]);
+			feedback = showTeacherList();
 			break;
 		case "showstudent_list":
-			feedback = showStudentList();
+			feedback = showStudentList(cmdInfo[2]);
 			break;
 		case "adduser_list":
 			feedback = "list";
@@ -348,9 +348,9 @@ public class UserInfoLogic implements UserInfoLogicService {
 	}
 
 	@Override
-	public ArrayList<String> showTeacherList(String type) {
+	public ArrayList<String> showTeacherList() {
 		// TODO Auto-generated method stub
-		ArrayList<TeacherPO> list2 = tl.getTeacherList(type);
+		ArrayList<TeacherPO> list2 = tl.getTeacherList();
 		ArrayList<String> teacherList = new ArrayList<String>();
 		for (int i = 0; i < list2.size(); i++) {
 			String teacherInfo = (list2.get(i)).toCommand();
@@ -360,9 +360,10 @@ public class UserInfoLogic implements UserInfoLogicService {
 	}
 
 	@Override
-	public ArrayList<String> showStudentList() {
+	public ArrayList<String> showStudentList(String condition) {
 		// TODO Auto-generated method stub
-		ArrayList<StudentPO> list3 = sl.getStudentList();
+		String[] info = condition.split("，");
+		ArrayList<StudentPO> list3 = sl.getStudentList(info[0],info[1]);
 		ArrayList<String> studentList = new ArrayList<String>();
 		for (int i = 0; i < list3.size(); i++) {
 			String studentInfo = (list3.get(i)).toCommand();
