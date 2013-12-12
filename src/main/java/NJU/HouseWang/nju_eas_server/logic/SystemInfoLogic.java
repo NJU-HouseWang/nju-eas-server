@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import NJU.HouseWang.nju_eas_server.data.AuthorityManager;
 import NJU.HouseWang.nju_eas_server.data.DeptList;
 import NJU.HouseWang.nju_eas_server.logicService.SystemInfoLogicService;
+import NJU.HouseWang.nju_eas_server.po.Edu.DepartmentPO;
 import NJU.HouseWang.nju_eas_server.po.Msg.LogPO;
 
 public class SystemInfoLogic implements SystemInfoLogicService{
@@ -54,7 +55,12 @@ public class SystemInfoLogic implements SystemInfoLogicService{
 	@Override
 	public ArrayList<String> showDeptList() {
 		// TODO Auto-generated method stub
-		return dl.getLogList();
+		ArrayList<String> feedback = new ArrayList<String>();
+		ArrayList<DepartmentPO> list = dl.getDeptList();
+		for(int i = 0; i < list.size(); i++){
+			feedback.add(list.get(i).toCommand());
+		}
+		return feedback;
 	}
 
 }

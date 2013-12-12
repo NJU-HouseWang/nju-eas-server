@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import NJU.HouseWang.nju_eas_server.po.Edu.DepartmentPO;
 import NJU.HouseWang.nju_eas_server.po.Msg.LogPO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 
@@ -38,16 +39,18 @@ public class DeptList {
 		}
 	}
 
-	public ArrayList<String> getLogList() {
-		ArrayList<String> result = new ArrayList<String>();
+	public ArrayList<DepartmentPO> getDeptList() {
+		ArrayList<DepartmentPO> result = new ArrayList<DepartmentPO>();
 		sql = "select * from " + listName;
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
 			rs = ps.executeQuery();
 			while (rs.next()) {
-				String r = rs.getString(1);
-				result.add(r);
+				DepartmentPO d = new DepartmentPO();
+				d.setId(rs.getString(1));
+				d.setName(rs.getString(2));
+				result.add(d);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
