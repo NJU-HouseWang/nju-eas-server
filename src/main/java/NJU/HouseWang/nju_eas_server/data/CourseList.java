@@ -280,8 +280,6 @@ public class CourseList {
 
 	}
 	
-	public String getCommonCourseListHead(){
-		return "课程号；课程名称；学分；任课教师姓名；上课时间及地点；已选人数；课程总人数";
-	}
+	
 }
 	

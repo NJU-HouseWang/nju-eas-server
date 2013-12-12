@@ -3,6 +3,7 @@ package NJU.HouseWang.nju_eas_server.logic;
 import java.util.ArrayList;
 
 import NJU.HouseWang.nju_eas_server.data.AuthorityManager;
+import NJU.HouseWang.nju_eas_server.data.CommonCourseList;
 import NJU.HouseWang.nju_eas_server.data.CourseList;
 import NJU.HouseWang.nju_eas_server.data.CourseSelectorNumList;
 import NJU.HouseWang.nju_eas_server.data.Course_StudentList;
@@ -33,6 +34,7 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	private TeacherList tl;
 	private StatusList statusList;
 	private TermList termList;
+	private CommonCourseList ccl;
 	private String course;
 
 	public CourseInfoLogic() {
@@ -46,7 +48,14 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		tl = initTeacherList();
 		statusList = initStatusList();
 		termList = initTermList();
+		ccl = initCommonCourseList();
 
+	}
+
+	public CommonCourseList initCommonCourseList() {
+		CommonCourseList c = new CommonCourseList();
+		c.init();
+		return c;
 	}
 
 	public CourseList initCourseList() {
@@ -95,14 +104,14 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		t.init();
 		return t;
 	}
-	
-	public StatusList initStatusList(){
+
+	public StatusList initStatusList() {
 		StatusList s = new StatusList();
 		s.init();
 		return s;
 	}
-	
-	public TermList initTermList(){
+
+	public TermList initTermList() {
 		TermList t = new TermList();
 		t.init();
 		return t;
@@ -112,34 +121,49 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	public Object operate(String cmd) {
 		Object feedback = null;
 		String[] cmdInfo = cmd.split("；");
-		String uid = am.getGuest(cmdInfo[cmdInfo.length-1]);
+		String uid = am.getGuest(cmdInfo[cmdInfo.length - 1]);
 		String cmdType = cmdInfo[0] + cmdInfo[1];
 		switch (cmdType) {
 		case "showcourse_detail":
-			feedback = this.showCourseDetail(cmdInfo[2], cmdInfo[3], cmdInfo[4] );
+			feedback = this
+					.showCourseDetail(cmdInfo[2], cmdInfo[3], cmdInfo[4]);
 			break;
 		case "editcourse":
-			course = cmdInfo[3]; 
-			for(int i = 4 ; i < cmdInfo.length; i++ ){
+			course = cmdInfo[3];
+			for (int i = 4; i < cmdInfo.length; i++) {
 				course = course + "；" + cmdInfo[i];
 			}
-			feedback = this.editCourse(cmdInfo[2],this.stringToCoursePO(course));
+			feedback = this.editCourse(cmdInfo[2],
+					this.stringToCoursePO(course));
+			break;
+		case "editcommon_course":
+			course = cmdInfo[2];
+			for (int i = 3; i < cmdInfo.length; i++) {
+				course = course + "；" + cmdInfo[i];
+			}
+			feedback = this.editCommonCourse(this.stringToCoursePO(course));
 			break;
 		case "addcourse":
-			course = cmdInfo[2]; 
-			for(int i = 3 ; i < cmdInfo.length; i++ ){
+			course = cmdInfo[2];
+			for (int i = 3; i < cmdInfo.length; i++) {
 				course = course + "；" + cmdInfo[i];
 			}
-			feedback = this.editCourse(cmdInfo[2],this.stringToCoursePO(course));
+			feedback = this.addCourse(this.stringToCoursePO(course));
 			break;
 		case "delcourse":
 			feedback = this.delCourse(cmdInfo[2], cmdInfo[3], cmdInfo[4]);
+			break;
+		case "delcommon_course":
+			feedback = this.delCommonCourse(cmdInfo[2]);
 			break;
 		case "showcourse_list":
 			feedback = this.showCourseList(cmdInfo[2], cmdInfo[3]);
 			break;
 		case "showcommon_course_list":
 			feedback = this.showCommonCourseList();
+			break;
+		case "showselected_common_course_list":
+			feedback = this.showSelectedCommonCourseList();
 			break;
 		case "addcourse_list":
 			feedback = "list";
@@ -153,6 +177,9 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		case "showcommon_course_list_head":
 			feedback = this.showCommonCourseListHead();
 			break;
+		case "showseleced_common_course_list_head":
+			feedback = this.showSelectedCommonCourseListHead();
+			break;
 		case "registerscore":
 			feedback = "list";
 			break;
@@ -163,7 +190,8 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 			feedback = this.showStudentScoreList(cmdInfo[2], cmdInfo[3]);
 			break;
 		case "showstudent_list_from_teacher_and_course":
-			feedback = this.showStudentListFromTeacherAndCourse(cmdInfo[2], cmdInfo[3]);
+			feedback = this.showStudentListFromTeacherAndCourse(cmdInfo[2],
+					cmdInfo[3]);
 			break;
 		case "showterm":
 			feedback = this.showTerm();
@@ -174,13 +202,19 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		case "publishcommon_course":
 			feedback = "list";
 			break;
-		case "getTerm_list":
+		case "showterm_list":
 			feedback = this.showTermList();
 			break;
+		case "addcommon_course":
+			course = cmdInfo[2];
+			for (int i = 3; i < cmdInfo.length; i++) {
+				course = course + "；" + cmdInfo[i];
+			}
+			feedback = this.addCommonCourse(this.stringToCommonCourse(course));
 		default:
 			break;
 		}
-		
+
 		cl.finish();
 		tpl.finish();
 		tp.finish();
@@ -190,6 +224,7 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		tl.finish();
 		statusList.finish();
 		termList.finish();
+		ccl.finish();
 		return feedback;
 	}
 
@@ -198,7 +233,7 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		// TODO Auto-generated method stub
 		Object feedback = null;
 		String[] cmdInfo = cmd.split("；");
-		String uid = am.getGuest(cmdInfo[cmdInfo.length-1]);
+		String uid = am.getGuest(cmdInfo[cmdInfo.length - 1]);
 		String cmdType = cmdInfo[0] + cmdInfo[1];
 		switch (cmdType) {
 
@@ -223,15 +258,15 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		tl.finish();
 		statusList.finish();
 		termList.finish();
+		ccl.finish();
 		return feedback;
 	}
 
 	@Override
 	// 返回课程的介绍、参考书目、教学大纲
-	public String showCourseDetail(String term, String department,
-			String id) {
+	public String showCourseDetail(String term, String department, String id) {
 		// TODO Auto-generated method stub
-		String listName = this.termTransfer(term) +"_course_list";
+		String listName = this.termTransfer(term) + "_course_list";
 		CoursePO cp = cl.getCourse(listName, department, id);
 		return (cp.getIntroduction() + "；" + cp.getBook() + "；" + cp
 				.getSyllabus());
@@ -240,9 +275,21 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	@Override
 	public String editCourse(String term, CoursePO c) {
 		// TODO Auto-generated method stub
-		String listName = this.termTransfer(term) +"_course_list";
+		String listName = this.termTransfer(term) + "_course_list";
 		if (cl.containsCourse(listName, c.getDepartment(), c.getId())) {
 			cl.updateCourse(listName, c);
+			this.editCommonCourse(c);
+			return Feedback.OPERATION_SUCCEED.toString();
+		} else {
+			return Feedback.DATA_NOT_FOUND.toString();
+		}
+	}
+
+	@Override
+	public String editCommonCourse(CoursePO c) {
+		// TODO Auto-generated method stub
+		if (ccl.containsCourse(c.getId())) {
+			ccl.updateCourse(c);
 			return Feedback.OPERATION_SUCCEED.toString();
 		} else {
 			return Feedback.DATA_NOT_FOUND.toString();
@@ -255,6 +302,18 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		String listName = this.getTerm() + "_course_list";
 		if (!cl.containsCourse(listName, c.getDepartment(), c.getId())) {
 			cl.addCourse(listName, c);
+			this.addCommonCourse(c);
+			return Feedback.OPERATION_SUCCEED.toString();
+		} else {
+			return Feedback.DATA_ALREADY_EXISTED.toString();
+		}
+	}
+
+	@Override
+	public String addCommonCourse(CoursePO c) {
+		// TODO Auto-generated method stub
+		if (!ccl.containsCourse(c.getId())) {
+			ccl.addCourse(c);
 			return Feedback.OPERATION_SUCCEED.toString();
 		} else {
 			return Feedback.DATA_ALREADY_EXISTED.toString();
@@ -264,9 +323,21 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	@Override
 	public String delCourse(String term, String department, String id) {
 		// TODO Auto-generated method stub
-		String listName = this.termTransfer(term) +"_course_list";
+		String listName = this.termTransfer(term) + "_course_list";
 		if (cl.containsCourse(listName, department, id)) {
 			cl.removeCourse(listName, department, id);
+			this.delCommonCourse(id);
+			return Feedback.OPERATION_SUCCEED.toString();
+		} else {
+			return Feedback.DATA_NOT_FOUND.toString();
+		}
+	}
+
+	@Override
+	public String delCommonCourse(String id) {
+		// TODO Auto-generated method stub
+		if (ccl.containsCourse(id)) {
+			ccl.removeCourse(id);
 			return Feedback.OPERATION_SUCCEED.toString();
 		} else {
 			return Feedback.DATA_NOT_FOUND.toString();
@@ -277,7 +348,7 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	// 筛选条件以中文逗号“，”分隔
 	public ArrayList<String> showCourseList(String term, String conditions) {
 		// TODO Auto-generated method stub
-		String listName = this.termTransfer(term) +"_course_list";
+		String listName = this.termTransfer(term) + "_course_list";
 		String[] info = conditions.split("，");
 		ArrayList<String> list = new ArrayList<String>();
 		ArrayList<CoursePO> courseList = new ArrayList<CoursePO>();
@@ -294,7 +365,7 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	}
 
 	@Override
-	public ArrayList<String> showCommonCourseList() {
+	public ArrayList<String> showSelectedCommonCourseList() {
 		// TODO Auto-generated method stub
 		String listName = this.getTerm() + "_course_list";
 		ArrayList<String> list = new ArrayList<String>();
@@ -306,6 +377,19 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 			CourseSelectorNumPO csnp = csnl.getCourseSelectorNumPO(courseId);
 			list.add(cp.commonCourseToCommand() + "；" + csnp.getSelectorNum()
 					+ "；" + csnp.getTotalNum());
+		}
+		return list;
+	}
+
+	@Override
+	public ArrayList<String> showCommonCourseList() {
+		// TODO Auto-generated method stub
+		ArrayList<String> list = new ArrayList<String>();
+		ArrayList<CoursePO> courseList = ccl.getCourseList();
+		for (int i = 0; i < courseList.size(); i++) {
+			CoursePO cp = courseList.get(i);
+			list.add(cp.commonCourseToCommand() + "；" + cp.getStudentNum()
+					+ "人");
 		}
 		return list;
 	}
@@ -359,14 +443,14 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	@Override
 	public String showCommonCourseListHead() {
 		// TODO Auto-generated method stub
-		return cl.getCommonCourseListHead();
+		return ccl.getCommonCourseListHead();
 	}
 
 	@Override
 	public String registerScore(String term, ArrayList<String> list,
 			String scoreType) {
 		// TODO Auto-generated method stub
-		String listName = this.termTransfer(term) +"_course_student_list";
+		String listName = this.termTransfer(term) + "_course_student_list";
 		for (int i = 0; i < list.size(); i++) {
 			String[] info = list.get(i).split("；");
 			String courseId = info[0];
@@ -411,10 +495,9 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	}
 
 	@Override
-	public ArrayList<String> showStudentScoreList(String term,
-			String studentId) {
+	public ArrayList<String> showStudentScoreList(String term, String studentId) {
 		// TODO Auto-generated method stub
-		String listName = this.termTransfer(term) +"_course_student_list";
+		String listName = this.termTransfer(term) + "_course_student_list";
 		ArrayList<String> list = new ArrayList<String>();
 		ArrayList<Course_StudentPO> scoreList = csl.getListFromStudentId(
 				listName, studentId);
@@ -444,14 +527,14 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		String term = this.termTransfer(showTerm());
 		return term;
 	}
-	
+
 	@Override
 	public String showTerm() {
 		// TODO Auto-generated method stub
 		String s = statusList.getStatus("currentTerm").getContent();
 		return s;
 	}
-	
+
 	@Override
 	public String editTerm(String term) {
 		// TODO Auto-generated method stub
@@ -459,32 +542,47 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		sp.setContent(term);
 		statusList.updateStatus(sp);
 		termList.addTerm(term);
+		//还差一个新建数据库不会写。。。。。
+		this.addCommonCourseToCourseList();
 		return Feedback.OPERATION_SUCCEED.toString();
 	}
-	
+
 	@Override
-	// 同时初始化courseSelectorNumList
 	public String publishCommonCourse(ArrayList<String> list) {
 		// TODO Auto-generated method stub
-		//清空courSelectorNumList
-		csnl.delList();
-		String listName = this.getTerm() + "_course_list";
 		ArrayList<CoursePO> courseList = new ArrayList<CoursePO>();
-		for(int i = 0; i <list.size();i++){
-			CoursePO cp = this.stringToCoursePO(list.get(i));
+		for (int i = 0; i < list.size(); i++) {
+			CoursePO cp = this.stringToCommonCourse(list.get(i));
 			courseList.add(cp);
-			if(cl.containsCourse(listName, cp.getDepartment(), cp.getId())){
+			if (ccl.containsCourse(cp.getId())) {
 				return Feedback.DATA_ALREADY_EXISTED.toString();
 			}
 		}
-		
-		for(int j = 0; j < courseList.size(); j++){
+
+		for (int j = 0; j < courseList.size(); j++) {
 			CoursePO cp = courseList.get(j);
-			cl.addCourse(listName,cp);
-			CourseSelectorNumPO c = new CourseSelectorNumPO(cp.getId(),0,cp.getStudentNum());
-			csnl.addCourseSelectorNumPO(c);
+			ccl.addCourse(cp);
 		}
 		return Feedback.OPERATION_SUCCEED.toString();
+	}
+
+	// 同时初始化courseSelectorNumList
+	public void addCommonCourseToCourseList() {
+		// 清空courSelectorNumList
+		csnl.delList();
+		ArrayList<CoursePO> courseList = ccl.getCourseList();
+		String listName = this.getTerm() + "_course_list";
+		if (!courseList.isEmpty()) {
+			for (int j = 0; j < courseList.size(); j++) {
+				CoursePO cp = courseList.get(j);
+				cp.setDepartment("通识课");
+				cp.setTerm(this.showTerm());
+				cl.addCourse(listName, cp);
+				CourseSelectorNumPO c = new CourseSelectorNumPO(cp.getId(), 0,
+						cp.getStudentNum());
+				csnl.addCourseSelectorNumPO(c);
+			}
+		}
 	}
 
 	public CoursePO stringToCoursePO(String str) {
@@ -493,6 +591,15 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 				Integer.parseInt(info[5]), Integer.parseInt(info[6]), info[7],
 				info[8], info[9], Integer.parseInt(info[10]), info[11],
 				info[12], info[13], info[14]);
+		return cp;
+	}
+
+	public CoursePO stringToCommonCourse(String str) {
+		String[] info = str.split("；");
+		CoursePO cp = new CoursePO(info[0], info[1], info[2], info[3], info[4],
+				Integer.parseInt(info[5]), Integer.parseInt(info[6]), info[7],
+				Integer.parseInt(info[8]), info[9], info[10], info[11],
+				info[12]);
 		return cp;
 	}
 
@@ -518,11 +625,17 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		ArrayList<String> list = termList.getTermList();
 		return list;
 	}
-	
-	public String termTransfer(String s){
+
+	public String termTransfer(String s) {
 		String[] list = s.split("学");
-		String term = list[0] + "_"+list[1].charAt(list[1].length()-1);
+		String term = list[0] + "_" + list[1].charAt(list[1].length() - 1);
 		return term;
+	}
+
+	@Override
+	public String showSelectedCommonCourseListHead() {
+		// TODO Auto-generated method stub
+		return ccl.getSelectedCommonCourseListHead();
 	}
 
 }
