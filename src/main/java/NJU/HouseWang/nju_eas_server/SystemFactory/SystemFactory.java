@@ -34,6 +34,7 @@ public class SystemFactory {
 			case "login_list_head":
 			case "teacher_list_head":
 			case "student_list_head":
+			case "grade_list":
 				return (new UserInfoLogic());
 			case "log_list":
 			case "log_list_head":

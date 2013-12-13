@@ -188,6 +188,23 @@ public class StudentList {
 		}
 		return result;
 	}
+	
+	public ArrayList<String> getGradeList() {
+		ArrayList<String> result = new ArrayList<String>();
+		sql = "select * from " + listName ;
+		try {
+			conn = sqlconn.getConnection();
+			ps = conn.prepareStatement(sql);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				String r = (rs.getString(5));
+				result.add(r);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
 
 	public String getListHead() {
 		return "学号；姓名；院系；专业；年级；班级编号；学制；学籍状态";

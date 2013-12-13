@@ -160,6 +160,8 @@ public class UserInfoLogic implements UserInfoLogicService {
 		case "showstudent_list_head":
 			feedback = this.showStudentListHead();
 			break;
+		case "showgrade_list":
+			feedback = this.showGradeList();
 		default:
 			break;
 		}
@@ -468,5 +470,21 @@ public class UserInfoLogic implements UserInfoLogicService {
 		} else {
 			return (Feedback.DATA_NOT_FOUND.toString());
 		}
+	}
+
+	@Override
+	public ArrayList<String> showGradeList() {
+		// TODO Auto-generated method stub
+		ArrayList<String> allGradeList = sl.getGradeList();
+		ArrayList<String> feedback = new ArrayList<String>();
+		String grade = "";
+		feedback.add(allGradeList.get(0));
+		for(int i = 1; i < allGradeList.size(); i++){
+			grade = allGradeList.get(i);
+			if(!feedback.contains(grade)){
+				feedback.add(grade);
+			}
+		}
+		return feedback;
 	}
 }

@@ -64,4 +64,7 @@ public interface UserInfoLogicService extends LogicService {
 
 	// 生成初始密码
 	public String generateInitialPassword(UserPO u);
+	
+	//返回所有的年级的列表
+	public ArrayList<String> showGradeList();
 }
