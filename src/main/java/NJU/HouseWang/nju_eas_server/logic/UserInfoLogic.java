@@ -58,28 +58,38 @@ public class UserInfoLogic implements UserInfoLogicService {
 	@Override
 	public Object operate(String cmd) {
 		String[] cmdInfo = cmd.split("；");
-		String uid = am.getGuest(cmdInfo[cmdInfo.length - 1]);
 		Object feedback = null;
-		this.uid = uid;
-		guest = (GuestPO) ll.getLoginer(uid);
 		String cmdType = cmdInfo[0] + cmdInfo[1];
 		switch (cmdType) {
 		case "showself_information":
-			feedback = showSelfInformation();
+			if (!cmd.endsWith(";ok")) {
+				feedback = "ip";
+			} else {
+				uid = am.getGuest(cmdInfo[cmdInfo.length - 2]);
+				guest = (GuestPO) ll.getLoginer(uid);
+				feedback = showSelfInformation();
+			}
 			break;
 		case "editself_information":
-			String userType = ((GuestPO) ll.getLoginer(uid)).getType()
-					.toString();
-			if ((userType.equals("Teacher")) || (userType.equals("SchoolDean"))
-					|| (userType.equals("DeptAD"))) {
-				upo = new TeacherPO(cmdInfo[2], cmdInfo[3], cmdInfo[4],
-						cmdInfo[5]);
+			if (!cmd.endsWith(";ok")) {
+				feedback = "ip";
 			} else {
-				upo = new StudentPO(cmdInfo[2], cmdInfo[3], cmdInfo[4],
-						cmdInfo[5], cmdInfo[6], cmdInfo[7], cmdInfo[8],
-						cmdInfo[9]);
+				uid = am.getGuest(cmdInfo[cmdInfo.length - 2]);
+				guest = (GuestPO) ll.getLoginer(uid);
+				String userType = ((GuestPO) ll.getLoginer(uid)).getType()
+						.toString();
+				if ((userType.equals("Teacher"))
+						|| (userType.equals("SchoolDean"))
+						|| (userType.equals("DeptAD"))) {
+					upo = new TeacherPO(cmdInfo[2], cmdInfo[3], cmdInfo[4],
+							cmdInfo[5]);
+				} else {
+					upo = new StudentPO(cmdInfo[2], cmdInfo[3], cmdInfo[4],
+							cmdInfo[5], cmdInfo[6], cmdInfo[7], cmdInfo[8],
+							cmdInfo[9]);
+				}
+				feedback = editSelfInformation(upo);
 			}
-			feedback = editSelfInformation(upo);
 			break;
 		case "adduser":
 			UserPO u = new UserPO(cmdInfo[2], UserType.valueOf(cmdInfo[3]));
@@ -133,7 +143,13 @@ public class UserInfoLogic implements UserInfoLogicService {
 			feedback = "list";
 			break;
 		case "editpassword":
-			feedback = editPassword(cmdInfo[2], cmdInfo[3]);
+			if (!cmd.endsWith(";ok")) {
+				feedback = "ip";
+			} else {
+				uid = am.getGuest(cmdInfo[cmdInfo.length - 2]);
+				guest = (GuestPO) ll.getLoginer(uid);
+				feedback = editPassword(cmdInfo[2], cmdInfo[3]);
+			}
 			break;
 		case "showlogin_list_head":
 			feedback = this.showLoginListHead();
