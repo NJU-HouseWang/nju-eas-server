@@ -15,17 +15,17 @@ public class StudentPO extends UserPO {
 	}
 
 	public StudentPO(String id, String name, String department, String major,
-			String grade, String duration, String enrollmentStatus,
-			String classNo) {
+			String grade, String classNo, String duration,
+			String enrollmentStatus) {
 		super(id, UserType.Student);
 		this.id = id;
 		this.name = name;
 		this.department = department;
 		this.major = major;
 		this.grade = grade;
+		this.classNo = classNo;
 		this.duration = duration;
 		this.enrollmentStatus = enrollmentStatus;
-		this.classNo = classNo;
 	}
 
 	public String getName() {
