@@ -163,10 +163,10 @@ public class StudentList {
 		}
 		return result;
 	}
-	
+
 	public ArrayList<StudentPO> getStudentList() {
 		ArrayList<StudentPO> result = new ArrayList<StudentPO>();
-		sql = "select * from " + listName ;
+		sql = "select * from " + listName;
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
@@ -191,6 +191,22 @@ public class StudentList {
 
 	public String getListHead() {
 		return "学号；姓名；院系；专业；年级；班级编号；学制；学籍状态";
+	}
+
+	public ArrayList<String> getAllGrade() {
+		ArrayList<String> result = new ArrayList<String>();
+		sql = "select grade from " + listName;
+		try {
+			conn = sqlconn.getConnection();
+			ps = conn.prepareStatement(sql);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				result.add(rs.getString(1));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 
 }
