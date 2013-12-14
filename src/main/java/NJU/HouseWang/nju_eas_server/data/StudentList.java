@@ -217,13 +217,13 @@ public class StudentList {
 	
 	public ArrayList<String> getGradeList() {
 		ArrayList<String> result = new ArrayList<String>();
-		sql = "select * from " + listName ;
+		sql = "select grade from " + listName ;
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
 			rs = ps.executeQuery();
 			while (rs.next()) {
-				String r = (rs.getString(5));
+				String r = (rs.getString(1));
 				result.add(r);
 			}
 		} catch (SQLException e) {

@@ -492,7 +492,7 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		ArrayList<Course_StudentPO> course_StudentList = csl
 				.getListFromStudentId(listName, studentId);
 		for (int i = 0; i < course_StudentList.size(); i++) {
-			CoursePO cp = cl.getCourse(listName, department, studentId);
+			CoursePO cp = cl.getCourse(listName, department, course_StudentList.get(i).getCourseId());
 			list.add(cp.courseToCommand());
 		}
 		return list;
