@@ -20,6 +20,7 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 	private TeachingPlanList tl;
 	private EduFramework ef;
 	private AuthorityManager am;
+
 	public TeachingPlanLogic() {
 		tp = this.initTeachingPlan();
 		tl = this.initTeachingPlanList();
@@ -94,6 +95,9 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 			break;
 		case "showfile_name":
 			feedback = this.showFlieName(cmdInfo[2]);
+			break;
+		case "showteachingplan_status":
+			feedback = this.showTeachingPlanStatus(cmdInfo[2]);
 			break;
 		default:
 			break;
@@ -192,7 +196,7 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 		tpp.setStatus(0);
 		tpp.getTpFile().delete();
 		tpp.setTpFile(null);
-		
+
 		return (Feedback.OPERATION_SUCCEED.toString());
 	}
 
@@ -330,11 +334,24 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 	@Override
 	public String showFlieName(String dept) {
 		// TODO Auto-generated method stub
-		if(tl.getTeachingPlan(dept).getTpFile().exists()){
+		if (tl.getTeachingPlan(dept).getTpFile().exists()) {
 			String fileName = tl.getTeachingPlan(dept).getTpFile().getName();
 			return fileName;
 		} else {
 			return Feedback.FILE_NOT_FOUND.toString();
 		}
-	}	
+	}
+
+	@Override
+	public String showTeachingPlanStatus(String dept) {
+		TeachingPlanPO tpp = tl.getTeachingPlan(dept);
+		String feedback = tpp.getDept() + "；";
+		if (tpp.isCommitted()) {
+			feedback += ("true；" + tpp.getStatus() + "；" + tpp.getTpFile()
+					.getName());
+		} else {
+			feedback += ("false；0；null");
+		}
+		return feedback;
+	}
 }

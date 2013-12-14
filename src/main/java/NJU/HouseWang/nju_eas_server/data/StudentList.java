@@ -163,6 +163,32 @@ public class StudentList {
 		}
 		return result;
 	}
+	
+	public ArrayList<StudentPO> getStudentList(String department) {
+		ArrayList<StudentPO> result = new ArrayList<StudentPO>();
+		sql = "select * from " + listName + "where department=?";
+		try {
+			conn = sqlconn.getConnection();
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, department);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				StudentPO r = new StudentPO();
+				r.setId(rs.getString(1));
+				r.setName(rs.getString(2));
+				r.setDepartment(rs.getString(3));
+				r.setMajor(rs.getString(4));
+				r.setGrade(rs.getString(5));
+				r.setClassNo(rs.getString(6));
+				r.setDuration(rs.getString(7));
+				r.setEnrollmentStatus(rs.getString(8));
+				result.add(r);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
 
 	public ArrayList<StudentPO> getStudentList() {
 		ArrayList<StudentPO> result = new ArrayList<StudentPO>();

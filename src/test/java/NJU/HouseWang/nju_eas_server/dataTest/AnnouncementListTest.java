@@ -33,7 +33,7 @@ public class AnnouncementListTest extends TestCase {
 	}
 
 	protected void tearDown() throws Exception {
-		sql = "delete from announcement_list where id=?";
+		sql = "delete from announcement_list where senderId=?";
 		try {
 			sqlconn.createConnection();
 			conn = sqlconn.getConnection();
@@ -42,7 +42,7 @@ public class AnnouncementListTest extends TestCase {
 			ps.execute();
 		} catch (SQLException e) {
 		}
-		sql = "delete from announcement_list where id=?";
+		sql = "delete from announcement_list where senderId=?";
 		try {
 			sqlconn.createConnection();
 			conn = sqlconn.getConnection();
@@ -56,35 +56,36 @@ public class AnnouncementListTest extends TestCase {
 
 	public void testContainsID() {
 		al.addAnnouncement(ap1);
-		assertTrue(al.containsID("testId"));
-		al.removeAnnouncement("testId");
+		String id = al.getAnnouncementList(0, UserType.Admin).get(0).getId();
+		assertTrue(al.containsID(id));
 	}
 
 	public void testGetAnnouncement() {
 		al.addAnnouncement(ap1);
-		AnnouncementPO ap = al.getAnnouncement("testId");
+		String id = al.getAnnouncementList(0, UserType.Admin).get(0).getId();
+		AnnouncementPO ap = al.getAnnouncement(id);
 		assertTrue(ap.toCommand().equals(ap1.toCommand()));
-		al.removeAnnouncement("testId");
 	}
 
 	public void testRemoveAnnouncement() {
 		al.addAnnouncement(ap1);
-		al.removeAnnouncement("testId");
+		String id = al.getAnnouncementList(0, UserType.Admin).get(0).getId();
+		al.removeAnnouncement(id);
 		assertTrue(!al.containsID("testId"));
 	}
 
 	public void testAddAnnouncement() {
-		al.removeAnnouncement("testId");
 		al.addAnnouncement(ap1);
-		assertTrue(al.containsID("testId"));
-		al.removeAnnouncement("testId");
+		String id = al.getAnnouncementList(0, UserType.Admin).get(0).getId();
+		assertTrue(al.containsID(id));
 	}
 
 	public void testUpdateAnnouncement() {
 		al.addAnnouncement(ap1);
 		ap1.setStatus(1);
 		al.updateAnnouncement(ap1);
-		assertTrue(al.getAnnouncement("testId").toCommand()
+		String id = al.getAnnouncementList(0, UserType.Admin).get(0).getId();
+		assertTrue(al.getAnnouncement(id).toCommand()
 				.equals(ap1.toCommand()));
 	}
 
@@ -93,6 +94,8 @@ public class AnnouncementListTest extends TestCase {
 		al.addAnnouncement(ap2);
 		ArrayList<AnnouncementPO> list = al.getAnnouncementList(0,
 				UserType.Admin);
+		ap1.setId(list.get(0).getId());
+		ap2.setId(list.get(1).getId());
 		assertTrue((ap1.toCommand().equals(list.get(0).toCommand()))
 				&& (ap2.toCommand().equals(list.get(1).toCommand())));
 	}
