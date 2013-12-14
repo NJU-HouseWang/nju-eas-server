@@ -59,8 +59,12 @@ public class SocketThread implements NetService {
 			out = new DataOutputStream(socket.getOutputStream());
 			out.writeUTF("listStart");
 			for (Object o : list) {
-				out.writeUTF(o.toString());
-				System.out.println("Send List Item :" + o.toString());
+				if (o != null) {
+					out.writeUTF(o.toString());
+					System.out.println("Send List Item :" + o.toString());
+				} else {
+					System.out.println("Send Empty List!");
+				}
 			}
 			out.writeUTF("listEnd");
 			out.flush();

@@ -25,7 +25,6 @@ public class UserInfoLogic implements UserInfoLogicService {
 	private String dept;
 
 	public UserInfoLogic() {
-		// TODO Auto-generated constructor stub
 		ll = this.initLoginList();
 		tl = this.initTeacherList();
 		sl = this.initStudentList();
@@ -56,14 +55,14 @@ public class UserInfoLogic implements UserInfoLogicService {
 		return a;
 	}
 
-	@Override
 	public Object operate(String cmd) {
+		System.out.println("Process Command: " + cmd);
 		String[] cmdInfo = cmd.split("；");
 		Object feedback = null;
 		String cmdType = cmdInfo[0] + cmdInfo[1];
 		switch (cmdType) {
 		case "showself_information":
-			if (!cmd.endsWith(";ok")) {
+			if (!cmd.endsWith("；ok")) {
 				feedback = "ip";
 			} else {
 				uid = am.getGuest(cmdInfo[cmdInfo.length - 2]);
@@ -72,7 +71,7 @@ public class UserInfoLogic implements UserInfoLogicService {
 			}
 			break;
 		case "editself_information":
-			if (!cmd.endsWith(";ok")) {
+			if (!cmd.endsWith("；ok")) {
 				feedback = "ip";
 			} else {
 				uid = am.getGuest(cmdInfo[cmdInfo.length - 2]);
@@ -99,8 +98,8 @@ public class UserInfoLogic implements UserInfoLogicService {
 		case "edituser":
 			System.out.println(cmdInfo[2] + "  " + cmdInfo[3] + "  "
 					+ cmdInfo[4]);
-			GuestPO guest = new GuestPO(cmdInfo[2],
-					UserType.valueOf(cmdInfo[3]), cmdInfo[4]);
+			guest = new GuestPO(cmdInfo[2], UserType.valueOf(cmdInfo[3]),
+					cmdInfo[4]);
 			feedback = editUser(guest);
 			break;
 		case "delstudent":
@@ -144,7 +143,7 @@ public class UserInfoLogic implements UserInfoLogicService {
 			feedback = "list";
 			break;
 		case "editpassword":
-			if (!cmd.endsWith(";ok")) {
+			if (!cmd.endsWith("；ok")) {
 				feedback = "ip";
 			} else {
 				uid = am.getGuest(cmdInfo[cmdInfo.length - 2]);
@@ -211,8 +210,10 @@ public class UserInfoLogic implements UserInfoLogicService {
 				|| (userType.equals("DeptAD"))) {
 			feedback = tl.getTeacher(uid).toCommand();
 
-		} else {
+		} else if (userType.equals("Student")) {
 			feedback = sl.getStudent(uid).toCommand();
+		} else {
+			feedback = "admin；管理员；Admin；System";
 		}
 		return feedback;
 	}
@@ -317,7 +318,6 @@ public class UserInfoLogic implements UserInfoLogicService {
 
 	@Override
 	public String editPassword(String oldPW, String newPW) {
-		// TODO Auto-generated method stub
 		if (oldPW.equals(guest.getPassword())) {
 			if (newPW.length() > 5) {
 				if (!newPW.equals(oldPW)) {

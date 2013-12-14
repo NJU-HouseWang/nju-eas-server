@@ -38,7 +38,7 @@ public class TeacherPO extends UserPO {
 
 	@Override
 	public String toCommand() {
-		return id + "；" + type + "；" + name + "；" + company;
+		return id + "；" + type.getChName() + "；" + name + "；" + company;
 	}
 
 

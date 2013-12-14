@@ -145,10 +145,10 @@ public class TeacherList {
 		}
 		return result;
 	}
-	
+
 	public ArrayList<TeacherPO> getTeacherList(String type) {
 		ArrayList<TeacherPO> result = new ArrayList<TeacherPO>();
-		sql = "select * from " + listName + "where type=?";
+		sql = "select * from " + listName + " where type=?";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);

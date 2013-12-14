@@ -33,7 +33,7 @@ public class UserPO implements DataPOService {
 	}
 
 	public String toCommand() {
-		return id + "；" + type + "；";
+		return id + "；" + type.getChName() + "；";
 	}
 
 }
