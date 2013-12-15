@@ -22,6 +22,7 @@ public class UserInfoLogic implements UserInfoLogicService {
 	private GuestPO guest = null;
 	private UserPO upo;
 	private AuthorityManager am;
+	private String dept;
 
 	public UserInfoLogic() {
 		ll = this.initLoginList();
@@ -161,6 +162,13 @@ public class UserInfoLogic implements UserInfoLogicService {
 			break;
 		case "showgrade_list":
 			feedback = this.showGradeList();
+		case "showself_dept":
+			if (!cmd.endsWith(";ok")) {
+				feedback = "ip";
+			} else {
+				feedback = this.showSelfDept(cmdInfo[cmdInfo.length - 2]);
+			}
+			break;
 		default:
 			break;
 		}
@@ -391,7 +399,11 @@ public class UserInfoLogic implements UserInfoLogicService {
 			list3 = sl.getStudentList();
 		} else {
 			String[] info = condition.split("，");
-			list3 = sl.getStudentList(info[0], info[1]);
+			if (info[0].equals("all")) {
+				list3 = sl.getStudentList(info[1]);
+			} else {
+				list3 = sl.getStudentList(info[0], info[1]);
+			}
 		}
 		ArrayList<String> studentList = new ArrayList<String>();
 		for (int i = 0; i < list3.size(); i++) {
@@ -486,5 +498,16 @@ public class UserInfoLogic implements UserInfoLogicService {
 			}
 		}
 		return feedback;
+	}
+
+	@Override
+	public String showSelfDept(String ip) {
+		uid = am.getGuest(ip);
+		if (tl.containsID(uid)) {
+			dept = tl.getTeacher(uid).getCompany();
+		} else if (sl.containsID(uid)) {
+			dept = sl.getStudent(uid).getDepartment();
+		}
+		return dept;
 	}
 }

@@ -35,6 +35,7 @@ public class SystemFactory {
 			case "teacher_list_head":
 			case "student_list_head":
 			case "grade_list":
+			case "self_dept":
 				return (new UserInfoLogic());
 			case "log_list":
 			case "log_list_head":
@@ -57,6 +58,7 @@ public class SystemFactory {
 			case "teachingplan_head":
 			case "teachingplan_list_head":
 			case "file_name":
+			case "teachingplan_status":
 				return (new TeachingPlanLogic());
 			case "status":
 			case "status_list":

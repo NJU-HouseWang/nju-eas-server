@@ -30,7 +30,7 @@ public class LogListTest extends TestCase {
 	}
 
 	protected void tearDown() throws Exception {
-		sql = "delete from log_list where id=?";
+		sql = "delete from log_list where name=?";
 		try {
 			sqlconn.createConnection();
 			conn = sqlconn.getConnection();
@@ -39,7 +39,7 @@ public class LogListTest extends TestCase {
 			ps.execute();
 		} catch (SQLException e) {
 		}
-		sql = "delete from log_list where id=?";
+		sql = "delete from log_list where name=?";
 		try {
 			sqlconn.createConnection();
 			conn = sqlconn.getConnection();
@@ -53,15 +53,15 @@ public class LogListTest extends TestCase {
 
 	public void testAddLog() {
 		ll.addLog(newLog1);
-		sql = "select * from log_list where id=?";
+		sql = "select * from log_list where name=?";
 		try {
 			sqlconn.createConnection();
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, "test");
 			rs = ps.executeQuery();
-			rs.getString(0).equals("test");
-			assertTrue(rs.getString(0).equals("test"));
+			rs.next();
+			assertTrue(rs.getString(2).equals("test"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -73,9 +73,11 @@ public class LogListTest extends TestCase {
 		ArrayList<LogPO> list = ll.getLogList();
 		LogPO l1 = list.get(list.size() - 1);
 		LogPO l2 = list.get(list.size() - 2);
-
-		assertTrue(l1.toCommand().equals(newLog2.toCommand())
-				&& l2.toCommand().equals(newLog1.toCommand()));
+		
+		boolean r1 = l2.toCommand().equals(newLog1.toCommand());
+		boolean r2 = l1.toCommand().equals(newLog2.toCommand());
+		
+		assertTrue(r1 == r2);
 	}
 
 	public void testGetListHead() {

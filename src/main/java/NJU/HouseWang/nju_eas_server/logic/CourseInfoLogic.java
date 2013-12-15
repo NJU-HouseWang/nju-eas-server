@@ -355,8 +355,12 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		if (info.length == 1) {
 			courseList = cl.getCourseListFromTeacherId(listName, info[0]);
 		} else if (info.length == 2) {
-			courseList = cl.getCourseListFromGradeAndDept(listName, info[0],
-					info[1]);
+			if (info[0].equals("all")) {
+				courseList = cl.getCourseListFromDept(listName, info[1]);
+			} else {
+				courseList = cl.getCourseListFromGradeAndDept(listName,
+						info[0], info[1]);
+			}
 		}
 		for (int i = 0; i < courseList.size(); i++) {
 			list.add(courseList.get(i).courseToCommand());
@@ -488,7 +492,7 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		ArrayList<Course_StudentPO> course_StudentList = csl
 				.getListFromStudentId(listName, studentId);
 		for (int i = 0; i < course_StudentList.size(); i++) {
-			CoursePO cp = cl.getCourse(listName, department, studentId);
+			CoursePO cp = cl.getCourse(listName, department, course_StudentList.get(i).getCourseId());
 			list.add(cp.courseToCommand());
 		}
 		return list;
@@ -542,7 +546,7 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		sp.setContent(term);
 		statusList.updateStatus(sp);
 		termList.addTerm(term);
-		//还差一个新建数据库不会写。。。。。
+		// 还差一个新建数据库不会写。。。。。
 		this.addCommonCourseToCourseList();
 		return Feedback.OPERATION_SUCCEED.toString();
 	}

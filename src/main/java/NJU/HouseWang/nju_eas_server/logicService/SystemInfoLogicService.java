@@ -4,4 +4,5 @@ import java.util.ArrayList;
 
 public interface SystemInfoLogicService extends LogicService{
 	public ArrayList<String> showDeptList();
+	
 }

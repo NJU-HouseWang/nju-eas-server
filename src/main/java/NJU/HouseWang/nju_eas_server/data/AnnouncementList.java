@@ -99,7 +99,6 @@ public class AnnouncementList {
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
-			ps.setString(1, Announcement.getId());
 			ps.setString(2, Announcement.getSenderId());
 			ps.setString(3, Announcement.getRecipient().toString());
 			ps.setString(4, Announcement.getTitle());
@@ -149,7 +148,7 @@ public class AnnouncementList {
 				r.setSenderId(rs.getString(2));
 				r.setRecipient(UserType.valueOf(rs.getString(3)));
 				r.setTitle(rs.getString(4));
-			//	r.setContent(rs.getString(5));
+				r.setContent(rs.getString(5));
 				r.setStatus(rs.getInt(6));
 				result.add(r);
 			}

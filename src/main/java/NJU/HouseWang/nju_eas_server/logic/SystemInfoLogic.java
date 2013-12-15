@@ -11,6 +11,7 @@ import NJU.HouseWang.nju_eas_server.po.Msg.LogPO;
 public class SystemInfoLogic implements SystemInfoLogicService{
 	private DeptList dl;
 	private AuthorityManager am;
+	private String uid;
 	
 	public DeptList initDeptList(){
 		DeptList d = new DeptList();
@@ -32,7 +33,6 @@ public class SystemInfoLogic implements SystemInfoLogicService{
 	public Object operate(String cmd) {
 		Object feedback = null;
 		String[] cmdInfo = cmd.split("；");
-		String uid = am.getGuest(cmdInfo[cmdInfo.length - 1]);
 		String cmdType = cmdInfo[0] + cmdInfo[1];
 		switch (cmdType) {
 

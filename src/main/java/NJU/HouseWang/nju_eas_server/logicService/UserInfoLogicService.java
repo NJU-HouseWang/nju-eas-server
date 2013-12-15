@@ -67,4 +67,7 @@ public interface UserInfoLogicService extends LogicService {
 	
 	//返回所有的年级的列表
 	public ArrayList<String> showGradeList();
+	
+	//返回Ip对应的院系
+	public String showSelfDept(String ip);
 }

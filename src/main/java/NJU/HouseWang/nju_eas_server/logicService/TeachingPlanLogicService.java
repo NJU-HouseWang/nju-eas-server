@@ -41,4 +41,7 @@ public interface TeachingPlanLogicService extends LogicService {
 	
 	//返回附件的名称
 	public String showFlieName(String dept);
+	
+	//查看教学计划的状态
+	public String showTeachingPlanStatus(String dept);
 }
