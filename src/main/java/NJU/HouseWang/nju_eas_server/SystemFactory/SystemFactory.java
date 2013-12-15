@@ -74,8 +74,8 @@ public class SystemFactory {
 			case "student_list_from_teacher_and_course":
 			case "term":
 			case "term_list":
-			case "seleced_common_course_list_head":
-			case "seleced_common_course_list":
+			case "selected_common_course_list_head":
+			case "selected_common_course_list":
 				return (new CourseInfoLogic());
 			case "dept_list":
 				return (new SystemInfoLogic());
