@@ -236,20 +236,5 @@ public class StudentList {
 		return "学号；姓名；院系；专业；年级；班级编号；学制；学籍状态";
 	}
 
-	public ArrayList<String> getAllGrade() {
-		ArrayList<String> result = new ArrayList<String>();
-		sql = "select grade from " + listName;
-		try {
-			conn = sqlconn.getConnection();
-			ps = conn.prepareStatement(sql);
-			rs = ps.executeQuery();
-			while (rs.next()) {
-				result.add(rs.getString(1));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return result;
-	}
 
 }

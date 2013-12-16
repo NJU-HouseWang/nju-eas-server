@@ -3,6 +3,7 @@ package NJU.HouseWang.nju_eas_server.logicService;
 import java.util.ArrayList;
 
 import NJU.HouseWang.nju_eas_server.po.Edu.CoursePO;
+import NJU.HouseWang.nju_eas_server.po.Edu.Course_StudentPO;
 import NJU.HouseWang.nju_eas_server.po.Edu.TeachingPlanItemPO;
 
 public interface CourseInfoLogicService extends LogicService {
@@ -54,7 +55,7 @@ public interface CourseInfoLogicService extends LogicService {
 		public String showSelectedCommonCourseListHead();
 		
 	// 登记成绩
-	public String registerScore(String listName, ArrayList<String> list, String scoreType);
+	public String registerScore(String term, ArrayList<String> kuist);
 
 	// 查看学生课程列表
 	public ArrayList<String> showStudentCourseList(String studentId);
@@ -63,8 +64,8 @@ public interface CourseInfoLogicService extends LogicService {
 	public ArrayList<String> showStudentScoreList(String listName, String studentId);
 
 	// 查看教师任课的学生信息
-	public ArrayList<String> showStudentListFromTeacherAndCourse(
-			String teacherId, String courseId);
+	public ArrayList<String> showCourseStudentList(
+			String courseId, String department);
 
 	// 返回学年学期
 	public String showTerm();
@@ -80,4 +81,7 @@ public interface CourseInfoLogicService extends LogicService {
 	
 	//显示学期列表
 	public ArrayList<String> showTermList();
+	
+	//显示选择某课程的学生信息
+	public ArrayList<String> showStudentListFromCourse(String term, String courseId, String dept);
 }

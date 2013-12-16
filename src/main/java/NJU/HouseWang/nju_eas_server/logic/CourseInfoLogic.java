@@ -36,6 +36,7 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	private TermList termList;
 	private CommonCourseList ccl;
 	private String course;
+	private String uid;
 
 	public CourseInfoLogic() {
 		cl = initCourseList();
@@ -121,7 +122,7 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	public Object operate(String cmd) {
 		Object feedback = null;
 		String[] cmdInfo = cmd.split("；");
-		String uid = am.getGuest(cmdInfo[cmdInfo.length - 1]);
+		uid = am.getGuest(cmdInfo[cmdInfo.length - 1]);
 		String cmdType = cmdInfo[0] + cmdInfo[1];
 		switch (cmdType) {
 		case "showcourse_detail":
@@ -189,9 +190,14 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		case "showstudent_score_list":
 			feedback = this.showStudentScoreList(cmdInfo[2], cmdInfo[3]);
 			break;
-		case "showstudent_list_from_teacher_and_course":
-			feedback = this.showStudentListFromTeacherAndCourse(cmdInfo[2],
-					cmdInfo[3]);
+		case "showcourse_student_list":
+			if (cmd.endsWith("；ok")) {
+				feedback = "ip";
+			} else {
+				uid = am.getGuest(cmdInfo[3]);
+				feedback = this.showCourseStudentList(cmdInfo[2], tl
+						.getTeacher(uid).getCompany());
+			}
 			break;
 		case "showterm":
 			feedback = this.showTerm();
@@ -211,6 +217,24 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 				course = course + "；" + cmdInfo[i];
 			}
 			feedback = this.addCommonCourse(this.stringToCommonCourse(course));
+			break;
+		case "showtea_course_list":
+			if (cmd.endsWith("；ok")) {
+				feedback = "ip";
+			} else {
+				uid = am.getGuest(cmdInfo[2]);
+				feedback = this.showCourseList(this.getTerm(), uid);
+			}
+			break;
+		case "showstudent_list_from_course":
+			if (cmd.endsWith("；ok")) {
+				feedback = "ip";
+			} else {
+				uid = am.getGuest(cmdInfo[4]);
+				feedback = this.showStudentListFromCourse(cmdInfo[2],
+						cmdInfo[3], tl.getTeacher(uid).getCompany());
+			}
+			break;
 		default:
 			break;
 		}
@@ -233,7 +257,7 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		// TODO Auto-generated method stub
 		Object feedback = null;
 		String[] cmdInfo = cmd.split("；");
-		String uid = am.getGuest(cmdInfo[cmdInfo.length - 1]);
+		uid = am.getGuest(cmdInfo[cmdInfo.length - 1]);
 		String cmdType = cmdInfo[0] + cmdInfo[1];
 		switch (cmdType) {
 
@@ -241,7 +265,7 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 			feedback = this.addCourseList(list);
 			break;
 		case "registerscore":
-			feedback = this.registerScore(cmdInfo[2], list, cmdInfo[3]);
+			feedback = this.registerScore(cmdInfo[2], list);
 			break;
 		case "publishcommon_course":
 			feedback = this.publishCommonCourse(list);
@@ -451,8 +475,7 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	}
 
 	@Override
-	public String registerScore(String term, ArrayList<String> list,
-			String scoreType) {
+	public String registerScore(String term, ArrayList<String> list) {
 		// TODO Auto-generated method stub
 		String listName = this.termTransfer(term) + "_course_student_list";
 		for (int i = 0; i < list.size(); i++) {
@@ -467,16 +490,9 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 
 		for (int i = 0; i < list.size(); i++) {
 			String[] info = list.get(i).split("；");
-			String courseId = info[0];
-			String studentId = info[1];
-			String score = info[2];
-			Course_StudentPO csp = csl.getCourse_StudentPO(listName, courseId,
-					studentId);
-			if (scoreType.equals("originalScore")) {
-				csp.setOriginalScore(Integer.parseInt(score));
-			} else if (scoreType.equals("secondScore")) {
-				csp.setSecondScore(Integer.parseInt(score));
-			}
+			Course_StudentPO csp = new Course_StudentPO(info[0],info[1],info[2]);
+			csp.setOriginalScore(Integer.parseInt(info[3]));
+			csp.setSecondScore(Integer.parseInt(info[4]));
 			csl.updateCourse_StudentPO(listName, csp);
 		}
 		return Feedback.OPERATION_SUCCEED.toString();
@@ -492,7 +508,8 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		ArrayList<Course_StudentPO> course_StudentList = csl
 				.getListFromStudentId(listName, studentId);
 		for (int i = 0; i < course_StudentList.size(); i++) {
-			CoursePO cp = cl.getCourse(listName, department, course_StudentList.get(i).getCourseId());
+			CoursePO cp = cl.getCourse(listName, department, course_StudentList
+					.get(i).getCourseId());
 			list.add(cp.courseToCommand());
 		}
 		return list;
@@ -512,11 +529,10 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	}
 
 	@Override
-	public ArrayList<String> showStudentListFromTeacherAndCourse(
-			String courseId, String teacherId) {
+	public ArrayList<String> showCourseStudentList(String courseId,
+			String department) {
 		// TODO Auto-generated method stub
 		String listName = this.getTerm() + "_course_student_list";
-		String department = tl.getTeacher(teacherId).getCompany();
 		ArrayList<String> list = new ArrayList<String>();
 		ArrayList<Course_StudentPO> course_studentList = csl
 				.getListFromCourseId(listName, department, courseId);
@@ -640,6 +656,21 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	public String showSelectedCommonCourseListHead() {
 		// TODO Auto-generated method stub
 		return ccl.getSelectedCommonCourseListHead();
+	}
+
+	@Override
+	public ArrayList<String> showStudentListFromCourse(String term,
+			String courseId, String department) {
+		String listName = this.termTransfer(term) + "_course_student_list";
+		String studentId = "";
+		ArrayList<String> list = new ArrayList<String>();
+		ArrayList<Course_StudentPO> course_studentList = csl
+				.getListFromCourseId(listName, department, courseId);
+		for (int i = 0; i < course_studentList.size(); i++) {
+			studentId = course_studentList.get(i).getStudentId();
+			list.add(sl.getStudent(studentId).toCommand());
+		}
+		return list;
 	}
 
 }
