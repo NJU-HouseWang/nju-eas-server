@@ -41,6 +41,9 @@ public class CoursePO implements DataPOService {
 		this.teacherId = teacherId;
 		this.teacherName = teacherName;
 		this.timeAndPlace = timeAndPlace;
+		this.book = "null";
+		this.introduction = "null";
+		this.syllabus = "null";
 	}
 
 	
@@ -58,6 +61,9 @@ public class CoursePO implements DataPOService {
 		this.teacherId = teacherId;
 		this.teacherName = teacherName;
 		this.timeAndPlace = timeAndPlace;
+		this.book = "null";
+		this.introduction = "null";
+		this.syllabus = "null";
 	}
 	public CoursePO(String id, String name, String module, String type,
 			String nature, int credit, int period, String grade, String term,
@@ -72,6 +78,9 @@ public class CoursePO implements DataPOService {
 		this.term = term;
 		this.department = department;
 		this.grade = grade;
+		this.book = "null";
+		this.introduction = "null";
+		this.syllabus = "null";
 	}
 
 	public String getName() {
