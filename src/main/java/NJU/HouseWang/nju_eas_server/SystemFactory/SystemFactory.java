@@ -214,7 +214,7 @@ public class SystemFactory {
 			}
 			break;
 
-		case "register":
+		case "record":
 			switch (aim) {
 			case "score":
 				return (new CourseInfoLogic());

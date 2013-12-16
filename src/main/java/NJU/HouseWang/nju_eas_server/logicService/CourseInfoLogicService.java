@@ -54,7 +54,7 @@ public interface CourseInfoLogicService extends LogicService {
 	public String showSelectableCommonCourseListHead();
 
 	// 登记成绩
-	public String registerScore(String term, ArrayList<String> kuist);
+	public String recordScore(String term, ArrayList<String> kuist);
 
 	// 查看学生课程列表
 	public ArrayList<String> showStudentCourseList(String studentId);

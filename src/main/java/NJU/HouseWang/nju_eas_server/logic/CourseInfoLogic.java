@@ -176,7 +176,7 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 			break;
 		case "showselectable_common_course_list_head":
 			feedback = this.showSelectableCommonCourseListHead();
-		case "registerscore":
+		case "recordscore":
 			feedback = "list";
 			break;
 		case "showstu_course_list":
@@ -280,8 +280,8 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		case "addcourse_list":
 			feedback = this.addCourseList(list);
 			break;
-		case "registerscore":
-			feedback = this.registerScore(cmdInfo[2], list);
+		case "recordscore":
+			feedback = this.recordScore(cmdInfo[2], list);
 			break;
 		case "publishcommon_course":
 			feedback = this.publishCommonCourse(list);
@@ -518,7 +518,7 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	}
 
 	@Override
-	public String registerScore(String term, ArrayList<String> list) {
+	public String recordScore(String term, ArrayList<String> list) {
 		// TODO Auto-generated method stub
 		String listName = this.termTransfer(term) + "_course_student_list";
 		for (int i = 0; i < list.size(); i++) {
