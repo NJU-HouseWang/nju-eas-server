@@ -131,12 +131,7 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 					.showCourseDetail(cmdInfo[2], cmdInfo[3], cmdInfo[4]);
 			break;
 		case "editcourse":
-			course = cmdInfo[3];
-			for (int i = 4; i < cmdInfo.length; i++) {
-				course = course + "；" + cmdInfo[i];
-			}
-			feedback = this.editCourse(cmdInfo[2],
-					this.stringToCoursePO(course));
+			feedback = "list";
 			break;
 		case "editcommon_course":
 			course = cmdInfo[2];
@@ -291,6 +286,21 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		case "publishcommon_course":
 			feedback = this.publishCommonCourse(list);
 			break;
+		case "editcourse":
+			if (cmd.endsWith("；ok")) {
+				feedback = "ip";
+			} else {
+				uid = am.getGuest(cmdInfo[4]);
+				dept = tl.getTeacher(uid).getCompany();
+				if (dept.equals("Teacher")) {
+					dept = cl.getCourseFromTeacherIdAndCourseId(
+							this.getTerm() + "_course_student_list", uid,
+							cmdInfo[2]).getDepartment();
+				}
+				feedback = this.editCourse(cmdInfo[2], cmdInfo[3], dept,
+						list);
+			}
+			break;
 		default:
 			break;
 		}
@@ -309,22 +319,36 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 
 	@Override
 	// 返回课程的介绍、参考书目、教学大纲
-	public String showCourseDetail(String term, String department,
+	public ArrayList<String> showCourseDetail(String term, String department,
 			String courseId) {
 		// TODO Auto-generated method stub
+		ArrayList<String> feedback = new ArrayList<String>();
 		String listName = this.termTransfer(term) + "_course_list";
 		CoursePO cp = cl.getCourseFromDeptAndCourseId(listName, department,
 				courseId);
-		return (cp.getIntroduction() + "；" + cp.getBook() + "；" + cp
-				.getSyllabus());
+		feedback.add(cp.getIntroduction());
+		feedback.add(cp.getBook());
+		feedback.add(cp.getSyllabus());
+		return feedback;
 	}
 
 	@Override
-	public String editCourse(String term, CoursePO c) {
+	public String editCourse(String term, String courseId, String dept,
+			ArrayList<String> content) {
 		// TODO Auto-generated method stub
 		String listName = this.termTransfer(term) + "_course_list";
-		if (cl.containsCourse(listName, c.getDepartment(), c.getId())) {
-			cl.updateCourse(listName, c);
+		if (cl.containsCourse(listName, dept, courseId)) {
+			CoursePO c = cl.getCourseFromDeptAndCourseId(listName, dept, courseId);
+			if(content.size() == 2){
+				c.setTeacherId(content.get(0));
+				c.setTimeAndPlace(content.get(1));
+			} else if(content.size()==3){
+				c.setIntroduction(content.get(0));
+				c.setBook(content.get(1));
+				c.setSyllabus(content.get(2));
+			} else {
+				return Feedback.OPERATION_FAIL.toString();
+			}
 			this.editCommonCourse(c);
 			return Feedback.OPERATION_SUCCEED.toString();
 		} else {

@@ -9,11 +9,11 @@ import NJU.HouseWang.nju_eas_server.po.Edu.TeachingPlanItemPO;
 public interface CourseInfoLogicService extends LogicService {
 
 	// 显示课程条目的详细信息
-	public String showCourseDetail(String listName, String department, String id);
+	public ArrayList<String> showCourseDetail(String listName, String department, String id);
 
 	// 修改课程
-	public String editCourse(String listName, CoursePO c);
-
+	public String editCourse(String term, String courseId, String dept,  ArrayList<String> content);
+	
 	// 新增课程
 	public String addCourse(CoursePO c);
 
