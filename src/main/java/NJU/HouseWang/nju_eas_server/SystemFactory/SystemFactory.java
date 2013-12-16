@@ -79,6 +79,9 @@ public class SystemFactory {
 			case "selectable_common_course_list_head":
 			case "selectable_common_course_list":
 			case "student_list_from_course":
+			case "selected_common_course_list_head":
+			case "selected_common_course_list":
+
 				return (new CourseInfoLogic());
 			case "dept_list":
 				return (new SystemInfoLogic());

@@ -180,6 +180,7 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 			break;
 		case "showselectable_common_course_list_head":
 			feedback = this.showSelectableCommonCourseListHead();
+		case "showselected_common_course_list_head":
 			break;
 		case "registerscore":
 			feedback = "list";
