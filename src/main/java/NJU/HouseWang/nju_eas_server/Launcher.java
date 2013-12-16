@@ -19,7 +19,7 @@ public class Launcher {
 		Server server = new Server();
 		AuthorityManager am = AuthorityManager.getInstance();
 		try {
-			System.out.println("EAS Server is running now...");
+//			System.out.println("EAS Server is running now...");
 			am.run();
 			server.start();
 		} catch (IOException e) {
