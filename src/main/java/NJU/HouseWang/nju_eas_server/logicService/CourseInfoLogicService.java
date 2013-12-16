@@ -37,7 +37,7 @@ public interface CourseInfoLogicService extends LogicService {
 	public ArrayList<String> showCommonCourseList();
 	
 	//查看可选的通识课列表
-	public ArrayList<String> showSelectedCommonCourseList();
+	public ArrayList<String> showSelectableCommonCourseList();
 	
 	// 批量新增课程
 	public String addCourseList(ArrayList<String> list);
@@ -52,7 +52,7 @@ public interface CourseInfoLogicService extends LogicService {
 	public String showCommonCourseListHead();
 
 	//显示可选的通识课列表的表头
-		public String showSelectedCommonCourseListHead();
+		public String showSelectableCommonCourseListHead();
 		
 	// 登记成绩
 	public String registerScore(String term, ArrayList<String> kuist);

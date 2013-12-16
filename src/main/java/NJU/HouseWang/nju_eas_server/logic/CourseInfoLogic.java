@@ -163,8 +163,8 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		case "showcommon_course_list":
 			feedback = this.showCommonCourseList();
 			break;
-		case "showselected_common_course_list":
-			feedback = this.showSelectedCommonCourseList();
+		case "showselectable_common_course_list":
+			feedback = this.showSelectableCommonCourseList();
 			break;
 		case "addcourse_list":
 			feedback = "list";
@@ -178,17 +178,27 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		case "showcommon_course_list_head":
 			feedback = this.showCommonCourseListHead();
 			break;
-		case "showseleced_common_course_list_head":
-			feedback = this.showSelectedCommonCourseListHead();
+		case "showselectable_common_course_list_head":
+			feedback = this.showSelectableCommonCourseListHead();
 			break;
 		case "registerscore":
 			feedback = "list";
 			break;
-		case "showstudent_course_list":
-			feedback = this.showStudentCourseList(cmdInfo[2]);
+		case "showstu_course_list":
+			if (cmd.endsWith("；ok")) {
+				feedback = "ip";
+			} else {
+				uid = am.getGuest(cmdInfo[2]);
+				feedback = this.showStudentCourseList(uid);
+			}
 			break;
 		case "showstudent_score_list":
-			feedback = this.showStudentScoreList(cmdInfo[2], cmdInfo[3]);
+			if (cmd.endsWith("；ok")) {
+				feedback = "ip";
+			} else {
+				uid = am.getGuest(cmdInfo[3]);
+				feedback = this.showStudentScoreList(cmdInfo[2], uid);
+			}
 			break;
 		case "showcourse_student_list":
 			if (cmd.endsWith("；ok")) {
@@ -288,10 +298,11 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 
 	@Override
 	// 返回课程的介绍、参考书目、教学大纲
-	public String showCourseDetail(String term, String department, String id) {
+	public String showCourseDetail(String term, String department,
+			String courseId) {
 		// TODO Auto-generated method stub
 		String listName = this.termTransfer(term) + "_course_list";
-		CoursePO cp = cl.getCourse(listName, department, id);
+		CoursePO cp = cl.getCourse(listName, department, courseId);
 		return (cp.getIntroduction() + "；" + cp.getBook() + "；" + cp
 				.getSyllabus());
 	}
@@ -376,15 +387,11 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		String[] info = conditions.split("，");
 		ArrayList<String> list = new ArrayList<String>();
 		ArrayList<CoursePO> courseList = new ArrayList<CoursePO>();
-		if (info.length == 1) {
-			courseList = cl.getCourseListFromTeacherId(listName, info[0]);
-		} else if (info.length == 2) {
-			if (info[0].equals("all")) {
-				courseList = cl.getCourseListFromDept(listName, info[1]);
-			} else {
-				courseList = cl.getCourseListFromGradeAndDept(listName,
-						info[0], info[1]);
-			}
+		if (info[0].equals("all")) {
+			courseList = cl.getCourseListFromDept(listName, info[1]);
+		} else {
+			courseList = cl.getCourseListFromGradeAndDept(listName, info[0],
+					info[1]);
 		}
 		for (int i = 0; i < courseList.size(); i++) {
 			list.add(courseList.get(i).courseToCommand());
@@ -393,7 +400,7 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	}
 
 	@Override
-	public ArrayList<String> showSelectedCommonCourseList() {
+	public ArrayList<String> showSelectableCommonCourseList() {
 		// TODO Auto-generated method stub
 		String listName = this.getTerm() + "_course_list";
 		ArrayList<String> list = new ArrayList<String>();
@@ -490,7 +497,8 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 
 		for (int i = 0; i < list.size(); i++) {
 			String[] info = list.get(i).split("；");
-			Course_StudentPO csp = new Course_StudentPO(info[0],info[1],info[2]);
+			Course_StudentPO csp = new Course_StudentPO(info[0], info[1],
+					info[2]);
 			csp.setOriginalScore(Integer.parseInt(info[3]));
 			csp.setSecondScore(Integer.parseInt(info[4]));
 			csl.updateCourse_StudentPO(listName, csp);
@@ -653,7 +661,7 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	}
 
 	@Override
-	public String showSelectedCommonCourseListHead() {
+	public String showSelectableCommonCourseListHead() {
 		// TODO Auto-generated method stub
 		return ccl.getSelectedCommonCourseListHead();
 	}

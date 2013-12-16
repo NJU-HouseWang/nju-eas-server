@@ -71,13 +71,13 @@ public class SystemFactory {
 			case "common_course_list":
 			case "course_list_head":
 			case "common_course_list_head":
-			case "student_course_list":
+			case "stu_course_list":
 			case "student_score_list":
 			case "course_student_list":
 			case "term":
 			case "term_list":
-			case "seleced_common_course_list_head":
-			case "seleced_common_course_list":
+			case "selectable_common_course_list_head":
+			case "selectable_common_course_list":
 			case "student_list_from_course":
 				return (new CourseInfoLogic());
 			case "dept_list":
