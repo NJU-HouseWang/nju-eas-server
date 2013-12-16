@@ -55,13 +55,48 @@ public class CourseList {
 		return result;
 	}
 
-	public CoursePO getCourse(String listName,String department, String id) {
+	public CoursePO getCourseFromDeptAndCourseId(String listName,String department, String id) {
 		CoursePO result = new CoursePO();
 		sql = "select * from " + listName + " where department=?, id=?";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, department);
+			ps.setString(2, id);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				result.setId(rs.getString(1));
+				result.setName(rs.getString(2));
+				result.setModule(rs.getString(3));
+				result.setType(rs.getString(4));
+				result.setNature(rs.getString(5));
+				result.setCredit(rs.getInt(6));
+				result.setPeriod(rs.getInt(7));
+				result.setGrade(rs.getString(8));
+				result.setTerm(rs.getString(9));
+				result.setDepartment(rs.getString(10));
+				result.setStudentNum(rs.getInt(11));
+				result.setTeacherId(rs.getString(12));
+				result.setTeacherName(rs.getString(13));
+				result.setTimeAndPlace(rs.getString(14));
+				result.setIntroduction(rs.getString(15));
+				result.setBook(rs.getString(16));
+				result.setSyllabus(rs.getString(17));
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	public CoursePO getCourseFromTeacherIdAndCourseId(String listName,String teacherId, String id) {
+		CoursePO result = new CoursePO();
+		sql = "select * from " + listName + " where teacherId=?, id=?";
+		try {
+			conn = sqlconn.getConnection();
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, teacherId);
 			ps.setString(2, id);
 			rs = ps.executeQuery();
 			while (rs.next()) {

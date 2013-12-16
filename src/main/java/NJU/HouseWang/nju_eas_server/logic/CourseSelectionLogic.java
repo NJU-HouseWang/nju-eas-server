@@ -338,7 +338,7 @@ public class CourseSelectionLogic implements CourseSelectionLogicService {
 				ArrayList<CourseSelectionPO> csl1 = csl
 						.getCourseSelectionListFromCourseId(courseList.get(j));
 				int num = cl
-						.getCourse(courseListName, "通识课", courseList.get(j))
+						.getCourseFromDeptAndCourseId(courseListName, "通识课", courseList.get(j))
 						.getStudentNum();
 				// 如果选课人数大于可选总人数，
 				if (csl1.size() > num) {
@@ -418,7 +418,7 @@ public class CourseSelectionLogic implements CourseSelectionLogicService {
 				.getCourseSelectionListFromStudentId(studentId);
 		ArrayList<String> courseList = new ArrayList<String>();
 		for (int i = 0; i < list.size(); i++) {
-			courseList.add(cl.getCourse(listName, "通识课",
+			courseList.add(cl.getCourseFromDeptAndCourseId(listName, "通识课",
 					list.get(i).getCourseId()).toString());
 		}
 		return courseList;

@@ -37,6 +37,7 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	private CommonCourseList ccl;
 	private String course;
 	private String uid;
+	private String dept;
 
 	public CourseInfoLogic() {
 		cl = initCourseList();
@@ -204,8 +205,13 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 				feedback = "ip";
 			} else {
 				uid = am.getGuest(cmdInfo[3]);
-				feedback = this.showCourseStudentList(cmdInfo[2], tl
-						.getTeacher(uid).getCompany());
+				dept = tl.getTeacher(uid).getCompany();
+				if (dept.equals("Teacher")) {
+					dept = cl.getCourseFromTeacherIdAndCourseId(
+							this.getTerm() + "_course_student_list", uid,
+							cmdInfo[2]).getDepartment();
+				}
+				feedback = this.showCourseStudentList(cmdInfo[2], dept);
 			}
 			break;
 		case "showterm":
@@ -240,8 +246,14 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 				feedback = "ip";
 			} else {
 				uid = am.getGuest(cmdInfo[4]);
+				dept = tl.getTeacher(uid).getCompany();
+				if (dept.equals("Teacher")) {
+					dept = cl.getCourseFromTeacherIdAndCourseId(
+							this.getTerm() + "_course_student_list", uid,
+							cmdInfo[2]).getDepartment();
+				}
 				feedback = this.showStudentListFromCourse(cmdInfo[2],
-						cmdInfo[3], tl.getTeacher(uid).getCompany());
+						cmdInfo[3], dept);
 			}
 			break;
 		default:
@@ -301,7 +313,8 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 			String courseId) {
 		// TODO Auto-generated method stub
 		String listName = this.termTransfer(term) + "_course_list";
-		CoursePO cp = cl.getCourse(listName, department, courseId);
+		CoursePO cp = cl.getCourseFromDeptAndCourseId(listName, department,
+				courseId);
 		return (cp.getIntroduction() + "；" + cp.getBook() + "；" + cp
 				.getSyllabus());
 	}
@@ -515,8 +528,8 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		ArrayList<Course_StudentPO> course_StudentList = csl
 				.getListFromStudentId(listName, studentId);
 		for (int i = 0; i < course_StudentList.size(); i++) {
-			CoursePO cp = cl.getCourse(listName, department, course_StudentList
-					.get(i).getCourseId());
+			CoursePO cp = cl.getCourseFromDeptAndCourseId(listName, department,
+					course_StudentList.get(i).getCourseId());
 			list.add(cp.courseToCommand());
 		}
 		return list;
