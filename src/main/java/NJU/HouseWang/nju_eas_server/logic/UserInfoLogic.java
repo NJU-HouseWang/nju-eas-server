@@ -162,8 +162,9 @@ public class UserInfoLogic implements UserInfoLogicService {
 			break;
 		case "showgrade_list":
 			feedback = this.showGradeList();
+			break;
 		case "showself_dept":
-			if (!cmd.endsWith(";ok")) {
+			if (!cmd.endsWith("；ok")) {
 				feedback = "ip";
 			} else {
 				feedback = this.showSelfDept(cmdInfo[cmdInfo.length - 2]);
