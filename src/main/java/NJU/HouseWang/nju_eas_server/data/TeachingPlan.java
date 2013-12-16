@@ -39,8 +39,7 @@ public class TeachingPlan {
 
 	public ArrayList<TeachingPlanItemPO> getTeachingPlan(String deptId) {
 		ArrayList<TeachingPlanItemPO> result = new ArrayList<TeachingPlanItemPO>();
-		//需要一个院系编号对应院系名的数据层
-		Sdfdftring listName = deptId + "_teachingplan_list";
+		String listName = deptId + "_teachingplan_list";
 		sql = "select * from " + listName;
 		try {
 			conn = sqlconn.getConnection();
