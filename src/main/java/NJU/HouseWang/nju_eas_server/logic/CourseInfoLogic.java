@@ -21,6 +21,7 @@ import NJU.HouseWang.nju_eas_server.po.Edu.StatusPO;
 import NJU.HouseWang.nju_eas_server.po.Edu.TeachingPlanItemPO;
 import NJU.HouseWang.nju_eas_server.po.Edu.TeachingPlanPO;
 import NJU.HouseWang.nju_eas_server.po.User.StudentPO;
+import NJU.HouseWang.nju_eas_server.po.User.TeacherPO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 
 public class CourseInfoLogic implements CourseInfoLogicService {
@@ -127,8 +128,13 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		String cmdType = cmdInfo[0] + cmdInfo[1];
 		switch (cmdType) {
 		case "showcourse_detail":
-			feedback = this
-					.showCourseDetail(cmdInfo[2], cmdInfo[3], cmdInfo[4]);
+			if (cmd.endsWith("；ok")) {
+				feedback = "ip";
+			} else {
+				uid = am.getGuest(cmdInfo[4]);
+				dept = this.getDept(cmdInfo[2], cmdInfo[3], uid);
+				feedback = this.showCourseDetail(cmdInfo[2], dept, cmdInfo[3]);
+			}
 			break;
 		case "editcourse":
 			feedback = "list";
@@ -201,7 +207,7 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 			} else {
 				uid = am.getGuest(cmdInfo[3]);
 				dept = tl.getTeacher(uid).getCompany();
-				if (dept.equals("Teacher")) {
+				if (tl.getTeacher(uid).getType().toString().equals("Teacher")) {
 					dept = cl.getCourseFromTeacherIdAndCourseId(
 							this.getTerm() + "_course_student_list", uid,
 							cmdInfo[2]).getDepartment();
@@ -268,6 +274,35 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		return feedback;
 	}
 
+	public String getDept(String term, String courseId, String userId) {
+		// TODO Auto-generated method stub
+		String department = "";
+		if (ccl.containsCourse(courseId)) {
+			department = "通识课";
+		} else if (sl.containsID(userId)) {
+			String listName = this.termTransfer(term) + "_course_student_list";
+			ArrayList<Course_StudentPO> course_StudentList = csl
+					.getListFromStudentId(listName, userId);
+			for (int i = 0; i < course_StudentList.size(); i++) {
+				if (courseId.equals(course_StudentList.get(i).getCourseId())) {
+					department = course_StudentList.get(i).getDept();
+					break;
+				}
+			}
+		} else if (tl.containsID(userId)) {
+			TeacherPO tp = tl.getTeacher(userId);
+			department = tp.getCompany();
+			if (tp.getType().toString().equals("Teacher")) {
+				department = cl.getCourseFromTeacherIdAndCourseId(
+						this.termTransfer(term) + "_course_list", userId,
+						courseId).getDepartment();
+			}
+		} else {
+			return Feedback.DATA_NOT_FOUND.toString();
+		}
+		return department;
+	}
+
 	@Override
 	public Object operate(String cmd, ArrayList<String> list) {
 		// TODO Auto-generated method stub
@@ -297,8 +332,7 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 							this.getTerm() + "_course_student_list", uid,
 							cmdInfo[2]).getDepartment();
 				}
-				feedback = this.editCourse(cmdInfo[2], cmdInfo[3], dept,
-						list);
+				feedback = this.editCourse(cmdInfo[2], cmdInfo[3], dept, list);
 			}
 			break;
 		default:
@@ -338,11 +372,12 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		// TODO Auto-generated method stub
 		String listName = this.termTransfer(term) + "_course_list";
 		if (cl.containsCourse(listName, dept, courseId)) {
-			CoursePO c = cl.getCourseFromDeptAndCourseId(listName, dept, courseId);
-			if(content.size() == 2){
+			CoursePO c = cl.getCourseFromDeptAndCourseId(listName, dept,
+					courseId);
+			if (content.size() == 2) {
 				c.setTeacherId(content.get(0));
 				c.setTimeAndPlace(content.get(1));
-			} else if(content.size()==3){
+			} else if (content.size() == 3) {
 				c.setIntroduction(content.get(0));
 				c.setBook(content.get(1));
 				c.setSyllabus(content.get(2));
