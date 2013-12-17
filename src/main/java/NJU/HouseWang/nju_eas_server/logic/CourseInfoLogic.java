@@ -458,11 +458,15 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		String[] info = conditions.split("，");
 		ArrayList<String> list = new ArrayList<String>();
 		ArrayList<CoursePO> courseList = new ArrayList<CoursePO>();
-		if (info[0].equals("all")) {
-			courseList = cl.getCourseListFromDept(listName, info[1]);
-		} else {
-			courseList = cl.getCourseListFromGradeAndDept(listName, info[0],
-					info[1]);
+		if (info.length == 1) {
+			courseList = cl.getCourseListFromTeacherId(listName, info[0]);
+		} else if (info.length == 2) {
+			if (info[0].equals("all")) {
+				courseList = cl.getCourseListFromDept(listName, info[1]);
+			} else {
+				courseList = cl.getCourseListFromGradeAndDept(listName,
+						info[0], info[1]);
+			}
 		}
 		for (int i = 0; i < courseList.size(); i++) {
 			list.add(courseList.get(i).courseToCommand());
