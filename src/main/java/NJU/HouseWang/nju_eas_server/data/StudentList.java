@@ -41,7 +41,7 @@ public class StudentList {
 	// 是否包含ID
 	public boolean containsID(String id) {
 		Boolean result = false;
-		sql = "select id from " + listName + " where id=?;";
+		sql = "select id from " + listName + " where id=?";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
@@ -139,7 +139,7 @@ public class StudentList {
 
 	public ArrayList<StudentPO> getStudentList(String grade, String department) {
 		ArrayList<StudentPO> result = new ArrayList<StudentPO>();
-		sql = "select * from " + listName + "where grade=?, department=?";
+		sql = "select * from " + listName + " where grade=? and department=?;";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
@@ -166,7 +166,7 @@ public class StudentList {
 	
 	public ArrayList<StudentPO> getStudentList(String department) {
 		ArrayList<StudentPO> result = new ArrayList<StudentPO>();
-		sql = "select * from " + listName + "where department=?";
+		sql = "select * from " + listName + " where department=?";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);

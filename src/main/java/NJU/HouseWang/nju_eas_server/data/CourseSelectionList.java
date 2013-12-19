@@ -47,7 +47,7 @@ public class CourseSelectionList {
 	// 是否包含选课记录
 	public boolean containsCourseSelection(String courseId, String studentId) {
 		Boolean result = false;
-		sql = "select id from " + listName + " where courseId=?, studentId=?;";
+		sql = "select id from " + listName + " where courseId=? and studentId=?;";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
@@ -64,7 +64,7 @@ public class CourseSelectionList {
 
 
 	public Feedback removeCourseSelection(String courseId, String studentId) {
-		sql = "delete from " + listName + " where courseId=?, studentId=?";
+		sql = "delete from " + listName + " where courseId=? and studentId=?";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
@@ -98,7 +98,7 @@ public class CourseSelectionList {
 
 	public ArrayList<CourseSelectionPO> getCourseSelectionListFromCourseId(String courseId) {
 		ArrayList<CourseSelectionPO> result = new ArrayList<CourseSelectionPO>();
-		sql = "select * from " + listName +"where courseId=?";
+		sql = "select * from " + listName +" where courseId=?";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
@@ -118,7 +118,7 @@ public class CourseSelectionList {
 	}
 	public ArrayList<CourseSelectionPO> getCourseSelectionListFromStudentId(String studentId) {
 		ArrayList<CourseSelectionPO> result = new ArrayList<CourseSelectionPO>();
-		sql = "select * from " + listName +"where studentId=?";
+		sql = "select * from " + listName +" where studentId=?";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);

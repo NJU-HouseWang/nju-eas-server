@@ -42,7 +42,7 @@ public class TeacherList {
 	// 是否包含ID
 	public boolean containsID(String id) {
 		Boolean result = false;
-		sql = "select id from " + listName + " where id=?;";
+		sql = "select id from " + listName + " where id=?";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);

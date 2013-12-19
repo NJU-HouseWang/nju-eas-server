@@ -144,28 +144,4 @@ public class LoginList {
 	public String getListHead() {
 		return "用户名；用户类型；用户密码";
 	}
-
-	public static void main(String[] args) {
-		LoginList ll = new LoginList();
-		ll.init();
-		System.out.println(ll.containsID("admin"));
-		System.out.println(ll.containsID("admin1"));
-		System.out.println(ll.getLoginer("121250157"));
-		System.out.println(ll.removeLoginer("121250157"));
-		System.out.println(ll.containsID("121250157"));
-		System.out.println(ll.removeLoginer("121250157"));
-		System.out.println(ll.containsID("121250157"));
-		System.out.println(ll.addLoginer(new GuestPO("121250157",
-				UserType.Student, "bilicrazy123")));
-		System.out.println(ll.containsID("121250157"));
-		System.out.println(ll.getLoginer("121250157"));
-		System.out.println(ll.updateLoginer(new GuestPO("121250157",
-				UserType.Student, "bilicrazy124")));
-		System.out.println(ll.getLoginer("121250157"));
-		ArrayList<GuestPO> l = ll.getLoginList();
-		for (GuestPO g : l) {
-			System.out.println(g);
-		}
-		ll.finish();
-	}
 }

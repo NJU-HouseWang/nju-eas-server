@@ -39,7 +39,7 @@ public class Course_StudentList {
 	// 是否包含课程对应学生的记录
 		public boolean containsCourse_StudentPO(String listName, String courseId, String studentId) {
 			Boolean result = false;
-			sql = "select id from " + listName + " where courseId=?, studentId=?;";
+			sql = "select id from " + listName + " where courseId=? and studentId=?;";
 			try {
 				conn = sqlconn.getConnection();
 				ps = conn.prepareStatement(sql);
@@ -57,7 +57,7 @@ public class Course_StudentList {
 	
 	public Course_StudentPO getCourse_StudentPO(String listName, String courseId,String studentId) {
 		Course_StudentPO result = new Course_StudentPO();
-		sql = "select * from " + listName + " where courseId=?, studentId=?";
+		sql = "select * from " + listName + " where courseId=? and studentId=?";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
@@ -78,7 +78,7 @@ public class Course_StudentList {
 	}
 
 	public Feedback removeCourse_StudentPO(String listName, String courseId, String studentId) {
-		sql = "delete from " + listName + " where courseId=?, studentId=?";
+		sql = "delete from " + listName + " where courseId=? and studentId=?";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
@@ -114,7 +114,7 @@ public class Course_StudentList {
 	public Feedback updateCourse_StudentPO(String listName, Course_StudentPO po) {
 		sql = "update "
 				+ listName
-				+ " set originalScore=?, secondScore=? where dept=?, courseId=?, studentId=?";
+				+ " set originalScore=?, secondScore=? where dept=? and courseId=? and studentId=?";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
@@ -133,7 +133,7 @@ public class Course_StudentList {
 
 	public ArrayList<Course_StudentPO> getListFromCourseId(String listName, String dept, String courseId) {
 		ArrayList<Course_StudentPO> result = new ArrayList<Course_StudentPO>();
-		sql = "select * from " + listName + "where dept=?,courseId=?";
+		sql = "select * from " + listName + " where dept=? and courseId=?";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
@@ -155,7 +155,7 @@ public class Course_StudentList {
 	
 	public ArrayList<Course_StudentPO> getListFromStudentId(String listName,String studentId) {
 		ArrayList<Course_StudentPO> result = new ArrayList<Course_StudentPO>();
-		sql = "select * from " + listName + "where studentId=?";
+		sql = "select * from " + listName + " where studentId=?";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);

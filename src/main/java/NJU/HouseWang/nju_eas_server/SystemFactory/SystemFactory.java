@@ -72,6 +72,7 @@ public class SystemFactory {
 			case "course_list_head":
 			case "common_course_list_head":
 			case "stu_course_list":
+			case "tea_course_list":
 			case "student_score_list":
 			case "course_student_list":
 			case "term":

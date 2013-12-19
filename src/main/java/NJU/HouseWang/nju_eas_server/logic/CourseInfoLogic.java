@@ -186,7 +186,7 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 			feedback = "list";
 			break;
 		case "showstu_course_list":
-			if (cmd.endsWith("；ok")) {
+			if (!cmd.endsWith("；ok")) {
 				feedback = "ip";
 			} else {
 				uid = am.getGuest(cmdInfo[2]);
@@ -194,7 +194,7 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 			}
 			break;
 		case "showstudent_score_list":
-			if (cmd.endsWith("；ok")) {
+			if (!cmd.endsWith("；ok")) {
 				feedback = "ip";
 			} else {
 				uid = am.getGuest(cmdInfo[3]);
@@ -202,7 +202,7 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 			}
 			break;
 		case "showcourse_student_list":
-			if (cmd.endsWith("；ok")) {
+			if (!cmd.endsWith("；ok")) {
 				feedback = "ip";
 			} else {
 				uid = am.getGuest(cmdInfo[3]);
@@ -230,15 +230,15 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 			feedback = this.addCommonCourse(this.stringToCommonCourse(course));
 			break;
 		case "showtea_course_list":
-			if (cmd.endsWith("；ok")) {
+			if (!cmd.endsWith("；ok")) {
 				feedback = "ip";
 			} else {
 				uid = am.getGuest(cmdInfo[2]);
-				feedback = this.showCourseList(this.getTerm(), uid);
+				feedback = this.showCourseList(this.showTerm(), uid);
 			}
 			break;
 		case "showstudent_list_from_course":
-			if (cmd.endsWith("；ok")) {
+			if (!cmd.endsWith("；ok")) {
 				feedback = "ip";
 			} else {
 				uid = am.getGuest(cmdInfo[4]);

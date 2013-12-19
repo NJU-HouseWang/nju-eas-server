@@ -63,7 +63,7 @@ public class TeachingPlanList {
 	public Feedback updateTeachingPlanItem(TeachingPlanPO TeachingPlan) {
 		sql = "update "
 				+ listName
-				+ " set isCommitted=?, status=?, tpFile=?where dept=?";
+				+ " set isCommitted=?, status=?, tpFile=? where dept=?";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);

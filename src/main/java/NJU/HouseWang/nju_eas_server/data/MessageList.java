@@ -42,7 +42,7 @@ public class MessageList {
 	// 是否包含ID
 	public boolean containsID(int listType, String id) {
 		Boolean result = false;
-		sql = "select id from " + listName[listType] + " where id=?;";
+		sql = "select id from " + listName[listType] + " where id=?";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
