@@ -64,7 +64,7 @@ public class SystemFactory {
 			case "status_list":
 			case "status_list_head":
 			case "max_selection_num":
-			case "selected_course":
+			case "selected_common_course_list":
 				return (new CourseSelectionLogic());
 			case "course_detail":
 			case "course_list":
@@ -80,9 +80,6 @@ public class SystemFactory {
 			case "selectable_common_course_list_head":
 			case "selectable_common_course_list":
 			case "student_list_from_course":
-			case "selected_common_course_list_head":
-			case "selected_common_course_list":
-
 				return (new CourseInfoLogic());
 			case "dept_list":
 				return (new SystemInfoLogic());
@@ -218,7 +215,7 @@ public class SystemFactory {
 			}
 			break;
 
-		case "register":
+		case "record":
 			switch (aim) {
 			case "score":
 				return (new CourseInfoLogic());

@@ -18,18 +18,18 @@ public interface CourseSelectionLogicService extends LogicService {
 	public String showStatusListHead();
 
 	// 选课
-	public String selectCourse(String listName, String courseId,
+	public String selectCourse(String courseId,
 			String studentId);
 
 	// 通识课选课
 	public String selectCommonCourse(String courseId, String studentId);
 
 	// 补选
-	public String byElectCourse(String listName, String courseId,
+	public String byElectCourse(String courseId,
 			String studentId);
 
 	// 退选
-	public String quitCourse(String listName, String courseId, String studentId);
+	public String quitCourse(String courseId, String studentId);
 
 	// 批量添加选课记录
 	public String addCourse_StudentList(String listName, ArrayList<String> list);
@@ -51,5 +51,5 @@ public interface CourseSelectionLogicService extends LogicService {
 	public boolean isMax(String studentId);
 
 	// 显示已选通识课列表
-	public ArrayList<String> showSelectedCouse(String listName, String studentId);
+	public ArrayList<String> showSelectedCouse(String studentId);
 }

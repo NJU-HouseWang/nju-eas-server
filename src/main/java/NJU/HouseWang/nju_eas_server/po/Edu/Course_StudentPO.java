@@ -21,8 +21,8 @@ public class Course_StudentPO implements DataPOService {
 		this.dept = dept;
 		this.courseId = courseId;
 		this.studentId = studentId;
-		this.originalScore = 0;
-		this.secondScore = 0;
+		this.originalScore = -1;
+		this.secondScore = -1;
 	}
 
 	public String getDept() {
