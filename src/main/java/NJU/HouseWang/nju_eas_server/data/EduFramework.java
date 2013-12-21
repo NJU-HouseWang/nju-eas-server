@@ -116,5 +116,9 @@ public class EduFramework {
 	public String getListHead() {
 		return "课程模块(学分)；课程性质；序列；课程类别(学分)；课程名称(部分)；建议学分；开设学期";
 	}
+	
+	public String getImportListHead(){
+		return "模块编号；模块名称；模块最小学分；模块最大学分；课程性质；序列；课程类别；类别最小学分；类别最大学分；课程名称；课程最小学分；课程最大学分；开始学期；结束学期";
+	}
 
 }
