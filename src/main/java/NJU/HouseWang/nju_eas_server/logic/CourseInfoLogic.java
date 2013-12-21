@@ -705,14 +705,12 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		statusList.updateStatus(sp);
 		termList.addTerm(term);
 		cl.createCourseList(this.termTransfer(term));
-		csl.createCourseList(term);
-		this.addCommonCourseToCourseList();
+		csl.createCourseList(this.termTransfer(term));
 		return Feedback.OPERATION_SUCCEED.toString();
 	}
 
 	@Override
 	public String publishCommonCourse(ArrayList<String> list) {
-
 		ArrayList<CoursePO> courseList = new ArrayList<CoursePO>();
 		for (int i = 0; i < list.size(); i++) {
 			CoursePO cp = this.stringToCommonCourse(list.get(i));
