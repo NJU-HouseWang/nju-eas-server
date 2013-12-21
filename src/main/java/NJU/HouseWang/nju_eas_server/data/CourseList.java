@@ -37,10 +37,45 @@ public class CourseList {
 		}
 	}
 
+	public Feedback createCourseList(String term) {
+		sql = "create table " + term + "_course_list(" + "id varchar(12),"
+				+ "name varchar(45)," + "module varchar(45),"
+				+ "type varchar(45)," + "nature varchar(45)," + "credit int,"
+				+ "period int," + "grade varchar(45)," + "term int,"
+				+ "department varchar(45)," + "studentNum int,"
+				+ "teacherId varchar(45)," + "teacherName varchar(45),"
+				+ "timeAndPlace varchar(45)," + "introduction text,"
+				+ "book text," + "syllabus text,"
+				+ "primary key(id))engine myisam,charset gbk;";
+		try {
+			conn = sqlconn.getConnection();
+			ps = conn.prepareStatement(sql);
+			ps.execute();
+			return Feedback.OPERATION_SUCCEED;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return Feedback.OPERATION_FAIL;
+		}
+	}
+
+	public Feedback dropCourseList(String term) {
+		sql = "drop table " + term + "_course_list";
+		try {
+			conn = sqlconn.getConnection();
+			ps = conn.prepareStatement(sql);
+			ps.execute();
+			return Feedback.OPERATION_SUCCEED;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return Feedback.OPERATION_FAIL;
+		}
+	}
+
 	// 是否包含院系课程
-	public boolean containsCourse(String listName, String department, String id) {
+	public boolean containsCourse(String term, String department, String id) {
 		Boolean result = false;
-		sql = "select id from " + listName + " where department=? and id=?;";
+		sql = "select id from " + term
+				+ "_course_list where department=? and id=?;";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
@@ -55,9 +90,11 @@ public class CourseList {
 		return result;
 	}
 
-	public CoursePO getCourseFromDeptAndCourseId(String listName,String department, String id) {
+	public CoursePO getCourseFromDeptAndCourseId(String term,
+			String department, String id) {
 		CoursePO result = new CoursePO();
-		sql = "select * from " + listName + " where department=? and id=?";
+		sql = "select * from " + term
+				+ "_course_list where department=? and id=?";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
@@ -82,17 +119,18 @@ public class CourseList {
 				result.setIntroduction(rs.getString(15));
 				result.setBook(rs.getString(16));
 				result.setSyllabus(rs.getString(17));
-				
+
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return result;
 	}
-	
-	public CoursePO getCourseFromTeacherIdAndCourseId(String listName,String teacherId, String id) {
+
+	public CoursePO getCourseFromTeacherIdAndCourseId(String term,
+			String teacherId, String id) {
 		CoursePO result = new CoursePO();
-		sql = "select * from " + listName + " where teacherId=?, id=?";
+		sql = "select * from " + term + "_course_list where teacherId=?, id=?";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
@@ -117,7 +155,7 @@ public class CourseList {
 				result.setIntroduction(rs.getString(15));
 				result.setBook(rs.getString(16));
 				result.setSyllabus(rs.getString(17));
-				
+
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -125,8 +163,9 @@ public class CourseList {
 		return result;
 	}
 
-	public Feedback removeCourse(String listName, String department, String id) {
-		sql = "delete from " + listName + " where department=? and id=?";
+	public Feedback removeCourse(String term, String department, String id) {
+		sql = "delete from " + term
+				+ "_course_list where department=? and id=?";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
@@ -140,8 +179,8 @@ public class CourseList {
 		}
 	}
 
-	public Feedback addCourse(String listName, CoursePO Course) {
-		sql = "insert into " + listName
+	public Feedback addCourse(String term, CoursePO Course) {
+		sql = "insert into " + term
 				+ " values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		try {
 			conn = sqlconn.getConnection();
@@ -163,7 +202,7 @@ public class CourseList {
 			ps.setString(15, Course.getIntroduction());
 			ps.setString(16, Course.getBook());
 			ps.setString(17, Course.getSyllabus());
-			
+
 			ps.execute();
 			return Feedback.OPERATION_SUCCEED;
 		} catch (SQLException e) {
@@ -172,10 +211,10 @@ public class CourseList {
 		}
 	}
 
-	public Feedback updateCourse(String listName, CoursePO Course) {
+	public Feedback updateCourse(String term, CoursePO Course) {
 		sql = "update "
-				+ listName
-				+ " set name=?, module=?,type=?, nature=?,credit=?, period=?, term=?, studentNum=?, teacherId=?, teacherName=?, timeAndPlace=?, introduction=?, book=?, syllabus=?, grade=? where id=? and department=?";
+				+ term
+				+ "_course_list set name=?, module=?,type=?, nature=?,credit=?, period=?, term=?, studentNum=?, teacherId=?, teacherName=?, timeAndPlace=?, introduction=?, book=?, syllabus=?, grade=? where id=? and department=?";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
@@ -204,9 +243,10 @@ public class CourseList {
 		}
 	}
 
-	public ArrayList<CoursePO> getCourseListFromTeacherId(String listName, String teacherId) {
+	public ArrayList<CoursePO> getCourseListFromTeacherId(String term,
+			String teacherId) {
 		ArrayList<CoursePO> result = new ArrayList<CoursePO>();
-		sql = "select * from " + listName+" where teacherId=?";
+		sql = "select * from " + term + "_course_list where teacherId=?";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
@@ -238,10 +278,12 @@ public class CourseList {
 		}
 		return result;
 	}
-	
-	public ArrayList<CoursePO> getCourseListFromGradeAndDept(String listName, String grade, String department) {
+
+	public ArrayList<CoursePO> getCourseListFromGradeAndDept(String term,
+			String grade, String department) {
 		ArrayList<CoursePO> result = new ArrayList<CoursePO>();
-		sql = "select * from " + listName+" where grade=? and department=?";
+		sql = "select * from " + term
+				+ "_course_list where grade=? and department=?";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
@@ -275,9 +317,10 @@ public class CourseList {
 		return result;
 	}
 
-	public ArrayList<CoursePO> getCourseListFromDept(String listName, String department) {
+	public ArrayList<CoursePO> getCourseListFromDept(String term,
+			String department) {
 		ArrayList<CoursePO> result = new ArrayList<CoursePO>();
-		sql = "select * from " + listName+" where department=?";
+		sql = "select * from " + term + "_course_list where department=?";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
@@ -309,12 +352,9 @@ public class CourseList {
 		}
 		return result;
 	}
-	
+
 	public String getCourseListHead() {
 		return "课程号；课程名称；课程性质；学分；学时；年级；开设学期；开设院系；任课教师姓名；上课时间及地点";
 
 	}
-	
-	
 }
-	

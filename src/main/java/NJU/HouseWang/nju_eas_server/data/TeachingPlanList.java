@@ -101,6 +101,40 @@ public class TeachingPlanList {
 		return result;
 	}
 
+
+	public Feedback createTeachingPlan(String deptId) {
+		sql = "create table " + deptId + "_teachingplan_list("
+				+ "moduleId varchar(12)," + "moduleName varchar(45),"
+				+ "moduleCredit int," + "courseNature varchar(45),"
+				+ "courseType varchar(45)," + "typeCredit int,"
+				+ "courseId varchar(45)," + "courseName varchar(45),"
+				+ "courseCredit int," + "period int,"
+				+ "term int " + ")engine myisam,charset gbk;";
+		try {
+			conn = sqlconn.getConnection();
+			ps = conn.prepareStatement(sql);
+			ps.execute();
+			return Feedback.OPERATION_SUCCEED;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return Feedback.OPERATION_FAIL;
+		}
+	}
+
+	public Feedback dropTeachingPlan(String deptId) {
+		sql = "drop table " + deptId + "_teachingplan_list";
+		try {
+			conn = sqlconn.getConnection();
+			ps = conn.prepareStatement(sql);
+			ps.execute();
+			return Feedback.OPERATION_SUCCEED;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return Feedback.OPERATION_FAIL;
+		}
+	}
+
+	
 	public String getListHead() {
 		return "院系；提交状态；审核状态";
 	}

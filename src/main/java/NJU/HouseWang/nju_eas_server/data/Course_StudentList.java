@@ -36,33 +36,67 @@ public class Course_StudentList {
 			e.printStackTrace();
 		}
 	}
-	// 是否包含课程对应学生的记录
-		public boolean containsCourse_StudentPO(String listName, String courseId, String studentId) {
-			Boolean result = false;
-			sql = "select id from " + listName + " where courseId=? and studentId=?;";
-			try {
-				conn = sqlconn.getConnection();
-				ps = conn.prepareStatement(sql);
-				ps.setString(1, courseId);
-				ps.setString(2,studentId);
-				rs = ps.executeQuery();
-				result = (rs.next() != false);
 
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			return result;
+	public Feedback createCourseList(String term) {
+		sql = "create table " + term + "_course_student_list("
+				+ "dept varchar(45)," + "courseId varchar(45),"
+				+ "studentId varchar(45)," + "originalScore varchar(45),"
+				+ "secondScore varchar(45)" + ")engine myisam,charset gbk;";
+
+		try {
+			conn = sqlconn.getConnection();
+			ps = conn.prepareStatement(sql);
+			ps.execute();
+			return Feedback.OPERATION_SUCCEED;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return Feedback.OPERATION_FAIL;
 		}
+	}
 
-	
-	public Course_StudentPO getCourse_StudentPO(String listName, String courseId,String studentId) {
-		Course_StudentPO result = new Course_StudentPO();
-		sql = "select * from " + listName + " where courseId=? and studentId=?";
+	public Feedback dropCourseList(String term) {
+		sql = "drop table " + term + "_course_student_list";
+		try {
+			conn = sqlconn.getConnection();
+			ps = conn.prepareStatement(sql);
+			ps.execute();
+			return Feedback.OPERATION_SUCCEED;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return Feedback.OPERATION_FAIL;
+		}
+	}
+
+	// 是否包含课程对应学生的记录
+	public boolean containsCourse_StudentPO(String term, String courseId,
+			String studentId) {
+		Boolean result = false;
+		sql = "select id from " + term
+				+ "_course_student_list where courseId=? and studentId=?;";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, courseId);
-			ps.setString(2,studentId);
+			ps.setString(2, studentId);
+			rs = ps.executeQuery();
+			result = (rs.next() != false);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	public Course_StudentPO getCourse_StudentPO(String term, String courseId,
+			String studentId) {
+		Course_StudentPO result = new Course_StudentPO();
+		sql = "select * from " + term
+				+ "_course_student_list where courseId=? and studentId=?";
+		try {
+			conn = sqlconn.getConnection();
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, courseId);
+			ps.setString(2, studentId);
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				result.setDept(rs.getString(1));
@@ -77,8 +111,10 @@ public class Course_StudentList {
 		return result;
 	}
 
-	public Feedback removeCourse_StudentPO(String listName, String courseId, String studentId) {
-		sql = "delete from " + listName + " where courseId=? and studentId=?";
+	public Feedback removeCourse_StudentPO(String term, String courseId,
+			String studentId) {
+		sql = "delete from " + term
+				+ "_course_student_list where courseId=? and studentId=?";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
@@ -92,9 +128,8 @@ public class Course_StudentList {
 		}
 	}
 
-	public Feedback addCourse_StudentPO(String listName, Course_StudentPO po) {
-		sql = "insert into " + listName
-				+ " values (?,?,?,?,?)";
+	public Feedback addCourse_StudentPO(String term, Course_StudentPO po) {
+		sql = "insert into " + term + "_course_student_list values (?,?,?,?,?)";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
@@ -111,10 +146,10 @@ public class Course_StudentList {
 		}
 	}
 
-	public Feedback updateCourse_StudentPO(String listName, Course_StudentPO po) {
+	public Feedback updateCourse_StudentPO(String term, Course_StudentPO po) {
 		sql = "update "
-				+ listName
-				+ " set originalScore=?, secondScore=? where dept=? and courseId=? and studentId=?";
+				+ term
+				+ "_course_student_list set originalScore=?, secondScore=? where dept=? and courseId=? and studentId=?";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
@@ -131,9 +166,11 @@ public class Course_StudentList {
 		}
 	}
 
-	public ArrayList<Course_StudentPO> getListFromCourseId(String listName, String dept, String courseId) {
+	public ArrayList<Course_StudentPO> getListFromCourseId(String term,
+			String dept, String courseId) {
 		ArrayList<Course_StudentPO> result = new ArrayList<Course_StudentPO>();
-		sql = "select * from " + listName + " where dept=? and courseId=?";
+		sql = "select * from " + term
+				+ "_course_student_list where dept=? and courseId=?";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
@@ -152,10 +189,12 @@ public class Course_StudentList {
 		}
 		return result;
 	}
-	
-	public ArrayList<Course_StudentPO> getListFromStudentId(String listName,String studentId) {
+
+	public ArrayList<Course_StudentPO> getListFromStudentId(String term,
+			String studentId) {
 		ArrayList<Course_StudentPO> result = new ArrayList<Course_StudentPO>();
-		sql = "select * from " + listName + " where studentId=?";
+		sql = "select * from " + term
+				+ "_course_student_list where studentId=?";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
