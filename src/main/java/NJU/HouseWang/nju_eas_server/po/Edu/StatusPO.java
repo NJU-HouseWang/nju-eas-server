@@ -43,4 +43,11 @@ public class StatusPO implements DataPOService{
 	public void setId(String id) {
 		// TODO Auto-generated method stub
 	}
+
+	@Override
+	public String toString() {
+		return "StatusPO [status=" + status + ", content=" + content + "]";
+	}
+	
+	
 }

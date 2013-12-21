@@ -46,10 +46,10 @@ public class CoursePO implements DataPOService {
 		this.syllabus = "null";
 	}
 
-	
 	public CoursePO(String id, String name, String module, String type,
-			String nature, int credit, int period, String grade, int studentNum, String teacherId,
-			String teacherName, String timeAndPlace, String place) {
+			String nature, int credit, int period, String grade,
+			int studentNum, String teacherId, String teacherName,
+			String timeAndPlace, String place) {
 		this.id = id;
 		this.name = name;
 		this.module = module;
@@ -65,6 +65,7 @@ public class CoursePO implements DataPOService {
 		this.introduction = "null";
 		this.syllabus = "null";
 	}
+
 	public CoursePO(String id, String name, String module, String type,
 			String nature, int credit, int period, String grade, String term,
 			String department) {
@@ -221,8 +222,8 @@ public class CoursePO implements DataPOService {
 				+ teacherName + "；" + timeAndPlace);
 	}
 
-	public String commonCourseToCommand(){
-		return (id + "；" + name + "；" + credit + "；" +  teacherName + "；" + timeAndPlace);
+	public String commonCourseToCommand() {
+		return (id + "；" + name + "；" + credit + "；" + teacherName + "；" + timeAndPlace);
 	}
 
 	public String getGrade() {
@@ -231,6 +232,18 @@ public class CoursePO implements DataPOService {
 
 	public void setGrade(String grade) {
 		this.grade = grade;
+	}
+
+	@Override
+	public String toString() {
+		return "CoursePO [id=" + id + ", name=" + name + ", module=" + module
+				+ ", type=" + type + ", nature=" + nature + ", credit="
+				+ credit + ", period=" + period + ", term=" + term
+				+ ", department=" + department + ", studentNum=" + studentNum
+				+ ", teacherId=" + teacherId + ", teacherName=" + teacherName
+				+ ", timeAndPlace=" + timeAndPlace + ", introduction="
+				+ introduction + ", book=" + book + ", syllabus=" + syllabus
+				+ ", grade=" + grade + "]";
 	}
 
 }

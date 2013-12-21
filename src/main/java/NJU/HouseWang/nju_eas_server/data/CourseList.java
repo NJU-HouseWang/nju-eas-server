@@ -41,7 +41,7 @@ public class CourseList {
 		sql = "create table " + term + "_course_list(" + "id varchar(12),"
 				+ "name varchar(45)," + "module varchar(45),"
 				+ "type varchar(45)," + "nature varchar(45)," + "credit int,"
-				+ "period int," + "grade varchar(45)," + "term int,"
+				+ "period int," + "grade varchar(45)," + "term varchar(45),"
 				+ "department varchar(45)," + "studentNum int,"
 				+ "teacherId varchar(45)," + "teacherName varchar(45),"
 				+ "timeAndPlace varchar(45)," + "introduction text,"
@@ -180,8 +180,10 @@ public class CourseList {
 	}
 
 	public Feedback addCourse(String term, CoursePO Course) {
+		System.out.println(term);
+		System.out.println(Course);
 		sql = "insert into " + term
-				+ " values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+				+ "_course_list values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
@@ -202,11 +204,10 @@ public class CourseList {
 			ps.setString(15, Course.getIntroduction());
 			ps.setString(16, Course.getBook());
 			ps.setString(17, Course.getSyllabus());
-
 			ps.execute();
 			return Feedback.OPERATION_SUCCEED;
 		} catch (SQLException e) {
-			// e.printStackTrace();
+			e.printStackTrace();
 			return Feedback.OPERATION_FAIL;
 		}
 	}
