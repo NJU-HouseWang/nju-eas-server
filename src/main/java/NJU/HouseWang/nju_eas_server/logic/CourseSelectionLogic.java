@@ -185,6 +185,10 @@ public class CourseSelectionLogic implements CourseSelectionLogicService {
 	public String editStatus(StatusPO sp) {
 		try {
 			sl.updateStatus(sp);
+			if (sp.getStatus().equals("selectCommon")
+					&& sp.getContent().equals("true")) {
+				courseInfoLogic.addCommonCourseToCourseList();
+			}
 			return (Feedback.OPERATION_SUCCEED.toString());
 		} catch (Exception e) {
 			e.printStackTrace();

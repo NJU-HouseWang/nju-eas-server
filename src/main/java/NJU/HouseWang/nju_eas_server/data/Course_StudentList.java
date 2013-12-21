@@ -198,6 +198,7 @@ public class Course_StudentList {
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
+			ps.setString(1, studentId);
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				Course_StudentPO r = new Course_StudentPO();
