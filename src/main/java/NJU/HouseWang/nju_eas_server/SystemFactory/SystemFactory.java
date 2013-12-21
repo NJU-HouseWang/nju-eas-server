@@ -52,6 +52,7 @@ public class SystemFactory {
 			case "eduframework":
 			case "modulenum":
 			case "eduframework_head":
+			case "eduframework_head_import":
 				return (new EduFrameworkLogic());
 			case "teachingplan":
 			case "teachingplan_list":

@@ -12,4 +12,6 @@ public interface EduFrameworkLogicService extends LogicService {
 	public String showModuleNum();
 	
 	public String showEduFrameworkHead();
+	
+	public String showImportEduFrameworkHead();
 }

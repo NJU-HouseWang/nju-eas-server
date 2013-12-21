@@ -53,6 +53,9 @@ public class EduFrameworkLogic implements EduFrameworkLogicService {
 		case "showeduframework_head":
 			feedback = this.showEduFrameworkHead();
 			break;
+		case "showeduframework_head_import":
+			feedback = this.showImportEduFrameworkHead();
+			break;
 		default:
 			break;
 		}
@@ -212,6 +215,12 @@ public class EduFrameworkLogic implements EduFrameworkLogicService {
 	public String showEduFrameworkHead() {
 		// TODO Auto-generated method stub
 		return ef.getListHead();
+	}
+
+	@Override
+	public String showImportEduFrameworkHead() {
+		// TODO Auto-generated method stub
+		return ef.getImportListHead();
 	}
 
 }

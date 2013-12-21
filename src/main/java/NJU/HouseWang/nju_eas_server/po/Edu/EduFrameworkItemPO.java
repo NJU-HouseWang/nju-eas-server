@@ -12,7 +12,6 @@ public class EduFrameworkItemPO implements DataPOService {
 	private String courseType;
 	private int typeMinCredit;
 	private int typeMaxCredit;
-//	private String courseId;
 	private String courseName;
 	private int courseMinCredit;
 	private int courseMaxCredit;
@@ -38,7 +37,6 @@ public class EduFrameworkItemPO implements DataPOService {
 		this.courseType = courseType;
 		this.typeMinCredit = typeMinCredit;
 		this.typeMaxCredit = typeMaxCredit;
-//		this.courseId = courseId;
 		this.courseName = courseName;
 		this.courseMinCredit = courseMinCredit;
 		this.courseMaxCredit = courseMaxCredit;
