@@ -407,8 +407,9 @@ public class CourseSelectionLogic implements CourseSelectionLogicService {
 
 	// 优先级最高为1，最低为4
 	public int getPriority(String studentId) {
+		
 		int priority = 5 - (Calendar.getInstance().get(Calendar.YEAR) - 2000 - Integer
-				.parseInt(studentId.substring(0, 1)));
+				.parseInt(studentId.substring(0, 2)));
 		return priority;
 	}
 
