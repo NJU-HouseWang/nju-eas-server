@@ -85,4 +85,7 @@ public interface CourseInfoLogicService extends LogicService {
 	// 显示选择某课程的学生信息
 	public ArrayList<String> showStudentListFromCourse(String term,
 			String courseId, String dept);
+	
+	//显示成绩列表表头
+	public String showCourseStudentListHead();
 }

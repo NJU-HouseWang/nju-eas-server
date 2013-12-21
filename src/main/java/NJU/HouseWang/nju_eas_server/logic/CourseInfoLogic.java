@@ -257,6 +257,9 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 						cmdInfo[3], dept);
 			}
 			break;
+		case "showcourse_student_list_head":
+			feedback = this.showCourseStudentListHead();
+			break;
 		default:
 			break;
 		}
@@ -812,5 +815,16 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 			list.add(sl.getStudent(studentId).toCommand());
 		}
 		return list;
+	}
+
+	@Override
+	public String showCourseStudentListHead() {
+		// TODO Auto-generated method stub
+		try {
+			return csl.getListHead();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Feedback.OPERATION_FAIL.toString();
+		}
 	}
 }
