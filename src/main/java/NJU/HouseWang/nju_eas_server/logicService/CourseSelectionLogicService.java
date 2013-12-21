@@ -17,10 +17,6 @@ public interface CourseSelectionLogicService extends LogicService {
 	// 显示状态列表的表头
 	public String showStatusListHead();
 
-	// 选课
-	public String selectCourse(String courseId,
-			String studentId);
-
 	// 通识课选课
 	public String selectCommonCourse(String courseId, String studentId);
 
@@ -31,15 +27,9 @@ public interface CourseSelectionLogicService extends LogicService {
 	// 退选
 	public String quitCourse(String courseId, String studentId);
 
-	// 批量添加选课记录
-	public String addCourse_StudentList(String listName, ArrayList<String> list);
-
 	// 单独添加选课记录
 	public String delCourse_StudentPO(String listName, String courseId,
 			String studentId);
-
-	// 批量删除选课记录
-	public String delCourse_StudentList(String listName, ArrayList<String> list);
 
 	// 通识课选课抽签
 	public String processCommonCourseSelection();

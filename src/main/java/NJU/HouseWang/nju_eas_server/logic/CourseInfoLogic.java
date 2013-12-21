@@ -280,9 +280,8 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		if (ccl.containsCourse(courseId)) {
 			department = "通识课";
 		} else if (sl.containsID(userId)) {
-			String listName = this.termTransfer(term) + "_course_student_list";
 			ArrayList<Course_StudentPO> course_StudentList = csl
-					.getListFromStudentId(listName, userId);
+					.getListFromStudentId(this.termTransfer(term), userId);
 			for (int i = 0; i < course_StudentList.size(); i++) {
 				if (courseId.equals(course_StudentList.get(i).getCourseId())) {
 					department = course_StudentList.get(i).getDept();
@@ -294,8 +293,8 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 			department = tp.getCompany();
 			if (tp.getType().toString().equals("Teacher")) {
 				department = cl.getCourseFromTeacherIdAndCourseId(
-						this.termTransfer(term) + "_course_list", userId,
-						courseId).getDepartment();
+						this.termTransfer(term), userId, courseId)
+						.getDepartment();
 			}
 		} else {
 			return Feedback.DATA_NOT_FOUND.toString();
@@ -357,9 +356,8 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 			String courseId) {
 		// TODO Auto-generated method stub
 		ArrayList<String> feedback = new ArrayList<String>();
-		String listName = this.termTransfer(term) + "_course_list";
-		CoursePO cp = cl.getCourseFromDeptAndCourseId(listName, department,
-				courseId);
+		CoursePO cp = cl.getCourseFromDeptAndCourseId(this.termTransfer(term),
+				department, courseId);
 		feedback.add(cp.getIntroduction());
 		feedback.add(cp.getBook());
 		feedback.add(cp.getSyllabus());
@@ -370,10 +368,9 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	public String editCourse(String term, String courseId, String dept,
 			ArrayList<String> content) {
 		// TODO Auto-generated method stub
-		String listName = this.termTransfer(term) + "_course_list";
-		if (cl.containsCourse(listName, dept, courseId)) {
-			CoursePO c = cl.getCourseFromDeptAndCourseId(listName, dept,
-					courseId);
+		if (cl.containsCourse(this.termTransfer(term), dept, courseId)) {
+			CoursePO c = cl.getCourseFromDeptAndCourseId(
+					this.termTransfer(term), dept, courseId);
 			if (content.size() == 2) {
 				c.setTeacherId(content.get(0));
 				c.setTimeAndPlace(content.get(1));
@@ -405,9 +402,9 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	@Override
 	public String addCourse(CoursePO c) {
 		// TODO Auto-generated method stub
-		String listName = this.getTerm() + "_course_list";
-		if (!cl.containsCourse(listName, c.getDepartment(), c.getId())) {
-			cl.addCourse(listName, c);
+		String term = this.getTerm();
+		if (!cl.containsCourse(term, c.getDepartment(), c.getId())) {
+			cl.addCourse(term, c);
 			this.addCommonCourse(c);
 			return Feedback.OPERATION_SUCCEED.toString();
 		} else {
@@ -429,9 +426,8 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	@Override
 	public String delCourse(String term, String department, String id) {
 		// TODO Auto-generated method stub
-		String listName = this.termTransfer(term) + "_course_list";
-		if (cl.containsCourse(listName, department, id)) {
-			cl.removeCourse(listName, department, id);
+		if (cl.containsCourse(this.termTransfer(term), department, id)) {
+			cl.removeCourse(this.termTransfer(term), department, id);
 			this.delCommonCourse(id);
 			return Feedback.OPERATION_SUCCEED.toString();
 		} else {
@@ -454,18 +450,19 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	// 筛选条件以中文逗号“，”分隔
 	public ArrayList<String> showCourseList(String term, String conditions) {
 		// TODO Auto-generated method stub
-		String listName = this.termTransfer(term) + "_course_list";
 		String[] info = conditions.split("，");
 		ArrayList<String> list = new ArrayList<String>();
 		ArrayList<CoursePO> courseList = new ArrayList<CoursePO>();
 		if (info.length == 1) {
-			courseList = cl.getCourseListFromTeacherId(listName, info[0]);
+			courseList = cl.getCourseListFromTeacherId(this.termTransfer(term),
+					info[0]);
 		} else if (info.length == 2) {
 			if (info[0].equals("all")) {
-				courseList = cl.getCourseListFromDept(listName, info[1]);
+				courseList = cl.getCourseListFromDept(this.termTransfer(term),
+						info[1]);
 			} else {
-				courseList = cl.getCourseListFromGradeAndDept(listName,
-						info[0], info[1]);
+				courseList = cl.getCourseListFromGradeAndDept(
+						this.termTransfer(term), info[0], info[1]);
 			}
 		}
 		for (int i = 0; i < courseList.size(); i++) {
@@ -477,10 +474,9 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	@Override
 	public ArrayList<String> showSelectableCommonCourseList() {
 		// TODO Auto-generated method stub
-		String listName = this.getTerm() + "_course_list";
+		String term = this.getTerm();
 		ArrayList<String> list = new ArrayList<String>();
-		ArrayList<CoursePO> courseList = cl.getCourseListFromDept(listName,
-				"通识课");
+		ArrayList<CoursePO> courseList = cl.getCourseListFromDept(term, "通识课");
 		for (int i = 0; i < courseList.size(); i++) {
 			CoursePO cp = courseList.get(i);
 			String courseId = cp.getId();
@@ -508,12 +504,12 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	public String addCourseList(ArrayList<String> list) {
 		// TODO Auto-generated method stub
 		ArrayList<CoursePO> courseList = new ArrayList<CoursePO>();
-		String listName = this.getTerm() + "_course_list";
+		String term = this.getTerm();
 		for (int i = 0; i < list.size(); i++) {
 			courseList.add(stringToCoursePO(list.get(i)));
 		}
 		for (int i = 0; i < courseList.size(); i++) {
-			if (cl.containsCourse(listName, courseList.get(i).getDepartment(),
+			if (cl.containsCourse(term, courseList.get(i).getDepartment(),
 					courseList.get(i).getId())) {
 				return Feedback.DATA_ALREADY_EXISTED.toString();
 			}
@@ -537,6 +533,14 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 					TeachingPlanItemPO tpip = teachingPlanItemList.get(j);
 					CoursePO cp = this.tpPOToCoursePO(dept, tpip);
 					this.addCourse(cp);
+					ArrayList<StudentPO> studentList = sl.getStudentList(
+							cp.getGrade(), cp.getDepartment());
+					for (int p = 0; p < studentList.size(); p++) {
+						csl.addCourse_StudentPO(
+								this.getTerm(),
+								new Course_StudentPO(cp.getDepartment(), cp
+										.getId(), studentList.get(p).getId()));
+					}
 				}
 
 			}
@@ -559,12 +563,11 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	@Override
 	public String recordScore(String term, ArrayList<String> list) {
 		// TODO Auto-generated method stub
-		String listName = this.termTransfer(term) + "_course_student_list";
 		for (int i = 0; i < list.size(); i++) {
 			String[] info = list.get(i).split("；");
 			String courseId = info[0];
 			String studentId = info[1];
-			if (!csl.containsCourse_StudentPO(listName, courseId, studentId)) {
+			if (!csl.containsCourse_StudentPO(term, courseId, studentId)) {
 				return ("Error: " + studentId + ":" + Feedback.COURSE_STUDENT_NOT_FOUND
 						.toString());
 			}
@@ -576,7 +579,7 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 					info[2]);
 			csp.setOriginalScore(Integer.parseInt(info[3]));
 			csp.setSecondScore(Integer.parseInt(info[4]));
-			csl.updateCourse_StudentPO(listName, csp);
+			csl.updateCourse_StudentPO(term, csp);
 		}
 		return Feedback.OPERATION_SUCCEED.toString();
 	}
@@ -587,11 +590,11 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		ArrayList<String> list = new ArrayList<String>();
 		StudentPO sp = sl.getStudent(studentId);
 		String department = sp.getDepartment();
-		String listName = this.getTerm() + "_course_student_list";
+		String term = this.getTerm();
 		ArrayList<Course_StudentPO> course_StudentList = csl
-				.getListFromStudentId(listName, studentId);
+				.getListFromStudentId(term, studentId);
 		for (int i = 0; i < course_StudentList.size(); i++) {
-			CoursePO cp = cl.getCourseFromDeptAndCourseId(listName, department,
+			CoursePO cp = cl.getCourseFromDeptAndCourseId(term, department,
 					course_StudentList.get(i).getCourseId());
 			list.add(cp.courseToCommand());
 		}
@@ -601,10 +604,9 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	@Override
 	public ArrayList<String> showStudentScoreList(String term, String studentId) {
 		// TODO Auto-generated method stub
-		String listName = this.termTransfer(term) + "_course_student_list";
 		ArrayList<String> list = new ArrayList<String>();
 		ArrayList<Course_StudentPO> scoreList = csl.getListFromStudentId(
-				listName, studentId);
+				this.termTransfer(term), studentId);
 		for (int i = 0; i < scoreList.size(); i++) {
 			list.add(scoreList.get(i).toCommand());
 		}
@@ -615,10 +617,10 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	public ArrayList<String> showCourseStudentList(String courseId,
 			String department) {
 		// TODO Auto-generated method stub
-		String listName = this.getTerm() + "_course_student_list";
+		String term = this.getTerm();
 		ArrayList<String> list = new ArrayList<String>();
 		ArrayList<Course_StudentPO> course_studentList = csl
-				.getListFromCourseId(listName, department, courseId);
+				.getListFromCourseId(term, department, courseId);
 		for (int i = 0; i < course_studentList.size(); i++) {
 			list.add(course_studentList.get(i).toCommand());
 		}
@@ -645,7 +647,8 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		sp.setContent(term);
 		statusList.updateStatus(sp);
 		termList.addTerm(term);
-		// 还差一个新建数据库不会写。。。。。
+		cl.createCourseList(this.termTransfer(term));
+		csl.createCourseList(term);
 		this.addCommonCourseToCourseList();
 		return Feedback.OPERATION_SUCCEED.toString();
 	}
@@ -710,11 +713,9 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	public CoursePO tpPOToCoursePO(String dept, TeachingPlanItemPO tpip) {
 		// TODO Auto-generated method stub
 		String term = this.getTerm();
-		String[] yearInfo = term.split("-");
-		String[] termInfo = term.split("_");
 		String grade = ""
-				+ (Integer.parseInt(yearInfo[0]) - tpip.getStartTerm() / 2);
-		String termToDisplay = termInfo[0] + "学年   第" + termInfo[1] + "学期";
+				+ (Integer.parseInt(term.substring(1, 4)) - tpip.getStartTerm() / 2);
+		String termToDisplay = this.showTerm();
 		CoursePO c = new CoursePO(tpip.getCourseId(), tpip.getCourseName(),
 				tpip.getModuleName(), tpip.getCourseType(),
 				tpip.getCourseNature(), tpip.getCourseCredit(),
@@ -731,7 +732,8 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 
 	public String termTransfer(String s) {
 		String[] list = s.split("学");
-		String term = list[0] + "_" + list[1].charAt(list[1].length() - 1);
+		String term = "x" + list[0].split("-")[0] + "_"
+				+ list[1].charAt(list[1].length() - 1);
 		return term;
 	}
 
@@ -744,11 +746,10 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	@Override
 	public ArrayList<String> showStudentListFromCourse(String term,
 			String courseId, String department) {
-		String listName = this.termTransfer(term) + "_course_student_list";
 		String studentId = "";
 		ArrayList<String> list = new ArrayList<String>();
 		ArrayList<Course_StudentPO> course_studentList = csl
-				.getListFromCourseId(listName, department, courseId);
+				.getListFromCourseId(term, department, courseId);
 		for (int i = 0; i < course_studentList.size(); i++) {
 			studentId = course_studentList.get(i).getStudentId();
 			list.add(sl.getStudent(studentId).toCommand());

@@ -103,9 +103,6 @@ public class CourseSelectionLogic implements CourseSelectionLogicService {
 				feedback = this.selectCommonCourse(cmdInfo[2], uid);
 			}
 			break;
-		case "selectcourse":
-			feedback = this.selectCourse(cmdInfo[2], cmdInfo[3]);
-			break;
 		case "byelectcourse":
 			if (cmd.endsWith("；ok")) {
 				feedback = "ip";
@@ -163,12 +160,6 @@ public class CourseSelectionLogic implements CourseSelectionLogicService {
 		String[] cmdInfo = cmd.split("；");
 		String cmdType = cmdInfo[0] + cmdInfo[1];
 		switch (cmdType) {
-		case "addcourse_student_list":
-			feedback = this.addCourse_StudentList(cmdInfo[2], list);
-			break;
-		case "delcourse_student_list":
-			feedback = this.delCourse_StudentList(cmdInfo[2], list);
-			break;
 		default:
 			break;
 		}
@@ -234,28 +225,14 @@ public class CourseSelectionLogic implements CourseSelectionLogicService {
 		}
 	}
 
-	@Override
-	public String selectCourse(String courseId, String studentId) {
-		String term = courseInfoLogic.getTerm();
-		String listName = term + "_course_student_list";
-		if (!c_sl.containsCourse_StudentPO(listName, courseId, studentId)) {
-
-			c_sl.addCourse_StudentPO(listName, new Course_StudentPO(listName,
-					courseId, studentId));
-			return (Feedback.OPERATION_SUCCEED.toString());
-		} else {
-			return (Feedback.SELECTION_REPEATED.toString());
-		}
-	}
 
 	@Override
 	public String byElectCourse(String courseId, String studentId) {
 		String term = courseInfoLogic.getTerm();
-		String listName = term + "_course_student_list";
 		CourseSelectorNumPO csnp = csnl.getCourseSelectorNumPO(courseId);
 		if (csnp.getSelectorNum() < csnp.getTotalNum()) {
 			csnp.setSelectorNum(csnp.getSelectorNum() + 1);
-			c_sl.addCourse_StudentPO(listName, new Course_StudentPO("通识课",
+			c_sl.addCourse_StudentPO(term, new Course_StudentPO("通识课",
 					courseId, studentId));
 			csnl.updateCourseSelectorNumPO(csnp);
 			return (Feedback.OPERATION_SUCCEED.toString());
@@ -268,9 +245,8 @@ public class CourseSelectionLogic implements CourseSelectionLogicService {
 	public String quitCourse(String courseId, String studentId) {
 
 		String term = courseInfoLogic.getTerm();
-		String listName = term + "_course_student_list";
-		if (c_sl.containsCourse_StudentPO(listName, courseId, studentId)) {
-			c_sl.removeCourse_StudentPO(listName, courseId, studentId);
+		if (c_sl.containsCourse_StudentPO(term, courseId, studentId)) {
+			c_sl.removeCourse_StudentPO(term, courseId, studentId);
 			CourseSelectorNumPO csnp = csnl.getCourseSelectorNumPO(courseId);
 			csnp.setSelectorNum(csnp.getSelectorNum() - 1);
 			csnl.updateCourseSelectorNumPO(csnp);
@@ -281,46 +257,8 @@ public class CourseSelectionLogic implements CourseSelectionLogicService {
 	}
 
 	@Override
-	public String addCourse_StudentList(String term, ArrayList<String> list) {
-		String listName = courseInfoLogic.termTransfer(term)
-				+ "_course_student_list";
-		// 先检查所添加的列表中是否有重复添加的课程，若重复，则返回错误信息，否则，则添加所有项
-		for (int i = 0; i < list.size(); i++) {
-			String[] info = list.get(i).split("；");
-			if (c_sl.containsCourse_StudentPO(listName, info[0], info[1])) {
-				return Feedback.SELECTION_REPEATED.toString();
-			}
-		}
-		for (int i = 0; i < list.size(); i++) {
-			String[] info = list.get(i).split("；");
-			c_sl.addCourse_StudentPO(listName, new Course_StudentPO(listName,
-					info[0], info[1]));
-		}
-		return (Feedback.OPERATION_SUCCEED.toString());
-	}
-
-	@Override
-	public String delCourse_StudentList(String term, ArrayList<String> list) {
-		String listName = courseInfoLogic.termTransfer(term)
-				+ "_course_student_list";
-		for (int i = 0; i < list.size(); i++) {
-			String[] info = list.get(i).split("；");
-			if (!c_sl.containsCourse_StudentPO(listName, info[0], info[1])) {
-				return Feedback.DATA_NOT_FOUND.toString();
-			}
-		}
-		for (int i = 0; i < list.size(); i++) {
-			String[] info = list.get(i).split("；");
-			c_sl.removeCourse_StudentPO(listName, info[0], info[1]);
-		}
-		return Feedback.OPERATION_SUCCEED.toString();
-	}
-
-	@Override
 	public String processCommonCourseSelection() {
 		String term = courseInfoLogic.getTerm();
-		String courseListName = term + "_course_list";
-		String course_StudentListName = term + "_course_student_list";
 		ArrayList<CourseSelectionPO> courseSelectionList = csl
 				.getCourseSelectionList();
 		if (!courseSelectionList.isEmpty()) {
@@ -338,7 +276,7 @@ public class CourseSelectionLogic implements CourseSelectionLogicService {
 				ArrayList<CourseSelectionPO> csl1 = csl
 						.getCourseSelectionListFromCourseId(courseList.get(j));
 				int num = cl
-						.getCourseFromDeptAndCourseId(courseListName, "通识课", courseList.get(j))
+						.getCourseFromDeptAndCourseId(term, "通识课", courseList.get(j))
 						.getStudentNum();
 				// 如果选课人数大于可选总人数，
 				if (csl1.size() > num) {
@@ -347,7 +285,7 @@ public class CourseSelectionLogic implements CourseSelectionLogicService {
 				for (int m = 0; m < csl1.size(); m++) {
 					Course_StudentPO p = new Course_StudentPO("通识课", csl1
 							.get(m).getCourseId(), csl1.get(m).getStudentId());
-					c_sl.addCourse_StudentPO(course_StudentListName, p);
+					c_sl.addCourse_StudentPO(term, p);
 				}
 				CourseSelectorNumPO cp = csnl.getCourseSelectorNumPO(csl1
 						.get(j).getCourseId());
@@ -413,12 +351,11 @@ public class CourseSelectionLogic implements CourseSelectionLogicService {
 	@Override
 	public ArrayList<String> showSelectedCouse(String studentId) {
 		String term = courseInfoLogic.getTerm();
-		String listName = term + "_course_list";
 		ArrayList<CourseSelectionPO> list = csl
 				.getCourseSelectionListFromStudentId(studentId);
 		ArrayList<String> courseList = new ArrayList<String>();
 		for (int i = 0; i < list.size(); i++) {
-			courseList.add(cl.getCourseFromDeptAndCourseId(listName, "通识课",
+			courseList.add(cl.getCourseFromDeptAndCourseId(term, "通识课",
 					list.get(i).getCourseId()).toString());
 		}
 		return courseList;
@@ -434,10 +371,8 @@ public class CourseSelectionLogic implements CourseSelectionLogicService {
 	@Override
 	public String delCourse_StudentPO(String term, String courseId,
 			String studentId) {
-		String listName = courseInfoLogic.termTransfer(term)
-				+ "_course_student_list";
-		if (c_sl.containsCourse_StudentPO(listName, courseId, studentId)) {
-			c_sl.removeCourse_StudentPO(listName, courseId, studentId);
+		if (c_sl.containsCourse_StudentPO(courseInfoLogic.termTransfer(term), courseId, studentId)) {
+			c_sl.removeCourse_StudentPO(courseInfoLogic.termTransfer(term), courseId, studentId);
 			return (Feedback.OPERATION_SUCCEED.toString());
 		} else {
 			return (Feedback.DATA_NOT_FOUND.toString());

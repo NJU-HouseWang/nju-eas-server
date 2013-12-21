@@ -166,6 +166,7 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 
 			boolean isValid = this.judgeTeachingPlan(tpl);
 			if (isValid) {
+				tp.createTeachingPlan(dept);
 				for (int i = 0; i < tpl.size(); i++) {
 					tp.addTeachingPlanItem(dept, tpl.get(i));
 				}
@@ -190,7 +191,7 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 	@Override
 	public String delTeachingPlan(String dept) {
 
-		tp.delTeachingPlan(dept);
+		tp.dropTeachingPlan(dept);
 		TeachingPlanPO tpp = tl.getTeachingPlan(dept);
 		tpp.setCommitted(false);
 		tpp.setStatus(0);

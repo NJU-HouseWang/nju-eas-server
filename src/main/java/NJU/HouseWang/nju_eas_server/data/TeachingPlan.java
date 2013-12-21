@@ -39,7 +39,7 @@ public class TeachingPlan {
 
 	public ArrayList<TeachingPlanItemPO> getTeachingPlan(String deptId) {
 		ArrayList<TeachingPlanItemPO> result = new ArrayList<TeachingPlanItemPO>();
-		String listName = deptId + "_teachingplan_list";
+		String listName = deptId + "_teachingplan";
 		sql = "select * from " + listName;
 		try {
 			conn = sqlconn.getConnection();
@@ -66,14 +66,14 @@ public class TeachingPlan {
 		return result;
 	}
 
-	public Feedback delTeachingPlan(String dept) {
-		String listName = dept + "_teachingplan_list";
+	public Feedback delTeachingPlan(String deptId) {
+		String listName = deptId + "_teachingplan";
 		sql = "truncate " + listName;
 		return Feedback.OPERATION_SUCCEED;
 	}
 
-	public Feedback addTeachingPlanItem(String dept, TeachingPlanItemPO ep) {
-		String listName = dept + "_teachingplan_list";
+	public Feedback addTeachingPlanItem(String deptId, TeachingPlanItemPO ep) {
+		String listName = deptId + "_teachingplan";
 		sql = "insert into " + listName + " values (?,?,?,?,?,?,?,?,?,?,?)";
 		try {
 			conn = sqlconn.getConnection();
@@ -99,5 +99,37 @@ public class TeachingPlan {
 
 	public String getListHead() {
 		return "课程模块(学分)；课程性质；课程类别(学分)；课程号；课程名称；课程学分；学时；开设学期";
+	}
+
+	public Feedback createTeachingPlan(String deptId) {
+		sql = "create table " + deptId + "_teachingplan("
+				+ "moduleId varchar(12)," + "moduleName varchar(45),"
+				+ "moduleCredit int," + "courseNature varchar(45),"
+				+ "courseType varchar(45)," + "typeCredit int,"
+				+ "courseId varchar(45)," + "courseName varchar(45),"
+				+ "courseCredit int," + "period int,"
+				+ "term int " + ")engine myisam,charset gbk;";
+		try {
+			conn = sqlconn.getConnection();
+			ps = conn.prepareStatement(sql);
+			ps.execute();
+			return Feedback.OPERATION_SUCCEED;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return Feedback.OPERATION_FAIL;
+		}
+	}
+
+	public Feedback dropTeachingPlan(String deptId) {
+		sql = "drop table " + deptId + "_teachingplan";
+		try {
+			conn = sqlconn.getConnection();
+			ps = conn.prepareStatement(sql);
+			ps.execute();
+			return Feedback.OPERATION_SUCCEED;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return Feedback.OPERATION_FAIL;
+		}
 	}
 }
