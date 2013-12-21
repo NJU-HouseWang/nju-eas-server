@@ -1,19 +1,16 @@
 package NJU.HouseWang.nju_eas_server.logic;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import NJU.HouseWang.nju_eas_server.data.AuthorityManager;
 import NJU.HouseWang.nju_eas_server.data.EduFramework;
 import NJU.HouseWang.nju_eas_server.logicService.EduFrameworkLogicService;
-import NJU.HouseWang.nju_eas_server.netService.NetService;
 import NJU.HouseWang.nju_eas_server.po.Edu.EduFrameworkItemPO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 
 public class EduFrameworkLogic implements EduFrameworkLogicService {
 	private EduFramework ef;
 	private AuthorityManager am;
-	
 
 	public EduFrameworkLogic() {
 		ef = this.intEduFramework();
@@ -25,8 +22,8 @@ public class EduFrameworkLogic implements EduFrameworkLogicService {
 		e.init();
 		return e;
 	}
-	
-	public AuthorityManager initAuthorityManager(){
+
+	public AuthorityManager initAuthorityManager() {
 		AuthorityManager a = AuthorityManager.getInstance();
 		return a;
 	}
@@ -35,7 +32,7 @@ public class EduFrameworkLogic implements EduFrameworkLogicService {
 	public Object operate(String cmd) {
 		Object feedback = null;
 		String[] cmdInfo = cmd.split("；");
-		String uid = am.getGuest(cmdInfo[cmdInfo.length-1]);
+		String uid = am.getGuest(cmdInfo[cmdInfo.length - 1]);
 		String cmdType = cmdInfo[0] + cmdInfo[1];
 		switch (cmdType) {
 		case "showeduframework":
@@ -44,7 +41,7 @@ public class EduFrameworkLogic implements EduFrameworkLogicService {
 		case "addeduframework":
 			feedback = "list";
 			break;
-		case "deleduframwwork":
+		case "deleduframework":
 			feedback = this.delEduFramework();
 			break;
 		case "showmodulenum":
@@ -64,7 +61,7 @@ public class EduFrameworkLogic implements EduFrameworkLogicService {
 	public Object operate(String cmd, ArrayList<String> list) {
 		Object feedback = null;
 		String[] cmdInfo = cmd.split("；");
-		String uid = am.getGuest(cmdInfo[cmdInfo.length-1]);
+		String uid = am.getGuest(cmdInfo[cmdInfo.length - 1]);
 		String cmdType = cmdInfo[0] + cmdInfo[1];
 		switch (cmdType) {
 		case "addeduframework":
