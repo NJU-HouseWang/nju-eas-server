@@ -17,7 +17,6 @@ public class CourseSelectionList {
 	private PreparedStatement ps = null;
 	private ResultSet rs = null;
 
-
 	// 连接数据库
 	public void init() {
 		try {
@@ -39,15 +38,16 @@ public class CourseSelectionList {
 		}
 	}
 
-	public Feedback delList(){
-		sql ="truncate " +listName;
+	public Feedback delList() {
+		sql = "truncate " + listName;
 		return Feedback.OPERATION_SUCCEED;
 	}
 
 	// 是否包含选课记录
 	public boolean containsCourseSelection(String courseId, String studentId) {
 		Boolean result = false;
-		sql = "select id from " + listName + " where courseId=? and studentId=?;";
+		sql = "select * from " + listName
+				+ " where courseId=? and studentId=?;";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
@@ -62,7 +62,6 @@ public class CourseSelectionList {
 		return result;
 	}
 
-
 	public Feedback removeCourseSelection(String courseId, String studentId) {
 		sql = "delete from " + listName + " where courseId=? and studentId=?";
 		try {
@@ -73,14 +72,13 @@ public class CourseSelectionList {
 			ps.execute();
 			return Feedback.OPERATION_SUCCEED;
 		} catch (SQLException e) {
-			// e.printStackTrace();
+			e.printStackTrace();
 			return Feedback.OPERATION_FAIL;
 		}
 	}
 
 	public Feedback addCourseSelection(CourseSelectionPO CourseSelection) {
-		sql = "insert into " + listName
-				+ " values (?,?,?)";
+		sql = "insert into " + listName + " values (?,?,?)";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
@@ -90,15 +88,15 @@ public class CourseSelectionList {
 			ps.execute();
 			return Feedback.OPERATION_SUCCEED;
 		} catch (SQLException e) {
-			// e.printStackTrace();
+			e.printStackTrace();
 			return Feedback.OPERATION_FAIL;
 		}
 	}
 
-
-	public ArrayList<CourseSelectionPO> getCourseSelectionListFromCourseId(String courseId) {
+	public ArrayList<CourseSelectionPO> getCourseSelectionListFromCourseId(
+			String courseId) {
 		ArrayList<CourseSelectionPO> result = new ArrayList<CourseSelectionPO>();
-		sql = "select * from " + listName +" where courseId=?";
+		sql = "select * from " + listName + " where courseId=?";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
@@ -116,9 +114,11 @@ public class CourseSelectionList {
 		}
 		return result;
 	}
-	public ArrayList<CourseSelectionPO> getCourseSelectionListFromStudentId(String studentId) {
+
+	public ArrayList<CourseSelectionPO> getCourseSelectionListFromStudentId(
+			String studentId) {
 		ArrayList<CourseSelectionPO> result = new ArrayList<CourseSelectionPO>();
-		sql = "select * from " + listName +" where studentId=?";
+		sql = "select * from " + listName + " where studentId=?";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
@@ -136,7 +136,7 @@ public class CourseSelectionList {
 		}
 		return result;
 	}
-	
+
 	public ArrayList<CourseSelectionPO> getCourseSelectionList() {
 		ArrayList<CourseSelectionPO> result = new ArrayList<CourseSelectionPO>();
 		sql = "select * from " + listName;
@@ -156,5 +156,5 @@ public class CourseSelectionList {
 		}
 		return result;
 	}
-	
+
 }

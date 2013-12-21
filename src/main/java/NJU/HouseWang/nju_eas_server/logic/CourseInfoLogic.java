@@ -128,7 +128,7 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		String cmdType = cmdInfo[0] + cmdInfo[1];
 		switch (cmdType) {
 		case "showcourse_detail":
-			if (cmd.endsWith("；ok")) {
+			if (!cmd.endsWith("；ok")) {
 				feedback = "ip";
 			} else {
 				uid = am.getGuest(cmdInfo[4]);
@@ -732,13 +732,12 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		// 清空courSelectorNumList
 		csnl.delList();
 		ArrayList<CoursePO> courseList = ccl.getCourseList();
-		String listName = this.getTerm() + "_course_list";
 		if (!courseList.isEmpty()) {
 			for (int j = 0; j < courseList.size(); j++) {
 				CoursePO cp = courseList.get(j);
 				cp.setDepartment("通识课");
-				cp.setTerm(this.showTerm());
-				cl.addCourse(listName, cp);
+				cp.setTerm(showTerm());
+				cl.addCourse(getTerm(), cp);
 				CourseSelectorNumPO c = new CourseSelectorNumPO(cp.getId(), 0,
 						cp.getStudentNum());
 				csnl.addCourseSelectorNumPO(c);
