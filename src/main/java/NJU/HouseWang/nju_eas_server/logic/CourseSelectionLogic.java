@@ -173,16 +173,24 @@ public class CourseSelectionLogic implements CourseSelectionLogicService {
 
 	@Override
 	public String showStatus(String function) {
-
-		StatusPO sp = sl.getStatus(function);
-		return (sp.getStatus() + "；" + sp.getContent());
+		try {
+			StatusPO sp = sl.getStatus(function);
+			return (sp.getStatus() + "；" + sp.getContent());
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Feedback.OPERATION_FAIL.toString();
+		}
 	}
 
 	@Override
 	public String editStatus(StatusPO sp) {
-
-		sl.updateStatus(sp);
-		return (Feedback.OPERATION_SUCCEED.toString());
+		try {
+			sl.updateStatus(sp);
+			return (Feedback.OPERATION_SUCCEED.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Feedback.OPERATION_FAIL.toString();
+		}
 	}
 
 	@Override
@@ -199,105 +207,130 @@ public class CourseSelectionLogic implements CourseSelectionLogicService {
 
 	@Override
 	public String showStatusListHead() {
-
-		return (sl.getListHead());
+		try {
+			return (sl.getListHead());
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Feedback.OPERATION_FAIL.toString();
+		}
 	}
 
 	@Override
 	public String selectCommonCourse(String courseId, String studentId) {
-
-		if (!isMax(studentId)) {
-			if (!csl.containsCourseSelection(courseId, studentId)) {
-				// 添加选课记录
-				csl.addCourseSelection(new CourseSelectionPO(courseId,
-						studentId, getPriority(studentId)));
-				// 课程选择人数po的选择人数加一
-				CourseSelectorNumPO cp = csnl.getCourseSelectorNumPO(courseId);
-				int selectorNum = cp.getSelectorNum() + 1;
-				cp.setSelectorNum(selectorNum);
-				csnl.updateCourseSelectorNumPO(cp);
-				return (Feedback.OPERATION_SUCCEED.toString());
+		try {
+			if (!isMax(studentId)) {
+				if (!csl.containsCourseSelection(courseId, studentId)) {
+					// 添加选课记录
+					csl.addCourseSelection(new CourseSelectionPO(courseId,
+							studentId, getPriority(studentId)));
+					// 课程选择人数po的选择人数加一
+					CourseSelectorNumPO cp = csnl
+							.getCourseSelectorNumPO(courseId);
+					int selectorNum = cp.getSelectorNum() + 1;
+					cp.setSelectorNum(selectorNum);
+					csnl.updateCourseSelectorNumPO(cp);
+					return (Feedback.OPERATION_SUCCEED.toString());
+				} else {
+					return (Feedback.SELECTION_REPEATED.toString());
+				}
 			} else {
-				return (Feedback.SELECTION_REPEATED.toString());
+				return (Feedback.MAX_SELECTION.toString());
 			}
-		} else {
-			return (Feedback.MAX_SELECTION.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Feedback.OPERATION_FAIL.toString();
 		}
 	}
 
-
 	@Override
 	public String byElectCourse(String courseId, String studentId) {
-		String term = courseInfoLogic.getTerm();
-		CourseSelectorNumPO csnp = csnl.getCourseSelectorNumPO(courseId);
-		if (csnp.getSelectorNum() < csnp.getTotalNum()) {
-			csnp.setSelectorNum(csnp.getSelectorNum() + 1);
-			c_sl.addCourse_StudentPO(term, new Course_StudentPO("通识课",
-					courseId, studentId));
-			csnl.updateCourseSelectorNumPO(csnp);
-			return (Feedback.OPERATION_SUCCEED.toString());
-		} else {
-			return (Feedback.MAX_SELECTION.toString());
+		try {
+			String term = courseInfoLogic.getTerm();
+			CourseSelectorNumPO csnp = csnl.getCourseSelectorNumPO(courseId);
+			if (csnp.getSelectorNum() < csnp.getTotalNum()) {
+				csnp.setSelectorNum(csnp.getSelectorNum() + 1);
+				c_sl.addCourse_StudentPO(term, new Course_StudentPO("通识课",
+						courseId, studentId));
+				csnl.updateCourseSelectorNumPO(csnp);
+				return (Feedback.OPERATION_SUCCEED.toString());
+			} else {
+				return (Feedback.MAX_SELECTION.toString());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Feedback.OPERATION_FAIL.toString();
 		}
 	}
 
 	@Override
 	public String quitCourse(String courseId, String studentId) {
-
-		String term = courseInfoLogic.getTerm();
-		if (c_sl.containsCourse_StudentPO(term, courseId, studentId)) {
-			c_sl.removeCourse_StudentPO(term, courseId, studentId);
-			CourseSelectorNumPO csnp = csnl.getCourseSelectorNumPO(courseId);
-			csnp.setSelectorNum(csnp.getSelectorNum() - 1);
-			csnl.updateCourseSelectorNumPO(csnp);
-			return (Feedback.OPERATION_SUCCEED.toString());
-		} else {
-			return (Feedback.OPERATION_FAIL.toString());
+		try {
+			String term = courseInfoLogic.getTerm();
+			if (c_sl.containsCourse_StudentPO(term, courseId, studentId)) {
+				c_sl.removeCourse_StudentPO(term, courseId, studentId);
+				CourseSelectorNumPO csnp = csnl
+						.getCourseSelectorNumPO(courseId);
+				csnp.setSelectorNum(csnp.getSelectorNum() - 1);
+				csnl.updateCourseSelectorNumPO(csnp);
+				return (Feedback.OPERATION_SUCCEED.toString());
+			} else {
+				return (Feedback.OPERATION_FAIL.toString());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Feedback.OPERATION_FAIL.toString();
 		}
 	}
 
 	@Override
 	public String processCommonCourseSelection() {
-		String term = courseInfoLogic.getTerm();
-		ArrayList<CourseSelectionPO> courseSelectionList = csl
-				.getCourseSelectionList();
-		if (!courseSelectionList.isEmpty()) {
-			ArrayList<String> courseList = new ArrayList<String>();
-			courseList.add(courseSelectionList.get(0).getCourseId());
-			for (int i = 0; i < courseSelectionList.size(); i++) {
-				if (!courseList.contains(courseSelectionList.get(i)
-						.getCourseId())) {
-					courseList.add(courseSelectionList.get(i).getCourseId());
+		try {
+			String term = courseInfoLogic.getTerm();
+			ArrayList<CourseSelectionPO> courseSelectionList = csl
+					.getCourseSelectionList();
+			if (!courseSelectionList.isEmpty()) {
+				ArrayList<String> courseList = new ArrayList<String>();
+				courseList.add(courseSelectionList.get(0).getCourseId());
+				for (int i = 0; i < courseSelectionList.size(); i++) {
+					if (!courseList.contains(courseSelectionList.get(i)
+							.getCourseId())) {
+						courseList
+								.add(courseSelectionList.get(i).getCourseId());
+					}
 				}
-			}
 
-			for (int j = 0; j < courseList.size(); j++) {
-				// 选择某一课程的学生选课列表
-				ArrayList<CourseSelectionPO> csl1 = csl
-						.getCourseSelectionListFromCourseId(courseList.get(j));
-				int num = cl
-						.getCourseFromDeptAndCourseId(term, "通识课", courseList.get(j))
-						.getStudentNum();
-				// 如果选课人数大于可选总人数，
-				if (csl1.size() > num) {
-					csl1 = lot(csl1, num);
-				}
-				for (int m = 0; m < csl1.size(); m++) {
-					Course_StudentPO p = new Course_StudentPO("通识课", csl1
-							.get(m).getCourseId(), csl1.get(m).getStudentId());
-					c_sl.addCourse_StudentPO(term, p);
-				}
-				CourseSelectorNumPO cp = csnl.getCourseSelectorNumPO(csl1
-						.get(j).getCourseId());
-				cp.setSelectorNum(csl1.size());
-				csnl.updateCourseSelectorNumPO(cp);
+				for (int j = 0; j < courseList.size(); j++) {
+					// 选择某一课程的学生选课列表
+					ArrayList<CourseSelectionPO> csl1 = csl
+							.getCourseSelectionListFromCourseId(courseList
+									.get(j));
+					int num = cl.getCourseFromDeptAndCourseId(term, "通识课",
+							courseList.get(j)).getStudentNum();
+					// 如果选课人数大于可选总人数，
+					if (csl1.size() > num) {
+						csl1 = lot(csl1, num);
+					}
+					for (int m = 0; m < csl1.size(); m++) {
+						Course_StudentPO p = new Course_StudentPO("通识课", csl1
+								.get(m).getCourseId(), csl1.get(m)
+								.getStudentId());
+						c_sl.addCourse_StudentPO(term, p);
+					}
+					CourseSelectorNumPO cp = csnl.getCourseSelectorNumPO(csl1
+							.get(j).getCourseId());
+					cp.setSelectorNum(csl1.size());
+					csnl.updateCourseSelectorNumPO(cp);
 
+				}
+				// 通识课抽签完成，清空选课列表
+				csl.delList();
+				return Feedback.OPERATION_SUCCEED.toString();
+			} else {
+				return Feedback.DATA_NOT_FOUND.toString();
 			}
-			// 通识课抽签完成，清空选课列表
-			csl.delList();
-			return Feedback.OPERATION_SUCCEED.toString();
-		} else {
-			return Feedback.DATA_NOT_FOUND.toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Feedback.OPERATION_FAIL.toString();
 		}
 	}
 
@@ -308,10 +341,13 @@ public class CourseSelectionLogic implements CourseSelectionLogicService {
 		int totalPriority = 0;
 		ArrayList<LotStatus> lotList = new ArrayList<LotStatus>();
 		for (int i = 0; i < list.size(); i++) {
+			int priority = list.get(i).getPriority();
+			if (priority <= 0) {
+				return null;
+			}
 			lotList.add(new LotStatus(list.get(i).getStudentId(),
-					totalPriority + 1, totalPriority
-							+ list.get(i).getPriority()));
-			totalPriority += list.get(i).getPriority();
+					totalPriority + 1, totalPriority + priority));
+			totalPriority += priority;
 		}
 		while (list.size() > totalNum) {
 			int selectedNum = (int) Math.random() * totalPriority + 1;
@@ -333,7 +369,12 @@ public class CourseSelectionLogic implements CourseSelectionLogicService {
 
 	@Override
 	public String showMaxSelectionNum() {
-		return ("" + MAXSELECTIONNUM);
+		try {
+			return ("" + MAXSELECTIONNUM);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Feedback.OPERATION_FAIL.toString();
+		}
 	}
 
 	@Override
@@ -371,11 +412,18 @@ public class CourseSelectionLogic implements CourseSelectionLogicService {
 	@Override
 	public String delCourse_StudentPO(String term, String courseId,
 			String studentId) {
-		if (c_sl.containsCourse_StudentPO(courseInfoLogic.termTransfer(term), courseId, studentId)) {
-			c_sl.removeCourse_StudentPO(courseInfoLogic.termTransfer(term), courseId, studentId);
-			return (Feedback.OPERATION_SUCCEED.toString());
-		} else {
-			return (Feedback.DATA_NOT_FOUND.toString());
+		try {
+			if (c_sl.containsCourse_StudentPO(
+					courseInfoLogic.termTransfer(term), courseId, studentId)) {
+				c_sl.removeCourse_StudentPO(courseInfoLogic.termTransfer(term),
+						courseId, studentId);
+				return (Feedback.OPERATION_SUCCEED.toString());
+			} else {
+				return (Feedback.DATA_NOT_FOUND.toString());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Feedback.OPERATION_FAIL.toString();
 		}
 	}
 

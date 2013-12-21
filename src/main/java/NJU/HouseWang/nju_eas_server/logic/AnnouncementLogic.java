@@ -8,6 +8,7 @@ import NJU.HouseWang.nju_eas_server.data.LoginList;
 import NJU.HouseWang.nju_eas_server.logicService.AnnouncementLogicService;
 import NJU.HouseWang.nju_eas_server.po.Msg.AnnouncementPO;
 import NJU.HouseWang.nju_eas_server.po.User.GuestPO;
+import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 import NJU.HouseWang.nju_eas_server.systemMessage.UserType;
 
 public class AnnouncementLogic implements AnnouncementLogicService {
@@ -24,15 +25,17 @@ public class AnnouncementLogic implements AnnouncementLogicService {
 		al.init();
 		return al;
 	}
-	public AuthorityManager initAuthorityManager(){
+
+	public AuthorityManager initAuthorityManager() {
 		AuthorityManager a = AuthorityManager.getInstance();
 		return a;
 	}
+
 	@Override
 	public Object operate(String cmd) {
 		Object feedback = null;
 		String[] cmdInfo = cmd.split("；");
-		String uid = am.getGuest(cmdInfo[cmdInfo.length-1]);
+		String uid = am.getGuest(cmdInfo[cmdInfo.length - 1]);
 		String cmdType = cmdInfo[0] + cmdInfo[1];
 		switch (cmdType) {
 		case "showannouncement":
@@ -41,7 +44,7 @@ public class AnnouncementLogic implements AnnouncementLogicService {
 		case "editannouncement":
 			AnnouncementPO a1 = new AnnouncementPO(cmd.substring(18,
 					cmd.length() - 1));
-			feedback =  editAnnouncement(a1);
+			feedback = editAnnouncement(a1);
 			break;
 		case "addannouncement":
 			AnnouncementPO a2 = new AnnouncementPO(cmd.substring(17,
@@ -56,7 +59,7 @@ public class AnnouncementLogic implements AnnouncementLogicService {
 					cmdInfo[3]);
 			break;
 		case "showannouncement_list_head":
-			feedback =  showAnnouncementListHead();
+			feedback = showAnnouncementListHead();
 			break;
 		default:
 			break;
@@ -67,22 +70,42 @@ public class AnnouncementLogic implements AnnouncementLogicService {
 
 	@Override
 	public String showAnnouncement(String id) {
-		return al.getAnnouncement(id).toCommand();
+		try {
+			return al.getAnnouncement(id).toCommand();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Feedback.OPERATION_FAIL.toString();
+		}
 	}
 
 	@Override
 	public String addAnnouncement(AnnouncementPO ap) {
-		return al.addAnnouncement(ap).toString();
+		try {
+			return al.addAnnouncement(ap).toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Feedback.OPERATION_FAIL.toString();
+		}
 	}
 
 	@Override
 	public String editAnnouncement(AnnouncementPO ap) {
-		return al.updateAnnouncement(ap).toString();
+		try {
+			return al.updateAnnouncement(ap).toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Feedback.OPERATION_FAIL.toString();
+		}
 	}
 
 	@Override
 	public String delAnnouncement(String id) {
-		return al.removeAnnouncement(id).toString();
+		try {
+			return al.removeAnnouncement(id).toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Feedback.OPERATION_FAIL.toString();
+		}
 	}
 
 	@Override
@@ -102,7 +125,12 @@ public class AnnouncementLogic implements AnnouncementLogicService {
 
 	@Override
 	public String showAnnouncementListHead() {
-		return al.getListHead();
+		try {
+			return al.getListHead();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Feedback.OPERATION_FAIL.toString();
+		}
 	}
 
 	@Override

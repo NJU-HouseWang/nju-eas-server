@@ -155,73 +155,92 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 
 	@Override
 	public String addTeachingPlan(String dept, ArrayList<String> list) {
+		try {
+			TeachingPlanPO tpp = tl.getTeachingPlan(dept);
+			if (!tpp.isCommitted()) {
+				ArrayList<TeachingPlanItemPO> tpl = new ArrayList<TeachingPlanItemPO>();
 
-		TeachingPlanPO tpp = tl.getTeachingPlan(dept);
-		if (!tpp.isCommitted()) {
-			ArrayList<TeachingPlanItemPO> tpl = new ArrayList<TeachingPlanItemPO>();
-
-			for (int i = 0; i < list.size(); i++) {
-				tpl.add(stringToTeachingPlanItem(list.get(i)));
-			}
-
-			boolean isValid = this.judgeTeachingPlan(tpl);
-			if (isValid) {
-				tp.createTeachingPlan(dept);
-				for (int i = 0; i < tpl.size(); i++) {
-					tp.addTeachingPlanItem(dept, tpl.get(i));
+				for (int i = 0; i < list.size(); i++) {
+					tpl.add(stringToTeachingPlanItem(list.get(i)));
 				}
-				return (Feedback.OPERATION_SUCCEED.toString());
-			} else {
-				return (Feedback.FORMAT_ERROR.toString());
-			}
-		} else {
-			return (Feedback.DATA_ALREADY_EXISTED.toString());
-		}
 
+				boolean isValid = this.judgeTeachingPlan(tpl);
+				if (isValid) {
+					tp.createTeachingPlan(dept);
+					for (int i = 0; i < tpl.size(); i++) {
+						tp.addTeachingPlanItem(dept, tpl.get(i));
+					}
+					return (Feedback.OPERATION_SUCCEED.toString());
+				} else {
+					return (Feedback.FORMAT_ERROR.toString());
+				}
+			} else {
+				return (Feedback.DATA_ALREADY_EXISTED.toString());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Feedback.OPERATION_FAIL.toString();
+		}
 	}
 
 	@Override
 	public String editTeachingPlan(String dept, ArrayList<String> list) {
-
-		this.delTeachingPlan(dept);
-		return this.addTeachingPlan(dept, list);
-
+		try {
+			this.delTeachingPlan(dept);
+			return this.addTeachingPlan(dept, list);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Feedback.OPERATION_FAIL.toString();
+		}
 	}
 
 	@Override
 	public String delTeachingPlan(String dept) {
+		try {
+			tp.dropTeachingPlan(dept);
+			TeachingPlanPO tpp = tl.getTeachingPlan(dept);
+			tpp.setCommitted(false);
+			tpp.setStatus(0);
+			tpp.getTpFile().delete();
+			tpp.setTpFile(null);
 
-		tp.dropTeachingPlan(dept);
-		TeachingPlanPO tpp = tl.getTeachingPlan(dept);
-		tpp.setCommitted(false);
-		tpp.setStatus(0);
-		tpp.getTpFile().delete();
-		tpp.setTpFile(null);
-
-		return (Feedback.OPERATION_SUCCEED.toString());
+			return (Feedback.OPERATION_SUCCEED.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Feedback.OPERATION_FAIL.toString();
+		}
 	}
 
 	@Override
 	public String auditTeachingPlan(String dept, int status) {
-
-		TeachingPlanPO tpp = tl.getTeachingPlan(dept);
-		if (tpp.getStatus() == 0) {
-			tpp.setStatus(status);
-			return (Feedback.OPERATION_SUCCEED.toString());
-		} else {
-			return (Feedback.AUDIT_REPEATED.toString());
+		try {
+			TeachingPlanPO tpp = tl.getTeachingPlan(dept);
+			if (tpp.getStatus() == 0) {
+				tpp.setStatus(status);
+				return (Feedback.OPERATION_SUCCEED.toString());
+			} else {
+				return (Feedback.AUDIT_REPEATED.toString());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Feedback.OPERATION_FAIL.toString();
 		}
 	}
 
 	@Override
 	public String uploadTeachingPlanFile(String dept) {
-		String filePath = "d:/tpFile/";
-		TeachingPlanPO tpp = tl.getTeachingPlan(dept);
-		if (tpp.getTpFile() == null) {
-			tpp.setTpFile(new File(filePath));
-			return (Feedback.OPERATION_SUCCEED.toString());
-		} else {
-			return (Feedback.FILE_ALREADY_EXISTED.toString());
+		try {
+			String filePath = "d:/tpFile/";
+			TeachingPlanPO tpp = tl.getTeachingPlan(dept);
+			if (tpp.getTpFile() == null) {
+				tpp.setTpFile(new File(filePath));
+				return (Feedback.OPERATION_SUCCEED.toString());
+			} else {
+				return (Feedback.FILE_ALREADY_EXISTED.toString());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Feedback.OPERATION_FAIL.toString();
 		}
 	}
 
@@ -322,37 +341,55 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 
 	@Override
 	public String showTeachingPlanHead() {
-
-		return (tp.getListHead());
+		try {
+			return (tp.getListHead());
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Feedback.OPERATION_FAIL.toString();
+		}
 	}
 
 	@Override
 	public String showTeachingPlanListHead() {
-
-		return (tl.getListHead());
+		try {
+			return (tl.getListHead());
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Feedback.OPERATION_FAIL.toString();
+		}
 	}
 
 	@Override
 	public String showFlieName(String dept) {
-		// TODO Auto-generated method stub
-		if (tl.getTeachingPlan(dept).getTpFile().exists()) {
-			String fileName = tl.getTeachingPlan(dept).getTpFile().getName();
-			return fileName;
-		} else {
-			return Feedback.FILE_NOT_FOUND.toString();
+		try {
+			if (tl.getTeachingPlan(dept).getTpFile().exists()) {
+				String fileName = tl.getTeachingPlan(dept).getTpFile()
+						.getName();
+				return fileName;
+			} else {
+				return Feedback.FILE_NOT_FOUND.toString();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Feedback.OPERATION_FAIL.toString();
 		}
 	}
 
 	@Override
 	public String showTeachingPlanStatus(String dept) {
-		TeachingPlanPO tpp = tl.getTeachingPlan(dept);
-		String feedback = tpp.getDept() + "；";
-		if (tpp.isCommitted()) {
-			feedback += ("true；" + tpp.getStatus() + "；" + tpp.getTpFile()
-					.getName());
-		} else {
-			feedback += ("false；0；null");
+		try {
+			TeachingPlanPO tpp = tl.getTeachingPlan(dept);
+			String feedback = tpp.getDept() + "；";
+			if (tpp.isCommitted()) {
+				feedback += ("true；" + tpp.getStatus() + "；" + tpp.getTpFile()
+						.getName());
+			} else {
+				feedback += ("false；0；null");
+			}
+			return feedback;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Feedback.OPERATION_FAIL.toString();
 		}
-		return feedback;
 	}
 }

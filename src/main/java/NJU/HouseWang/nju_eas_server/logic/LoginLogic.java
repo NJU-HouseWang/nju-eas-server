@@ -61,30 +61,39 @@ public class LoginLogic implements LoginLogicService {
 
 	@Override
 	public String login(GuestPO logger, String ip) {
-
-		String id = logger.getId();
-		String pw = logger.getPassword();
-		UserType ut = logger.getType();
-		GuestPO newGuest = new GuestPO(id, ut, pw);
-		if (am.containsIP(ip)) {
-			return (Feedback.IP_ALREADY_EXISTED.toString());
-		} else if (am.containsGuest(id)) {
-			return (Feedback.ID_ALREADY_EXISTED.toString());
-		} else {
-			GuestPO g = (GuestPO) ll.getLoginer(id);
-			if (newGuest.equals(g)) {
-				am.addGuest(ip, id);
-				return (Feedback.OPERATION_SUCCEED.toString());
+		try {
+			String id = logger.getId();
+			String pw = logger.getPassword();
+			UserType ut = logger.getType();
+			GuestPO newGuest = new GuestPO(id, ut, pw);
+			if (am.containsIP(ip)) {
+				return (Feedback.IP_ALREADY_EXISTED.toString());
+			} else if (am.containsGuest(id)) {
+				return (Feedback.ID_ALREADY_EXISTED.toString());
 			} else {
-				return (Feedback.ID_PW_NOT_FOUND.toString());
+				GuestPO g = (GuestPO) ll.getLoginer(id);
+				if (newGuest.equals(g)) {
+					am.addGuest(ip, id);
+					return (Feedback.OPERATION_SUCCEED.toString());
+				} else {
+					return (Feedback.ID_PW_NOT_FOUND.toString());
+				}
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Feedback.OPERATION_FAIL.toString();
 		}
 	}
 
 	@Override
 	public String logout(String ip) {
-		am.removeGuest(ip);
-		return (Feedback.OPERATION_SUCCEED.toString());
+		try {
+			am.removeGuest(ip);
+			return (Feedback.OPERATION_SUCCEED.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Feedback.OPERATION_FAIL.toString();
+		}
 	}
 
 }

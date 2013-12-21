@@ -6,6 +6,7 @@ import NJU.HouseWang.nju_eas_server.data.AuthorityManager;
 import NJU.HouseWang.nju_eas_server.data.LogList;
 import NJU.HouseWang.nju_eas_server.logicService.LogLogicService;
 import NJU.HouseWang.nju_eas_server.po.Msg.LogPO;
+import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 
 public class LogLogic implements LogLogicService {
 	private LogList ll;
@@ -80,7 +81,12 @@ public class LogLogic implements LogLogicService {
 
 	@Override
 	public String showLogListHead() {
-		return (ll.getListHead());
+		try {
+			return (ll.getListHead());
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Feedback.OPERATION_FAIL.toString();
+		}
 	}
 
 }
