@@ -17,7 +17,7 @@ import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 public class Server {
 
 	public void start() throws IOException {
-		ServerSocket server = new ServerSocket(9001);
+		ServerSocket server = new ServerSocket(9100);
 
 		while (true) {
 			Socket socket = server.accept();
@@ -69,7 +69,13 @@ public class Server {
 								feedback = Feedback.OPERATION_FAIL;
 							}
 						}
-						st.sendFeedback((String) feedback);
+						if (feedback instanceof String) {
+							st.sendFeedback((String) feedback);
+						} else if (feedback instanceof ArrayList<?>) {
+							st.sendList((ArrayList<?>) feedback);
+						} else if (feedback instanceof File) {
+							st.sendFile((File) feedback);
+						}
 					} else if (feedback instanceof ArrayList<?>) {
 						st.sendList((ArrayList<?>) feedback);
 					} else if (feedback instanceof File) {

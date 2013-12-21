@@ -1,6 +1,5 @@
 package NJU.HouseWang.nju_eas_server.logic;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -96,7 +95,7 @@ public class CourseSelectionLogic implements CourseSelectionLogicService {
 			feedback = showStatusListHead();
 			break;
 		case "selectcommon_course":
-			if (cmd.endsWith("；ok")) {
+			if (!cmd.endsWith("；ok")) {
 				feedback = "ip";
 			} else {
 				uid = am.getGuest(cmdInfo[3]);
@@ -104,7 +103,7 @@ public class CourseSelectionLogic implements CourseSelectionLogicService {
 			}
 			break;
 		case "byelectcourse":
-			if (cmd.endsWith("；ok")) {
+			if (!cmd.endsWith("；ok")) {
 				feedback = "ip";
 			} else {
 				uid = am.getGuest(cmdInfo[3]);
@@ -112,7 +111,7 @@ public class CourseSelectionLogic implements CourseSelectionLogicService {
 			}
 			break;
 		case "quitcourse":
-			if (cmd.endsWith("；ok")) {
+			if (!cmd.endsWith("；ok")) {
 				feedback = "ip";
 			} else {
 				uid = am.getGuest(cmdInfo[3]);
@@ -132,7 +131,7 @@ public class CourseSelectionLogic implements CourseSelectionLogicService {
 			feedback = this.showMaxSelectionNum();
 			break;
 		case "showselected_common_course_list":
-			if (cmd.endsWith("；ok")) {
+			if (!cmd.endsWith("；ok")) {
 				feedback = "ip";
 			} else {
 				uid = am.getGuest(cmdInfo[2]);
