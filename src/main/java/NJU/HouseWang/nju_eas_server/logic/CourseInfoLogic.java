@@ -499,8 +499,10 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 						this.termTransfer(term), info[0], info[1]);
 			}
 		}
-		for (int i = 0; i < courseList.size(); i++) {
-			list.add(courseList.get(i).courseToCommand());
+		if (!courseList.isEmpty()) {
+			for (int i = 0; i < courseList.size(); i++) {
+				list.add(courseList.get(i).courseToCommand());
+			}
 		}
 		return list;
 	}
