@@ -1,12 +1,10 @@
 package NJU.HouseWang.nju_eas_server.logic;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import NJU.HouseWang.nju_eas_server.data.AuthorityManager;
 import NJU.HouseWang.nju_eas_server.data.EduFramework;
 import NJU.HouseWang.nju_eas_server.logicService.EduFrameworkLogicService;
-import NJU.HouseWang.nju_eas_server.netService.NetService;
 import NJU.HouseWang.nju_eas_server.po.Edu.EduFrameworkItemPO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 
@@ -43,7 +41,7 @@ public class EduFrameworkLogic implements EduFrameworkLogicService {
 		case "addeduframework":
 			feedback = "list";
 			break;
-		case "deleduframwwork":
+		case "deleduframework":
 			feedback = this.delEduFramework();
 			break;
 		case "showmodulenum":
