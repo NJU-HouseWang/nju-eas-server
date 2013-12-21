@@ -222,6 +222,12 @@ public class SystemFactory {
 				return (new CourseInfoLogic());
 			}
 			break;
+		case "cancel":
+			switch (aim) {
+			case "selection":
+				return (new CourseSelectionLogic());
+			}
+			break;
 		}
 		return null;
 	}

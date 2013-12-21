@@ -42,4 +42,7 @@ public interface CourseSelectionLogicService extends LogicService {
 
 	// 显示已选通识课列表
 	public ArrayList<String> showSelectedCouse(String studentId);
+	
+	//取消已选的通识课
+	public String cancelSelection(String courseId, String studentId);
 }
