@@ -128,11 +128,13 @@ public class EduFrameworkLogic implements EduFrameworkLogicService {
 				maxCredit = Integer.parseInt(info[2]);
 				for (int j = 0; j < efList.size(); j++) {
 					if (efList.get(j).getModuleName().equals(moduleName)) {
+
 						minCreditSum += efList.get(j).getCourseMinCredit();
 						maxCreditSum += efList.get(j).getCourseMaxCredit();
 					}
 				}
-				if ((minCreditSum != minCredit) || (maxCreditSum != maxCredit)) {
+				if (((minCreditSum != minCredit) || (maxCreditSum != maxCredit))
+						&& (minCreditSum >= 0)) {
 					isValid = false;
 				}
 				minCreditSum = 0;
@@ -151,7 +153,7 @@ public class EduFrameworkLogic implements EduFrameworkLogicService {
 						maxCreditSum += efList.get(j).getCourseMaxCredit();
 					}
 				}
-				if ((minCreditSum != minCredit) || (maxCreditSum != maxCredit)) {
+				if (((minCreditSum != minCredit) || (maxCreditSum != maxCredit))&&(minCreditSum>=0)) {
 					isValid = false;
 				}
 				minCreditSum = 0;
@@ -196,9 +198,27 @@ public class EduFrameworkLogic implements EduFrameworkLogicService {
 
 	public EduFrameworkItemPO stringToEduFrameworkItemPO(String str) {
 		String[] info = str.split("；");
+		if (info[2].equals("null")) {
+			info[2] = "-1";
+		}
+		if (info[3].equals("null")) {
+			info[3] = "-1";
+		}
+		if (info[7].equals("null")) {
+			info[7] = "-1";
+		}
+		if (info[8].equals("null")) {
+			info[8] = "-1";
+		}
+		if (info[10].equals("null")) {
+			info[10] = "-1";
+		}
+		if (info[11].equals("null")) {
+			info[11] = "-1";
+		}
 		EduFrameworkItemPO ep = new EduFrameworkItemPO(info[0], info[1],
 				info[2], info[3], info[4], info[5], info[6], info[7], info[8],
-				info[11], info[12], info[13], info[9], info[10]);
+				info[9], info[10], info[11], info[12], info[13]);
 		return ep;
 	}
 

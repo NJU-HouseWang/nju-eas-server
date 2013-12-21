@@ -188,11 +188,23 @@ public class EduFrameworkItemPO implements DataPOService {
 	}
 
 	public String toCommand() {
+		String _typeMinCredit = ""+ typeMinCredit;
+		String _typeMaxCredit = ""+ typeMaxCredit;
+		String _courseMinCredit = ""+ courseMinCredit;
+		String _courseMaxCredit = ""+ courseMaxCredit;
+		if(typeMinCredit<0){
+			_typeMinCredit = "null";
+			_typeMaxCredit = "null";
+		}
+		if(courseMinCredit<0){
+			_courseMinCredit = "null";
+			_courseMaxCredit = "null";
+		}
 		return (moduleId + " " + moduleName + "(" + moduleMinCredit + "-"
 				+ moduleMaxCredit + ")；" + courseNature + "；" + serialNum + "；"
-				+ courseType + "(" + typeMinCredit + "-" + typeMaxCredit + ")；"
-				 + courseName + "；" + courseMinCredit + "-"
-				+ courseMaxCredit + "；" + startTerm + "-" + endTerm);
+				+ courseType + "(" + _typeMinCredit + "-" + _typeMaxCredit + ")；"
+				 + courseName + "；" + _courseMinCredit + "-"
+				+ _courseMaxCredit + "；" + startTerm + "-" + endTerm);
 	}
 
 	@Override
