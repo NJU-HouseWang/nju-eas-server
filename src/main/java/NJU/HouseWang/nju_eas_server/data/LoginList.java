@@ -6,11 +6,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import NJU.HouseWang.nju_eas_server.dataService.LoginListService;
 import NJU.HouseWang.nju_eas_server.po.User.GuestPO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 import NJU.HouseWang.nju_eas_server.systemMessage.UserType;
 
-public class LoginList {
+public class LoginList implements LoginListService{
 	private String listName = "login_list";
 	private String sql = null;
 	private SQLConnector sqlconn = new SQLConnector();

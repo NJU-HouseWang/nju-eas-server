@@ -6,10 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import NJU.HouseWang.nju_eas_server.dataService.CommonCourseListService;
 import NJU.HouseWang.nju_eas_server.po.Edu.CoursePO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 
-public class CommonCourseList {
+public class CommonCourseList implements CommonCourseListService{
 	private String listName = "common_course_list";
 	private String sql = null;
 	private SQLConnector sqlconn = new SQLConnector();
