@@ -408,14 +408,17 @@ public class CourseSelectionLogic implements CourseSelectionLogicService {
 		ArrayList<String> courseList = new ArrayList<String>();
 		for (int i = 0; i < list.size(); i++) {
 			courseList.add(cl.getCourseFromDeptAndCourseId(term, "通识课",
-					list.get(i).getCourseId()).toString());
+					list.get(i).getCourseId()).commonCourseToCommand()
+					+ "；"
+					+ csnl.getCourseSelectorNumPO(list.get(i).getCourseId())
+							.getTotalNum());
 		}
 		return courseList;
 	}
 
 	// 优先级最高为1，最低为4
 	public int getPriority(String studentId) {
-		
+
 		int priority = 5 - (Calendar.getInstance().get(Calendar.YEAR) - 2000 - Integer
 				.parseInt(studentId.substring(0, 2)));
 		return priority;
