@@ -4,13 +4,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-
-import NJU.HouseWang.nju_eas_server.po.Edu.CoursePO;
+import NJU.HouseWang.nju_eas_server.dataService.CourseSelectorNumListService;
 import NJU.HouseWang.nju_eas_server.po.Edu.CourseSelectorNumPO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 
-public class CourseSelectorNumList {
+public class CourseSelectorNumList implements CourseSelectorNumListService{
 	private String listName = "course_selector_num_list";
 	private String sql = null;
 	private SQLConnector sqlconn = new SQLConnector();

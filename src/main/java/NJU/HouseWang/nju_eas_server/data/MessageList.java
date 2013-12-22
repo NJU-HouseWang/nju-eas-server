@@ -6,10 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import NJU.HouseWang.nju_eas_server.dataService.MessageListService;
 import NJU.HouseWang.nju_eas_server.po.Msg.MessagePO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 
-public class MessageList {
+public class MessageList implements MessageListService{
 	private static String[] listName = { "msg_in_list", "msg_out_list",
 			"msg_draft_list", "msg_trash_list" };
 	private String sql = null;

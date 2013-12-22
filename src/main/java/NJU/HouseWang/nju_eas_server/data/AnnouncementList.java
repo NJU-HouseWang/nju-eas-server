@@ -6,11 +6,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import NJU.HouseWang.nju_eas_server.dataService.AnnouncementListService;
 import NJU.HouseWang.nju_eas_server.po.Msg.AnnouncementPO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 import NJU.HouseWang.nju_eas_server.systemMessage.UserType;
 
-public class AnnouncementList {
+public class AnnouncementList implements AnnouncementListService{
 	private String listName = "announcement_list";
 	private String sql = null;
 	private SQLConnector sqlconn = new SQLConnector();

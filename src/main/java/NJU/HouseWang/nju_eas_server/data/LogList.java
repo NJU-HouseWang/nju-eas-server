@@ -6,10 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import NJU.HouseWang.nju_eas_server.dataService.LogListService;
 import NJU.HouseWang.nju_eas_server.po.Msg.LogPO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 
-public class LogList {
+public class LogList implements LogListService{
 	private String listName = "log_list";
 	private String sql = null;
 	private SQLConnector sqlconn = new SQLConnector();

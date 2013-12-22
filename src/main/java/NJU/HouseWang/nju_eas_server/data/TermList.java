@@ -5,9 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+import NJU.HouseWang.nju_eas_server.dataService.TermListService;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 
-public class TermList {
+public class TermList implements TermListService{
 	private String listName = "term_list";
 	private String sql = null;
 	private SQLConnector sqlconn = new SQLConnector();

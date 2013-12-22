@@ -6,10 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import NJU.HouseWang.nju_eas_server.dataService.StudentListService;
 import NJU.HouseWang.nju_eas_server.po.User.StudentPO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 
-public class StudentList {
+public class StudentList implements StudentListService{
 	private String listName = "student_list";
 	private String sql = null;
 	private SQLConnector sqlconn = new SQLConnector();

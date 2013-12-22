@@ -6,10 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import NJU.HouseWang.nju_eas_server.dataService.TeachingPlanService;
 import NJU.HouseWang.nju_eas_server.po.Edu.TeachingPlanItemPO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 
-public class TeachingPlan {
+public class TeachingPlan implements TeachingPlanService{
 	private String sql = null;
 	private SQLConnector sqlconn = new SQLConnector();
 	private Connection conn = null;
@@ -131,5 +132,10 @@ public class TeachingPlan {
 			e.printStackTrace();
 			return Feedback.OPERATION_FAIL;
 		}
+	}
+
+	@Override
+	public String getImportListHead() {
+		return "课程模块；模块学分；课程性质；课程类别；类别学分；课程号；课程名称；课程学分；学时；开设学期";
 	}
 }
