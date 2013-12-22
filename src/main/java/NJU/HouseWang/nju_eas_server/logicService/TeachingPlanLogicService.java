@@ -44,4 +44,7 @@ public interface TeachingPlanLogicService extends LogicService {
 	
 	//查看教学计划的状态
 	public String showTeachingPlanStatus(String dept);
+	
+	//返回用于导入的teachingPlan表头
+	public String showImportTeachingPlanHead();
 }

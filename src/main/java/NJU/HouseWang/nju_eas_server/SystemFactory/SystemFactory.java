@@ -60,6 +60,7 @@ public class SystemFactory {
 			case "teachingplan_list_head":
 			case "file_name":
 			case "teachingplan_status":
+			case "teachingplan_head_import":
 				return (new TeachingPlanLogic());
 			case "status":
 			case "status_list":

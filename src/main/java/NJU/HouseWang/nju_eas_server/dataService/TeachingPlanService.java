@@ -17,5 +17,7 @@ public interface TeachingPlanService {
 	public Feedback createTeachingPlan(String deptId);
 
 	public Feedback dropTeachingPlan(String deptId);
+	
+	public String getImportListHead();
 
 }

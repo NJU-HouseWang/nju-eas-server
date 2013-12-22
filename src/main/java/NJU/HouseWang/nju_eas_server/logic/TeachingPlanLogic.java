@@ -99,6 +99,9 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 		case "showteachingplan_status":
 			feedback = this.showTeachingPlanStatus(cmdInfo[2]);
 			break;
+		case "showteachingplan_head_import":
+			feedback = this.showImportTeachingPlanHead();
+			break;
 		default:
 			break;
 		}
@@ -387,6 +390,16 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 				feedback += ("false；0；null");
 			}
 			return feedback;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Feedback.OPERATION_FAIL.toString();
+		}
+	}
+
+	@Override
+	public String showImportTeachingPlanHead() {
+		try {
+			return tp.getImportListHead();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return Feedback.OPERATION_FAIL.toString();

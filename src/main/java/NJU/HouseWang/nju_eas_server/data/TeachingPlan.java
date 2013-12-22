@@ -133,4 +133,9 @@ public class TeachingPlan implements TeachingPlanService{
 			return Feedback.OPERATION_FAIL;
 		}
 	}
+
+	@Override
+	public String getImportListHead() {
+		return "课程模块；模块学分；课程性质；课程类别；类别学分；课程号；课程名称；课程学分；学时；开设学期";
+	}
 }
