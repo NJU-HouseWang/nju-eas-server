@@ -142,6 +142,14 @@ public class CourseSelectionLogic implements CourseSelectionLogicService {
 			feedback = this.delCourse_StudentPO(cmdInfo[2], cmdInfo[3],
 					cmdInfo[4]);
 			break;
+		case "cancelselection":
+			if (!cmd.endsWith("；ok")) {
+				feedback = "ip";
+			} else {
+				uid = am.getGuest(cmdInfo[3]);
+			feedback = this.cancelSelection(cmdInfo[2],uid);
+			}
+			break;
 		default:
 			break;
 		}
@@ -444,6 +452,25 @@ public class CourseSelectionLogic implements CourseSelectionLogicService {
 			this.startNum = startNum;
 			this.endNum = endNum;
 		}
+	}
+
+	@Override
+	public String cancelSelection(String courseId, String studentId) {
+		try{
+			if(csl.containsCourseSelection(courseId, studentId)){
+				csl.removeCourseSelection(courseId, studentId);
+				CourseSelectorNumPO cp = csnl.getCourseSelectorNumPO(courseId);
+				cp.setSelectorNum(cp.getSelectorNum()-1);
+				csnl.updateCourseSelectorNumPO(cp);
+				return Feedback.OPERATION_SUCCEED.toString();
+			} else {
+				return Feedback.DATA_NOT_FOUND.toString();
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+			return Feedback.OPERATION_FAIL.toString();
+		}
+
 	}
 
 }
