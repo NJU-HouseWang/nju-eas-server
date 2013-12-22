@@ -21,4 +21,6 @@ public interface CommonCourseListService {
 	public String getSelectedCommonCourseListHead();
 
 	public String getCommonCourseListHead();
+	
+	public String getEditCommonCourseListHead();
 }
