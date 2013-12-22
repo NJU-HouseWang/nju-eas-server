@@ -88,4 +88,10 @@ public interface CourseInfoLogicService extends LogicService {
 	
 	//显示成绩列表表头
 	public String showCourseStudentListHead();
+	
+	//显示用于编辑的通识课列表表头
+	public String showEditCommonCourseListHead();
+	
+	//显示一门通识课的信息
+	public String showCommonCourse(String courseId);
 }

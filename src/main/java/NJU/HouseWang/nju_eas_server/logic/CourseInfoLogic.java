@@ -261,6 +261,12 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		case "showcourse_student_list_head":
 			feedback = this.showCourseStudentListHead();
 			break;
+		case "showcommon_course_list_head_edit":
+			feedback = this.showEditCommonCourseListHead();
+			break;
+		case "showcommon_course":
+			feedback = this.showCommonCourse(cmdInfo[2]);
+			break;
 		default:
 			break;
 		}
@@ -650,27 +656,28 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		String term = this.getTerm();
 		ArrayList<Course_StudentPO> course_StudentList = csl
 				.getListFromStudentId(term, studentId);
-		//通识课的列表
+		// 通识课的列表
 		ArrayList<String> commonCourseList = new ArrayList<String>();
-		
-		//从课程学生列表中将通识课提取出来
-		for(int i = 0; i <course_StudentList.size();i++){
-			if(ccl.containsCourse(course_StudentList.get(i).getCourseId())){
+
+		// 从课程学生列表中将通识课提取出来
+		for (int i = 0; i < course_StudentList.size(); i++) {
+			if (ccl.containsCourse(course_StudentList.get(i).getCourseId())) {
 				commonCourseList.add(course_StudentList.get(i).getCourseId());
 				course_StudentList.remove(i);
 				i--;
 			}
 		}
-		
-		//添加非通识课
+
+		// 添加非通识课
 		for (int j = 0; j < course_StudentList.size(); j++) {
 			CoursePO cp = cl.getCourseFromDeptAndCourseId(term, department,
 					course_StudentList.get(j).getCourseId());
 			list.add(cp.courseToCommand());
 		}
-		//添加通识课
-		for(int k = 0; k <commonCourseList.size();k++){
-			CoursePO cp = cl.getCourseFromDeptAndCourseId(term, "通识课", commonCourseList.get(k));
+		// 添加通识课
+		for (int k = 0; k < commonCourseList.size(); k++) {
+			CoursePO cp = cl.getCourseFromDeptAndCourseId(term, "通识课",
+					commonCourseList.get(k));
 			list.add(cp.courseToCommand());
 		}
 		return list;
@@ -774,10 +781,14 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 
 	public CoursePO stringToCommonCourse(String str) {
 		String[] info = str.split("；");
-		CoursePO cp = new CoursePO(info[0], info[1], info[2], info[3], info[4],
-				Integer.parseInt(info[5]), Integer.parseInt(info[6]), info[7],
-				Integer.parseInt(info[8]), info[9], info[10], info[11],
-				info[12]);
+		CoursePO cp = new CoursePO();
+		cp.setId(info[0]);
+		cp.setName(info[1]);
+		cp.setCredit(Integer.parseInt(info[2]));
+		cp.setTeacherId(info[3]);
+		cp.setTeacherName(info[4]);
+		cp.setTimeAndPlace(info[5]);
+		cp.setStudentNum(Integer.parseInt(info[6]));
 		return cp;
 	}
 
@@ -835,9 +846,37 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 
 	@Override
 	public String showCourseStudentListHead() {
-		// TODO Auto-generated method stub
+
 		try {
 			return csl.getListHead();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Feedback.OPERATION_FAIL.toString();
+		}
+	}
+
+	@Override
+	public String showEditCommonCourseListHead() {
+		try {
+			return ccl.getEditCommonCourseListHead();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Feedback.OPERATION_FAIL.toString();
+		}
+	}
+
+	@Override
+	public String showCommonCourse(String courseId) {
+		// TODO Auto-generated method stub
+		try {
+			if (ccl.containsCourse(courseId)) {
+				CoursePO c = ccl.getCourse(courseId);
+				return (c.getId() + "；" + c.getName() + "；" + c.getCredit()
+						+ "；" + c.getTeacherId() + "；" + c.getTeacherName()
+						+ "；" + c.getTimeAndPlace() + "；" + c.getStudentNum());
+			} else {
+				return Feedback.DATA_NOT_FOUND.toString();
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			return Feedback.OPERATION_FAIL.toString();
