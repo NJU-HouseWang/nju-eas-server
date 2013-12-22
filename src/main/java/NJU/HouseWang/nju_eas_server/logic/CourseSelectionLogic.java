@@ -147,7 +147,7 @@ public class CourseSelectionLogic implements CourseSelectionLogicService {
 				feedback = "ip";
 			} else {
 				uid = am.getGuest(cmdInfo[3]);
-			feedback = this.cancelSelection(cmdInfo[2],uid);
+				feedback = this.cancelSelection(cmdInfo[2], uid);
 			}
 			break;
 		default:
@@ -321,14 +321,15 @@ public class CourseSelectionLogic implements CourseSelectionLogicService {
 					if (csl1.size() > num) {
 						csl1 = lot(csl1, num);
 					}
+					System.out.println("===================" + csl1.size());
 					for (int m = 0; m < csl1.size(); m++) {
 						Course_StudentPO p = new Course_StudentPO("通识课", csl1
 								.get(m).getCourseId(), csl1.get(m)
 								.getStudentId());
 						c_sl.addCourse_StudentPO(term, p);
 					}
-					CourseSelectorNumPO cp = csnl.getCourseSelectorNumPO(csl1
-							.get(j).getCourseId());
+					CourseSelectorNumPO cp = csnl.getCourseSelectorNumPO(courseList
+							.get(j));
 					cp.setSelectorNum(csl1.size());
 					csnl.updateCourseSelectorNumPO(cp);
 
@@ -456,17 +457,17 @@ public class CourseSelectionLogic implements CourseSelectionLogicService {
 
 	@Override
 	public String cancelSelection(String courseId, String studentId) {
-		try{
-			if(csl.containsCourseSelection(courseId, studentId)){
+		try {
+			if (csl.containsCourseSelection(courseId, studentId)) {
 				csl.removeCourseSelection(courseId, studentId);
 				CourseSelectorNumPO cp = csnl.getCourseSelectorNumPO(courseId);
-				cp.setSelectorNum(cp.getSelectorNum()-1);
+				cp.setSelectorNum(cp.getSelectorNum() - 1);
 				csnl.updateCourseSelectorNumPO(cp);
 				return Feedback.OPERATION_SUCCEED.toString();
 			} else {
 				return Feedback.DATA_NOT_FOUND.toString();
 			}
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return Feedback.OPERATION_FAIL.toString();
 		}

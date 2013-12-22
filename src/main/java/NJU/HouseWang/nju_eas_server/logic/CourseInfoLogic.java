@@ -650,9 +650,25 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		String term = this.getTerm();
 		ArrayList<Course_StudentPO> course_StudentList = csl
 				.getListFromStudentId(term, studentId);
+		// 通识课的列表
+		ArrayList<String> commonCourseList = new ArrayList<String>();
+		// 从课程学生列表中将通识课提取出来
 		for (int i = 0; i < course_StudentList.size(); i++) {
+			if (ccl.containsCourse(course_StudentList.get(i).getCourseId())) {
+				commonCourseList.add(course_StudentList.get(i).getCourseId());
+				course_StudentList.remove(i);
+			}
+		}
+		// 添加非通识课
+		for (int j = 0; j < course_StudentList.size(); j++) {
 			CoursePO cp = cl.getCourseFromDeptAndCourseId(term, department,
-					course_StudentList.get(i).getCourseId());
+					course_StudentList.get(j).getCourseId());
+			list.add(cp.courseToCommand());
+		}
+		// 添加通识课
+		for (int k = 0; k < commonCourseList.size(); k++) {
+			CoursePO cp = cl.getCourseFromDeptAndCourseId(term, "通识课",
+					commonCourseList.get(k));
 			list.add(cp.courseToCommand());
 		}
 		return list;

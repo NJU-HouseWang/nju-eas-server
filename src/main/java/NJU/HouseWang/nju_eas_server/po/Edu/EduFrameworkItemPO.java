@@ -25,8 +25,8 @@ public class EduFrameworkItemPO implements DataPOService {
 	public EduFrameworkItemPO(String moduleId, String moduleName,
 			int moduleMinCredit, int moduleMaxCredit, String courseNature,
 			String serialNum, String courseType, int typeMinCredit,
-			int typeMaxCredit,String courseName,
-			int courseMinCredit, int courseMaxCredit, int startTerm, int endTerm) {
+			int typeMaxCredit, String courseName, int courseMinCredit,
+			int courseMaxCredit, int startTerm, int endTerm) {
 		super();
 		this.moduleId = moduleId;
 		this.moduleName = moduleName;
@@ -43,23 +43,24 @@ public class EduFrameworkItemPO implements DataPOService {
 		this.startTerm = startTerm;
 		this.endTerm = endTerm;
 	}
-	
+
 	public EduFrameworkItemPO(String moduleId, String moduleName,
-			String moduleMinCredit, String moduleMaxCredit, String courseNature,
-			String serialNum, String courseType, String typeMinCredit,
-			String typeMaxCredit,String courseName,
-			String courseMinCredit, String courseMaxCredit, String startTerm, String endTerm) {
+			String moduleMinCredit, String moduleMaxCredit,
+			String courseNature, String serialNum, String courseType,
+			String typeMinCredit, String typeMaxCredit, String courseName,
+			String courseMinCredit, String courseMaxCredit, String startTerm,
+			String endTerm) {
 		super();
 		this.moduleId = moduleId;
 		this.moduleName = moduleName;
-		this.moduleMinCredit =Integer.parseInt(moduleMinCredit);
+		this.moduleMinCredit = Integer.parseInt(moduleMinCredit);
 		this.moduleMaxCredit = Integer.parseInt(moduleMaxCredit);
 		this.courseNature = courseNature;
 		this.serialNum = serialNum;
 		this.courseType = courseType;
 		this.typeMinCredit = Integer.parseInt(typeMinCredit);
 		this.typeMaxCredit = Integer.parseInt(typeMaxCredit);
-//		this.courseId = courseId;
+		// this.courseId = courseId;
 		this.courseName = courseName;
 		this.courseMinCredit = Integer.parseInt(courseMinCredit);
 		this.courseMaxCredit = Integer.parseInt(courseMaxCredit);
@@ -139,13 +140,13 @@ public class EduFrameworkItemPO implements DataPOService {
 		this.typeMaxCredit = typeMaxCredit;
 	}
 
-//	public String getCourseId() {
-//		return courseId;
-//	}
-//
-//	public void setCourseId(String courseId) {
-//		this.courseId = courseId;
-//	}
+	// public String getCourseId() {
+	// return courseId;
+	// }
+	//
+	// public void setCourseId(String courseId) {
+	// this.courseId = courseId;
+	// }
 
 	public String getCourseName() {
 		return courseName;
@@ -188,22 +189,22 @@ public class EduFrameworkItemPO implements DataPOService {
 	}
 
 	public String toCommand() {
-		String _typeMinCredit = ""+ typeMinCredit;
-		String _typeMaxCredit = ""+ typeMaxCredit;
-		String _courseMinCredit = ""+ courseMinCredit;
-		String _courseMaxCredit = ""+ courseMaxCredit;
-		if(typeMinCredit<0){
+		String _typeMinCredit = "" + typeMinCredit;
+		String _typeMaxCredit = "" + typeMaxCredit;
+		String _courseMinCredit = "" + courseMinCredit;
+		String _courseMaxCredit = "" + courseMaxCredit;
+		if (typeMinCredit < 0) {
 			_typeMinCredit = "null";
 			_typeMaxCredit = "null";
 		}
-		if(courseMinCredit<0){
+		if (courseMinCredit < 0) {
 			_courseMinCredit = "null";
 			_courseMaxCredit = "null";
 		}
 		return (moduleId + " " + moduleName + "(" + moduleMinCredit + "-"
 				+ moduleMaxCredit + ")；" + courseNature + "；" + serialNum + "；"
-				+ courseType + "(" + _typeMinCredit + "-" + _typeMaxCredit + ")；"
-				 + courseName + "；" + _courseMinCredit + "-"
+				+ courseType + "(" + _typeMinCredit + "-" + _typeMaxCredit
+				+ ")；" + courseName + "；" + _courseMinCredit + "-"
 				+ _courseMaxCredit + "；" + startTerm + "-" + endTerm);
 	}
 
@@ -217,6 +218,19 @@ public class EduFrameworkItemPO implements DataPOService {
 	public void setId(String id) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public String toString() {
+		return "EduFrameworkItemPO [moduleId=" + moduleId + ", moduleName="
+				+ moduleName + ", moduleMinCredit=" + moduleMinCredit
+				+ ", moduleMaxCredit=" + moduleMaxCredit + ", courseNature="
+				+ courseNature + ", serialNum=" + serialNum + ", courseType="
+				+ courseType + ", typeMinCredit=" + typeMinCredit
+				+ ", typeMaxCredit=" + typeMaxCredit + ", courseName="
+				+ courseName + ", courseMinCredit=" + courseMinCredit
+				+ ", courseMaxCredit=" + courseMaxCredit + ", startTerm="
+				+ startTerm + ", endTerm=" + endTerm + "]";
 	}
 
 }

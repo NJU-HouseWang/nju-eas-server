@@ -131,7 +131,7 @@ public class EduFrameworkLogic implements EduFrameworkLogicService {
 						maxCreditSum += efList.get(j).getCourseMaxCredit();
 					}
 				}
-				if (((minCreditSum != minCredit) || (maxCreditSum != maxCredit))
+				if (((minCreditSum < minCredit) || (maxCreditSum > maxCredit))
 						&& (minCreditSum >= 0)) {
 					isValid = false;
 				}
@@ -151,7 +151,8 @@ public class EduFrameworkLogic implements EduFrameworkLogicService {
 						maxCreditSum += efList.get(j).getCourseMaxCredit();
 					}
 				}
-				if (((minCreditSum != minCredit) || (maxCreditSum != maxCredit))&&(minCreditSum>=0)) {
+				if (((minCreditSum < minCredit) || (maxCreditSum > maxCredit))
+						&& (minCreditSum >= 0)) {
 					isValid = false;
 				}
 				minCreditSum = 0;
@@ -161,7 +162,11 @@ public class EduFrameworkLogic implements EduFrameworkLogicService {
 			// 如果isValid = false，则返回错误信息，否则添加成功
 			if (isValid) {
 				for (int i = 0; i < efList.size(); i++) {
-					ef.addEduFrameworkItem(efList.get(i));
+					System.out.println("++" + efList.get(i));
+					Feedback fb = ef.addEduFrameworkItem(efList.get(i));
+					if (fb == Feedback.OPERATION_FAIL) {
+						return Feedback.OPERATION_FAIL.toString();
+					}
 				}
 				return (Feedback.OPERATION_SUCCEED.toString());
 			} else {
