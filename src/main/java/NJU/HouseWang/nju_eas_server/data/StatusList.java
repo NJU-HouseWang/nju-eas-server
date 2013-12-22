@@ -6,10 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import NJU.HouseWang.nju_eas_server.dataService.StatusListService;
 import NJU.HouseWang.nju_eas_server.po.Edu.StatusPO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 
-public class StatusList {
+public class StatusList implements StatusListService{
 	private String listName = "status_list";
 	private String sql = null;
 	private SQLConnector sqlconn = new SQLConnector();

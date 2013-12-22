@@ -6,10 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import NJU.HouseWang.nju_eas_server.dataService.TeachingPlanService;
 import NJU.HouseWang.nju_eas_server.po.Edu.TeachingPlanItemPO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 
-public class TeachingPlan {
+public class TeachingPlan implements TeachingPlanService{
 	private String sql = null;
 	private SQLConnector sqlconn = new SQLConnector();
 	private Connection conn = null;

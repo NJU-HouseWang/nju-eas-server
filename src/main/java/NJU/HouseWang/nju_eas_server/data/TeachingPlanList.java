@@ -7,10 +7,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import NJU.HouseWang.nju_eas_server.dataService.TeachingPlanListService;
 import NJU.HouseWang.nju_eas_server.po.Edu.TeachingPlanPO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 
-public class TeachingPlanList {
+public class TeachingPlanList implements TeachingPlanListService{
 	private String listName = "teachingplan_list";
 	private String sql = null;
 	private SQLConnector sqlconn = new SQLConnector();
@@ -104,4 +105,5 @@ public class TeachingPlanList {
 	public String getListHead() {
 		return "院系；提交状态；审核状态";
 	}
+
 }
