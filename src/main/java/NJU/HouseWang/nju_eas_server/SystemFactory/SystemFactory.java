@@ -43,7 +43,8 @@ public class SystemFactory {
 
 			case "message":
 			case "message_list":
-			case "message_list_head":
+			case "message_list_head_sender":
+			case "message_list_head_recipient":
 				return (new MessageLogic());
 			case "announcement":
 			case "announcement_list":
@@ -238,6 +239,24 @@ public class SystemFactory {
 			switch (aim) {
 			case "log_list":
 				return (new LogLogic());
+			}
+			break;
+		case "send":
+			switch(aim){
+			case "message":
+				return (new MessageLogic());
+			}
+			break;
+		case "erase":
+			switch(aim){
+			case "message":
+				return (new MessageLogic());
+			}
+			break;
+		case "save":
+			switch(aim){
+			case "draft":
+				return (new MessageLogic());
 			}
 			break;
 		}

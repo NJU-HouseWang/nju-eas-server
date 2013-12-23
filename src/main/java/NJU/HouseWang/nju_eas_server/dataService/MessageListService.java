@@ -18,5 +18,9 @@ public interface MessageListService {
 
 	public ArrayList<MessagePO> getMessageList(int listType, String operatorId);
 
-	public String getListHead();
+	public String getSenderListHead();
+	
+	public String getRecipientListHead();
+	
+	public MessagePO getMessageWithoutId(int listType, String id);
 }

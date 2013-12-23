@@ -10,7 +10,7 @@ import NJU.HouseWang.nju_eas_server.dataService.MessageListService;
 import NJU.HouseWang.nju_eas_server.po.Msg.MessagePO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 
-public class MessageList implements MessageListService{
+public class MessageList implements MessageListService {
 	private static String[] listName = { "msg_in_list", "msg_out_list",
 			"msg_draft_list", "msg_trash_list" };
 	private String sql = null;
@@ -47,7 +47,7 @@ public class MessageList implements MessageListService{
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
-			ps.setString(1, id);
+			ps.setInt(1, Integer.parseInt(id));
 			rs = ps.executeQuery();
 			result = (rs.next() != false);
 
@@ -63,15 +63,37 @@ public class MessageList implements MessageListService{
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
-			ps.setString(1, id);
+			ps.setInt(1, Integer.parseInt(id));
 			rs = ps.executeQuery();
 			while (rs.next()) {
-				result.setId(rs.getString(1));
+				result.setId("" + rs.getInt(1));
 				result.setSenderId(rs.getString(2));
 				result.setRecipientId(rs.getString(3));
-				result.setOperatorId(rs.getString(4));
-				result.setTitle(rs.getString(5));
-				result.setContent(rs.getString(6));
+				result.setTitle(rs.getString(4));
+				result.setContent(rs.getString(5));
+				result.setStatus(rs.getInt(5));
+
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	public MessagePO getMessageWithoutId(int listType, String id) {
+		MessagePO result = new MessagePO();
+		sql = "select * from " + listName[listType] + " where id=?";
+		try {
+			conn = sqlconn.getConnection();
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, Integer.parseInt(id));
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				result.setSenderId(rs.getString(2));
+				result.setRecipientId(rs.getString(3));
+				result.setTitle(rs.getString(4));
+				result.setContent(rs.getString(5));
+				result.setStatus(rs.getInt(5));
 
 			}
 		} catch (SQLException e) {
@@ -85,11 +107,11 @@ public class MessageList implements MessageListService{
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
-			ps.setString(1, id);
+			ps.setInt(1, Integer.parseInt(id));
 			ps.execute();
 			return Feedback.OPERATION_SUCCEED;
 		} catch (SQLException e) {
-			// e.printStackTrace();
+			e.printStackTrace();
 			return Feedback.OPERATION_FAIL;
 		}
 	}
@@ -99,16 +121,16 @@ public class MessageList implements MessageListService{
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
-			ps.setString(1, Message.getId());
+			ps.setInt(1, Integer.parseInt(Message.getId()));
 			ps.setString(2, Message.getSenderId());
 			ps.setString(3, Message.getRecipientId());
-			ps.setString(4, Message.getOperatorId());
-			ps.setString(5, Message.getTitle());
-			ps.setString(6, Message.getContent());
+			ps.setString(4, Message.getTitle());
+			ps.setString(5, Message.getContent());
+			ps.setInt(6, Message.getStatus());
 			ps.execute();
 			return Feedback.OPERATION_SUCCEED;
 		} catch (SQLException e) {
-			// e.printStackTrace();
+			e.printStackTrace();
 			return Feedback.OPERATION_FAIL;
 		}
 	}
@@ -116,28 +138,32 @@ public class MessageList implements MessageListService{
 	public Feedback updateMessage(int listType, MessagePO Message) {
 		sql = "update "
 				+ listName[listType]
-				+ " set senderId=?, recipientId=?, operatorId=?, title=?, content=? where id=?";
+				+ " set senderId=?, recipientId=?, title=?, content=?, status=? where id=?";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, Message.getSenderId());
 			ps.setString(2, Message.getRecipientId());
-			ps.setString(3, Message.getOperatorId());
-			ps.setString(4, Message.getTitle());
-			ps.setString(5, Message.getContent());
-			ps.setString(6, Message.getId());
+			ps.setString(3, Message.getTitle());
+			ps.setString(4, Message.getContent());
+			ps.setInt(5, Message.getStatus());
+			ps.setInt(6, Integer.parseInt(Message.getId()));
 			ps.execute();
 			return Feedback.OPERATION_SUCCEED;
 		} catch (SQLException e) {
-			// e.printStackTrace();
+			e.printStackTrace();
 			return Feedback.OPERATION_FAIL;
 		}
 	}
 
 	public ArrayList<MessagePO> getMessageList(int listType, String operatorId) {
 		ArrayList<MessagePO> result = new ArrayList<MessagePO>();
+		if (listType == 0 || listType == 3) {
+			sql = "select * from " + listName[listType] + "where recipientId=?";
 
-		sql = "select * from " + listName[listType] + "where operatorId=?";
+		} else {
+			sql = "select * from " + listName[listType] + "where senderId=?";
+		}
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
@@ -145,11 +171,12 @@ public class MessageList implements MessageListService{
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				MessagePO r = new MessagePO();
-				r.setId(rs.getString(1));
+				r.setId("" + rs.getInt(1));
 				r.setSenderId(rs.getString(2));
 				r.setRecipientId(rs.getString(3));
-				r.setTitle(rs.getString(5));
-				// r.setContent(rs.getString(6));
+				r.setTitle(rs.getString(4));
+				r.setContent(rs.getString(5));
+				r.setStatus(rs.getInt(6));
 				result.add(r);
 			}
 		} catch (SQLException e) {
@@ -158,7 +185,10 @@ public class MessageList implements MessageListService{
 		return result;
 	}
 
-	public String getListHead() {
-		return "私信编号；发信人ID；收信人ID；标题";
+	public String getSenderListHead() {
+		return "私信编号；发信人ID；标题；是否已读";
+	}
+	public String getRecipientListHead(){
+		return "私信编号；收件人ID；标题";
 	}
 }
