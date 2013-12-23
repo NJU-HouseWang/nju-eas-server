@@ -42,6 +42,18 @@ public class TeachingPlanItemPO implements DataPOService {
 			String typeCredit, String courseId, String courseName,
 			String courseCredit, String period, String startTerm) {
 		super();
+		if(moduleCredit.equals("null")){
+			moduleCredit = "-1";
+		}
+		if(typeCredit.equals("null")){
+			typeCredit = "-1";
+		}
+		if(courseCredit.equals("null")){
+			courseCredit = "-1";
+		}
+		if(startTerm.equals("null")){
+			startTerm = "-1";
+		}
 		this.moduleId = moduleId;
 		this.moduleName = moduleName;
 		this.moduleCredit = Integer.parseInt(moduleCredit);
@@ -144,10 +156,26 @@ public class TeachingPlanItemPO implements DataPOService {
 	}
 
 	public String toCommand() {
-		return (moduleId + " " + moduleName + "(" + moduleCredit + ")；"
-				+ courseNature + "；" + courseType + "(" + typeCredit + ")；"
-				+ courseId + "；" + courseName + "；" + courseCredit + "；"
-				+ period + "；" + startTerm);
+		String _moduleCredit = ""+moduleCredit;
+		String _typeCredit = "" +typeCredit;
+		String _courseCredit = "" +courseCredit;
+		String _startTerm = "" + startTerm;
+		if(moduleCredit<0){
+			_moduleCredit = "null";
+		}
+		if(typeCredit<0){
+			_typeCredit = "null";
+		}
+		if(courseCredit<0){
+			_courseCredit = "null";
+		}
+		if(startTerm<0){
+			_startTerm = "null";
+		}
+		return (moduleId + " " + moduleName + "(" + _moduleCredit + ")；"
+				+ courseNature + "；" + courseType + "(" + _typeCredit + ")；"
+				+ courseId + "；" + courseName + "；" + _courseCredit + "；"
+				+ period + "；" + _startTerm);
 	}
 
 	@Override

@@ -286,7 +286,7 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 						+ teachingPlan.get(i).getTypeCredit());
 			}
 		}
-		// 计算所有相同课程模块的课程的学分之和，判断是否与该模块的学分相同，有一个不同则isValid = false
+		// 计算所有相同课程模块的课程的学分之和，判断是否大于等于该模块的学分，有一个小于则isValid = false
 		for (int i = 0; i < moduleList.size(); i++) {
 			String[] info = moduleList.get(i).split("；");
 			moduleName = info[0];
@@ -296,13 +296,13 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 					creditSum += teachingPlan.get(j).getCourseCredit();
 				}
 			}
-			if (creditSum != credit) {
+			if (creditSum < credit) {
 				isValid = false;
 			}
 			creditSum = 0;
 		}
 
-		// 计算所有相同课程类型的课程的学分之和，判断是否与该类型的学分相同，有一个不同则isValid = false
+		// 计算所有相同课程类型的课程的学分之和，判断是否大于等于该类型的学分，有一个小于则isValid = false
 		for (int i = 0; i < courseTypeList.size(); i++) {
 			String[] info = courseTypeList.get(i).split("；");
 			courseType = info[0];
@@ -312,7 +312,7 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 					creditSum += teachingPlan.get(j).getCourseCredit();
 				}
 			}
-			if (creditSum != credit) {
+			if (creditSum < credit) {
 				isValid = false;
 			}
 			creditSum = 0;
