@@ -10,7 +10,7 @@ import NJU.HouseWang.nju_eas_server.dataService.TeachingPlanService;
 import NJU.HouseWang.nju_eas_server.po.Edu.TeachingPlanItemPO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 
-public class TeachingPlan implements TeachingPlanService{
+public class TeachingPlan implements TeachingPlanService {
 	private String sql = null;
 	private SQLConnector sqlconn = new SQLConnector();
 	private Connection conn = null;
@@ -108,8 +108,8 @@ public class TeachingPlan implements TeachingPlanService{
 				+ "moduleCredit int," + "courseNature varchar(45),"
 				+ "courseType varchar(45)," + "typeCredit int,"
 				+ "courseId varchar(45)," + "courseName varchar(45),"
-				+ "courseCredit int," + "period int,"
-				+ "term int " + ")engine myisam,charset gbk;";
+				+ "courseCredit int," + "period int," + "term int "
+				+ ")engine myisam,charset gbk;";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
@@ -136,6 +136,6 @@ public class TeachingPlan implements TeachingPlanService{
 
 	@Override
 	public String getImportListHead() {
-		return "课程模块；模块学分；课程性质；课程类别；类别学分；课程号；课程名称；课程学分；学时；开设学期";
+		return "模块编号；模块名称；模块学分；课程性质；课程类别；类别学分；课程号；课程名称；课程学分；学时；开设学期";
 	}
 }

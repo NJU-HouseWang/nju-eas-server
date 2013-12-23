@@ -19,6 +19,7 @@ public enum Feedback {
 	AUDIT_REPEATED("该教学计划已审核"),
 	MAX_SELECTION("已达到选课上限"),
 	SELECTION_REPEATED("该选课记录已存在"),
+	COMMAND_ERROR("命令不存在"),
 	COURSE_STUDENT_NOT_FOUND("该学生不在课程名单中");
 	
 	private String content;

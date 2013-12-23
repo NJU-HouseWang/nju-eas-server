@@ -117,7 +117,7 @@ public class UserInfoLogic implements UserInfoLogicService {
 					cmdInfo[5], cmdInfo[6], cmdInfo[7], cmdInfo[8], cmdInfo[9]);
 			feedback = addStudent(sp);
 			break;
-		case "editseacher":
+		case "editteacher":
 			TeacherPO tp2 = new TeacherPO(cmdInfo[2], cmdInfo[3], cmdInfo[4],
 					cmdInfo[5]);
 			feedback = editTeacher(tp2);

@@ -78,7 +78,7 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 					Integer.parseInt(cmdInfo[3]));
 			break;
 		case "uploadteachingplan_file":
-			if (cmd.contains("ok")) {
+			if (cmd.endsWith("；ok")) {
 				feedback = this.uploadTeachingPlanFile(cmdInfo[2]);
 			} else {
 				feedback = "file；d:/tpFile/";
