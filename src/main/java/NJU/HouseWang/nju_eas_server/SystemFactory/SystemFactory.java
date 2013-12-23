@@ -118,6 +118,8 @@ public class SystemFactory {
 		case "edit":
 			switch (aim) {
 			case "user":
+			case "teacher":
+			case "student":
 			case "self_information":
 			case "password":
 				return (new UserInfoLogic());
@@ -230,6 +232,12 @@ public class SystemFactory {
 			switch (aim) {
 			case "selection":
 				return (new CourseSelectionLogic());
+			}
+			break;
+		case "empty":
+			switch (aim) {
+			case "log_list":
+				return (new LogLogic());
 			}
 			break;
 		}

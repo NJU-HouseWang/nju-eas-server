@@ -37,6 +37,11 @@ public class Server {
 					String cmd = st.receiveCommand();
 					// 创建逻辑
 					LogicService ss = SystemFactory.create(cmd);
+					if(ss == null) {
+						st.sendFeedback(Feedback.COMMAND_ERROR.toString());
+						System.err.println("不能识别的客户端命令");
+						return;
+					}
 					// 得到IP
 					ip = st.getIp();
 					// 得到权限管理器

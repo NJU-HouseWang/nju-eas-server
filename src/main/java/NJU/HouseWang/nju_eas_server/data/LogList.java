@@ -81,4 +81,10 @@ public class LogList implements LogListService{
 	public String getListHead() {
 		return "用户名；用户IP；操作时间；操作内容";
 	}
+
+	@Override
+	public Feedback emptyLogList() {
+		sql = "truncate " + listName;
+		return Feedback.OPERATION_SUCCEED;
+	}
 }
