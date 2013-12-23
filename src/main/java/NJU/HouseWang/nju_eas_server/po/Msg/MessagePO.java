@@ -9,36 +9,58 @@ public class MessagePO implements DataPOService {
 	private String senderId;
 	// 收信人ID
 	private String recipientId;
-	//操作人ID
-	private String operatorId;
 	// 标题
 	private String title;
 	// 正文内容
 	private String content;
 
-	public MessagePO(String id, String senderId, String recipientId,String operatorId,
-			String title, String content) {
+	// 0表示未读 1表示已读
+	private int status;
+
+	public MessagePO(String id, String senderId, String recipientId,
+			String title, String content, String status) {
 		super();
 		this.id = Integer.parseInt(id);
 		this.senderId = senderId;
 		this.title = title;
 		this.content = content;
 		this.recipientId = recipientId;
-		this.operatorId  = operatorId;
+		this.setStatus(Integer.parseInt(status));
 	}
-	
-	public MessagePO(String senderId, String recipientId,String operatorId,
-			String title, String content) {
+
+	public MessagePO(String senderId, String recipientId, String title,
+			String content, String status) {
 		super();
 		this.senderId = senderId;
 		this.title = title;
 		this.content = content;
 		this.recipientId = recipientId;
-		this.operatorId  = operatorId;
+		this.setStatus(Integer.parseInt(status));
 	}
 	
-	public MessagePO(){
-		
+	public MessagePO(int id, String senderId, String recipientId,
+			String title, String content, int status) {
+		super();
+		this.id = id;
+		this.senderId = senderId;
+		this.title = title;
+		this.content = content;
+		this.recipientId = recipientId;
+		this.status = status;
+	}
+
+	public MessagePO(String senderId, String recipientId, String title,
+			String content, int status) {
+		super();
+		this.senderId = senderId;
+		this.title = title;
+		this.content = content;
+		this.recipientId = recipientId;
+		this.status = status;
+	}
+
+	public MessagePO() {
+
 	}
 
 	public String getSenderId() {
@@ -49,13 +71,6 @@ public class MessagePO implements DataPOService {
 		this.senderId = senderId;
 	}
 
-	public String getOperatorId() {
-		return operatorId;
-	}
-
-	public void setOperatorId(String operatorId) {
-		this.operatorId = operatorId;
-	}
 	public String getTitle() {
 		return title;
 	}
@@ -80,28 +95,29 @@ public class MessagePO implements DataPOService {
 		this.recipientId = recipientId;
 	}
 
-	@Override
-	public String toString() {
-		return "MessagePO [id=" + id + ", senderId=" +  senderId +", recipientId=" + recipientId
-				+ ", operatorId=" +  operatorId 	+ ", title="
-				+ title + ", content=" + content + "]";
-	}
-
 	public String toCommand() {
-		return id + "；" + senderId + "；" + recipientId + "；"+ operatorId + "；" + title + "；"
-				+ content;
+		return id + "；" + senderId + "；" + recipientId  + "；"
+				+ title + "；" + content+ "；" + status;
 	}
 
 	@Override
 	public String getId() {
 		// TODO Auto-generated method stub
-		return (""+this.id);
+		return ("" + this.id);
 	}
 
 	@Override
 	public void setId(String id) {
 		// TODO Auto-generated method stub
-		this.id =Integer.parseInt(id);
+		this.id = Integer.parseInt(id);
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
 	}
 
 }
