@@ -233,4 +233,23 @@ public class MessageLogic implements MessageLogicService {
 		}
 	}
 
+	@Override
+	public String showNewMessageNum(String uid) {
+		try {
+			int num = 0;
+			ArrayList<MessagePO> list = ml.getMessageList(0, uid);
+			if (!list.isEmpty()) {
+				for (int i = 0; i < list.size(); i++) {
+					if (list.get(i).getStatus() == 0) {
+						num++;
+					}
+				}
+			}
+			return ("" + num);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Feedback.OPERATION_FAIL.toString();
+		}
+	}
+
 }

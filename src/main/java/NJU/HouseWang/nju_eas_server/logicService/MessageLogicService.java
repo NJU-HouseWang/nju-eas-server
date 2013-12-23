@@ -38,5 +38,8 @@ public interface MessageLogicService extends LogicService {
 	//删除私信
 	public String delMessage(String fromBox, String id);
 	
+	//返回未读邮件数量
+	public String showNewMessageNum(String uid);
+	
 	
 }
