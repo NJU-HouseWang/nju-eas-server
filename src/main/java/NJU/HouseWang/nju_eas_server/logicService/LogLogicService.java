@@ -13,4 +13,7 @@ public interface LogLogicService extends LogicService {
 
 	// 显示日志列表的表头
 	public String showLogListHead();
+	
+	//清空日志列表
+	public String emptyLogList();
 }

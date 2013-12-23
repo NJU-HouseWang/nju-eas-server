@@ -232,6 +232,12 @@ public class SystemFactory {
 				return (new CourseSelectionLogic());
 			}
 			break;
+		case "empty":
+			switch (aim) {
+			case "log_list":
+				return (new LogLogic());
+			}
+			break;
 		}
 		return null;
 	}

@@ -11,4 +11,6 @@ public interface LogListService {
 	public ArrayList<LogPO> getLogList();
 
 	public String getListHead();
+	
+	public Feedback emptyLogList();
 }

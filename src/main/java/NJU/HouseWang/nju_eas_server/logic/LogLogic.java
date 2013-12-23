@@ -46,6 +46,9 @@ public class LogLogic implements LogLogicService {
 		case "showlog_list_head":
 			feedback = this.showLogListHead();
 			break;
+		case "emptylog_list":
+			feedback = this.emptyLogList();
+			break;
 		default:
 			break;
 		}
@@ -84,6 +87,17 @@ public class LogLogic implements LogLogicService {
 		try {
 			return (ll.getListHead());
 		} catch (Exception e) {
+			e.printStackTrace();
+			return Feedback.OPERATION_FAIL.toString();
+		}
+	}
+
+	@Override
+	public String emptyLogList() {
+		try{
+			ll.emptyLogList();
+			return Feedback.OPERATION_SUCCEED.toString();
+		}catch (Exception e) {
 			e.printStackTrace();
 			return Feedback.OPERATION_FAIL.toString();
 		}
