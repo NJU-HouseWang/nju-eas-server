@@ -51,7 +51,7 @@ public class TeachingPlanList implements TeachingPlanListService{
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				result.setDept(rs.getString(1));
-				result.setCommitted(rs.getBoolean(2));
+				result.setCommitted(Boolean.valueOf(rs.getString(2)));
 				result.setStatus(rs.getInt(3));
 				result.setTpFile(new File(rs.getString(4)));
 			}
@@ -68,14 +68,14 @@ public class TeachingPlanList implements TeachingPlanListService{
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
-			ps.setBoolean(1, TeachingPlan.isCommitted());
+			ps.setString(1, ""+TeachingPlan.isCommitted());
 			ps.setInt(2, TeachingPlan.getStatus());
 			ps.setString(3, TeachingPlan.getTpFile().getName());
 			ps.setString(4, TeachingPlan.getDept());
 			ps.execute();
 			return Feedback.OPERATION_SUCCEED;
 		} catch (SQLException e) {
-			// e.printStackTrace();
+			 e.printStackTrace();
 			return Feedback.OPERATION_FAIL;
 		}
 	}
@@ -86,12 +86,11 @@ public class TeachingPlanList implements TeachingPlanListService{
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
-			// ps.setString(1, conditions);
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				TeachingPlanPO r = new TeachingPlanPO();
 				r.setDept(rs.getString(1));
-				r.setCommitted(rs.getBoolean(2));
+				r.setCommitted(Boolean.valueOf(rs.getString(2)));
 				r.setStatus(rs.getInt(3));
 				r.setTpFile(new File(rs.getString(4)));
 				result.add(r);
