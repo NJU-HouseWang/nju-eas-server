@@ -55,7 +55,6 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 	public Object operate(String cmd) {
 		Object feedback = null;
 		String[] cmdInfo = cmd.split("；");
-		String uid = am.getGuest(cmdInfo[cmdInfo.length - 1]);
 		String cmdType = cmdInfo[0] + cmdInfo[1];
 		switch (cmdType) {
 		case "showteachingplan":
@@ -87,6 +86,9 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 		case "downloadteachingplan_file":
 			feedback = this.downloadTeachingPlanFile(cmdInfo[2]);
 			break;
+		case "downloadteachingplan_template":
+			feedback = this.downloadTeachingPlanTemplate();
+			break;
 		case "showteachingplan_head":
 			feedback = this.showTeachingPlanHead();
 			break;
@@ -115,7 +117,6 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 	public Object operate(String cmd, ArrayList<String> list) {
 		Object feedback = null;
 		String[] cmdInfo = cmd.split("；");
-		String uid = am.getGuest(cmdInfo[cmdInfo.length - 1]);
 		String cmdType = cmdInfo[0] + cmdInfo[1];
 		switch (cmdType) {
 		case "addteachingplan":
@@ -249,7 +250,7 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 
 	@Override
 	public File downloadTeachingPlanFile(String dept) {
-		String filePath = "d:/tpFile/fileNotExit.png";
+		String filePath = "/tpFile/fileNotExit.png";
 		TeachingPlanPO tpp = tl.getTeachingPlan(dept);
 		if (tpp.getTpFile() != null) {
 			return (tpp.getTpFile());
@@ -404,5 +405,11 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 			e.printStackTrace();
 			return Feedback.OPERATION_FAIL.toString();
 		}
+	}
+
+	@Override
+	public File downloadTeachingPlanTemplate() {
+		String filePath = "/template/teachingplan_template.xls";
+		return new File(filePath);
 	}
 }

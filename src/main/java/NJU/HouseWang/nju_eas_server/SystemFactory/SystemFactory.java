@@ -221,6 +221,7 @@ public class SystemFactory {
 		case "download":
 			switch (aim) {
 			case "teachingplan_file":
+			case "teachingplan_template":
 				return (new TeachingPlanLogic());
 			}
 			break;

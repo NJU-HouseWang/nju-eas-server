@@ -47,4 +47,7 @@ public interface TeachingPlanLogicService extends LogicService {
 	
 	//返回用于导入的teachingPlan表头
 	public String showImportTeachingPlanHead();
+	
+	//返回教学计划模板文件
+	public File downloadTeachingPlanTemplate();
 }
