@@ -548,11 +548,13 @@ public class UserInfoLogic implements UserInfoLogicService {
 		ArrayList<String> allGradeList = sl.getGradeList();
 		ArrayList<String> feedback = new ArrayList<String>();
 		String grade = "";
-		feedback.add(allGradeList.get(0));
-		for (int i = 1; i < allGradeList.size(); i++) {
-			grade = allGradeList.get(i);
-			if (!feedback.contains(grade)) {
-				feedback.add(grade);
+		if (!allGradeList.isEmpty()) {
+			feedback.add(allGradeList.get(0));
+			for (int i = 1; i < allGradeList.size(); i++) {
+				grade = allGradeList.get(i);
+				if (!feedback.contains(grade)) {
+					feedback.add(grade);
+				}
 			}
 		}
 		return feedback;
