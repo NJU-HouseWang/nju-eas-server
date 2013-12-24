@@ -70,4 +70,10 @@ public interface UserInfoLogicService extends LogicService {
 	
 	//返回Ip对应的院系
 	public String showSelfDept(String ip);
+	
+	//返回id对应的教师名称,若无则返回null
+	public String showTeacherName(String id);
+	
+	//返回id对应的学生名称,若无则返回null
+	public String showStudentName(String id);
 }

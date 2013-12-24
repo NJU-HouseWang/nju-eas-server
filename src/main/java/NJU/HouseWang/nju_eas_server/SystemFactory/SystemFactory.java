@@ -36,6 +36,8 @@ public class SystemFactory {
 			case "student_list_head":
 			case "grade_list":
 			case "self_dept":
+			case "teacher_name":
+			case "student_name":
 				return (new UserInfoLogic());
 			case "log_list":
 			case "log_list_head":
@@ -85,7 +87,7 @@ public class SystemFactory {
 			case "student_list_from_course":
 			case "course_student_list_head":
 			case "common_course_list_head_edit":
-			case "common_course":
+			case "common_course_edit":
 				return (new CourseInfoLogic());
 			case "dept_list":
 				return (new SystemInfoLogic());
