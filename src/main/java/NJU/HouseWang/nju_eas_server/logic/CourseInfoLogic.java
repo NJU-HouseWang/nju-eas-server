@@ -584,19 +584,25 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 							.getTeachingPlan(dept);
 					for (int j = 0; j < teachingPlanItemList.size(); j++) {
 						TeachingPlanItemPO tpip = teachingPlanItemList.get(j);
-						CoursePO cp = this.tpPOToCoursePO(dept, tpip);
-						this.addCourse(cp);
-						ArrayList<StudentPO> studentList = sl.getStudentList(
-								cp.getGrade(), cp.getDepartment());
-						for (int p = 0; p < studentList.size(); p++) {
-							csl.addCourse_StudentPO(
-									this.getTerm(),
-									new Course_StudentPO(cp.getDepartment(), cp
-											.getId(), studentList.get(p)
-											.getId()));
+						// 如果不是选修课，则加入课程列表，并导入学生
+						if (!tpip.getCourseNature().equals("选修")) {
+							CoursePO cp = this.tpPOToCoursePO(dept, tpip);
+							this.addCourse(cp);
+							ArrayList<StudentPO> studentList = sl
+									.getStudentList(cp.getGrade(),
+											cp.getDepartment());
+							if (!studentList.isEmpty()) {
+								for (int p = 0; p < studentList.size(); p++) {
+									csl.addCourse_StudentPO(
+											this.getTerm(),
+											new Course_StudentPO(cp
+													.getDepartment(), cp
+													.getId(), studentList
+													.get(p).getId()));
+								}
+							}
 						}
 					}
-
 				}
 			}
 			return Feedback.OPERATION_SUCCEED.toString();
