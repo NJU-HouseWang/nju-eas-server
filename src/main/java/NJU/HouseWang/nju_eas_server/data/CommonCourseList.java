@@ -104,7 +104,7 @@ public class CommonCourseList implements CommonCourseListService{
 
 	public Feedback addCourse(CoursePO Course) {
 		sql = "insert into " + listName
-				+ " values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+				+ " values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
@@ -115,14 +115,6 @@ public class CommonCourseList implements CommonCourseListService{
 			ps.setString(5, Course.getNature());
 			ps.setInt(6, Course.getCredit());
 			ps.setInt(7, Course.getPeriod());
-//			ps.setString(8, Course.getGrade());
-//			ps.setInt(9, Course.getStudentNum());
-//			ps.setString(10, Course.getTeacherId());
-//			ps.setString(11, Course.getTeacherName());
-//			ps.setString(12, Course.getTimeAndPlace());
-//			ps.setString(13, Course.getIntroduction());
-//			ps.setString(14, Course.getBook());
-//			ps.setString(15, Course.getSyllabus());
 			ps.setInt(8, Course.getStudentNum());
 			ps.setString(9, Course.getTeacherId());
 			ps.setString(10, Course.getTeacherName());
@@ -134,7 +126,7 @@ public class CommonCourseList implements CommonCourseListService{
 			ps.execute();
 			return Feedback.OPERATION_SUCCEED;
 		} catch (SQLException e) {
-			// e.printStackTrace();
+			 e.printStackTrace();
 			return Feedback.OPERATION_FAIL;
 		}
 	}
@@ -152,15 +144,6 @@ public class CommonCourseList implements CommonCourseListService{
 			ps.setString(4, Course.getNature());
 			ps.setInt(5, Course.getCredit());
 			ps.setInt(6, Course.getPeriod());
-//			ps.setString(7, Course.getGrade());
-//			ps.setInt(8, Course.getStudentNum());
-//			ps.setString(9, Course.getTeacherId());
-//			ps.setString(10, Course.getTeacherName());
-//			ps.setString(11, Course.getTimeAndPlace());
-//			ps.setString(12, Course.getIntroduction());
-//			ps.setString(13, Course.getBook());
-//			ps.setString(14, Course.getSyllabus());
-//			ps.setString(15, Course.getId());
 			ps.setInt(7, Course.getStudentNum());
 			ps.setString(8, Course.getTeacherId());
 			ps.setString(9, Course.getTeacherName());
@@ -172,7 +155,7 @@ public class CommonCourseList implements CommonCourseListService{
 			ps.execute();
 			return Feedback.OPERATION_SUCCEED;
 		} catch (SQLException e) {
-			// e.printStackTrace();
+			 e.printStackTrace();
 			return Feedback.OPERATION_FAIL;
 		}
 	}
@@ -193,14 +176,6 @@ public class CommonCourseList implements CommonCourseListService{
 				r.setNature(rs.getString(5));
 				r.setCredit(rs.getInt(6));
 				r.setPeriod(rs.getInt(7));
-//				r.setGrade(rs.getString(8));
-//				r.setStudentNum(rs.getInt(9));
-//				r.setTeacherId(rs.getString(10));
-//				r.setTeacherName(rs.getString(11));
-//				r.setTimeAndPlace(rs.getString(12));
-//				r.setIntroduction(rs.getString(13));
-//				r.setBook(rs.getString(14));
-//				r.setSyllabus(rs.getString(15));
 				r.setStudentNum(rs.getInt(8));
 				r.setTeacherId(rs.getString(9));
 				r.setTeacherName(rs.getString(10));
