@@ -19,6 +19,11 @@ public class AuthorityManager {
 		}
 		return am;
 	}
+	
+	public void shutdown() {
+		am = null;
+		l.clear();
+	}
 
 	public void run() {
 		Thread t = new Thread(new Runnable() {

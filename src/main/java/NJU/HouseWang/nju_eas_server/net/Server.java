@@ -15,14 +15,24 @@ import NJU.HouseWang.nju_eas_server.po.Msg.LogPO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 
 public class Server {
+	private ServerSocket server = null;
 
 	public void start() throws IOException {
-		ServerSocket server = new ServerSocket(9100);
+		server = new ServerSocket(9100);
 
 		while (true) {
 			Socket socket = server.accept();
 			System.out.println("#" + socket.getInetAddress() + "\t Connected!");
 			invoke(socket);
+		}
+	}
+	public void shutdown() {
+		if(server != null) {
+			try {
+				server.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
