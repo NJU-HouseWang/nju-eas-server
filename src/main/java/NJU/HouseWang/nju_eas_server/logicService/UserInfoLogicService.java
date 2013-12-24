@@ -76,4 +76,7 @@ public interface UserInfoLogicService extends LogicService {
 	
 	//返回id对应的学生名称,若无则返回null
 	public String showStudentName(String id);
+	
+	//返回id对应的用户姓名，若无则返回null
+	public String showUserName(String id);
 }

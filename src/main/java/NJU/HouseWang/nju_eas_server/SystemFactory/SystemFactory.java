@@ -38,6 +38,7 @@ public class SystemFactory {
 			case "self_dept":
 			case "teacher_name":
 			case "student_name":
+			case "user_name":
 				return (new UserInfoLogic());
 			case "log_list":
 			case "log_list_head":
