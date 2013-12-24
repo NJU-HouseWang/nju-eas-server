@@ -172,6 +172,12 @@ public class UserInfoLogic implements UserInfoLogicService {
 			break;
 		default:
 			break;
+		case "showteacher_name":
+			feedback = this.showTeacherName(cmdInfo[2]);
+			break;
+		case "showstudent_name":
+			feedback = this.showStudentName(cmdInfo[2]);
+			break;
 		}
 		ll.finish();
 		tl.finish();
@@ -568,6 +574,34 @@ public class UserInfoLogic implements UserInfoLogicService {
 				dept = sl.getStudent(uid).getDepartment();
 			}
 			return dept;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Feedback.OPERATION_FAIL.toString();
+		}
+	}
+
+	@Override
+	public String showTeacherName(String id) {
+		try {
+			if (tl.containsID(id)) {
+				return (tl.getTeacher(id).getName());
+			} else {
+				return "null";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Feedback.OPERATION_FAIL.toString();
+		}
+	}
+
+	@Override
+	public String showStudentName(String id) {
+		try {
+			if (sl.containsID(id)) {
+				return (sl.getStudent(id).getName());
+			} else {
+				return "null";
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			return Feedback.OPERATION_FAIL.toString();

@@ -92,6 +92,6 @@ public interface CourseInfoLogicService extends LogicService {
 	//显示用于编辑的通识课列表表头
 	public String showEditCommonCourseListHead();
 	
-	//显示一门通识课的信息
-	public String showCommonCourse(String courseId);
+	//显示用于编辑的通识课的信息
+	public String showEditCommonCourse(String courseId);
 }

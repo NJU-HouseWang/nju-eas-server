@@ -264,8 +264,8 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		case "showcommon_course_list_head_edit":
 			feedback = this.showEditCommonCourseListHead();
 			break;
-		case "showcommon_course":
-			feedback = this.showCommonCourse(cmdInfo[2]);
+		case "showcommon_course_edit":
+			feedback = this.showEditCommonCourse(cmdInfo[2]);
 			break;
 		default:
 			break;
@@ -866,8 +866,7 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	}
 
 	@Override
-	public String showCommonCourse(String courseId) {
-		// TODO Auto-generated method stub
+	public String showEditCommonCourse(String courseId) {
 		try {
 			if (ccl.containsCourse(courseId)) {
 				CoursePO c = ccl.getCourse(courseId);
