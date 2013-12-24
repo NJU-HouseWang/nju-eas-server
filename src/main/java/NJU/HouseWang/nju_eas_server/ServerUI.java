@@ -9,8 +9,11 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.ShellAdapter;
 import org.eclipse.swt.events.ShellEvent;
+import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Monitor;
@@ -25,6 +28,10 @@ public class ServerUI {
 	private static boolean serverStatus = false;
 	private Server server = null;
 	private AuthorityManager am = null;
+	private Thread t = null;
+	private MenuItem statusItem = null;
+	private Label statusLabel = null;
+	private TrayItem trayItem = null;
 
 	public ServerUI() {
 		Display display = new Display();
@@ -38,13 +45,33 @@ public class ServerUI {
 
 		// 构造系统栏控件
 		final Tray tray = display.getSystemTray();
-		final TrayItem trayItem = new TrayItem(tray, SWT.NONE);
+		trayItem = new TrayItem(tray, SWT.NONE);
 
 		// 程序启动时，窗口是显示的，所以系统栏图标隐藏
 		trayItem.setVisible(true);
 		trayItem.setToolTipText("NJU_EAS_Server");
-		
-		//
+		// 设置布局
+		// RowLayout layout = new RowLayout(SWT.VERTICAL);
+		// layout.spacing = 30;
+		// layout.marginLeft = 40;
+		// layout.marginTop = 50;
+		// shell.setLayout(layout);
+
+		// 显示状态的标签
+		statusLabel = new Label(shell, SWT.PUSH);
+		statusLabel.setText("服务器当前状态：" + getServerStatus());
+		statusLabel.setFont(new Font(display, "微软雅黑", 14, 0));
+		statusLabel.setBounds(60, 30, 400, 40);
+
+		// 控制服务器开关的按钮
+		Button switchButton = new Button(shell, SWT.PUSH);
+		switchButton.setText("开/关服务器");
+		switchButton.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				switchServerStatus();
+			}
+		});
+		switchButton.setBounds(80, 85, 150, 40);
 
 		trayItem.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -53,14 +80,11 @@ public class ServerUI {
 		});
 
 		final Menu trayMenu = new Menu(shell, SWT.POP_UP);
-		MenuItem statusItem = new MenuItem(trayMenu, SWT.PUSH);
+		statusItem = new MenuItem(trayMenu, SWT.PUSH);
 		statusItem.setText("当前状态：" + getServerStatus());
 
 		MenuItem switchItem = new MenuItem(trayMenu, SWT.PUSH);
 		switchItem.setText("开启/关闭服务器(&o)");
-
-		MenuItem showMenuItem = new MenuItem(trayMenu, SWT.PUSH);
-		showMenuItem.setText("显示窗口(&s)");
 
 		// 切换服务器状态
 		switchItem.addSelectionListener(new SelectionAdapter() {
@@ -68,6 +92,11 @@ public class ServerUI {
 				switchServerStatus();
 			}
 		});
+
+		new MenuItem(trayMenu, SWT.SEPARATOR);
+
+		MenuItem showMenuItem = new MenuItem(trayMenu, SWT.PUSH);
+		showMenuItem.setText("显示窗口(&s)");
 
 		// 显示窗口，并隐藏系统栏中的图标
 		showMenuItem.addSelectionListener(new SelectionAdapter() {
@@ -78,15 +107,18 @@ public class ServerUI {
 
 		trayMenu.setDefaultItem(statusItem);
 
-		new MenuItem(trayMenu, SWT.SEPARATOR);
-
 		// 系统栏中的退出菜单，程序只能通过这个菜单退出
 		MenuItem exitMenuItem = new MenuItem(trayMenu, SWT.PUSH);
 		exitMenuItem.setText("退出程序(&q)");
 
 		exitMenuItem.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
+				server.shutdown();
+				am.shutdown();
+				serverStatus = false;
+				t.interrupt();
 				shell.dispose();
+				System.exit(0);
 			}
 		});
 
@@ -113,8 +145,8 @@ public class ServerUI {
 				toggleDisplay(shell, tray);
 			}
 		});
-
-		shell.setSize(320, 240);
+		shell.open();
+		shell.setSize(320, 200);
 		center(shell);
 		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch())
@@ -176,19 +208,31 @@ public class ServerUI {
 	 */
 	public void switchServerStatus() {
 		if (!serverStatus) {
-			server = new Server();
-			am = AuthorityManager.getInstance();
-			try {
-				am.run();
-				server.start();
-				serverStatus = true;
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			t = new Thread(new Runnable() {
+				public void run() {
+					server = new Server();
+					am = AuthorityManager.getInstance();
+					try {
+						am.run();
+						server.start();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			});
+			t.start();
+			serverStatus = true;
+			statusItem.setText("当前状态：" + getServerStatus());
+			statusLabel.setText("服务器当前状态：" + getServerStatus());
+			trayItem.setToolTipText("NJU_EAS_Server正在运行...");
 		} else {
 			server.shutdown();
 			am.shutdown();
 			serverStatus = false;
+			t.interrupt();
+			statusItem.setText("当前状态：" + getServerStatus());
+			statusLabel.setText("服务器当前状态：" + getServerStatus());
+			trayItem.setToolTipText("NJU_EAS_Server停止运行");
 		}
 
 	}
