@@ -134,7 +134,7 @@ public class CommonCourseList implements CommonCourseListService{
 	public Feedback updateCourse(CoursePO Course) {
 		sql = "update "
 				+ listName
-				+ " set name=?, module=?,type=?, nature=?,credit=?, period=?, studentNum=?, teacherId=?, teacherName=?, timeAndPlace=?, introduction=?, book=?, syllabus=?, grade=? where id=?";
+				+ " set name=?, module=?,type=?, nature=?,credit=?, period=?, studentNum=?, teacherId=?, teacherName=?, timeAndPlace=?, introduction=?, book=?, syllabus=? where id=?";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
