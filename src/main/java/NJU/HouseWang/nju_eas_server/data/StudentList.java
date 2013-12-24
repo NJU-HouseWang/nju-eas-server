@@ -89,7 +89,7 @@ public class StudentList implements StudentListService{
 			ps.execute();
 			return Feedback.OPERATION_SUCCEED;
 		} catch (SQLException e) {
-			// e.printStackTrace();
+			 e.printStackTrace();
 			return Feedback.OPERATION_FAIL;
 		}
 	}
@@ -110,7 +110,7 @@ public class StudentList implements StudentListService{
 			ps.execute();
 			return Feedback.OPERATION_SUCCEED;
 		} catch (SQLException e) {
-			// e.printStackTrace();
+			 e.printStackTrace();
 			return Feedback.OPERATION_FAIL;
 		}
 	}
@@ -133,7 +133,7 @@ public class StudentList implements StudentListService{
 			ps.execute();
 			return Feedback.OPERATION_SUCCEED;
 		} catch (SQLException e) {
-			// e.printStackTrace();
+			 e.printStackTrace();
 			return Feedback.OPERATION_FAIL;
 		}
 	}
