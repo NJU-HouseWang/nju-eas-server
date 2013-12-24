@@ -144,7 +144,7 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 			for (int i = 3; i < cmdInfo.length; i++) {
 				course = course + "；" + cmdInfo[i];
 			}
-			feedback = this.editCommonCourse(this.stringToCoursePO(course));
+			feedback = this.editCommonCourse(this.stringToCommonCourse(course));
 			break;
 		case "addcourse":
 			course = cmdInfo[2];
