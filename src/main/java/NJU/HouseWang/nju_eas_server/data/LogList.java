@@ -10,7 +10,7 @@ import NJU.HouseWang.nju_eas_server.dataService.LogListService;
 import NJU.HouseWang.nju_eas_server.po.Msg.LogPO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 
-public class LogList implements LogListService{
+public class LogList implements LogListService {
 	private String listName = "log_list";
 	private String sql = null;
 	private SQLConnector sqlconn = new SQLConnector();
@@ -84,7 +84,15 @@ public class LogList implements LogListService{
 
 	@Override
 	public Feedback emptyLogList() {
-		sql = "truncate " + listName;
-		return Feedback.OPERATION_SUCCEED;
+		sql = "truncate table " + listName;
+		try {
+			conn = sqlconn.getConnection();
+			ps = conn.prepareStatement(sql);
+			ps.execute();
+			return Feedback.OPERATION_SUCCEED;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return Feedback.OPERATION_FAIL;
+		}
 	}
 }
