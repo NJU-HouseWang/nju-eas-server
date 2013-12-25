@@ -11,7 +11,7 @@ import NJU.HouseWang.nju_eas_server.dataService.TeachingPlanListService;
 import NJU.HouseWang.nju_eas_server.po.Edu.TeachingPlanPO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 
-public class TeachingPlanList implements TeachingPlanListService{
+public class TeachingPlanList implements TeachingPlanListService {
 	private String listName = "teachingplan_list";
 	private String sql = null;
 	private SQLConnector sqlconn = new SQLConnector();
@@ -40,7 +40,6 @@ public class TeachingPlanList implements TeachingPlanListService{
 		}
 	}
 
-
 	public TeachingPlanPO getTeachingPlan(String dept) {
 		TeachingPlanPO result = new TeachingPlanPO();
 		sql = "select * from " + listName + " where dept=?";
@@ -62,20 +61,24 @@ public class TeachingPlanList implements TeachingPlanListService{
 	}
 
 	public Feedback updateTeachingPlanItem(TeachingPlanPO TeachingPlan) {
-		sql = "update "
-				+ listName
+		System.out.println("---------------" + TeachingPlan);
+		sql = "update " + listName
 				+ " set isCommitted=?, status=?, tpFile=? where dept=?";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
-			ps.setString(1, ""+TeachingPlan.isCommitted());
+			ps.setString(1, "" + TeachingPlan.isCommitted());
 			ps.setInt(2, TeachingPlan.getStatus());
-			ps.setString(3, TeachingPlan.getTpFile().getName());
+			if (TeachingPlan.getTpFile() != null) {
+				ps.setString(3, TeachingPlan.getTpFile().getPath());
+			} else {
+				ps.setString(3, "null");
+			}
 			ps.setString(4, TeachingPlan.getDept());
 			ps.execute();
 			return Feedback.OPERATION_SUCCEED;
 		} catch (SQLException e) {
-			 e.printStackTrace();
+			e.printStackTrace();
 			return Feedback.OPERATION_FAIL;
 		}
 	}
