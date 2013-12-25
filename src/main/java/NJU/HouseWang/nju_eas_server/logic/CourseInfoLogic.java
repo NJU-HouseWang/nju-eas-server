@@ -146,7 +146,11 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 			}
 			break;
 		case "editcourse":
-			feedback = "list";
+			if (!cmd.endsWith("；ok")) {
+				feedback = "ip";
+			} else {
+				feedback = "list";
+			}
 			break;
 		case "editcommon_course":
 			course = cmdInfo[2];
@@ -357,18 +361,14 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 			feedback = this.publishCommonCourse(list);
 			break;
 		case "editcourse":
-			if (cmd.endsWith("；ok")) {
-				feedback = "ip";
-			} else {
-				uid = am.getGuest(cmdInfo[4]);
-				dept = tl.getTeacher(uid).getCompany();
-				if (dept.equals("Teacher")) {
-					dept = cl.getCourseFromTeacherIdAndCourseId(
-							this.getTerm() + "_course_student_list", uid,
-							cmdInfo[2]).getDepartment();
-				}
-				feedback = this.editCourse(cmdInfo[2], cmdInfo[3], dept, list);
+			uid = am.getGuest(cmdInfo[4]);
+			dept = tl.getTeacher(uid).getCompany();
+			if (dept.equals("Teacher")) {
+				dept = cl.getCourseFromTeacherIdAndCourseId(
+						this.getTerm() + "_course_student_list", uid,
+						cmdInfo[2]).getDepartment();
 			}
+			feedback = this.editCourse(cmdInfo[2], cmdInfo[3], dept, list);
 			break;
 		default:
 			break;
