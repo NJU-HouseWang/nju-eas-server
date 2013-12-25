@@ -1,15 +1,15 @@
 package NJU.HouseWang.nju_eas_server.logic;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import NJU.HouseWang.nju_eas_server.data.AuthorityManager;
+import NJU.HouseWang.nju_eas_server.data.DeptList;
 import NJU.HouseWang.nju_eas_server.data.EduFramework;
+import NJU.HouseWang.nju_eas_server.data.TeacherList;
 import NJU.HouseWang.nju_eas_server.data.TeachingPlan;
 import NJU.HouseWang.nju_eas_server.data.TeachingPlanList;
 import NJU.HouseWang.nju_eas_server.logicService.TeachingPlanLogicService;
-import NJU.HouseWang.nju_eas_server.netService.NetService;
 import NJU.HouseWang.nju_eas_server.po.Edu.EduFrameworkItemPO;
 import NJU.HouseWang.nju_eas_server.po.Edu.TeachingPlanItemPO;
 import NJU.HouseWang.nju_eas_server.po.Edu.TeachingPlanPO;
@@ -20,12 +20,23 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 	private TeachingPlanList tl;
 	private EduFramework ef;
 	private AuthorityManager am;
+	private String uid;
+	private TeacherList teacherList;
+	private DeptList deptList;
 
 	public TeachingPlanLogic() {
 		tp = this.initTeachingPlan();
 		tl = this.initTeachingPlanList();
 		ef = this.initEduFramework();
+		teacherList = this.initTeacherList();
 		am = this.initAuthorityManager();
+		deptList = this.initDeptList();
+	}
+
+	public TeacherList initTeacherList() {
+		TeacherList t = new TeacherList();
+		t.init();
+		return t;
 	}
 
 	public TeachingPlan initTeachingPlan() {
@@ -42,6 +53,12 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 
 	public EduFramework initEduFramework() {
 		EduFramework e = new EduFramework();
+		e.init();
+		return e;
+	}
+
+	public DeptList initDeptList() {
+		DeptList e = new DeptList();
 		e.init();
 		return e;
 	}
@@ -64,7 +81,11 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 			feedback = this.showTeachingPlanList();
 			break;
 		case "addteachingplan":
-			feedback = "list";
+			if (cmd.endsWith("；ok")) {
+				feedback = "list";
+			} else {
+				feedback = "ip";
+			}
 			break;
 		case "editteachingplan":
 			feedback = "list";
@@ -118,9 +139,14 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 		Object feedback = null;
 		String[] cmdInfo = cmd.split("；");
 		String cmdType = cmdInfo[0] + cmdInfo[1];
+		tp = this.initTeachingPlan();
+		tl = this.initTeachingPlanList();
+		ef = this.initEduFramework();
 		switch (cmdType) {
 		case "addteachingplan":
-			feedback = this.addTeachingPlan(cmdInfo[2], list);
+			uid = am.getGuest(cmdInfo[2]);
+			feedback = this.addTeachingPlan(teacherList.getTeacher(uid)
+					.getCompany(), list);
 			break;
 		case "editteachingplan":
 			feedback = this.editTeachingPlan(cmdInfo[2], list);
@@ -160,7 +186,7 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 	@Override
 	public String addTeachingPlan(String dept, ArrayList<String> list) {
 		try {
-			TeachingPlanPO tpp = tl.getTeachingPlan(dept);
+			TeachingPlanPO tpp = tl.getTeachingPlan(deptList.nametoId(dept));
 			if (!tpp.isCommitted()) {
 				ArrayList<TeachingPlanItemPO> tpl = new ArrayList<TeachingPlanItemPO>();
 

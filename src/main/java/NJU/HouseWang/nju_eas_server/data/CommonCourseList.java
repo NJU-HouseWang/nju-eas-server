@@ -72,14 +72,13 @@ public class CommonCourseList implements CommonCourseListService{
 				result.setNature(rs.getString(5));
 				result.setCredit(rs.getInt(6));
 				result.setPeriod(rs.getInt(7));
-				result.setGrade(rs.getString(8));
-				result.setStudentNum(rs.getInt(9));
-				result.setTeacherId(rs.getString(10));
-				result.setTeacherName(rs.getString(11));
-				result.setTimeAndPlace(rs.getString(12));
-				result.setIntroduction(rs.getString(13));
-				result.setBook(rs.getString(14));
-				result.setSyllabus(rs.getString(15));
+				result.setStudentNum(rs.getInt(8));
+				result.setTeacherId(rs.getString(9));
+				result.setTeacherName(rs.getString(10));
+				result.setTimeAndPlace(rs.getString(11));
+				result.setIntroduction(rs.getString(12));
+				result.setBook(rs.getString(13));
+				result.setSyllabus(rs.getString(14));
 				
 			}
 		} catch (SQLException e) {

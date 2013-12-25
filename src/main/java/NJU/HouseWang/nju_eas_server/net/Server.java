@@ -16,19 +16,26 @@ import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 
 public class Server {
 	private ServerSocket server = null;
+	private ArrayList<Socket> list = new ArrayList<Socket>();
 
 	public void start() throws IOException {
 		server = new ServerSocket(9100);
 
 		while (true) {
 			Socket socket = server.accept();
+			list.add(socket);
 			System.out.println("#" + socket.getInetAddress() + "\t Connected!");
 			invoke(socket);
 		}
 	}
+
 	public void shutdown() {
-		if(server != null) {
+		if (server != null) {
 			try {
+				for (Socket s : list) {
+					s.close();
+				}
+				list.clear();
 				server.close();
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -47,7 +54,7 @@ public class Server {
 					String cmd = st.receiveCommand();
 					// 创建逻辑
 					LogicService ss = SystemFactory.create(cmd);
-					if(ss == null) {
+					if (ss == null) {
 						st.sendFeedback(Feedback.COMMAND_ERROR.toString());
 						System.err.println("不能识别的客户端命令");
 						return;
@@ -66,7 +73,8 @@ public class Server {
 						if (((String) feedback).contains("ip")) {
 							cmd += "；" + ip + "；ok";
 							feedback = ss.operate(cmd);
-						} else if (((String) feedback).startsWith("file；")) {
+						} 
+						if (((String) feedback).startsWith("file；")) {
 							File file = st.receiveFile(((String) feedback)
 									.split("；")[1]);
 							if (file != null) {
@@ -75,7 +83,8 @@ public class Server {
 							} else {
 								feedback = Feedback.OPERATION_FAIL;
 							}
-						} else if (((String) feedback).equals("list")) {
+						}
+						if (((String) feedback).equals("list")) {
 							ArrayList<String> list = null;
 							list = st.receiveList();
 							if (list != null) {

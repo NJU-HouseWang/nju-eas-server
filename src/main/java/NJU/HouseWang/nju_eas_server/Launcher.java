@@ -20,14 +20,6 @@ public class Launcher {
 	 *            运行时参数
 	 */
 	public static void main(String[] args) {
-//		ServerUI serverUI = new ServerUI();
-		Server server = new Server();
-		AuthorityManager am = AuthorityManager.getInstance();
-		try {
-			am.run();
-			server.start();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		new ServerUI();
 	}
 }

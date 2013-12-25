@@ -50,12 +50,6 @@ public class ServerUI {
 		// 程序启动时，窗口是显示的，所以系统栏图标隐藏
 		trayItem.setVisible(true);
 		trayItem.setToolTipText("NJU_EAS_Server");
-		// 设置布局
-		// RowLayout layout = new RowLayout(SWT.VERTICAL);
-		// layout.spacing = 30;
-		// layout.marginLeft = 40;
-		// layout.marginTop = 50;
-		// shell.setLayout(layout);
 
 		// 显示状态的标签
 		statusLabel = new Label(shell, SWT.PUSH);
@@ -235,9 +229,5 @@ public class ServerUI {
 			trayItem.setToolTipText("NJU_EAS_Server停止运行");
 		}
 
-	}
-
-	public static void main(String[] args) {
-		new ServerUI();
 	}
 }

@@ -8,10 +8,8 @@ import java.util.ArrayList;
 
 import NJU.HouseWang.nju_eas_server.dataService.DeptListService;
 import NJU.HouseWang.nju_eas_server.po.Edu.DepartmentPO;
-import NJU.HouseWang.nju_eas_server.po.Msg.LogPO;
-import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 
-public class DeptList implements DeptListService{
+public class DeptList implements DeptListService {
 	private String listName = "dept_list";
 	private String sql = null;
 	private SQLConnector sqlconn = new SQLConnector();
@@ -52,6 +50,40 @@ public class DeptList implements DeptListService{
 				d.setId(rs.getString(1));
 				d.setName(rs.getString(2));
 				result.add(d);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	public String idtoName(String id) {
+		String result = new String();
+		sql = "select deptName from " + listName + " where deptId=?";
+		try {
+			conn = sqlconn.getConnection();
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, id);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				result = rs.getString(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	public String nametoId(String name) {
+		String result = new String();
+		sql = "select deptId from " + listName + " where deptId=?";
+		try {
+			conn = sqlconn.getConnection();
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, name);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				result = rs.getString(1);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
