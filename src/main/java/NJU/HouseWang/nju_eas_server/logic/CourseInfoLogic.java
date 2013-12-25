@@ -785,6 +785,7 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 			for (int j = 0; j < courseList.size(); j++) {
 				CoursePO cp = courseList.get(j);
 				cp.setDepartment("通识课");
+				cp.setNature("指选");
 				cp.setTerm(showTerm());
 				cl.addCourse(getTerm(), cp);
 				CourseSelectorNumPO c = new CourseSelectorNumPO(cp.getId(), 0,
@@ -809,10 +810,11 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		cp.setId(info[0]);
 		cp.setName(info[1]);
 		cp.setCredit(Integer.parseInt(info[2]));
-		cp.setTeacherId(info[3]);
-		cp.setTeacherName(info[4]);
-		cp.setTimeAndPlace(info[5]);
-		cp.setStudentNum(Integer.parseInt(info[6]));
+		cp.setPeriod(Integer.parseInt(info[3]));
+		cp.setTeacherId(info[4]);
+		cp.setTeacherName(info[5]);
+		cp.setTimeAndPlace(info[6]);
+		cp.setStudentNum(Integer.parseInt(info[7]));
 		return cp;
 	}
 
