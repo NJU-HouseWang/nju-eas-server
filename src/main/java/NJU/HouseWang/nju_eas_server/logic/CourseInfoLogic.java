@@ -395,9 +395,9 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		ArrayList<String> feedback = new ArrayList<String>();
 		CoursePO cp = cl.getCourseFromDeptAndCourseId(this.termTransfer(term),
 				department, courseId);
-		feedback.add(cp.getIntroduction());
-		feedback.add(cp.getBook());
-		feedback.add(cp.getSyllabus());
+		feedback.add(cp.getIntroduction() + "");
+		feedback.add(cp.getBook() + "");
+		feedback.add(cp.getSyllabus() + "");
 		return feedback;
 	}
 
