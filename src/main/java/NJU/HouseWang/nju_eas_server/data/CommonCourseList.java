@@ -201,6 +201,6 @@ public class CommonCourseList implements CommonCourseListService{
 
 	@Override
 	public String getEditCommonCourseListHead() {
-		return "课程号；课程名称；学分；任课老师工号；任课教师姓名；上课时间及地点；课程总人数";
+		return "课程号；课程名称；学分；学时；任课老师工号；任课教师姓名；上课时间及地点；课程总人数";
 	}
 }
