@@ -68,31 +68,41 @@ public class Server {
 					// 逻辑层执行指令，取得反馈
 					Object feedback = ss.operate(cmd);
 					// 根据反馈的类型向客户端发送反馈结果
+
 					if (feedback instanceof String) {
-						ss = SystemFactory.create(cmd);
 						if (((String) feedback).contains("ip")) {
+							ss = SystemFactory.create(cmd);
 							cmd += "；" + ip + "；ok";
 							feedback = ss.operate(cmd);
-						} 
-						if (((String) feedback).startsWith("file；")) {
-							File file = st.receiveFile(((String) feedback)
-									.split("；")[1]);
-							if (file != null) {
-								cmd += "；file_ok";
-								feedback = ss.operate(cmd);
-							} else {
-								feedback = Feedback.OPERATION_FAIL;
+						}
+						if (feedback instanceof String) {
+							if (((String) feedback).startsWith("file；")) {
+								ss = SystemFactory.create(cmd);
+								File file = st.receiveFile(((String) feedback)
+										.split("；")[1]);
+								if (file != null) {
+									cmd += "；" + file.getPath() + "；file_ok";
+									feedback = ss.operate(cmd);
+								} else {
+									feedback = Feedback.OPERATION_FAIL
+											.toString();
+								}
 							}
 						}
-						if (((String) feedback).equals("list")) {
-							ArrayList<String> list = null;
-							list = st.receiveList();
-							if (list != null) {
-								feedback = ss.operate(cmd, list);
-							} else {
-								feedback = Feedback.OPERATION_FAIL;
+						if (feedback instanceof String) {
+							if (((String) feedback).equals("list")) {
+								ss = SystemFactory.create(cmd);
+								ArrayList<String> list = null;
+								list = st.receiveList();
+								if (list != null) {
+									feedback = ss.operate(cmd, list);
+								} else {
+									feedback = Feedback.OPERATION_FAIL
+											.toString();
+								}
 							}
 						}
+
 						if (feedback instanceof String) {
 							st.sendFeedback((String) feedback);
 						} else if (feedback instanceof ArrayList<?>) {

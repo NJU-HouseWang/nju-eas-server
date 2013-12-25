@@ -79,7 +79,7 @@ public class MessageList implements MessageListService {
 		}
 		return result;
 	}
-	
+
 	public MessagePO getMessageWithoutId(int listType, String id) {
 		MessagePO result = new MessagePO();
 		sql = "select * from " + listName[listType] + " where id=?";
@@ -159,10 +159,11 @@ public class MessageList implements MessageListService {
 	public ArrayList<MessagePO> getMessageList(int listType, String operatorId) {
 		ArrayList<MessagePO> result = new ArrayList<MessagePO>();
 		if (listType == 0 || listType == 3) {
-			sql = "select * from " + listName[listType] + "where recipientId=?";
+			sql = "select * from " + listName[listType]
+					+ " where recipientId=?";
 
 		} else {
-			sql = "select * from " + listName[listType] + "where senderId=?";
+			sql = "select * from " + listName[listType] + " where senderId=?";
 		}
 		try {
 			conn = sqlconn.getConnection();
@@ -188,7 +189,8 @@ public class MessageList implements MessageListService {
 	public String getSenderListHead() {
 		return "私信编号；发信人ID；标题；是否已读";
 	}
-	public String getRecipientListHead(){
+
+	public String getRecipientListHead() {
 		return "私信编号；收件人ID；标题";
 	}
 }

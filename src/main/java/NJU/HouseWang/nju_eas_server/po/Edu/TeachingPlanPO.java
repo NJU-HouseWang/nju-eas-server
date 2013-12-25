@@ -3,16 +3,17 @@ package NJU.HouseWang.nju_eas_server.po.Edu;
 import java.io.File;
 
 import NJU.HouseWang.nju_eas_server.po.DataPOService;
+
 /*
  * PO中包含TeachingPlan中的院系、提交状态、审核状态、doc文件这些属性
  */
 public class TeachingPlanPO implements DataPOService {
 	private String dept;
 	private boolean isCommitted = false;
-	//审核状态： 0：未审核	 1： 通过	2：未通过
+	// 审核状态： 0：未审核 1： 通过 2：未通过
 	private int status = 0;
 	File tpFile;
-	
+
 	public boolean isCommitted() {
 		return isCommitted;
 	}
@@ -29,25 +30,26 @@ public class TeachingPlanPO implements DataPOService {
 		this.tpFile = tpFile;
 	}
 
-	public TeachingPlanPO(){
-		
+	public TeachingPlanPO() {
+
 	}
-	
-	public void setDept(String dept){
+
+	public void setDept(String dept) {
 		this.dept = dept;
 	}
-	
-	public String getDept(){
+
+	public String getDept() {
 		return this.dept;
 	}
-	
-	public void setStatus(int status){
+
+	public void setStatus(int status) {
 		this.status = status;
 	}
-	
-	public int getStatus(){
+
+	public int getStatus() {
 		return this.status;
 	}
+
 	@Override
 	public String getId() {
 		// TODO Auto-generated method stub
@@ -57,11 +59,17 @@ public class TeachingPlanPO implements DataPOService {
 	@Override
 	public void setId(String id) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
-	public String toCommand(){
-		return dept + "；" + isCommitted + "；" + status;
+
+	public String toCommand() {
+		return dept + "；" + isCommitted + "；" + status + "；" + tpFile.getName();
+	}
+
+	@Override
+	public String toString() {
+		return "TeachingPlanPO [dept=" + dept + ", isCommitted=" + isCommitted
+				+ ", status=" + status + ", tpFile=" + tpFile + "]";
 	}
 
 }

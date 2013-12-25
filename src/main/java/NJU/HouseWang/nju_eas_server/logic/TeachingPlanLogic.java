@@ -98,22 +98,24 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 					Integer.parseInt(cmdInfo[3]));
 			break;
 		case "uploadteachingplan_file":
-			if (cmd.endsWith("；file_ok")) {
-				if (cmd.endsWith("；ok")) {
+			if (cmd.endsWith("；ok") || cmd.endsWith("；file_ok")) {
+				if (cmd.endsWith("；file_ok")) {
 					uid = am.getGuest(cmdInfo[2]);
 					feedback = this
-							.uploadTeachingPlanFile(deptList
-									.nametoId(teacherList.getTeacher(uid)
-											.getCompany()));
+							.uploadTeachingPlanFile(
+									cmdInfo[4],
+									deptList.nametoId(teacherList.getTeacher(
+											uid).getCompany()));
 				} else {
-					feedback = "ip";
+					feedback = "file；d:/tpFile/";
 				}
 			} else {
-				feedback = "file；d:/tpFile/";
+				feedback = "ip";
 			}
 			break;
 		case "downloadteachingplan_file":
-			feedback = this.downloadTeachingPlanFile(deptList.nametoId(cmdInfo[2]));
+			feedback = this.downloadTeachingPlanFile(deptList
+					.nametoId(cmdInfo[2]));
 			break;
 		case "downloadteachingplan_template":
 			feedback = this.downloadTeachingPlanTemplate();
@@ -128,7 +130,8 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 			feedback = this.showFlieName(deptList.nametoId(cmdInfo[2]));
 			break;
 		case "showteachingplan_status":
-			feedback = this.showTeachingPlanStatus(deptList.nametoId(cmdInfo[2]));
+			feedback = this.showTeachingPlanStatus(deptList
+					.nametoId(cmdInfo[2]));
 			break;
 		case "showteachingplan_head_import":
 			feedback = this.showImportTeachingPlanHead();
@@ -276,17 +279,13 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 	}
 
 	@Override
-	public String uploadTeachingPlanFile(String dept) {
+	public String uploadTeachingPlanFile(String path, String dept) {
 		try {
-			String filePath = "d:/tpFile/";
+			String filePath = path;
 			TeachingPlanPO tpp = tl.getTeachingPlan(dept);
-			if (tpp.getTpFile() == null) {
-				tpp.setTpFile(new File(filePath));
-				tl.updateTeachingPlanItem(tpp);
-				return (Feedback.OPERATION_SUCCEED.toString());
-			} else {
-				return (Feedback.FILE_ALREADY_EXISTED.toString());
-			}
+			tpp.setTpFile(new File(filePath));
+			tl.updateTeachingPlanItem(tpp);
+			return (Feedback.OPERATION_SUCCEED.toString());
 		} catch (Exception e) {
 			e.printStackTrace();
 			return Feedback.OPERATION_FAIL.toString();

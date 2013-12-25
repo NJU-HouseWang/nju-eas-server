@@ -25,7 +25,7 @@ public interface TeachingPlanLogicService extends LogicService {
 	public String auditTeachingPlan(String dept, int status);
 
 	// 上传教学计划doc文档
-	public String uploadTeachingPlanFile(String dept);
+	public String uploadTeachingPlanFile(String path, String dept);
 
 	// 下载教学计划doc文档
 	public File downloadTeachingPlanFile(String dept);
@@ -50,4 +50,6 @@ public interface TeachingPlanLogicService extends LogicService {
 	
 	//返回教学计划模板文件
 	public File downloadTeachingPlanTemplate();
+
+
 }
