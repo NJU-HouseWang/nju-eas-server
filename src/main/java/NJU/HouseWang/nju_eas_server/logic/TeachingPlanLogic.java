@@ -195,7 +195,9 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 		ArrayList<TeachingPlanPO> t = tl.getTeachingPlanList();
 		ArrayList<String> feedback = new ArrayList<String>();
 		for (int i = 0; i < t.size(); i++) {
-			feedback.add(t.get(i).toCommand());
+			feedback.add(deptList.idtoName(t.get(i).getDept()) + "；"
+					+ t.get(i).isCommitted() + "；" + t.get(i).getStatus() + "；"
+					+ t.get(i).getTpFile().getName());
 		}
 		return feedback;
 	}
