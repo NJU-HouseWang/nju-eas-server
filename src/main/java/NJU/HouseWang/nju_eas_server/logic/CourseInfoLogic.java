@@ -7,6 +7,7 @@ import NJU.HouseWang.nju_eas_server.data.CommonCourseList;
 import NJU.HouseWang.nju_eas_server.data.CourseList;
 import NJU.HouseWang.nju_eas_server.data.CourseSelectorNumList;
 import NJU.HouseWang.nju_eas_server.data.Course_StudentList;
+import NJU.HouseWang.nju_eas_server.data.DeptList;
 import NJU.HouseWang.nju_eas_server.data.StatusList;
 import NJU.HouseWang.nju_eas_server.data.StudentList;
 import NJU.HouseWang.nju_eas_server.data.TeacherList;
@@ -36,6 +37,7 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	private StatusList statusList;
 	private TermList termList;
 	private CommonCourseList ccl;
+	private DeptList dl;
 	private String course;
 	private String uid;
 	private String dept;
@@ -52,7 +54,14 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		statusList = initStatusList();
 		termList = initTermList();
 		ccl = initCommonCourseList();
+		dl = initDeptList();
 
+	}
+
+	public DeptList initDeptList() {
+		DeptList d = new DeptList();
+		d.init();
+		return d;
 	}
 
 	public CommonCourseList initCommonCourseList() {
@@ -172,7 +181,7 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 			feedback = "list";
 			break;
 		case "addcourse_list_from_tp":
-			feedback = this.addCourseListFromTP();
+			feedback = this.addCourseListFromTP(cmdInfo[2]);
 			break;
 		case "showcourse_list_head":
 			feedback = this.showCourseListHead();
@@ -281,6 +290,7 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		statusList.finish();
 		termList.finish();
 		ccl.finish();
+		dl.finish();
 		return feedback;
 	}
 
@@ -330,6 +340,7 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		statusList = initStatusList();
 		termList = initTermList();
 		ccl = initCommonCourseList();
+		dl = initDeptList();
 		Object feedback = null;
 		String[] cmdInfo = cmd.split("；");
 		uid = am.getGuest(cmdInfo[cmdInfo.length - 1]);
@@ -372,6 +383,7 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		statusList.finish();
 		termList.finish();
 		ccl.finish();
+		dl.finish();
 		return feedback;
 	}
 
@@ -439,7 +451,9 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 			String term = this.getTerm();
 			if (!cl.containsCourse(term, c.getDepartment(), c.getId())) {
 				cl.addCourse(term, c);
-				this.addCommonCourse(c);
+				if (c.getDepartment().equals("通识课")) {
+					this.addCommonCourse(c);
+				}
 				return Feedback.OPERATION_SUCCEED.toString();
 			} else {
 				return Feedback.DATA_ALREADY_EXISTED.toString();
@@ -581,38 +595,33 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	}
 
 	@Override
-	public String addCourseListFromTP() {
+	public String addCourseListFromTP(String deptName) {
 
 		try {
-			ArrayList<TeachingPlanPO> teachingPlanList = tpl
-					.getTeachingPlanList();
-			for (int i = 0; i < teachingPlanList.size(); i++) {
-				if (teachingPlanList.get(i).isCommitted()) {
-					String dept = teachingPlanList.get(i).getDept();
-					ArrayList<TeachingPlanItemPO> teachingPlanItemList = tp
-							.getTeachingPlan(dept);
-					for (int j = 0; j < teachingPlanItemList.size(); j++) {
-						TeachingPlanItemPO tpip = teachingPlanItemList.get(j);
-						// 如果不是选修课，则加入课程列表，并导入学生
-						if (!tpip.getCourseNature().equals("选修")) {
-							CoursePO cp = this.tpPOToCoursePO(dept, tpip);
-							this.addCourse(cp);
-							ArrayList<StudentPO> studentList = sl
-									.getStudentList(cp.getGrade(),
-											cp.getDepartment());
-							if (!studentList.isEmpty()) {
-								for (int p = 0; p < studentList.size(); p++) {
-									csl.addCourse_StudentPO(
-											this.getTerm(),
-											new Course_StudentPO(cp
-													.getDepartment(), cp
-													.getId(), studentList
-													.get(p).getId()));
-								}
+			String deptId = dl.nametoId(deptName);
+			TeachingPlanPO t = tpl.getTeachingPlan(deptId);
+			if (t.isCommitted()) {
+				ArrayList<TeachingPlanItemPO> teachingPlanItemList = tp
+						.getTeachingPlan(deptId);
+				for (int j = 0; j < teachingPlanItemList.size(); j++) {
+					TeachingPlanItemPO tpip = teachingPlanItemList.get(j);
+					// 如果不是选修课，则加入课程列表，并导入学生
+					if (!tpip.getCourseNature().equals("选修")) {
+						CoursePO cp = this.tpPOToCoursePO(deptId, tpip);
+						this.addCourse(cp);
+						ArrayList<StudentPO> studentList = sl.getStudentList(
+								cp.getGrade(), cp.getDepartment());
+						if (!studentList.isEmpty()) {
+							for (int p = 0; p < studentList.size(); p++) {
+								csl.addCourse_StudentPO(this.getTerm(),
+										new Course_StudentPO(
+												cp.getDepartment(), cp.getId(),
+												studentList.get(p).getId()));
 							}
 						}
 					}
 				}
+
 			}
 			return Feedback.OPERATION_SUCCEED.toString();
 		} catch (Exception e) {
@@ -812,7 +821,7 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 
 		String term = this.getTerm();
 		String grade = ""
-				+ (Integer.parseInt(term.substring(1, 4)) - tpip.getStartTerm() / 2);
+				+ (Integer.parseInt(term.substring(1, 5)) - tpip.getStartTerm() / 2);
 		String termToDisplay = this.showTerm();
 		CoursePO c = new CoursePO(tpip.getCourseId(), tpip.getCourseName(),
 				tpip.getModuleName(), tpip.getCourseType(),

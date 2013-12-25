@@ -42,7 +42,7 @@ public interface CourseInfoLogicService extends LogicService {
 	public String addCourseList(ArrayList<String> list);
 
 	// 从教学计划中自动生成课程列表
-	public String addCourseListFromTP();
+	public String addCourseListFromTP(String deptName);
 
 	// 显示课程列表的表头
 	public String showCourseListHead();
