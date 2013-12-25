@@ -361,12 +361,7 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 				feedback = "ip";
 			} else {
 				uid = am.getGuest(cmdInfo[4]);
-				dept = tl.getTeacher(uid).getCompany();
-				if (dept.equals("Teacher")) {
-					dept = cl.getCourseFromTeacherIdAndCourseId(
-							this.getTerm() + "_course_student_list", uid,
-							cmdInfo[2]).getDepartment();
-				}
+				dept = this.getDept(cmdInfo[2], cmdInfo[3], uid);
 				feedback = this.editCourse(cmdInfo[2], cmdInfo[3], dept, list);
 			}
 			break;
