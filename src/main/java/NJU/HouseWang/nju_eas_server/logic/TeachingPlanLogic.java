@@ -113,7 +113,8 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 			}
 			break;
 		case "downloadteachingplan_file":
-			feedback = this.downloadTeachingPlanFile(deptList.nametoId(cmdInfo[2]));
+			feedback = this.downloadTeachingPlanFile(deptList
+					.nametoId(cmdInfo[2]));
 			break;
 		case "downloadteachingplan_template":
 			feedback = this.downloadTeachingPlanTemplate();
@@ -128,7 +129,8 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 			feedback = this.showFlieName(deptList.nametoId(cmdInfo[2]));
 			break;
 		case "showteachingplan_status":
-			feedback = this.showTeachingPlanStatus(deptList.nametoId(cmdInfo[2]));
+			feedback = this.showTeachingPlanStatus(deptList
+					.nametoId(cmdInfo[2]));
 			break;
 		case "showteachingplan_head_import":
 			feedback = this.showImportTeachingPlanHead();
@@ -192,7 +194,9 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 		ArrayList<TeachingPlanPO> t = tl.getTeachingPlanList();
 		ArrayList<String> feedback = new ArrayList<String>();
 		for (int i = 0; i < t.size(); i++) {
-			feedback.add(t.get(i).toCommand());
+			feedback.add(deptList.idtoName(t.get(i).getDept()) + "；"
+					+ t.get(i).isCommitted() + "；" + t.get(i).getStatus() + "；"
+					+ t.get(i).getTpFile().getName());
 		}
 		return feedback;
 	}
