@@ -178,6 +178,9 @@ public class UserInfoLogic implements UserInfoLogicService {
 		case "showstudent_name":
 			feedback = this.showStudentName(cmdInfo[2]);
 			break;
+		case "showuser_name":
+			feedback = this.showUserName(cmdInfo[2]);
+			break;
 		}
 		ll.finish();
 		tl.finish();
@@ -601,6 +604,22 @@ public class UserInfoLogic implements UserInfoLogicService {
 		try {
 			if (sl.containsID(id)) {
 				return (sl.getStudent(id).getName());
+			} else {
+				return "null";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Feedback.OPERATION_FAIL.toString();
+		}
+	}
+
+	@Override
+	public String showUserName(String id) {
+		try {
+			if (tl.containsID(id)) {
+				return showTeacherName(id);
+			} else if (sl.containsID(id)) {
+				return showStudentName(id);
 			} else {
 				return "null";
 			}
