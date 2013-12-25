@@ -78,7 +78,7 @@ public class Server {
 							File file = st.receiveFile(((String) feedback)
 									.split("；")[1]);
 							if (file != null) {
-								cmd += "；ok";
+								cmd += "；file_ok";
 								feedback = ss.operate(cmd);
 							} else {
 								feedback = Feedback.OPERATION_FAIL;

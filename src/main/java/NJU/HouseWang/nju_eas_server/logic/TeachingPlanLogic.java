@@ -75,7 +75,7 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 		String cmdType = cmdInfo[0] + cmdInfo[1];
 		switch (cmdType) {
 		case "showteachingplan":
-			feedback = this.showTeachingPlan(cmdInfo[2]);
+			feedback = this.showTeachingPlan(deptList.nametoId(cmdInfo[2]));
 			break;
 		case "showteachingplan_list":
 			feedback = this.showTeachingPlanList();
@@ -91,21 +91,29 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 			feedback = "list";
 			break;
 		case "delteachingplan":
-			feedback = this.delTeachingPlan(cmdInfo[2]);
+			feedback = this.delTeachingPlan(deptList.nametoId(cmdInfo[2]));
 			break;
 		case "auditteachingplan":
-			feedback = this.auditTeachingPlan(cmdInfo[2],
+			feedback = this.auditTeachingPlan(deptList.nametoId(cmdInfo[2]),
 					Integer.parseInt(cmdInfo[3]));
 			break;
 		case "uploadteachingplan_file":
-			if (cmd.endsWith("；ok")) {
-				feedback = this.uploadTeachingPlanFile(cmdInfo[2]);
+			if (cmd.endsWith("；file_ok")) {
+				if (cmd.endsWith("；ok")) {
+					uid = am.getGuest(cmdInfo[2]);
+					feedback = this
+							.uploadTeachingPlanFile(deptList
+									.nametoId(teacherList.getTeacher(uid)
+											.getCompany()));
+				} else {
+					feedback = "ip";
+				}
 			} else {
 				feedback = "file；d:/tpFile/";
 			}
 			break;
 		case "downloadteachingplan_file":
-			feedback = this.downloadTeachingPlanFile(cmdInfo[2]);
+			feedback = this.downloadTeachingPlanFile(deptList.nametoId(cmdInfo[2]));
 			break;
 		case "downloadteachingplan_template":
 			feedback = this.downloadTeachingPlanTemplate();
@@ -117,10 +125,10 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 			feedback = this.showTeachingPlanListHead();
 			break;
 		case "showfile_name":
-			feedback = this.showFlieName(cmdInfo[2]);
+			feedback = this.showFlieName(deptList.nametoId(cmdInfo[2]));
 			break;
 		case "showteachingplan_status":
-			feedback = this.showTeachingPlanStatus(cmdInfo[2]);
+			feedback = this.showTeachingPlanStatus(deptList.nametoId(cmdInfo[2]));
 			break;
 		case "showteachingplan_head_import":
 			feedback = this.showImportTeachingPlanHead();
@@ -199,13 +207,16 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 				for (int i = 0; i < list.size(); i++) {
 					tpl.add(stringToTeachingPlanItem(list.get(i)));
 				}
-
 				boolean isValid = this.judgeTeachingPlan(tpl);
 				if (isValid) {
-					tp.createTeachingPlan(dept);
+					tp.createTeachingPlan(deptList.nametoId(dept));
 					for (int i = 0; i < tpl.size(); i++) {
-						tp.addTeachingPlanItem(dept, tpl.get(i));
+						tp.addTeachingPlanItem(deptList.nametoId(dept),
+								tpl.get(i));
 					}
+					tpp.setCommitted(true);
+					tpp.setStatus(0);
+					tl.updateTeachingPlanItem(tpp);
 					return (Feedback.OPERATION_SUCCEED.toString());
 				} else {
 					return (Feedback.FORMAT_ERROR.toString());
@@ -239,7 +250,7 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 			tpp.setStatus(0);
 			tpp.getTpFile().delete();
 			tpp.setTpFile(null);
-
+			tl.updateTeachingPlanItem(tpp);
 			return (Feedback.OPERATION_SUCCEED.toString());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -253,6 +264,7 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 			TeachingPlanPO tpp = tl.getTeachingPlan(dept);
 			if (tpp.getStatus() == 0) {
 				tpp.setStatus(status);
+				tl.updateTeachingPlanItem(tpp);
 				return (Feedback.OPERATION_SUCCEED.toString());
 			} else {
 				return (Feedback.AUDIT_REPEATED.toString());
@@ -270,6 +282,7 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 			TeachingPlanPO tpp = tl.getTeachingPlan(dept);
 			if (tpp.getTpFile() == null) {
 				tpp.setTpFile(new File(filePath));
+				tl.updateTeachingPlanItem(tpp);
 				return (Feedback.OPERATION_SUCCEED.toString());
 			} else {
 				return (Feedback.FILE_ALREADY_EXISTED.toString());
@@ -326,10 +339,13 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 			credit = Integer.parseInt(info[1]);
 			for (int j = 0; j < teachingPlan.size(); j++) {
 				if (teachingPlan.get(j).getModuleName().equals(moduleName)) {
-					creditSum += teachingPlan.get(j).getCourseCredit();
+					if (teachingPlan.get(j).getCourseCredit() > 0) {
+						creditSum += teachingPlan.get(j).getCourseCredit();
+					}
 				}
 			}
-			if (creditSum < credit) {
+			if ((creditSum < credit) && (creditSum > 0)) {
+				System.out.println("=======================21");
 				isValid = false;
 			}
 			creditSum = 0;
@@ -342,10 +358,14 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 			credit = Integer.parseInt(info[1]);
 			for (int j = 0; j < teachingPlan.size(); j++) {
 				if (teachingPlan.get(j).getCourseType().equals(courseType)) {
-					creditSum += teachingPlan.get(j).getCourseCredit();
+					if (teachingPlan.get(j).getCourseCredit() > 0) {
+						creditSum += teachingPlan.get(j).getCourseCredit();
+					}
 				}
 			}
-			if (creditSum < credit) {
+			if (creditSum < credit && creditSum > 0) {
+				System.out.println("=======================22:" + courseType
+						+ ";" + creditSum + ";" + credit);
 				isValid = false;
 			}
 			creditSum = 0;
@@ -353,12 +373,14 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 		// 判断每门课的学分是否在框架规定的范围内
 		for (int i = 0; i < el.size(); i++) {
 			for (int j = 0; j < teachingPlan.size(); j++) {
-				if (teachingPlan.get(j).getCourseName()
-						.equals(el.get(i).getCourseName())) {
+				if ((teachingPlan.get(j).getCourseName().equals(el.get(i)
+						.getCourseName()))
+						&& (!teachingPlan.get(j).getCourseName().equals("null"))) {
 					if ((teachingPlan.get(j).getCourseCredit() < el.get(i)
 							.getCourseMinCredit())
 							|| (teachingPlan.get(j).getCourseCredit() > el.get(
 									i).getCourseMaxCredit())) {
+						System.out.println("=======================23");
 						isValid = false;
 					}
 				}

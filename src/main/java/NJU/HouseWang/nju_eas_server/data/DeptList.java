@@ -76,7 +76,7 @@ public class DeptList implements DeptListService {
 
 	public String nametoId(String name) {
 		String result = new String();
-		sql = "select deptId from " + listName + " where deptId=?";
+		sql = "select deptId from " + listName + " where deptName=?";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
