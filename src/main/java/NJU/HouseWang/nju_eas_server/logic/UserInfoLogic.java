@@ -190,6 +190,9 @@ public class UserInfoLogic implements UserInfoLogicService {
 
 	@Override
 	public Object operate(String cmd, ArrayList<String> list) {
+		ll = this.initLoginList();
+		tl = this.initTeacherList();
+		sl = this.initStudentList();
 		String[] cmdInfo = cmd.split("；");
 		Object feedback = null;
 		String uid = am.getGuest(cmdInfo[cmdInfo.length - 1]);

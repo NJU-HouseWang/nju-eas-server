@@ -320,7 +320,16 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 
 	@Override
 	public Object operate(String cmd, ArrayList<String> list) {
-
+		cl = initCourseList();
+		tpl = initTeachingPlanList();
+		tp = initTeachingPlan();
+		csnl = initCourseSelectorNumList();
+		csl = initCourse_StudentList();
+		sl = initStudentList();
+		tl = initTeacherList();
+		statusList = initStatusList();
+		termList = initTermList();
+		ccl = initCommonCourseList();
 		Object feedback = null;
 		String[] cmdInfo = cmd.split("；");
 		uid = am.getGuest(cmdInfo[cmdInfo.length - 1]);

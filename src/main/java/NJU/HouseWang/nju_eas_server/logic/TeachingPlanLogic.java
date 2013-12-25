@@ -131,6 +131,8 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 		tp.finish();
 		tl.finish();
 		ef.finish();
+		teacherList.finish();
+		deptList.finish();
 		return feedback;
 	}
 
@@ -142,6 +144,8 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 		tp = this.initTeachingPlan();
 		tl = this.initTeachingPlanList();
 		ef = this.initEduFramework();
+		teacherList = this.initTeacherList();
+		deptList = this.initDeptList();
 		switch (cmdType) {
 		case "addteachingplan":
 			uid = am.getGuest(cmdInfo[2]);
@@ -157,6 +161,8 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 		tp.finish();
 		tl.finish();
 		ef.finish();
+		teacherList.finish();
+		deptList.finish();
 		return feedback;
 	}
 

@@ -63,6 +63,7 @@ public class EduFrameworkLogic implements EduFrameworkLogicService {
 	@Override
 	public Object operate(String cmd, ArrayList<String> list) {
 		Object feedback = null;
+		ef = this.intEduFramework();
 		String[] cmdInfo = cmd.split("；");
 		String uid = am.getGuest(cmdInfo[cmdInfo.length - 1]);
 		String cmdType = cmdInfo[0] + cmdInfo[1];
