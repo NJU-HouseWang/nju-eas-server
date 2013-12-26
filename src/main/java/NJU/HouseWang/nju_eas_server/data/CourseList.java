@@ -10,7 +10,7 @@ import NJU.HouseWang.nju_eas_server.dataService.CourseListService;
 import NJU.HouseWang.nju_eas_server.po.Edu.CoursePO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 
-public class CourseList implements CourseListService{
+public class CourseList implements CourseListService {
 	private String sql = null;
 	private SQLConnector sqlconn = new SQLConnector();
 	private Connection conn = null;
@@ -216,7 +216,7 @@ public class CourseList implements CourseListService{
 	public Feedback updateCourse(String term, CoursePO Course) {
 		sql = "update "
 				+ term
-				+ "_course_list set name=?, module=?,type=?, nature=?,credit=?, period=?, term=?, studentNum=?, teacherId=?, teacherName=?, timeAndPlace=?, introduction=?, book=?, syllabus=?, grade=? where id=? and department=?";
+				+ "_course_list set name=?, module=?,type=?, nature=?,credit=?, period=?, grade=?, term=?, studentNum=?, teacherId=?, teacherName=?, timeAndPlace=?, introduction=?, book=?, syllabus=? where id=? and department=?";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
@@ -240,7 +240,7 @@ public class CourseList implements CourseListService{
 			ps.execute();
 			return Feedback.OPERATION_SUCCEED;
 		} catch (SQLException e) {
-			// e.printStackTrace();
+			e.printStackTrace();
 			return Feedback.OPERATION_FAIL;
 		}
 	}

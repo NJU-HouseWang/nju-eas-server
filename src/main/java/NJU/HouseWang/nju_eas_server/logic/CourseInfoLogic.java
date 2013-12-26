@@ -221,11 +221,6 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 			} else {
 				uid = am.getGuest(cmdInfo[3]);
 				dept = tl.getTeacher(uid).getCompany();
-				if (tl.getTeacher(uid).getType().toString().equals("Teacher")) {
-					dept = cl.getCourseFromTeacherIdAndCourseId(
-							this.getTerm() + "_course_student_list", uid,
-							cmdInfo[2]).getDepartment();
-				}
 				feedback = this.showCourseStudentList(cmdInfo[2], dept);
 			}
 			break;
@@ -261,12 +256,7 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 				feedback = "ip";
 			} else {
 				uid = am.getGuest(cmdInfo[4]);
-				dept = tl.getTeacher(uid).getCompany();
-				if (dept.equals("Teacher")) {
-					dept = cl.getCourseFromTeacherIdAndCourseId(
-							this.getTerm() + "_course_student_list", uid,
-							cmdInfo[2]).getDepartment();
-				}
+				dept = this.getDept(cmdInfo[2], cmdInfo[3], uid);
 				feedback = this.showStudentListFromCourse(cmdInfo[2],
 						cmdInfo[3], dept);
 			}
@@ -362,12 +352,7 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 			break;
 		case "editcourse":
 			uid = am.getGuest(cmdInfo[4]);
-			dept = tl.getTeacher(uid).getCompany();
-			if (dept.equals("Teacher")) {
-				dept = cl.getCourseFromTeacherIdAndCourseId(
-						this.getTerm() + "_course_student_list", uid,
-						cmdInfo[2]).getDepartment();
-			}
+			dept = this.getDept(cmdInfo[2], cmdInfo[3], uid);
 			feedback = this.editCourse(cmdInfo[2], cmdInfo[3], dept, list);
 			break;
 		default:
@@ -415,6 +400,7 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 					c.setIntroduction(content.get(0));
 					c.setBook(content.get(1));
 					c.setSyllabus(content.get(2));
+					cl.updateCourse(this.termTransfer(term), c);
 				} else {
 					return Feedback.OPERATION_FAIL.toString();
 				}
@@ -862,7 +848,7 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		String studentId = "";
 		ArrayList<String> list = new ArrayList<String>();
 		ArrayList<Course_StudentPO> course_studentList = csl
-				.getListFromCourseId(term, department, courseId);
+				.getListFromCourseId(termTransfer(term), department, courseId);
 		for (int i = 0; i < course_studentList.size(); i++) {
 			studentId = course_studentList.get(i).getStudentId();
 			list.add(sl.getStudent(studentId).toCommand());
