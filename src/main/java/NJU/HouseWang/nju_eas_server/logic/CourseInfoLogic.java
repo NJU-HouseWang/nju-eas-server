@@ -220,7 +220,7 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 				feedback = "ip";
 			} else {
 				uid = am.getGuest(cmdInfo[3]);
-				dept = tl.getTeacher(uid).getCompany();
+				dept = this.getDept(this.showTerm(), cmdInfo[2], uid);
 				feedback = this.showCourseStudentList(cmdInfo[2], dept);
 			}
 			break;
@@ -638,11 +638,11 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 
 		for (int i = 0; i < list.size(); i++) {
 			String[] info = list.get(i).split("；");
-			String courseId = info[0];
-			String studentId = info[1];
-			if (!csl.containsCourse_StudentPO(term, courseId, studentId)) {
-				return ("Error: " + studentId + ":" + Feedback.COURSE_STUDENT_NOT_FOUND
-						.toString());
+			String courseId = info[1];
+			String studentId = info[2];
+			if (!csl.containsCourse_StudentPO(termTransfer(term), courseId,
+					studentId)) {
+				return (Feedback.COURSE_STUDENT_NOT_FOUND.toString());
 			}
 		}
 
@@ -652,7 +652,7 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 					info[2]);
 			csp.setOriginalScore(Integer.parseInt(info[3]));
 			csp.setSecondScore(Integer.parseInt(info[4]));
-			csl.updateCourse_StudentPO(term, csp);
+			csl.updateCourse_StudentPO(termTransfer(term), csp);
 		}
 		return Feedback.OPERATION_SUCCEED.toString();
 	}

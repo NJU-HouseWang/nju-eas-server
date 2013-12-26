@@ -10,7 +10,7 @@ import NJU.HouseWang.nju_eas_server.dataService.Course_StudentListService;
 import NJU.HouseWang.nju_eas_server.po.Edu.Course_StudentPO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 
-public class Course_StudentList implements Course_StudentListService{
+public class Course_StudentList implements Course_StudentListService {
 	private String sql = null;
 	private SQLConnector sqlconn = new SQLConnector();
 	private Connection conn = null;
@@ -72,7 +72,7 @@ public class Course_StudentList implements Course_StudentListService{
 	public boolean containsCourse_StudentPO(String term, String courseId,
 			String studentId) {
 		Boolean result = false;
-		sql = "select id from " + term
+		sql = "select courseId from " + term
 				+ "_course_student_list where courseId=? and studentId=?;";
 		try {
 			conn = sqlconn.getConnection();
@@ -162,7 +162,7 @@ public class Course_StudentList implements Course_StudentListService{
 			ps.execute();
 			return Feedback.OPERATION_SUCCEED;
 		} catch (SQLException e) {
-			// e.printStackTrace();
+			e.printStackTrace();
 			return Feedback.OPERATION_FAIL;
 		}
 	}

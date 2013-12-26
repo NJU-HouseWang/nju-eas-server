@@ -19,6 +19,7 @@ public class Server {
 	private ArrayList<Socket> list = new ArrayList<Socket>();
 
 	public void start() throws IOException {
+		System.out.println("NJU_EAS_Server is running now...");
 		server = new ServerSocket(9100);
 
 		while (true) {
