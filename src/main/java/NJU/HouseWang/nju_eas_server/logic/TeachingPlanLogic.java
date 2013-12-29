@@ -101,11 +101,8 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 			if (cmd.endsWith("；ok") || cmd.endsWith("；file_ok")) {
 				if (cmd.endsWith("；file_ok")) {
 					uid = am.getGuest(cmdInfo[2]);
-					feedback = this
-							.uploadTeachingPlanFile(
-									cmdInfo[4],
-									deptList.nametoId(teacherList.getTeacher(
-											uid).getCompany()));
+					feedback = this.uploadTeachingPlanFile(cmdInfo[4],
+							teacherList.getTeacher(uid).getCompany());
 				} else {
 					feedback = "file；d:/tpFile/";
 				}
@@ -180,7 +177,7 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 	@Override
 	public ArrayList<String> showTeachingPlan(String dept) {
 		ArrayList<String> feedback = new ArrayList<String>();
-		if (tl.getTeachingPlan(dept).isCommitted()) {
+		if (tl.getTeachingPlan(deptList.idtoName(dept)).isCommitted()) {
 			ArrayList<TeachingPlanItemPO> tl = tp.getTeachingPlan(dept);
 			for (int i = 0; i < tl.size(); i++) {
 				feedback.add(tl.get(i).toCommand());
@@ -205,7 +202,7 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 	@Override
 	public String addTeachingPlan(String dept, ArrayList<String> list) {
 		try {
-			TeachingPlanPO tpp = tl.getTeachingPlan(deptList.nametoId(dept));
+			TeachingPlanPO tpp = tl.getTeachingPlan(dept);
 			if (!tpp.isCommitted()) {
 				ArrayList<TeachingPlanItemPO> tpl = new ArrayList<TeachingPlanItemPO>();
 
@@ -250,7 +247,7 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 	public String delTeachingPlan(String dept) {
 		try {
 			tp.dropTeachingPlan(dept);
-			TeachingPlanPO tpp = tl.getTeachingPlan(dept);
+			TeachingPlanPO tpp = tl.getTeachingPlan(deptList.idtoName(dept));
 			tpp.setCommitted(false);
 			tpp.setStatus(0);
 			tpp.getTpFile().delete();
@@ -266,7 +263,7 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 	@Override
 	public String auditTeachingPlan(String dept, int status) {
 		try {
-			TeachingPlanPO tpp = tl.getTeachingPlan(dept);
+			TeachingPlanPO tpp = tl.getTeachingPlan(deptList.idtoName(dept));
 			if (tpp.getStatus() == 0) {
 				tpp.setStatus(status);
 				tl.updateTeachingPlanItem(tpp);

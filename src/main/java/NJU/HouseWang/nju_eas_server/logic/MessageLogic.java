@@ -1,10 +1,12 @@
 package NJU.HouseWang.nju_eas_server.logic;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import NJU.HouseWang.nju_eas_server.data.AuthorityManager;
 import NJU.HouseWang.nju_eas_server.data.MessageList;
 import NJU.HouseWang.nju_eas_server.logicService.MessageLogicService;
+import NJU.HouseWang.nju_eas_server.netService.NetService;
 import NJU.HouseWang.nju_eas_server.po.Msg.MessagePO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 
@@ -41,8 +43,8 @@ public class MessageLogic implements MessageLogicService {
 				feedback = "ip";
 			} else {
 				uid = am.getGuest(cmdInfo[cmdInfo.length - 1]);
-				MessagePO m = new MessagePO(uid, cmdInfo[2], cmdInfo[3],
-						cmdInfo[4], "0");
+				MessagePO m = new MessagePO(uid, cmdInfo[3], cmdInfo[4],
+						cmdInfo[5], "0");
 				feedback = this.sendMessage(m);
 			}
 		case "showmessage":
@@ -74,8 +76,8 @@ public class MessageLogic implements MessageLogicService {
 				feedback = "ip";
 			} else {
 				uid = am.getGuest(cmdInfo[cmdInfo.length - 1]);
-				MessagePO m = new MessagePO(uid, cmdInfo[2], cmdInfo[3],
-						cmdInfo[4], "0");
+				MessagePO m = new MessagePO(uid, cmdInfo[3], cmdInfo[4],
+						cmdInfo[5], "0");
 				feedback = this.saveDraft(m);
 			}
 			break;

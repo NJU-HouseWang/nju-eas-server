@@ -157,7 +157,14 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 			for (int i = 3; i < cmdInfo.length; i++) {
 				course = course + "；" + cmdInfo[i];
 			}
-			feedback = this.editCommonCourse(this.stringToCommonCourse(course));
+			try {
+				CoursePO c = this.stringToCommonCourse(course);
+				feedback = this.editCommonCourse(c);
+			} catch (Exception e) {
+				e.printStackTrace();
+				feedback = Feedback.OPERATION_FAIL.toString();
+			}
+
 			break;
 		case "addcourse":
 			course = cmdInfo[2];
@@ -241,7 +248,14 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 			for (int i = 3; i < cmdInfo.length; i++) {
 				course = course + "；" + cmdInfo[i];
 			}
-			feedback = this.addCommonCourse(this.stringToCommonCourse(course));
+			try {
+				CoursePO c = this.stringToCommonCourse(course);
+				feedback = this.addCommonCourse(c);
+			} catch (Exception e) {
+				e.printStackTrace();
+				feedback = Feedback.OPERATION_FAIL.toString();
+			}
+
 			break;
 		case "showtea_course_list":
 			if (!cmd.endsWith("；ok")) {
@@ -264,7 +278,7 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		case "showcourse_student_list_head":
 			feedback = this.showCourseStudentListHead();
 			break;
-		case "showcommon_course_list_head_edit":
+		case "showedit_common_course_list_head":
 			feedback = this.showEditCommonCourseListHead();
 			break;
 		case "showcommon_course_edit":
@@ -549,8 +563,10 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		ArrayList<CoursePO> courseList = ccl.getCourseList();
 		for (int i = 0; i < courseList.size(); i++) {
 			CoursePO cp = courseList.get(i);
-			list.add(cp.commonCourseToCommand() + "；" + cp.getStudentNum()
-					+ "人");
+			list.add(cp.getId() + "；" + cp.getName() + "；" + cp.getCredit()
+					+ "；" + cp.getPeriod() + "；" + cp.getTeacherId() + "；"
+					+ cp.getTeacherName() + "；" + cp.getTimeAndPlace() + "；"
+					+ cp.getStudentNum() + "人");
 		}
 		return list;
 	}
@@ -746,20 +762,25 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 
 	@Override
 	public String publishCommonCourse(ArrayList<String> list) {
-		ArrayList<CoursePO> courseList = new ArrayList<CoursePO>();
-		for (int i = 0; i < list.size(); i++) {
-			CoursePO cp = this.stringToCommonCourse(list.get(i));
-			courseList.add(cp);
-			if (ccl.containsCourse(cp.getId())) {
-				return Feedback.DATA_ALREADY_EXISTED.toString();
+		try {
+			ArrayList<CoursePO> courseList = new ArrayList<CoursePO>();
+			for (int i = 0; i < list.size(); i++) {
+				CoursePO cp = this.stringToCommonCourse(list.get(i));
+				courseList.add(cp);
+				if (ccl.containsCourse(cp.getId())) {
+					return Feedback.DATA_ALREADY_EXISTED.toString();
+				}
 			}
-		}
 
-		for (int j = 0; j < courseList.size(); j++) {
-			CoursePO cp = courseList.get(j);
-			ccl.addCourse(cp);
+			for (int j = 0; j < courseList.size(); j++) {
+				CoursePO cp = courseList.get(j);
+				ccl.addCourse(cp);
+			}
+			return Feedback.OPERATION_SUCCEED.toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Feedback.OPERATION_FAIL.toString();
 		}
-		return Feedback.OPERATION_SUCCEED.toString();
 	}
 
 	// 同时初始化courseSelectorNumList
@@ -790,7 +811,7 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		return cp;
 	}
 
-	public CoursePO stringToCommonCourse(String str) {
+	public CoursePO stringToCommonCourse(String str) throws Exception {
 		String[] info = str.split("；");
 		CoursePO cp = new CoursePO();
 		cp.setId(info[0]);
@@ -882,7 +903,7 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		try {
 			if (ccl.containsCourse(courseId)) {
 				CoursePO c = ccl.getCourse(courseId);
-				return (c.getId() + "；" + c.getName() + "；" + c.getCredit()
+				return (c.getId() + "；" + c.getName() + "；" + c.getCredit()+ "；" + c.getPeriod()
 						+ "；" + c.getTeacherId() + "；" + c.getTeacherName()
 						+ "；" + c.getTimeAndPlace() + "；" + c.getStudentNum());
 			} else {
