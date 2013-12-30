@@ -18,6 +18,35 @@ public class StudentListStub extends StudentList{
 			
 		}
 
+		@Override
+		public ArrayList<StudentPO> getStudentList(String grade,
+				String department) {
+			ArrayList<StudentPO> list = new ArrayList<StudentPO>();
+			StudentPO sp = new StudentPO("id", "name", "department", "major", "grade", "classNo", "duration", "enrollmentStatus");
+			list.add(sp);
+			return list;
+		}
+
+		@Override
+		public ArrayList<StudentPO> getStudentList() {
+			ArrayList<StudentPO> list = new ArrayList<StudentPO>();
+			StudentPO sp = new StudentPO("id", "name", "department", "major", "grade", "classNo", "duration", "enrollmentStatus");
+			list.add(sp);
+			return list;
+		}
+
+		@Override
+		public ArrayList<String> getGradeList() {
+			ArrayList<String> list = new ArrayList<String>();
+			list.add("grade1");
+			return list;
+		}
+
+		@Override
+		public String getListHead() {
+			return "ListHead";
+		}
+
 		// 是否包含ID
 		public boolean containsID(String id) {
 			Boolean result = true;

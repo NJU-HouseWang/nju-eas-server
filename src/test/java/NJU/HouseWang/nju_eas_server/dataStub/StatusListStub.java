@@ -18,13 +18,15 @@ public class StatusListStub extends StatusList{
 			
 		}
 
-
-		public StatusPO getStatus(String function) {
-			StatusPO result = new StatusPO(function,"true");
-			return result;
+		@Override
+		public String getListHead() {
+			return "ListHead";
 		}
 
-		
+		public StatusPO getStatus(String function) {
+			StatusPO result = new StatusPO(function,"2013-2014学年 第1学期");
+			return result;
+		}
 
 		public Feedback updateStatus(StatusPO status) {
 			return Feedback.OPERATION_SUCCEED;

@@ -19,7 +19,7 @@ public class AuthorityManager {
 		}
 		return am;
 	}
-	
+
 	public void shutdown() {
 		am = null;
 		l.clear();
@@ -46,7 +46,12 @@ public class AuthorityManager {
 	}
 
 	public boolean containsGuest(String uid) {
-		return l.containsValue(uid);
+		for (LoginInfo lf : new ArrayList<LoginInfo>(l.values())) {
+			if (lf.uid.equals(uid)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public String getGuest(String ip) {
