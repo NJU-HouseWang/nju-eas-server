@@ -9,7 +9,11 @@ import java.util.ArrayList;
 import NJU.HouseWang.nju_eas_server.dataService.MessageListService;
 import NJU.HouseWang.nju_eas_server.po.Msg.MessagePO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
-
+/**
+ * 私信列表类
+ * @author 教化场
+ * @version 2013-11-15
+ */
 public class MessageList implements MessageListService {
 	private static String[] listName = { "msg_in_list", "msg_out_list",
 			"msg_draft_list", "msg_trash_list" };
@@ -40,7 +44,12 @@ public class MessageList implements MessageListService {
 		}
 	}
 
-	// 是否包含ID
+	/**
+	 * 判断是否存在id
+	 * @param listType 列表类型
+	 * @param id id
+	 * @return 是否存在id
+	 */
 	public boolean containsID(int listType, String id) {
 		Boolean result = false;
 		sql = "select id from " + listName[listType] + " where id=?";
@@ -56,7 +65,12 @@ public class MessageList implements MessageListService {
 		}
 		return result;
 	}
-
+	/**
+	 * 获取私信
+	 * @param listType 列表类型
+	 * @param id 私信号
+	 * @return 私信PO
+	 */
 	public MessagePO getMessage(int listType, String id) {
 		MessagePO result = new MessagePO();
 		sql = "select * from " + listName[listType] + " where id=?";
@@ -79,7 +93,12 @@ public class MessageList implements MessageListService {
 		}
 		return result;
 	}
-
+	/**
+	 * 不通过id获取私信
+	 * @param listType 列表类型
+	 * @param id id
+	 * @return 表头
+	 */
 	public MessagePO getMessageWithoutId(int listType, String id) {
 		MessagePO result = new MessagePO();
 		sql = "select * from " + listName[listType] + " where id=?";
@@ -93,7 +112,7 @@ public class MessageList implements MessageListService {
 				result.setRecipientId(rs.getString(3));
 				result.setTitle(rs.getString(4));
 				result.setContent(rs.getString(5));
-				result.setStatus(rs.getInt(5));
+				result.setStatus(rs.getInt(6));
 
 			}
 		} catch (SQLException e) {
@@ -101,7 +120,12 @@ public class MessageList implements MessageListService {
 		}
 		return result;
 	}
-
+	/**
+	 * 删除私信
+	 * @param listType 列表类型
+	 * @param id 私信号
+	 * @return 反馈
+	 */
 	public Feedback removeMessage(int listType, String id) {
 		sql = "delete from " + listName[listType] + " where id=?";
 		try {
@@ -115,18 +139,22 @@ public class MessageList implements MessageListService {
 			return Feedback.OPERATION_FAIL;
 		}
 	}
-
+	/**
+	 * 添加私信
+	 * @param listType 列表类型
+	 * @param Message 私信PO
+	 * @return 反馈
+	 */
 	public Feedback addMessage(int listType, MessagePO Message) {
-		sql = "insert into " + listName[listType] + " values (?,?,?,?,?,?)";
+		sql = "insert into " + listName[listType] + "(senderId,recipientId,title,content,status) values (?,?,?,?,?)";
 		try {
 			conn = sqlconn.getConnection();
 			ps = conn.prepareStatement(sql);
-			ps.setInt(1, Integer.parseInt(Message.getId()));
-			ps.setString(2, Message.getSenderId());
-			ps.setString(3, Message.getRecipientId());
-			ps.setString(4, Message.getTitle());
-			ps.setString(5, Message.getContent());
-			ps.setInt(6, Message.getStatus());
+			ps.setString(1, Message.getSenderId());
+			ps.setString(2, Message.getRecipientId());
+			ps.setString(3, Message.getTitle());
+			ps.setString(4, Message.getContent());
+			ps.setInt(5, Message.getStatus());
 			ps.execute();
 			return Feedback.OPERATION_SUCCEED;
 		} catch (SQLException e) {
@@ -134,7 +162,12 @@ public class MessageList implements MessageListService {
 			return Feedback.OPERATION_FAIL;
 		}
 	}
-
+	/**
+	 * 编辑私信
+	 * @param listType 列表类型
+	 * @param Message 私信PO
+	 * @return 反馈
+	 */
 	public Feedback updateMessage(int listType, MessagePO Message) {
 		sql = "update "
 				+ listName[listType]
@@ -155,7 +188,12 @@ public class MessageList implements MessageListService {
 			return Feedback.OPERATION_FAIL;
 		}
 	}
-
+	/**
+	 * 获取私信列表
+	 * @param listType 列表类型
+	 * @param operatorId 操作者id
+	 * @return 私信列表
+	 */
 	public ArrayList<MessagePO> getMessageList(int listType, String operatorId) {
 		ArrayList<MessagePO> result = new ArrayList<MessagePO>();
 		if (listType == 0 || listType == 3) {
@@ -185,11 +223,17 @@ public class MessageList implements MessageListService {
 		}
 		return result;
 	}
-
+	/**
+	 * 获取发送者列表表头
+	 * @return 表头
+	 */
 	public String getSenderListHead() {
 		return "私信编号；发信人ID；标题；是否已读";
 	}
-
+	/**
+	 * 获取接收者列表表头
+	 * @return 表头
+	 */
 	public String getRecipientListHead() {
 		return "私信编号；收件人ID；标题";
 	}

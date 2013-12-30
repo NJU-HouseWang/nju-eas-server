@@ -10,7 +10,11 @@ import NJU.HouseWang.nju_eas_server.dataService.LoginListService;
 import NJU.HouseWang.nju_eas_server.po.User.GuestPO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 import NJU.HouseWang.nju_eas_server.systemMessage.UserType;
-
+/**
+ * 登录列表类
+ * @author 教化场
+ * @version 2013-11-15
+ */
 public class LoginList implements LoginListService{
 	private String listName = "login_list";
 	private String sql = null;
@@ -40,7 +44,11 @@ public class LoginList implements LoginListService{
 		}
 	}
 
-	// 是否包含ID
+	/**
+	 * 判断是否存在用户id
+	 * @param id 用户id
+	 * @return 是否存在用户id
+	 */
 	public boolean containsID(String id) {
 		Boolean result = false;
 		sql = "select id from " + listName + " where id=?;";
@@ -56,7 +64,11 @@ public class LoginList implements LoginListService{
 		}
 		return result;
 	}
-
+	/**
+	 * 获取登录者
+	 * @param id 用户id
+	 * @return 客户PO
+	 */
 	public GuestPO getLoginer(String id) {
 		GuestPO result = new GuestPO();
 		sql = "select * from " + listName + " where id=?";
@@ -75,7 +87,11 @@ public class LoginList implements LoginListService{
 		}
 		return result;
 	}
-
+	/**
+	 * 删除登录者
+	 * @param id 用户id
+	 * @return 反馈
+	 */
 	public Feedback removeLoginer(String id) {
 		sql = "delete from " + listName + " where id=?";
 		try {
@@ -89,7 +105,11 @@ public class LoginList implements LoginListService{
 			return Feedback.OPERATION_FAIL;
 		}
 	}
-
+	/**
+	 * 添加登录者
+	 * @param user 客户PO
+	 * @return 反馈
+	 */
 	public Feedback addLoginer(GuestPO user) {
 		sql = "insert into " + listName + " values (?,?,?)";
 		try {
@@ -105,7 +125,11 @@ public class LoginList implements LoginListService{
 			return Feedback.OPERATION_FAIL;
 		}
 	}
-
+	/**
+	 * 编辑登录者
+	 * @param user 客户PO
+	 * @return 反馈
+	 */
 	public Feedback updateLoginer(GuestPO user) {
 		sql = "update " + listName + " set userType=?, password=? where id=?";
 		try {
@@ -121,7 +145,10 @@ public class LoginList implements LoginListService{
 			return Feedback.OPERATION_FAIL;
 		}
 	}
-
+	/**
+	 * 获取登录列表
+	 * @return 登录列表
+	 */
 	public ArrayList<GuestPO> getLoginList() {
 		ArrayList<GuestPO> result = new ArrayList<GuestPO>();
 		sql = "select * from " + listName;
@@ -141,7 +168,10 @@ public class LoginList implements LoginListService{
 		}
 		return result;
 	}
-
+	/**
+	 * 获取列表表头
+	 * @return 表头
+	 */
 	public String getListHead() {
 		return "用户名；用户类型；用户密码";
 	}

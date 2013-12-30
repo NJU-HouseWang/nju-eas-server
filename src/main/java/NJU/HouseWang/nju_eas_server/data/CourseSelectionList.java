@@ -9,7 +9,11 @@ import java.util.ArrayList;
 import NJU.HouseWang.nju_eas_server.dataService.CourseSelectionListService;
 import NJU.HouseWang.nju_eas_server.po.Edu.CourseSelectionPO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
-
+/**
+ * 选课列表类
+ * @author 教化场
+ * @version 2013-11-13
+ */
 public class CourseSelectionList implements CourseSelectionListService{
 	private String listName = "course_selection_list";
 	private String sql = null;
@@ -38,13 +42,21 @@ public class CourseSelectionList implements CourseSelectionListService{
 			e.printStackTrace();
 		}
 	}
-
+	/**
+	 * 删除列表
+	 * @return 反馈
+ 	 */
 	public Feedback delList() {
 		sql = "truncate " + listName;
 		return Feedback.OPERATION_SUCCEED;
 	}
 
-	// 是否包含选课记录
+	/**
+	 * 判断是否包含选课记录
+	 * @param courseId 课程号
+	 * @param studentId 学号
+	 * @return 是否包含选课记录
+	 */
 	public boolean containsCourseSelection(String courseId, String studentId) {
 		Boolean result = false;
 		sql = "select * from " + listName
@@ -62,7 +74,12 @@ public class CourseSelectionList implements CourseSelectionListService{
 		}
 		return result;
 	}
-
+	/**
+	 * 删除选课记录
+	 * @param courseId 课程号
+	 * @param studentId 学号
+	 * @return 反馈
+	 */
 	public Feedback removeCourseSelection(String courseId, String studentId) {
 		sql = "delete from " + listName + " where courseId=? and studentId=?";
 		try {
@@ -77,7 +94,11 @@ public class CourseSelectionList implements CourseSelectionListService{
 			return Feedback.OPERATION_FAIL;
 		}
 	}
-
+	/**
+	 * 添加选课记录
+	 * @param CourseSelection 选课记录
+	 * @return 反馈
+	 */
 	public Feedback addCourseSelection(CourseSelectionPO CourseSelection) {
 		sql = "insert into " + listName + " values (?,?,?)";
 		try {
@@ -93,7 +114,11 @@ public class CourseSelectionList implements CourseSelectionListService{
 			return Feedback.OPERATION_FAIL;
 		}
 	}
-
+	/**
+	 * 由课程号获取选课记录
+	 * @param courseId 课程号
+	 * @return 选课记录列表
+	 */
 	public ArrayList<CourseSelectionPO> getCourseSelectionListFromCourseId(
 			String courseId) {
 		ArrayList<CourseSelectionPO> result = new ArrayList<CourseSelectionPO>();
@@ -115,7 +140,11 @@ public class CourseSelectionList implements CourseSelectionListService{
 		}
 		return result;
 	}
-
+	/**
+	 * 由学号获取选课记录列表
+	 * @param studentId 学号
+	 * @return 选课记录列表
+	 */
 	public ArrayList<CourseSelectionPO> getCourseSelectionListFromStudentId(
 			String studentId) {
 		ArrayList<CourseSelectionPO> result = new ArrayList<CourseSelectionPO>();
@@ -137,7 +166,10 @@ public class CourseSelectionList implements CourseSelectionListService{
 		}
 		return result;
 	}
-
+	/**
+	 * 获取选课记录列表
+	 * @return 选课记录列表
+	 */
 	public ArrayList<CourseSelectionPO> getCourseSelectionList() {
 		ArrayList<CourseSelectionPO> result = new ArrayList<CourseSelectionPO>();
 		sql = "select * from " + listName;

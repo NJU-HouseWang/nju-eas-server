@@ -9,7 +9,11 @@ import java.util.ArrayList;
 import NJU.HouseWang.nju_eas_server.dataService.StudentListService;
 import NJU.HouseWang.nju_eas_server.po.User.StudentPO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
-
+/**
+ * 学生列表类
+ * @author 教化场
+ * @version 2013-11-16
+ */
 public class StudentList implements StudentListService{
 	private String listName = "student_list";
 	private String sql = null;
@@ -39,7 +43,11 @@ public class StudentList implements StudentListService{
 		}
 	}
 
-	// 是否包含ID
+	/**
+	 * 判断是否包含学号
+	 * @param id 学号
+	 * @return 是否包含学号
+	 */
 	public boolean containsID(String id) {
 		Boolean result = false;
 		sql = "select id from " + listName + " where id=?";
@@ -55,7 +63,11 @@ public class StudentList implements StudentListService{
 		}
 		return result;
 	}
-
+	/**
+	 * 获取学生
+	 * @param id 学号
+	 * @return 学生PO
+	 */
 	public StudentPO getStudent(String id) {
 		StudentPO result = new StudentPO();
 		sql = "select * from " + listName + " where id=?";
@@ -79,7 +91,11 @@ public class StudentList implements StudentListService{
 		}
 		return result;
 	}
-
+	/**
+	 * 删除学生
+	 * @param id 学号
+	 * @return 反馈
+	 */
 	public Feedback removeStudent(String id) {
 		sql = "delete from " + listName + " where id=?";
 		try {
@@ -93,7 +109,11 @@ public class StudentList implements StudentListService{
 			return Feedback.OPERATION_FAIL;
 		}
 	}
-
+	/**
+	 * 添加学生
+	 * @param user 学生
+	 * @return 反馈
+	 */
 	public Feedback addStudent(StudentPO user) {
 		sql = "insert into " + listName + " values (?,?,?,?,?,?,?,?)";
 		try {
@@ -114,7 +134,11 @@ public class StudentList implements StudentListService{
 			return Feedback.OPERATION_FAIL;
 		}
 	}
-
+	/**
+	 * 编辑学生
+	 * @param user 学生
+	 * @return 反馈
+	 */
 	public Feedback updateStudent(StudentPO user) {
 		sql = "update "
 				+ listName
@@ -137,7 +161,12 @@ public class StudentList implements StudentListService{
 			return Feedback.OPERATION_FAIL;
 		}
 	}
-
+	/**
+	 * 获取学生列表
+	 * @param grade 年级
+	 * @param department 院系
+	 * @return 学生列表
+	 */
 	public ArrayList<StudentPO> getStudentList(String grade, String department) {
 		ArrayList<StudentPO> result = new ArrayList<StudentPO>();
 		sql = "select * from " + listName + " where grade=? and department=?;";
@@ -164,7 +193,11 @@ public class StudentList implements StudentListService{
 		}
 		return result;
 	}
-	
+	/**
+	 * 获取学生列表
+	 * @param department 院系
+	 * @return 学生列表
+	 */
 	public ArrayList<StudentPO> getStudentList(String department) {
 		ArrayList<StudentPO> result = new ArrayList<StudentPO>();
 		sql = "select * from " + listName + " where department=?";
@@ -190,7 +223,10 @@ public class StudentList implements StudentListService{
 		}
 		return result;
 	}
-
+	/**
+	 * 获取学生列表
+	 * @return 学生列表
+	 */
 	public ArrayList<StudentPO> getStudentList() {
 		ArrayList<StudentPO> result = new ArrayList<StudentPO>();
 		sql = "select * from " + listName;
@@ -215,7 +251,10 @@ public class StudentList implements StudentListService{
 		}
 		return result;
 	}
-	
+	/**
+	 * 获取年级列表
+	 * @return 年级列表
+	 */
 	public ArrayList<String> getGradeList() {
 		ArrayList<String> result = new ArrayList<String>();
 		sql = "select grade from " + listName ;
@@ -232,7 +271,10 @@ public class StudentList implements StudentListService{
 		}
 		return result;
 	}
-
+	/**
+	 * 获取列表表头
+	 * @return 表头
+ 	 */
 	public String getListHead() {
 		return "学号；姓名；院系；专业；年级；班级编号；学制；学籍状态";
 	}

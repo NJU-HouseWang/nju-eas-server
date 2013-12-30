@@ -15,7 +15,11 @@ import NJU.HouseWang.nju_eas_server.po.Edu.CourseSelectorNumPO;
 import NJU.HouseWang.nju_eas_server.po.Edu.Course_StudentPO;
 import NJU.HouseWang.nju_eas_server.po.Edu.StatusPO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
-
+/**
+ * 选课逻辑类
+ * @author 教化场
+ * @version 2013-11-8
+ */
 public class CourseSelectionLogic implements CourseSelectionLogicService {
 	private StatusList sl;
 	private Course_StudentList c_sl;
@@ -179,6 +183,11 @@ public class CourseSelectionLogic implements CourseSelectionLogicService {
 	}
 
 	@Override
+	/**
+	 * 显示状态
+	 * @param function 功能
+	 * @return 反馈
+	 */
 	public String showStatus(String function) {
 		try {
 			StatusPO sp = sl.getStatus(function);
@@ -190,6 +199,11 @@ public class CourseSelectionLogic implements CourseSelectionLogicService {
 	}
 
 	@Override
+	/**
+	 * 编辑状态
+	 * @param sp 状态PO
+	 * @return 反馈
+	 */
 	public String editStatus(StatusPO sp) {
 		try {
 			sl.updateStatus(sp);
@@ -205,6 +219,10 @@ public class CourseSelectionLogic implements CourseSelectionLogicService {
 	}
 
 	@Override
+	/**
+	 * 显示状态列表
+	 * @return 状态列表
+	 */
 	public ArrayList<String> showStatusList() {
 
 		ArrayList<StatusPO> list = sl.getStatusList();
@@ -217,6 +235,10 @@ public class CourseSelectionLogic implements CourseSelectionLogicService {
 	}
 
 	@Override
+	/**
+	 * 显示状态列表的表头
+	 * @return 表头
+	 */
 	public String showStatusListHead() {
 		try {
 			return (sl.getListHead());
@@ -227,6 +249,12 @@ public class CourseSelectionLogic implements CourseSelectionLogicService {
 	}
 
 	@Override
+	/**
+	 * 通识课选课
+	 * @param courseId 课程号
+	 * @param studentId 学号
+	 * @return 反馈
+	 */
 	public String selectCommonCourse(String courseId, String studentId) {
 		try {
 			if (!isMax(studentId)) {
@@ -254,6 +282,12 @@ public class CourseSelectionLogic implements CourseSelectionLogicService {
 	}
 
 	@Override
+	/**
+	 * 补选
+	 * @param courseId 课程号
+	 * @param studentId 学号
+	 * @return 反馈
+	 */
 	public String byElectCourse(String courseId, String studentId) {
 		try {
 			String term = courseInfoLogic.getTerm();
@@ -274,6 +308,12 @@ public class CourseSelectionLogic implements CourseSelectionLogicService {
 	}
 
 	@Override
+	/**
+	 * 退选
+	 * @param courseId 课程号
+	 * @param studentId 学号
+	 * @return 反馈
+	 */
 	public String quitCourse(String courseId, String studentId) {
 		try {
 			String term = courseInfoLogic.getTerm();
@@ -294,6 +334,10 @@ public class CourseSelectionLogic implements CourseSelectionLogicService {
 	}
 
 	@Override
+	/**
+	 * 通识课选课抽签
+	 * @return 反馈
+	 */
 	public String processCommonCourseSelection() {
 		try {
 			String term = courseInfoLogic.getTerm();
@@ -346,7 +390,12 @@ public class CourseSelectionLogic implements CourseSelectionLogicService {
 		}
 	}
 
-	// 抽签逻辑
+	/**
+	 * 抽签逻辑
+	 * @param list 列表
+	 * @param totalNum 总数
+	 * @return 抽签结果
+	 */
 	public ArrayList<CourseSelectionPO> lot(ArrayList<CourseSelectionPO> list,
 			int totalNum) {
 		// 把所有人的优先级加起来，用作随机数
@@ -380,6 +429,10 @@ public class CourseSelectionLogic implements CourseSelectionLogicService {
 	}
 
 	@Override
+	/**
+	 * 返回最大选课数量
+	 * @return 最大选课数量
+	 */
 	public String showMaxSelectionNum() {
 		try {
 			return ("" + MAXSELECTIONNUM);
@@ -390,6 +443,11 @@ public class CourseSelectionLogic implements CourseSelectionLogicService {
 	}
 
 	@Override
+	/**
+	 * 判断是否达到最大选课数量
+	 * @param studentId
+	 * @return 是否达到最大选课数量
+	 */
 	public boolean isMax(String studentId) {
 
 		boolean isMax = false;
@@ -402,6 +460,11 @@ public class CourseSelectionLogic implements CourseSelectionLogicService {
 	}
 
 	@Override
+	/**
+	 * 显示已选通识课列表
+	 * @param studentId 学号
+	 * @return 已选通识课列表
+	 */
 	public ArrayList<String> showSelectedCouse(String studentId) {
 		String term = courseInfoLogic.getTerm();
 		ArrayList<CourseSelectionPO> list = csl
@@ -417,7 +480,11 @@ public class CourseSelectionLogic implements CourseSelectionLogicService {
 		return courseList;
 	}
 
-	// 优先级最高为1，最低为4
+	/**
+	 * 获取优先级
+	 * @param studentId 学生Id
+	 * @return 优先级
+	 */
 	public int getPriority(String studentId) {
 
 		int priority = 5 - (Calendar.getInstance().get(Calendar.YEAR) - 2000 - Integer
@@ -426,6 +493,13 @@ public class CourseSelectionLogic implements CourseSelectionLogicService {
 	}
 
 	@Override
+	/**
+	 * 删除课程_学生
+	 * @param listName 列表名
+	 * @param courseId 课程号
+	 * @param studentId 学号
+	 * @return 反馈
+	 */
 	public String delCourse_StudentPO(String term, String courseId,
 			String studentId) {
 		try {
@@ -456,6 +530,12 @@ public class CourseSelectionLogic implements CourseSelectionLogicService {
 	}
 
 	@Override
+	/**
+	 * 取消已选的通识课
+	 * @param courseId 课程号
+	 * @param studentId 学号
+	 * @return 反馈
+	 */
 	public String cancelSelection(String courseId, String studentId) {
 		try {
 			if (csl.containsCourseSelection(courseId, studentId)) {

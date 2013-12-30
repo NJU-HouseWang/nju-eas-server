@@ -9,7 +9,11 @@ import java.util.ArrayList;
 import NJU.HouseWang.nju_eas_server.dataService.EduFrameworkService;
 import NJU.HouseWang.nju_eas_server.po.Edu.EduFrameworkItemPO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
-
+/**
+ * 教学框架类
+ * @author 教化场
+ * @version 2013-11-14
+ */
 public class EduFramework implements EduFrameworkService{
 	private String listName = "eduframework";
 	private String sql = null;
@@ -38,7 +42,10 @@ public class EduFramework implements EduFrameworkService{
 			e.printStackTrace();
 		}
 	}
-
+	/**
+	 * 获取教学框架
+	 * @return 教学框架列表
+	 */
 	public ArrayList<EduFrameworkItemPO> getEduFramework() {
 		ArrayList<EduFrameworkItemPO> result = new ArrayList<EduFrameworkItemPO>();
 		sql = "select * from " + listName;
@@ -70,7 +77,10 @@ public class EduFramework implements EduFrameworkService{
 		}
 		return result;
 	}
-
+	/**
+	 * 删除教学框架
+	 * @return 反馈
+	 */
 	public Feedback delEduFramework() {
 		sql = "truncate " + listName;
 		try {
@@ -83,7 +93,11 @@ public class EduFramework implements EduFrameworkService{
 			return Feedback.OPERATION_FAIL;
 		}
 	}
-
+	/**
+	 * 添加教学框架
+	 * @param ep 教学框架PO
+	 * @return 反馈
+	 */
 	public Feedback addEduFrameworkItem(EduFrameworkItemPO ep) {
 		sql = "insert into " + listName
 				+ " values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
@@ -113,11 +127,17 @@ public class EduFramework implements EduFrameworkService{
 			return Feedback.OPERATION_FAIL;
 		}
 	}
-
+	/**
+	 * 获取列表表头
+	 * @return 表头
+ 	 */
 	public String getListHead() {
 		return "课程模块(学分)；课程性质；序列；课程类别(学分)；课程名称(部分)；建议学分；开设学期";
 	}
-
+	/**
+	 * 获取导入列表表头
+	 * @return 导入列表表头
+	 */
 	public String getImportListHead() {
 		return "模块编号；模块名称；模块最小学分；模块最大学分；课程性质；序列；课程类别；类别最小学分；类别最大学分；课程名称；课程最小学分；课程最大学分；开始学期；结束学期";
 	}

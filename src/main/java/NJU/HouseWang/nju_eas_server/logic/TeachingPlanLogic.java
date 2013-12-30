@@ -14,7 +14,11 @@ import NJU.HouseWang.nju_eas_server.po.Edu.EduFrameworkItemPO;
 import NJU.HouseWang.nju_eas_server.po.Edu.TeachingPlanItemPO;
 import NJU.HouseWang.nju_eas_server.po.Edu.TeachingPlanPO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
-
+/**
+ * 教学计划逻辑类
+ * @author 教化场
+ * @version 2013-11-11
+ */
 public class TeachingPlanLogic implements TeachingPlanLogicService {
 	private TeachingPlan tp;
 	private TeachingPlanList tl;
@@ -175,6 +179,11 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 	}
 
 	@Override
+	/**
+	 * 查看教学计划
+	 * @param dept 院系
+	 * @return 教学计划列表
+	 */
 	public ArrayList<String> showTeachingPlan(String dept) {
 		ArrayList<String> feedback = new ArrayList<String>();
 		System.out.println(dept);
@@ -191,6 +200,10 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 	}
 
 	@Override
+	/**
+	 * 查看教学计划列表
+	 * @return 教学计划列表
+	 */
 	public ArrayList<String> showTeachingPlanList() {
 
 		ArrayList<TeachingPlanPO> t = tl.getTeachingPlanList();
@@ -204,6 +217,12 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 	}
 
 	@Override
+	/**
+	 * 增加教学计划
+	 * @param dept 院系
+	 * @param list 列表名
+	 * @return 反馈
+	 */
 	public String addTeachingPlan(String dept, ArrayList<String> list) {
 		try {
 			TeachingPlanPO tpp = tl.getTeachingPlan(dept);
@@ -237,6 +256,12 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 	}
 
 	@Override
+	/**
+	 * 修改教学计划
+	 * @param dept 院系
+	 * @param list 列表名
+	 * @return 反馈
+	 */
 	public String editTeachingPlan(String dept, ArrayList<String> list) {
 		try {
 			this.delTeachingPlan(dept);
@@ -248,6 +273,11 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 	}
 
 	@Override
+	/**
+	 * 删除教学计划
+	 * @param dept 院系
+	 * @return 反馈
+	 */
 	public String delTeachingPlan(String dept) {
 		try {
 			tp.dropTeachingPlan(dept);
@@ -265,6 +295,12 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 	}
 
 	@Override
+	/**
+	 * 审核教学计划
+	 * @param dept 院系
+	 * @param status 状态
+	 * @return 反馈
+	 */
 	public String auditTeachingPlan(String dept, int status) {
 		try {
 			TeachingPlanPO tpp = tl.getTeachingPlan(deptList.idtoName(dept));
@@ -282,6 +318,12 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 	}
 
 	@Override
+	/**
+	 * 上传教学计划doc文档
+	 * @param path 路径
+	 * @param dept 院系
+	 * @return 反馈
+	 */
 	public String uploadTeachingPlanFile(String path, String dept) {
 		try {
 			String filePath = path;
@@ -296,6 +338,11 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 	}
 
 	@Override
+	/**
+	 * 下载教学计划doc文档
+	 * @param dept 院系
+	 * @return 文档
+	 */
 	public File downloadTeachingPlanFile(String dept) {
 		String filePath = "/tpFile/fileNotExit.png";
 		TeachingPlanPO tpp = tl.getTeachingPlan(dept);
@@ -307,6 +354,11 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 	}
 
 	@Override
+	/**
+	 * 判断教学计划是否合法
+	 * @param teachingPlan 教学计划PO列表
+	 * @return 教学计划是否合法
+	 */
 	public boolean judgeTeachingPlan(ArrayList<TeachingPlanItemPO> teachingPlan) {
 
 		boolean isValid = true;
@@ -387,6 +439,11 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 		return isValid;
 	}
 
+	/**
+	 * string转换教学计划项
+	 * @param str
+	 * @return 教学计划项
+	 */
 	public TeachingPlanItemPO stringToTeachingPlanItem(String str) {
 		String[] info = str.split("；");
 		TeachingPlanItemPO tp = new TeachingPlanItemPO(info[0], info[1],
@@ -396,6 +453,10 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 	}
 
 	@Override
+	/**
+	 * 返回TeachingPlan表头
+	 * @return 表头
+	 */
 	public String showTeachingPlanHead() {
 		try {
 			return (tp.getListHead());
@@ -406,6 +467,10 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 	}
 
 	@Override
+	/**
+	 * 返回teachingPlanList表头
+	 * @return 表头
+	 */
 	public String showTeachingPlanListHead() {
 		try {
 			return (tl.getListHead());
@@ -416,6 +481,11 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 	}
 
 	@Override
+	/**
+	 * 返回附件的名称
+	 * @param dept 院系
+	 * @return 附件名
+	 */
 	public String showFlieName(String dept) {
 		try {
 			if (tl.getTeachingPlan(dept).getTpFile().exists()) {
@@ -432,6 +502,11 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 	}
 
 	@Override
+	/**
+	 * 查看教学计划的状态
+	 * @param dept 院系
+	 * @return 教学计划的状态
+	 */
 	public String showTeachingPlanStatus(String dept) {
 		try {
 			TeachingPlanPO tpp = tl.getTeachingPlan(dept);
@@ -450,6 +525,10 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 	}
 
 	@Override
+	/**
+	 * 返回用于导入的teachingPlan表头
+	 * @return 表头
+	 */
 	public String showImportTeachingPlanHead() {
 		try {
 			return tp.getImportListHead();
@@ -460,6 +539,10 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 	}
 
 	@Override
+	/**
+	 * 返回教学计划模板文件
+	 * @return 教学计划模板文件
+	 */
 	public File downloadTeachingPlanTemplate() {
 		try {
 			String filePath = "/template/teachingplan_template.xls";

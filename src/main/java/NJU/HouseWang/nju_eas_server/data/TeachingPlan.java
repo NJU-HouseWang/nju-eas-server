@@ -9,7 +9,11 @@ import java.util.ArrayList;
 import NJU.HouseWang.nju_eas_server.dataService.TeachingPlanService;
 import NJU.HouseWang.nju_eas_server.po.Edu.TeachingPlanItemPO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
-
+/**
+ * 教学计划类
+ * @author 教化场
+ * @version 2013-11-17
+ */
 public class TeachingPlan implements TeachingPlanService {
 	private String sql = null;
 	private SQLConnector sqlconn = new SQLConnector();
@@ -37,7 +41,11 @@ public class TeachingPlan implements TeachingPlanService {
 			e.printStackTrace();
 		}
 	}
-
+	/**
+	 * 获取教学计划
+	 * @param deptId 教学计划号
+	 * @return 教学计划列表
+	 */
 	public ArrayList<TeachingPlanItemPO> getTeachingPlan(String deptId) {
 		ArrayList<TeachingPlanItemPO> result = new ArrayList<TeachingPlanItemPO>();
 		String listName = deptId + "_teachingplan";
@@ -66,13 +74,22 @@ public class TeachingPlan implements TeachingPlanService {
 		}
 		return result;
 	}
-
+	/**
+	 * 删除教学计划
+	 * @param dept 院系
+	 * @return 反馈
+	 */
 	public Feedback delTeachingPlan(String deptId) {
 		String listName = deptId + "_teachingplan";
 		sql = "truncate " + listName;
 		return Feedback.OPERATION_SUCCEED;
 	}
-
+	/**
+	 * 添加教学计划
+	 * @param dept 院系
+	 * @param ep 教学计划PO
+	 * @return 反馈
+	 */
 	public Feedback addTeachingPlanItem(String deptId, TeachingPlanItemPO ep) {
 		String listName = deptId + "_teachingplan";
 		sql = "insert into " + listName + " values (?,?,?,?,?,?,?,?,?,?,?)";
@@ -97,11 +114,18 @@ public class TeachingPlan implements TeachingPlanService {
 			return Feedback.OPERATION_FAIL;
 		}
 	}
-
+	/**
+	 * 获取列表表头
+	 * @return 表头
+	 */
 	public String getListHead() {
 		return "课程模块(学分)；课程性质；课程类别(学分)；课程号；课程名称；课程学分；学时；开设学期";
 	}
-
+	/**
+	 * 创建教学计划
+	 * @param deptId 院系号
+	 * @return 反馈
+	 */
 	public Feedback createTeachingPlan(String deptId) {
 		sql = "create table " + deptId + "_teachingplan("
 				+ "moduleId varchar(12)," + "moduleName varchar(45),"
@@ -120,7 +144,11 @@ public class TeachingPlan implements TeachingPlanService {
 			return Feedback.OPERATION_FAIL;
 		}
 	}
-
+	/**
+	 * 放弃教学计划
+	 * @param deptId 教学计划号
+	 * @return 反馈
+	 */
 	public Feedback dropTeachingPlan(String deptId) {
 		sql = "drop table " + deptId + "_teachingplan";
 		try {
@@ -133,7 +161,10 @@ public class TeachingPlan implements TeachingPlanService {
 			return Feedback.OPERATION_FAIL;
 		}
 	}
-
+	/**
+	 * 获取导入列表表头
+	 * @return 表头
+	 */
 	@Override
 	public String getImportListHead() {
 		return "模块编号；模块名称；模块学分；课程性质；课程类别；类别学分；课程号；课程名称；课程学分；学时；开设学期";

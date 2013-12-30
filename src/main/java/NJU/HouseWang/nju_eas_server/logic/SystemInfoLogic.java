@@ -7,7 +7,11 @@ import NJU.HouseWang.nju_eas_server.data.DeptList;
 import NJU.HouseWang.nju_eas_server.logicService.SystemInfoLogicService;
 import NJU.HouseWang.nju_eas_server.po.Edu.DepartmentPO;
 import NJU.HouseWang.nju_eas_server.po.Msg.LogPO;
-
+/**
+ * 系统信息逻辑类
+ * @author 教化场
+ * @version 2013-11-11
+ */
 public class SystemInfoLogic implements SystemInfoLogicService{
 	private DeptList dl;
 	private AuthorityManager am;
@@ -53,6 +57,10 @@ public class SystemInfoLogic implements SystemInfoLogicService{
 	}
 
 	@Override
+	/**
+	 * 显示院系列表
+	 * @return 院系列表
+	 */
 	public ArrayList<String> showDeptList() {
 		// TODO Auto-generated method stub
 		ArrayList<String> feedback = new ArrayList<String>();

@@ -7,7 +7,11 @@ import NJU.HouseWang.nju_eas_server.data.EduFramework;
 import NJU.HouseWang.nju_eas_server.logicService.EduFrameworkLogicService;
 import NJU.HouseWang.nju_eas_server.po.Edu.EduFrameworkItemPO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
-
+/**
+ * 教学框架逻辑类
+ * @author 教化场
+ * @version 2013-11-8
+ */
 public class EduFrameworkLogic implements EduFrameworkLogicService {
 	private EduFramework ef;
 	private AuthorityManager am;
@@ -79,6 +83,11 @@ public class EduFrameworkLogic implements EduFrameworkLogicService {
 	}
 
 	@Override
+	/**
+	 * 添加教学框架
+	 * @param list
+	 * @return 反馈
+	 */
 	public String addEduFramework(ArrayList<String> list) {
 		try {
 			boolean isValid = true;
@@ -180,6 +189,10 @@ public class EduFrameworkLogic implements EduFrameworkLogicService {
 	}
 
 	@Override
+	/**
+	 * 删除教学框架
+	 * @return 反馈
+	 */
 	public String delEduFramework() {
 		try {
 			return (ef.delEduFramework().toString());
@@ -190,6 +203,10 @@ public class EduFrameworkLogic implements EduFrameworkLogicService {
 	}
 
 	@Override
+	/**
+	 * 显示教学框架
+	 * @return 教学框架列表
+	 */
 	public ArrayList<String> showEduFramework() {
 
 		ArrayList<EduFrameworkItemPO> el = ef.getEduFramework();
@@ -199,7 +216,11 @@ public class EduFrameworkLogic implements EduFrameworkLogicService {
 		}
 		return feedback;
 	}
-
+	/**
+	 * string添加到教学框架项
+	 * @param str
+	 * @return 教学框架项
+	 */
 	public EduFrameworkItemPO stringToEduFrameworkItemPO(String str) {
 		String[] info = str.split("；");
 		if (info[2].equals("null")) {
@@ -227,6 +248,10 @@ public class EduFrameworkLogic implements EduFrameworkLogicService {
 	}
 
 	@Override
+	/**
+	 * 显示模块数量
+	 * @return 模块数量
+	 */
 	public String showModuleNum() {
 		try {
 			ArrayList<EduFrameworkItemPO> el = ef.getEduFramework();
@@ -246,6 +271,10 @@ public class EduFrameworkLogic implements EduFrameworkLogicService {
 	}
 
 	@Override
+	/**
+	 * 显示教学框架列表表头
+	 * @return 表头
+	 */
 	public String showEduFrameworkHead() {
 		// TODO Auto-generated method stub
 		try {
@@ -257,6 +286,10 @@ public class EduFrameworkLogic implements EduFrameworkLogicService {
 	}
 
 	@Override
+	/**
+	 * 显示导入教学框架表头
+	 * @return 表头
+	 */
 	public String showImportEduFrameworkHead() {
 		// TODO Auto-generated method stub
 		try {
