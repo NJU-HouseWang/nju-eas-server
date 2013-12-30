@@ -8,7 +8,11 @@ import java.util.ArrayList;
 
 import NJU.HouseWang.nju_eas_server.dataService.TermListService;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
-
+/**
+ * 学期列表
+ * @author 教化场
+ * @version 2013-11-17
+ */
 public class TermList implements TermListService{
 	private String listName = "term_list";
 	private String sql = null;
@@ -37,7 +41,10 @@ public class TermList implements TermListService{
 			e.printStackTrace();
 		}
 	}
-
+	/**
+	 * 获取学期列表
+	 * @return 学期列表
+	 */
 	public ArrayList<String> getTermList() {
 		ArrayList<String> result = new ArrayList<String>();
 		sql = "select * from " + listName;
@@ -54,7 +61,11 @@ public class TermList implements TermListService{
 		}
 		return result;
 	}
-	
+	/**
+	 * 添加学期
+	 * @param term 学期
+	 * @return 反馈
+	 */
 	public Feedback addTerm(String term) {
 		sql = "insert into " + listName
 				+ " values (?)";

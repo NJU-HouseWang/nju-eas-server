@@ -35,4 +35,9 @@ public interface EduFrameworkService {
 	 * @return 表头
  	 */
 	public String getListHead();
+	/**
+	 * 获取导入列表表头
+	 * @return 导入列表表头
+	 */
+	public String getImportListHead();
 }

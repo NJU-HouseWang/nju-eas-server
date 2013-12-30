@@ -8,7 +8,11 @@ import java.util.ArrayList;
 
 import NJU.HouseWang.nju_eas_server.dataService.DeptListService;
 import NJU.HouseWang.nju_eas_server.po.Edu.DepartmentPO;
-
+/**
+ * 院系列表类
+ * @author 教化场
+ * @version 2013-11-14
+ */
 public class DeptList implements DeptListService {
 	private String listName = "dept_list";
 	private String sql = null;
@@ -37,7 +41,10 @@ public class DeptList implements DeptListService {
 			e.printStackTrace();
 		}
 	}
-
+	/**
+	 * 获取院系列表
+	 * @return 院系列表
+	 */
 	public ArrayList<DepartmentPO> getDeptList() {
 		ArrayList<DepartmentPO> result = new ArrayList<DepartmentPO>();
 		sql = "select * from " + listName;

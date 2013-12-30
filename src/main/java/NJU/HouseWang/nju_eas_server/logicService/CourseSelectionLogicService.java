@@ -2,6 +2,7 @@ package NJU.HouseWang.nju_eas_server.logicService;
 
 import java.util.ArrayList;
 
+import NJU.HouseWang.nju_eas_server.po.Edu.CourseSelectionPO;
 import NJU.HouseWang.nju_eas_server.po.Edu.StatusPO;
 
 /**
@@ -62,7 +63,7 @@ public interface CourseSelectionLogicService extends LogicService {
 	public String quitCourse(String courseId, String studentId);
 
 	/**
-	 * 单独添加选课记录
+	 * 删除课程_学生
 	 * @param listName 列表名
 	 * @param courseId 课程号
 	 * @param studentId 学号
@@ -104,4 +105,19 @@ public interface CourseSelectionLogicService extends LogicService {
 	 * @return 反馈
 	 */
 	public String cancelSelection(String courseId, String studentId);
+	/**
+	 * 抽签逻辑
+	 * @param list 列表
+	 * @param totalNum 总数
+	 * @return 抽签结果
+	 */
+	public ArrayList<CourseSelectionPO> lot(ArrayList<CourseSelectionPO> list,
+			int totalNum);
+	/**
+	 * 获取优先级
+	 * @param studentId 学生Id
+	 * @return 优先级
+	 */
+	public int getPriority(String studentId);
+	
 }

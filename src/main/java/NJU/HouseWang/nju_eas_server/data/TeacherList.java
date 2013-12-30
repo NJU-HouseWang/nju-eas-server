@@ -10,7 +10,11 @@ import NJU.HouseWang.nju_eas_server.dataService.TeacherListService;
 import NJU.HouseWang.nju_eas_server.po.User.TeacherPO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 import NJU.HouseWang.nju_eas_server.systemMessage.UserType;
-
+/**
+ * 任课老师列表类
+ * @author 教化场
+ * @version 2013-11-16
+ */
 public class TeacherList implements TeacherListService{
 	private String listName = "teacher_list";
 	private String sql = null;
@@ -40,7 +44,11 @@ public class TeacherList implements TeacherListService{
 		}
 	}
 
-	// 是否包含ID
+	/**
+	 * 判断是否存在教师工号
+	 * @param id 教师工号
+	 * @return 是否存在教师工号
+	 */
 	public boolean containsID(String id) {
 		Boolean result = false;
 		sql = "select id from " + listName + " where id=?";
@@ -56,7 +64,11 @@ public class TeacherList implements TeacherListService{
 		}
 		return result;
 	}
-
+	/**
+	 * 获取教师PO
+	 * @param id 教师工号
+	 * @return 教师PO
+	 */
 	public TeacherPO getTeacher(String id) {
 		TeacherPO result = new TeacherPO();
 		sql = "select * from " + listName + " where id=?";
@@ -76,7 +88,11 @@ public class TeacherList implements TeacherListService{
 		}
 		return result;
 	}
-
+	/**
+	 * 删除教师
+	 * @param id 教师工号
+	 * @return 删除教师
+	 */
 	public Feedback removeTeacher(String id) {
 		sql = "delete from " + listName + " where id=?";
 		try {
@@ -90,7 +106,11 @@ public class TeacherList implements TeacherListService{
 			return Feedback.OPERATION_FAIL;
 		}
 	}
-
+	/**
+	 * 添加教师
+	 * @param teacher 教师PO
+	 * @return 反馈
+	 */
 	public Feedback addTeacher(TeacherPO teacher) {
 		sql = "insert into " + listName + " values (?,?,?,?)";
 		try {
@@ -107,7 +127,11 @@ public class TeacherList implements TeacherListService{
 			return Feedback.OPERATION_FAIL;
 		}
 	}
-
+	/**
+	 * 编辑教师
+	 * @param teacher 教师PO
+	 * @return 反馈
+	 */
 	public Feedback updateTeacher(TeacherPO teacher) {
 		sql = "update " + listName
 				+ " set type=?, name=?, company=? where id=?";
@@ -125,7 +149,10 @@ public class TeacherList implements TeacherListService{
 			return Feedback.OPERATION_FAIL;
 		}
 	}
-
+	/**
+	 * 获取教师列表
+	 * @return 教师列表
+	 */
 	public ArrayList<TeacherPO> getTeacherList() {
 		ArrayList<TeacherPO> result = new ArrayList<TeacherPO>();
 		sql = "select * from " + listName;
@@ -146,7 +173,11 @@ public class TeacherList implements TeacherListService{
 		}
 		return result;
 	}
-
+	/**
+	 * 获取教师列表
+	 * @param type 类型
+	 * @return 教师列表
+	 */
 	public ArrayList<TeacherPO> getTeacherList(String type) {
 		ArrayList<TeacherPO> result = new ArrayList<TeacherPO>();
 		sql = "select * from " + listName + " where type=?";
@@ -168,7 +199,10 @@ public class TeacherList implements TeacherListService{
 		}
 		return result;
 	}
-
+	/**
+	 * 获取列表表头
+	 * @return 表头
+	 */
 	public String getListHead() {
 		return "工号；教师类型；姓名；部门";
 	}

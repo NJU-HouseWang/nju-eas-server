@@ -25,8 +25,15 @@ public interface MessageListService {
 	 * @param id 私信号
 	 * @return 私信PO
 	 */
+	
 	public MessagePO getMessage(int listType, String id);
-
+	/**
+	 * 不通过id获取私信
+	 * @param listType 列表类型
+	 * @param id id
+	 * @return 表头
+	 */
+	public MessagePO getMessageWithoutId(int listType, String id);
 	/**
 	 * 删除私信
 	 * @param listType 列表类型
@@ -71,11 +78,5 @@ public interface MessageListService {
 	 */
 	public String getRecipientListHead();
 	
-	/**
-	 * 不通过id获取私信
-	 * @param listType 列表类型
-	 * @param id id
-	 * @return 表头
-	 */
-	public MessagePO getMessageWithoutId(int listType, String id);
+	
 }

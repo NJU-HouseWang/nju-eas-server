@@ -9,7 +9,11 @@ import java.util.ArrayList;
 import NJU.HouseWang.nju_eas_server.dataService.LogListService;
 import NJU.HouseWang.nju_eas_server.po.Msg.LogPO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
-
+/**
+ * 日志列表类
+ * @author 教化场
+ * @version 2013-11-15
+ */
 public class LogList implements LogListService {
 	private String listName = "log_list";
 	private String sql = null;
@@ -38,7 +42,11 @@ public class LogList implements LogListService {
 			e.printStackTrace();
 		}
 	}
-
+	/**
+	 * 添加日志
+	 * @param log 日志
+	 * @return 反馈
+	 */
 	public Feedback addLog(LogPO log) {
 		sql = "insert into " + listName
 				+ "(name,ip,time,content) values (?,?,?,?)";
@@ -56,7 +64,10 @@ public class LogList implements LogListService {
 			return Feedback.OPERATION_FAIL;
 		}
 	}
-
+	/**
+	 * 获取日志列表
+	 * @return 日志列表
+	 */
 	public ArrayList<LogPO> getLogList() {
 		ArrayList<LogPO> result = new ArrayList<LogPO>();
 		sql = "select * from " + listName;
@@ -77,12 +88,18 @@ public class LogList implements LogListService {
 		}
 		return result;
 	}
-
+	/**
+	 * 获取列表表头
+	 * @return 表头
+	 */
 	public String getListHead() {
 		return "用户名；用户IP；操作时间；操作内容";
 	}
 
-	@Override
+	/**
+	 * 清空日志列表
+	 * @return 反馈
+	 */
 	public Feedback emptyLogList() {
 		sql = "truncate table " + listName;
 		try {

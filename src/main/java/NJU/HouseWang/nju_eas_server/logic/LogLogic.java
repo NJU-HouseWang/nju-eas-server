@@ -7,7 +7,11 @@ import NJU.HouseWang.nju_eas_server.data.LogList;
 import NJU.HouseWang.nju_eas_server.logicService.LogLogicService;
 import NJU.HouseWang.nju_eas_server.po.Msg.LogPO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
-
+/**
+ * 日志逻辑类
+ * @author 教化场
+ * @version 2013-11-10
+ */
 public class LogLogic implements LogLogicService {
 	private LogList ll;
 	private AuthorityManager am;
@@ -63,6 +67,10 @@ public class LogLogic implements LogLogicService {
 	}
 
 	@Override
+	/**
+	 * 新增一条日志
+	 * @param lp 登录PO
+	 */
 	public void addLog(LogPO lp) {
 		String cmd = lp.getContent();
 		if (!cmd.startsWith("show")) {
@@ -72,6 +80,10 @@ public class LogLogic implements LogLogicService {
 	}
 
 	@Override
+	/**
+	 * 显示日志列表
+	 * @return 日志列表
+	 */
 	public ArrayList<String> showLogList() {
 		ArrayList<LogPO> list = ll.getLogList();
 		ArrayList<String> logList = new ArrayList<String>();
@@ -83,6 +95,10 @@ public class LogLogic implements LogLogicService {
 	}
 
 	@Override
+	/**
+	 * 显示日志列表的表头
+	 * @return 表头
+	 */
 	public String showLogListHead() {
 		try {
 			return (ll.getListHead());
@@ -93,6 +109,10 @@ public class LogLogic implements LogLogicService {
 	}
 
 	@Override
+	/**
+	 * 清空日志列表
+	 * @return 反馈
+	 */
 	public String emptyLogList() {
 		try{
 			ll.emptyLogList();

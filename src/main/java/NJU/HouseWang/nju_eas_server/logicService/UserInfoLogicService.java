@@ -175,4 +175,10 @@ public interface UserInfoLogicService extends LogicService {
 	 * @return 用户名称
 	 */
 	public String showUserName(String id);
+	/**
+	 * string转换用户
+	 * @param str
+	 * @return 用户
+	 */
+	public UserPO stringToUserPO(String str);
 }

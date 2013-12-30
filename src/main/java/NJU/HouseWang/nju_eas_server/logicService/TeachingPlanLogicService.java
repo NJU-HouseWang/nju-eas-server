@@ -114,6 +114,11 @@ public interface TeachingPlanLogicService extends LogicService {
 	 * @return 教学计划模板文件
 	 */
 	public File downloadTeachingPlanTemplate();
-
+	/**
+	 * string转换教学计划项
+	 * @param str
+	 * @return 教学计划项
+	 */
+	public TeachingPlanItemPO stringToTeachingPlanItem(String str);
 
 }

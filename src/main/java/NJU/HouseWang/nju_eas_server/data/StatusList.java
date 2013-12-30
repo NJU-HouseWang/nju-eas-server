@@ -9,7 +9,11 @@ import java.util.ArrayList;
 import NJU.HouseWang.nju_eas_server.dataService.StatusListService;
 import NJU.HouseWang.nju_eas_server.po.Edu.StatusPO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
-
+/**
+ * 状态列表类
+ * @author 教化场
+ * @version 2013-11-16
+ */
 public class StatusList implements StatusListService{
 	private String listName = "status_list";
 	private String sql = null;
@@ -38,7 +42,11 @@ public class StatusList implements StatusListService{
 			e.printStackTrace();
 		}
 	}
-
+	/**
+	 * 获取状态
+	 * @param status 状态
+	 * @return 状态PO
+	 */
 	public StatusPO getStatus(String status) {
 		StatusPO result = new StatusPO();
 		sql = "select * from " + listName + " where status=?";
@@ -56,7 +64,11 @@ public class StatusList implements StatusListService{
 		}
 		return result;
 	}
-
+	/**
+	 * 编辑状态
+	 * @param status 状态
+	 * @return 反馈
+	 */
 	public Feedback updateStatus(StatusPO status) {
 		sql = "update " + listName + " set content=? where status=?";
 		try {
@@ -71,7 +83,10 @@ public class StatusList implements StatusListService{
 			return Feedback.OPERATION_FAIL;
 		}
 	}
-
+	/**
+	 * 获取状态列表
+	 * @return 状态列表
+	 */
 	public ArrayList<StatusPO> getStatusList() {
 		ArrayList<StatusPO> result = new ArrayList<StatusPO>();
 		sql = "select * from " + listName;
@@ -90,7 +105,10 @@ public class StatusList implements StatusListService{
 		}
 		return result;
 	}
-
+	/**
+	 * 获取列表表头
+	 * @return 表头
+	 */
 	public String getListHead() {
 		return "系统状态；内容";
 	}
