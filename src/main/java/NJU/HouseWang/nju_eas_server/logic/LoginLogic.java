@@ -8,7 +8,11 @@ import NJU.HouseWang.nju_eas_server.logicService.LoginLogicService;
 import NJU.HouseWang.nju_eas_server.po.User.GuestPO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 import NJU.HouseWang.nju_eas_server.systemMessage.UserType;
-
+/**
+ * 登录逻辑类
+ * @author 教化场
+ * @version 2013-11-9
+ */
 public class LoginLogic implements LoginLogicService {
 	private LoginList ll;
 	private AuthorityManager am;
@@ -60,6 +64,12 @@ public class LoginLogic implements LoginLogicService {
 	}
 
 	@Override
+	/**
+	 * 登录
+	 * @param logger 登录用户
+	 * @param ip ip地址
+	 * @return 反馈
+	 */
 	public String login(GuestPO logger, String ip) {
 		try {
 			String id = logger.getId();
@@ -86,6 +96,11 @@ public class LoginLogic implements LoginLogicService {
 	}
 
 	@Override
+	/**
+	 * 注销
+	 * @param ip ip地址
+	 * @return 反馈
+	 */
 	public String logout(String ip) {
 		try {
 			am.removeGuest(ip);

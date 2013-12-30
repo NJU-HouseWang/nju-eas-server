@@ -10,7 +10,11 @@ import NJU.HouseWang.nju_eas_server.po.Msg.AnnouncementPO;
 import NJU.HouseWang.nju_eas_server.po.User.GuestPO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
 import NJU.HouseWang.nju_eas_server.systemMessage.UserType;
-
+/**
+ * 公告逻辑类
+ * @author 教化场
+ * @version 2013-11-7
+ */
 public class AnnouncementLogic implements AnnouncementLogicService {
 	private AnnouncementList al;
 	private AuthorityManager am;
@@ -67,7 +71,11 @@ public class AnnouncementLogic implements AnnouncementLogicService {
 		al.finish();
 		return feedback;
 	}
-
+	/**
+	 * 显示公告
+	 * @param id 公告号
+	 * @return 反馈
+	 */
 	@Override
 	public String showAnnouncement(String id) {
 		try {
@@ -77,7 +85,11 @@ public class AnnouncementLogic implements AnnouncementLogicService {
 			return Feedback.OPERATION_FAIL.toString();
 		}
 	}
-
+	/**
+	 * 添加公告
+	 * @param ap 公告PO
+	 * @return 反馈
+	 */
 	@Override
 	public String addAnnouncement(AnnouncementPO ap) {
 		try {
@@ -87,7 +99,11 @@ public class AnnouncementLogic implements AnnouncementLogicService {
 			return Feedback.OPERATION_FAIL.toString();
 		}
 	}
-
+	/**
+	 * 编辑公告
+	 * @param ap 公告PO
+	 * @return 反馈
+	 */
 	@Override
 	public String editAnnouncement(AnnouncementPO ap) {
 		try {
@@ -97,7 +113,11 @@ public class AnnouncementLogic implements AnnouncementLogicService {
 			return Feedback.OPERATION_FAIL.toString();
 		}
 	}
-
+	/**
+	 * 删除公告
+	 * @param id 公告号
+	 * @return 反馈
+	 */
 	@Override
 	public String delAnnouncement(String id) {
 		try {
@@ -107,7 +127,12 @@ public class AnnouncementLogic implements AnnouncementLogicService {
 			return Feedback.OPERATION_FAIL.toString();
 		}
 	}
-
+	/**
+	 * 显示公告列表
+	 * @param status 状态
+	 * @param uid 用户名
+	 * @return 公告列表
+	 */
 	@Override
 	public ArrayList<String> showAnnouncementList(int status, String uid) {
 		LoginList ll = new LoginList();
@@ -122,7 +147,10 @@ public class AnnouncementLogic implements AnnouncementLogicService {
 		}
 		return announcementList;
 	}
-
+	/**
+	 * 显示公告列表表头
+	 * @return 表头
+	 */
 	@Override
 	public String showAnnouncementListHead() {
 		try {

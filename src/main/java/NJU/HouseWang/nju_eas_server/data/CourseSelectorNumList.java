@@ -4,10 +4,15 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 import NJU.HouseWang.nju_eas_server.dataService.CourseSelectorNumListService;
 import NJU.HouseWang.nju_eas_server.po.Edu.CourseSelectorNumPO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
-
+/**
+ * 选课器数目类
+ * @author 教化场
+ * @version 2013-11-13
+ */
 public class CourseSelectorNumList implements CourseSelectorNumListService{
 	private String listName = "course_selector_num_list";
 	private String sql = null;
@@ -37,12 +42,19 @@ public class CourseSelectorNumList implements CourseSelectorNumListService{
 			e.printStackTrace();
 		}
 	}
-
+	/**
+	 * 删除列表
+	 * @return 反馈
+	 */
 	public Feedback delList(){
 		sql ="truncate " +listName;
 		return Feedback.OPERATION_SUCCEED;
 	}
-
+	/**
+	 * 编辑选课器数目PO
+	 * @param p 选课器数目PO
+	 * @return 反馈
+	 */
 	public Feedback updateCourseSelectorNumPO(CourseSelectorNumPO p){
 		sql = "update "
 				+ listName
@@ -60,6 +72,11 @@ public class CourseSelectorNumList implements CourseSelectorNumListService{
 			return Feedback.OPERATION_FAIL;
 		}
 	}
+	/**
+	 * 添加选课器数目PO
+	 * @param p 选课器数目PO
+	 * @return 反馈
+	 */
 	public Feedback addCourseSelectorNumPO(CourseSelectorNumPO p) {
 		sql = "insert into " + listName
 				+ " values (?,?,?)";
@@ -76,7 +93,11 @@ public class CourseSelectorNumList implements CourseSelectorNumListService{
 			return Feedback.OPERATION_FAIL;
 		}
 	}
-	
+	/**
+	 * 获取选课器数目PO
+	 * @param courseId 课程号
+	 * @return 选课器数目PO
+	 */
 	public CourseSelectorNumPO getCourseSelectorNumPO(String courseId) {
 		CourseSelectorNumPO result = new CourseSelectorNumPO();
 		sql = "select * from " + listName + " where courseId=?";

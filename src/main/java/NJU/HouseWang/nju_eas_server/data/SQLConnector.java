@@ -15,7 +15,7 @@ public class SQLConnector {
 
 	private final String driver = "com.mysql.jdbc.Driver";
 
-	private final String url = "jdbc:mysql://localhost:3306/nju_eas";
+	private final String url = "jdbc:mysql://172.26.111.173:3306/nju_eas";
 
 	private String user = "root";
 

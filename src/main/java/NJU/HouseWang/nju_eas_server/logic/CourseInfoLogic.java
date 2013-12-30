@@ -24,7 +24,11 @@ import NJU.HouseWang.nju_eas_server.po.Edu.TeachingPlanPO;
 import NJU.HouseWang.nju_eas_server.po.User.StudentPO;
 import NJU.HouseWang.nju_eas_server.po.User.TeacherPO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
-
+/**
+ * 课程信息逻辑类
+ * @author 教化场
+ * @version 2013-11-7
+ */
 public class CourseInfoLogic implements CourseInfoLogicService {
 	private CourseList cl;
 	private AuthorityManager am;
@@ -387,7 +391,13 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	}
 
 	@Override
-	// 返回课程的介绍、参考书目、教学大纲
+	/**
+	 * 显示课程细节信息
+	 * @param listName 列表名
+	 * @param department 院系
+	 * @param courseId 课程号
+	 * @return 课程细节信息列表
+	 */
 	public ArrayList<String> showCourseDetail(String term, String department,
 			String courseId) {
 
@@ -401,6 +411,14 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	}
 
 	@Override
+	/**
+	 * 编辑课程
+	 * @param term 学期
+	 * @param courseId 课程号
+	 * @param dept 院系
+	 * @param content 内容列表
+	 * @return 反馈
+	 */
 	public String editCourse(String term, String courseId, String dept,
 			ArrayList<String> content) {
 		try {
@@ -430,6 +448,11 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	}
 
 	@Override
+	/**
+	 * 编辑通识课
+	 * @param c 课程PO
+	 * @return 反馈
+	 */
 	public String editCommonCourse(CoursePO c) {
 		try {
 			if (ccl.containsCourse(c.getId())) {
@@ -445,6 +468,11 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	}
 
 	@Override
+	/**
+	 * 添加课程
+	 * @param c 课程PO
+	 * @return 反馈
+	 */
 	public String addCourse(CoursePO c) {
 
 		try {
@@ -465,6 +493,11 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	}
 
 	@Override
+	/**
+	 * 添加通识课
+	 * @param c 课程PO
+	 * @return 反馈
+	 */
 	public String addCommonCourse(CoursePO c) {
 
 		try {
@@ -481,6 +514,13 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	}
 
 	@Override
+	/**
+	 * 删除课程
+	 * @param listName 列表名
+	 * @param department 院系
+	 * @param id 课程号
+	 * @return 反馈
+	 */
 	public String delCourse(String term, String department, String id) {
 
 		try {
@@ -498,6 +538,11 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	}
 
 	@Override
+	/**
+	 * 删除通识课
+	 * @param id 课程号
+	 * @return 反馈
+	 */
 	public String delCommonCourse(String id) {
 
 		try {
@@ -514,7 +559,12 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	}
 
 	@Override
-	// 筛选条件以中文逗号“，”分隔
+	/**
+	 * 显示课程列表
+	 * @param listName 列表名
+	 * @param conditions 条件
+	 * @return 课程列表
+	 */
 	public ArrayList<String> showCourseList(String term, String conditions) {
 
 		String[] info = conditions.split("，");
@@ -541,6 +591,10 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	}
 
 	@Override
+	/**
+	 * 显示可选通识课列表
+	 * @return 可选课程列表
+	 */
 	public ArrayList<String> showSelectableCommonCourseList() {
 
 		String term = this.getTerm();
@@ -557,6 +611,10 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	}
 
 	@Override
+	/**
+	 * 显示通识课列表
+	 * @return 通识课列表
+	 */
 	public ArrayList<String> showCommonCourseList() {
 
 		ArrayList<String> list = new ArrayList<String>();
@@ -572,6 +630,10 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	}
 
 	@Override
+	/**
+	 * 批量新增课程
+	 * @return 反馈
+	 */
 	public String addCourseList(ArrayList<String> list) {
 
 		try {
@@ -597,6 +659,11 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	}
 
 	@Override
+	/**
+	 * 从教学计划中自动生成课程列表
+	 * @param deptName 院系名
+	 * @return 反馈
+	 */
 	public String addCourseListFromTP(String deptName) {
 
 		try {
@@ -633,6 +700,10 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	}
 
 	@Override
+	/**
+	 * 显示课程列表的表头
+	 * @return 表头
+	 */
 	public String showCourseListHead() {
 
 		try {
@@ -644,12 +715,22 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	}
 
 	@Override
+	/**
+	 * 显示通识课列表的表头
+	 * @return 表头
+	 */
 	public String showCommonCourseListHead() {
 
 		return ccl.getCommonCourseListHead();
 	}
 
 	@Override
+	/**
+	 * 登记成绩
+	 * @param term 学期
+	 * @param listName 列表名 
+	 * @return 反馈
+	 */
 	public String recordScore(String term, ArrayList<String> list) {
 
 		for (int i = 0; i < list.size(); i++) {
@@ -674,6 +755,11 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	}
 
 	@Override
+	/**
+	 * 查看学生课程列表
+	 * @param studentId 学号
+	 * @return 学生课程列表
+	 */
 	public ArrayList<String> showStudentCourseList(String studentId) {
 
 		ArrayList<String> list = new ArrayList<String>();
@@ -710,6 +796,12 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	}
 
 	@Override
+	/**
+	 * 查看学生成绩列表
+	 * @param listName 列表名
+	 * @param studentId 学号
+	 * @return 学生成绩列表
+	 */
 	public ArrayList<String> showStudentScoreList(String term, String studentId) {
 
 		ArrayList<String> list = new ArrayList<String>();
@@ -722,6 +814,12 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	}
 
 	@Override
+	/**
+	 * 查看教师任课的学生信息
+	 * @param courseId 课程号
+	 * @param department 院系
+	 * @return 课程学生列表
+	 */
 	public ArrayList<String> showCourseStudentList(String courseId,
 			String department) {
 
@@ -734,7 +832,10 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		}
 		return list;
 	}
-
+	/**
+	 * 获取学年学期
+	 * @return 学期
+	 */
 	public String getTerm() {
 
 		String term = this.termTransfer(showTerm());
@@ -742,6 +843,10 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	}
 
 	@Override
+	/**
+	 * 返回学年学期
+	 * @return 学期
+	 */
 	public String showTerm() {
 
 		String s = statusList.getStatus("currentTerm").getContent();
@@ -749,6 +854,11 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	}
 
 	@Override
+	/**
+	 * 设置学年学期
+	 * @param term 学期
+	 * @return 反馈
+	 */
 	public String editTerm(String term) {
 
 		StatusPO sp = statusList.getStatus("currentTerm");
@@ -757,10 +867,22 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		termList.addTerm(term);
 		cl.createCourseList(this.termTransfer(term));
 		csl.createCourseList(this.termTransfer(term));
+		ArrayList<TeachingPlanPO> tpList = tpl.getTeachingPlanList();
+		for (int i = 0; i < tpList.size(); i++) {
+			if (tpList.get(i).getStatus() == 1) {
+				this.addCourseListFromTP(tpList.get(i).getDept());
+			}
+		}
+
 		return Feedback.OPERATION_SUCCEED.toString();
 	}
 
 	@Override
+	/**
+	 * 发布通识课
+	 * @param list 列表名
+	 * @return 反馈
+	 */
 	public String publishCommonCourse(ArrayList<String> list) {
 		try {
 			ArrayList<CoursePO> courseList = new ArrayList<CoursePO>();
@@ -783,7 +905,9 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		}
 	}
 
-	// 同时初始化courseSelectorNumList
+	/**
+	 * 添加通识课到课程列表
+	 */
 	public void addCommonCourseToCourseList() {
 		// 清空courSelectorNumList
 		csnl.delList();
@@ -801,7 +925,11 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 			}
 		}
 	}
-
+	/**
+	 * string转换成CoursePO
+	 * @param str
+	 * @return 课程
+	 */
 	public CoursePO stringToCoursePO(String str) {
 		String[] info = str.split("；");
 		CoursePO cp = new CoursePO(info[0], info[1], info[2], info[3], info[4],
@@ -810,7 +938,12 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 				info[12], info[13], info[14]);
 		return cp;
 	}
-
+	/**
+	 * string转换成通识课
+	 * @param str
+	 * @return 通识课
+	 * @throws Exception 
+	 */
 	public CoursePO stringToCommonCourse(String str) throws Exception {
 		String[] info = str.split("；");
 		CoursePO cp = new CoursePO();
@@ -826,6 +959,12 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	}
 
 	@Override
+	/**
+	 * 将teachingPlanItemPO转化为coursePO
+	 * @param dept 院系
+	 * @param tpip 教学计划PO
+	 * @return 课程PO
+	 */
 	public CoursePO tpPOToCoursePO(String dept, TeachingPlanItemPO tpip) {
 
 		String term = this.getTerm();
@@ -840,12 +979,20 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	}
 
 	@Override
+	/**
+	 * 显示学期列表
+	 * @return 学期列表
+	 */
 	public ArrayList<String> showTermList() {
 
 		ArrayList<String> list = termList.getTermList();
 		return list;
 	}
-
+	/**
+	 * 学期转换
+	 * @param s 
+	 * @return 学期
+	 */
 	public String termTransfer(String s) {
 		String[] list = s.split("学");
 		String term = "x" + list[0].split("-")[0] + "_"
@@ -854,6 +1001,10 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	}
 
 	@Override
+	/**
+	 * 显示可选的通识课列表的表头
+	 * @return 表头
+	 */
 	public String showSelectableCommonCourseListHead() {
 		try {
 			return ccl.getSelectedCommonCourseListHead();
@@ -864,6 +1015,13 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	}
 
 	@Override
+	/**
+	 * 显示选择某课程的学生信息
+	 * @param term 学期
+	 * @param courseId 课程号
+	 * @param dept 院系
+	 * @return 学生信息列表
+	 */
 	public ArrayList<String> showStudentListFromCourse(String term,
 			String courseId, String department) {
 		String studentId = "";
@@ -878,6 +1036,10 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	}
 
 	@Override
+	/**
+	 * 显示通识课列表的表头
+	 * @return 表头
+	 */
 	public String showCourseStudentListHead() {
 
 		try {
@@ -888,7 +1050,10 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		}
 	}
 
-	@Override
+	@Override/**
+	 * 显示用于编辑的通识课列表表头
+	 * @return 表头
+	 */
 	public String showEditCommonCourseListHead() {
 		try {
 			return ccl.getEditCommonCourseListHead();
@@ -899,13 +1064,19 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	}
 
 	@Override
+	/**
+	 * 显示用于编辑的通识课的信息
+	 * @param courseId 课程号
+	 * @return 用于编辑的通识课信息
+	 */
 	public String showEditCommonCourse(String courseId) {
 		try {
 			if (ccl.containsCourse(courseId)) {
 				CoursePO c = ccl.getCourse(courseId);
-				return (c.getId() + "；" + c.getName() + "；" + c.getCredit()+ "；" + c.getPeriod()
-						+ "；" + c.getTeacherId() + "；" + c.getTeacherName()
-						+ "；" + c.getTimeAndPlace() + "；" + c.getStudentNum());
+				return (c.getId() + "；" + c.getName() + "；" + c.getCredit()
+						+ "；" + c.getPeriod() + "；" + c.getTeacherId() + "；"
+						+ c.getTeacherName() + "；" + c.getTimeAndPlace() + "；" + c
+							.getStudentNum());
 			} else {
 				return Feedback.DATA_NOT_FOUND.toString();
 			}

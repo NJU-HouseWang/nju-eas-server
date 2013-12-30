@@ -14,7 +14,11 @@ import NJU.HouseWang.nju_eas_server.po.Edu.EduFrameworkItemPO;
 import NJU.HouseWang.nju_eas_server.po.Edu.TeachingPlanItemPO;
 import NJU.HouseWang.nju_eas_server.po.Edu.TeachingPlanPO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
-
+/**
+ * 教学计划逻辑类
+ * @author 教化场
+ * @version 2013-11-11
+ */
 public class TeachingPlanLogic implements TeachingPlanLogicService {
 	private TeachingPlan tp;
 	private TeachingPlanList tl;
@@ -75,7 +79,7 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 		String cmdType = cmdInfo[0] + cmdInfo[1];
 		switch (cmdType) {
 		case "showteachingplan":
-			feedback = this.showTeachingPlan(deptList.nametoId(cmdInfo[2]));
+			feedback = this.showTeachingPlan(cmdInfo[2]);
 			break;
 		case "showteachingplan_list":
 			feedback = this.showTeachingPlanList();
@@ -104,15 +108,16 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 					feedback = this.uploadTeachingPlanFile(cmdInfo[4],
 							teacherList.getTeacher(uid).getCompany());
 				} else {
-					feedback = "file；d:/tpFile/";
+					File file = new File("/tpFile/");
+					System.out.println(file.getPath());
+					feedback = "file；/tpFile/";
 				}
 			} else {
 				feedback = "ip";
 			}
 			break;
 		case "downloadteachingplan_file":
-			feedback = this.downloadTeachingPlanFile(deptList
-					.nametoId(cmdInfo[2]));
+			feedback = this.downloadTeachingPlanFile(cmdInfo[2]);
 			break;
 		case "downloadteachingplan_template":
 			feedback = this.downloadTeachingPlanTemplate();
@@ -127,8 +132,7 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 			feedback = this.showFlieName(deptList.nametoId(cmdInfo[2]));
 			break;
 		case "showteachingplan_status":
-			feedback = this.showTeachingPlanStatus(deptList
-					.nametoId(cmdInfo[2]));
+			feedback = this.showTeachingPlanStatus(cmdInfo[2]);
 			break;
 		case "showteachingplan_head_import":
 			feedback = this.showImportTeachingPlanHead();
@@ -175,10 +179,19 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 	}
 
 	@Override
+	/**
+	 * 查看教学计划
+	 * @param dept 院系
+	 * @return 教学计划列表
+	 */
 	public ArrayList<String> showTeachingPlan(String dept) {
 		ArrayList<String> feedback = new ArrayList<String>();
-		if (tl.getTeachingPlan(deptList.idtoName(dept)).isCommitted()) {
-			ArrayList<TeachingPlanItemPO> tl = tp.getTeachingPlan(dept);
+		System.out.println(dept);
+		System.out.println(deptList.nametoId(dept));
+		System.out.println(deptList.idtoName(deptList.nametoId(dept)));
+		if (tl.getTeachingPlan(dept).isCommitted()) {
+			ArrayList<TeachingPlanItemPO> tl = tp.getTeachingPlan(deptList
+					.nametoId(dept));
 			for (int i = 0; i < tl.size(); i++) {
 				feedback.add(tl.get(i).toCommand());
 			}
@@ -187,6 +200,10 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 	}
 
 	@Override
+	/**
+	 * 查看教学计划列表
+	 * @return 教学计划列表
+	 */
 	public ArrayList<String> showTeachingPlanList() {
 
 		ArrayList<TeachingPlanPO> t = tl.getTeachingPlanList();
@@ -200,6 +217,12 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 	}
 
 	@Override
+	/**
+	 * 增加教学计划
+	 * @param dept 院系
+	 * @param list 列表名
+	 * @return 反馈
+	 */
 	public String addTeachingPlan(String dept, ArrayList<String> list) {
 		try {
 			TeachingPlanPO tpp = tl.getTeachingPlan(dept);
@@ -233,6 +256,12 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 	}
 
 	@Override
+	/**
+	 * 修改教学计划
+	 * @param dept 院系
+	 * @param list 列表名
+	 * @return 反馈
+	 */
 	public String editTeachingPlan(String dept, ArrayList<String> list) {
 		try {
 			this.delTeachingPlan(dept);
@@ -244,6 +273,11 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 	}
 
 	@Override
+	/**
+	 * 删除教学计划
+	 * @param dept 院系
+	 * @return 反馈
+	 */
 	public String delTeachingPlan(String dept) {
 		try {
 			tp.dropTeachingPlan(dept);
@@ -261,6 +295,12 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 	}
 
 	@Override
+	/**
+	 * 审核教学计划
+	 * @param dept 院系
+	 * @param status 状态
+	 * @return 反馈
+	 */
 	public String auditTeachingPlan(String dept, int status) {
 		try {
 			TeachingPlanPO tpp = tl.getTeachingPlan(deptList.idtoName(dept));
@@ -278,6 +318,12 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 	}
 
 	@Override
+	/**
+	 * 上传教学计划doc文档
+	 * @param path 路径
+	 * @param dept 院系
+	 * @return 反馈
+	 */
 	public String uploadTeachingPlanFile(String path, String dept) {
 		try {
 			String filePath = path;
@@ -292,6 +338,11 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 	}
 
 	@Override
+	/**
+	 * 下载教学计划doc文档
+	 * @param dept 院系
+	 * @return 文档
+	 */
 	public File downloadTeachingPlanFile(String dept) {
 		String filePath = "/tpFile/fileNotExit.png";
 		TeachingPlanPO tpp = tl.getTeachingPlan(dept);
@@ -303,6 +354,11 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 	}
 
 	@Override
+	/**
+	 * 判断教学计划是否合法
+	 * @param teachingPlan 教学计划PO列表
+	 * @return 教学计划是否合法
+	 */
 	public boolean judgeTeachingPlan(ArrayList<TeachingPlanItemPO> teachingPlan) {
 
 		boolean isValid = true;
@@ -343,7 +399,6 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 				}
 			}
 			if ((creditSum < credit) && (creditSum > 0)) {
-				System.out.println("=======================21");
 				isValid = false;
 			}
 			creditSum = 0;
@@ -362,8 +417,6 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 				}
 			}
 			if (creditSum < credit && creditSum > 0) {
-				System.out.println("=======================22:" + courseType
-						+ ";" + creditSum + ";" + credit);
 				isValid = false;
 			}
 			creditSum = 0;
@@ -378,7 +431,6 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 							.getCourseMinCredit())
 							|| (teachingPlan.get(j).getCourseCredit() > el.get(
 									i).getCourseMaxCredit())) {
-						System.out.println("=======================23");
 						isValid = false;
 					}
 				}
@@ -387,6 +439,11 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 		return isValid;
 	}
 
+	/**
+	 * string转换教学计划项
+	 * @param str
+	 * @return 教学计划项
+	 */
 	public TeachingPlanItemPO stringToTeachingPlanItem(String str) {
 		String[] info = str.split("；");
 		TeachingPlanItemPO tp = new TeachingPlanItemPO(info[0], info[1],
@@ -396,6 +453,10 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 	}
 
 	@Override
+	/**
+	 * 返回TeachingPlan表头
+	 * @return 表头
+	 */
 	public String showTeachingPlanHead() {
 		try {
 			return (tp.getListHead());
@@ -406,6 +467,10 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 	}
 
 	@Override
+	/**
+	 * 返回teachingPlanList表头
+	 * @return 表头
+	 */
 	public String showTeachingPlanListHead() {
 		try {
 			return (tl.getListHead());
@@ -416,6 +481,11 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 	}
 
 	@Override
+	/**
+	 * 返回附件的名称
+	 * @param dept 院系
+	 * @return 附件名
+	 */
 	public String showFlieName(String dept) {
 		try {
 			if (tl.getTeachingPlan(dept).getTpFile().exists()) {
@@ -432,6 +502,11 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 	}
 
 	@Override
+	/**
+	 * 查看教学计划的状态
+	 * @param dept 院系
+	 * @return 教学计划的状态
+	 */
 	public String showTeachingPlanStatus(String dept) {
 		try {
 			TeachingPlanPO tpp = tl.getTeachingPlan(dept);
@@ -450,6 +525,10 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 	}
 
 	@Override
+	/**
+	 * 返回用于导入的teachingPlan表头
+	 * @return 表头
+	 */
 	public String showImportTeachingPlanHead() {
 		try {
 			return tp.getImportListHead();
@@ -460,8 +539,17 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 	}
 
 	@Override
+	/**
+	 * 返回教学计划模板文件
+	 * @return 教学计划模板文件
+	 */
 	public File downloadTeachingPlanTemplate() {
-		String filePath = "/template/teachingplan_template.xls";
-		return new File(filePath);
+		try {
+			String filePath = "/template/teachingplan_template.xls";
+			return new File(filePath);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new File("/tpFile/fileNotExit.png");
+		}
 	}
 }

@@ -152,7 +152,11 @@ public interface CourseInfoLogicService extends LogicService {
 	 */
 	public ArrayList<String> showCourseStudentList(String courseId,
 			String department);
-
+	/**
+	 * 获取学年学期
+	 * @return 学期
+	 */
+	public String getTerm();
 	/**
 	 * 返回学年学期
 	 * @return 学期
@@ -186,7 +190,12 @@ public interface CourseInfoLogicService extends LogicService {
 	 * @return 学期列表
 	 */
 	public ArrayList<String> showTermList();
-
+	/**
+	 * 学期转换
+	 * @param s 
+	 * @return 学期
+	 */
+	public String termTransfer(String s);
 	/**
 	 * 显示选择某课程的学生信息
 	 * @param term 学期
@@ -215,4 +224,21 @@ public interface CourseInfoLogicService extends LogicService {
 	 * @return 用于编辑的通识课信息
 	 */
 	public String showEditCommonCourse(String courseId);
+	/**
+	 * 添加通识课到课程列表
+	 */
+	public void addCommonCourseToCourseList();
+	/**
+	 * string转换成CoursePO
+	 * @param str
+	 * @return 课程
+	 */
+	public CoursePO stringToCoursePO(String str);
+	/**
+	 * string转换成通识课
+	 * @param str
+	 * @return 通识课
+	 * @throws Exception 
+	 */
+	public CoursePO stringToCommonCourse(String str) throws Exception;
 }

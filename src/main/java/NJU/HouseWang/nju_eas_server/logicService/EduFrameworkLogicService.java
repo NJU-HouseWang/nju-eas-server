@@ -2,6 +2,8 @@ package NJU.HouseWang.nju_eas_server.logicService;
 
 import java.util.ArrayList;
 
+import NJU.HouseWang.nju_eas_server.po.Edu.EduFrameworkItemPO;
+
 /**
  * 教学框架逻辑类
  * @author 教化场
@@ -44,4 +46,11 @@ public interface EduFrameworkLogicService extends LogicService {
 	 * @return 表头
 	 */
 	public String showImportEduFrameworkHead();
+	/**
+	 * string添加到教学框架项
+	 * @param str
+	 * @return 教学框架项
+	 */
+	public EduFrameworkItemPO stringToEduFrameworkItemPO(String str);
+	
 }

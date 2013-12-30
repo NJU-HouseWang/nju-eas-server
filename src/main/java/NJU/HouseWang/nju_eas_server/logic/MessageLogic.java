@@ -7,7 +7,11 @@ import NJU.HouseWang.nju_eas_server.data.MessageList;
 import NJU.HouseWang.nju_eas_server.logicService.MessageLogicService;
 import NJU.HouseWang.nju_eas_server.po.Msg.MessagePO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
-
+/**
+ * 私信逻辑类
+ * @author 教化场
+ * @version 2013-11-10
+ */
 public class MessageLogic implements MessageLogicService {
 	private MessageList ml;
 	private AuthorityManager am;
@@ -94,6 +98,12 @@ public class MessageLogic implements MessageLogicService {
 	}
 
 	@Override
+	/**
+	 * 显示指定列表指定编号的私信 
+	 * @param fromBox 发送者
+	 * @param id 私信号
+	 * @return 私信内容
+	 */
 	public String showMessage(String fromBox, String id) {
 		try {
 			int list = Integer.parseInt(fromBox);
@@ -111,6 +121,12 @@ public class MessageLogic implements MessageLogicService {
 	}
 
 	@Override
+	/**
+	 * 添加私信到指定的列表
+	 * @param fromBox 发送者
+	 * @param mp 私信PO
+	 * @return 反馈
+	 */
 	public String addMessage(String fromBox, MessagePO mp) {
 		try {
 			int list = Integer.parseInt(fromBox);
@@ -122,6 +138,12 @@ public class MessageLogic implements MessageLogicService {
 	}
 
 	@Override
+	/**
+	 * 编辑私信
+	 * @param fromBox 发送者
+	 * @param mp 私信PO
+	 * @return 反馈
+	 */
 	public String editMessage(int fromBox, MessagePO mp) {
 
 		try {
@@ -133,6 +155,13 @@ public class MessageLogic implements MessageLogicService {
 	}
 
 	@Override
+	/**
+	 * 把私信从一个列表转移到另一个列表
+	 * @param fromBox 发送者
+	 * @param toBox 接收者
+	 * @param id 私信号
+	 * @return 反馈
+	 */
 	public String moveMessage(String fromList, String toList, String id) {
 		try {
 			MessagePO mp = ml.getMessageWithoutId(Integer.parseInt(fromList),
@@ -147,6 +176,12 @@ public class MessageLogic implements MessageLogicService {
 	}
 
 	@Override
+	/**
+	 * 删除私信
+	 * @param fromBox 发送者
+	 * @param id 私信号
+	 * @return 反馈
+	 */
 	public String delMessage(String fromBox, String id) {
 		try {
 			return moveMessage(fromBox, "3", id);
@@ -157,6 +192,12 @@ public class MessageLogic implements MessageLogicService {
 	}
 
 	@Override
+	/**
+	 * 显示该用户的指定列表的私信列表
+	 * @param fromBox 发送者
+	 * @param uid 用户名
+	 * @return 私信列表
+	 */
 	public ArrayList<String> showMessageList(String fromBox, String uid) {
 
 		int listNum = Integer.parseInt(fromBox);
@@ -170,6 +211,12 @@ public class MessageLogic implements MessageLogicService {
 	}
 
 	@Override
+	/**
+	 * 彻底删除私信
+	 * @param fromBox 发送者
+	 * @param id 私信号
+	 * @return 反馈
+	 */
 	public String eraseMessage(String fromBox, String id) {
 		try {
 			int list = Integer.parseInt(fromBox);
@@ -181,6 +228,10 @@ public class MessageLogic implements MessageLogicService {
 	}
 
 	@Override
+	/**
+	 * 显示私信列表的表头1
+	 * @return 表头1
+	 */
 	public String showSenderMessageListHead() {
 		try {
 			return ml.getSenderListHead();
@@ -191,6 +242,10 @@ public class MessageLogic implements MessageLogicService {
 	}
 
 	@Override
+	/**
+	 * 显示私信列表的表头2
+	 * @return 表头2
+	 */
 	public String showRecipientMessageListHead() {
 		try {
 			return ml.getRecipientListHead();
@@ -201,6 +256,11 @@ public class MessageLogic implements MessageLogicService {
 	}
 
 	@Override
+	/**
+	 * 发送私信
+	 * @param mp 私信PO
+	 * @return 反馈
+	 */
 	public String sendMessage(MessagePO mp) {
 		try {
 			String feedback = "";
@@ -222,6 +282,11 @@ public class MessageLogic implements MessageLogicService {
 	}
 
 	@Override
+	/**
+	 * 保存草稿
+	 * @param mp 私信PO
+	 * @return 反馈
+	 */
 	public String saveDraft(MessagePO mp) {
 		try {
 			String feedback = this.addMessage("2", mp);
@@ -233,6 +298,11 @@ public class MessageLogic implements MessageLogicService {
 	}
 
 	@Override
+	/**
+	 * 返回未读邮件数量
+	 * @param uid 用户名
+	 * @return 未读邮件数量
+	 */
 	public String showNewMessageNum(String uid) {
 		try {
 			int num = 0;
