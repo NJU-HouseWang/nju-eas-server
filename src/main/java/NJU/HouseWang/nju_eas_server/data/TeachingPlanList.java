@@ -52,7 +52,9 @@ public class TeachingPlanList implements TeachingPlanListService {
 				result.setDept(rs.getString(1));
 				result.setCommitted(Boolean.valueOf(rs.getString(2)));
 				result.setStatus(rs.getInt(3));
-				result.setTpFile(new File(rs.getString(4)));
+				if (!(rs.getString(4) == null || rs.getString(4).equals("null"))) {
+					result.setTpFile(new File(rs.getString(4)));
+				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

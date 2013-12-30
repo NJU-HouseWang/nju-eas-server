@@ -75,7 +75,7 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 		String cmdType = cmdInfo[0] + cmdInfo[1];
 		switch (cmdType) {
 		case "showteachingplan":
-			feedback = this.showTeachingPlan(deptList.nametoId(cmdInfo[2]));
+			feedback = this.showTeachingPlan(cmdInfo[2]);
 			break;
 		case "showteachingplan_list":
 			feedback = this.showTeachingPlanList();
@@ -104,15 +104,16 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 					feedback = this.uploadTeachingPlanFile(cmdInfo[4],
 							teacherList.getTeacher(uid).getCompany());
 				} else {
-					feedback = "file；d:/tpFile/";
+					File file = new File("/tpFile/");
+					System.out.println(file.getPath());
+					feedback = "file；/tpFile/";
 				}
 			} else {
 				feedback = "ip";
 			}
 			break;
 		case "downloadteachingplan_file":
-			feedback = this.downloadTeachingPlanFile(deptList
-					.nametoId(cmdInfo[2]));
+			feedback = this.downloadTeachingPlanFile(cmdInfo[2]);
 			break;
 		case "downloadteachingplan_template":
 			feedback = this.downloadTeachingPlanTemplate();
@@ -127,8 +128,7 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 			feedback = this.showFlieName(deptList.nametoId(cmdInfo[2]));
 			break;
 		case "showteachingplan_status":
-			feedback = this.showTeachingPlanStatus(deptList
-					.nametoId(cmdInfo[2]));
+			feedback = this.showTeachingPlanStatus(cmdInfo[2]);
 			break;
 		case "showteachingplan_head_import":
 			feedback = this.showImportTeachingPlanHead();
@@ -177,8 +177,12 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 	@Override
 	public ArrayList<String> showTeachingPlan(String dept) {
 		ArrayList<String> feedback = new ArrayList<String>();
-		if (tl.getTeachingPlan(deptList.idtoName(dept)).isCommitted()) {
-			ArrayList<TeachingPlanItemPO> tl = tp.getTeachingPlan(dept);
+		System.out.println(dept);
+		System.out.println(deptList.nametoId(dept));
+		System.out.println(deptList.idtoName(deptList.nametoId(dept)));
+		if (tl.getTeachingPlan(dept).isCommitted()) {
+			ArrayList<TeachingPlanItemPO> tl = tp.getTeachingPlan(deptList
+					.nametoId(dept));
 			for (int i = 0; i < tl.size(); i++) {
 				feedback.add(tl.get(i).toCommand());
 			}
@@ -343,7 +347,6 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 				}
 			}
 			if ((creditSum < credit) && (creditSum > 0)) {
-				System.out.println("=======================21");
 				isValid = false;
 			}
 			creditSum = 0;
@@ -362,8 +365,6 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 				}
 			}
 			if (creditSum < credit && creditSum > 0) {
-				System.out.println("=======================22:" + courseType
-						+ ";" + creditSum + ";" + credit);
 				isValid = false;
 			}
 			creditSum = 0;
@@ -378,7 +379,6 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 							.getCourseMinCredit())
 							|| (teachingPlan.get(j).getCourseCredit() > el.get(
 									i).getCourseMaxCredit())) {
-						System.out.println("=======================23");
 						isValid = false;
 					}
 				}
@@ -461,7 +461,12 @@ public class TeachingPlanLogic implements TeachingPlanLogicService {
 
 	@Override
 	public File downloadTeachingPlanTemplate() {
-		String filePath = "/template/teachingplan_template.xls";
-		return new File(filePath);
+		try {
+			String filePath = "/template/teachingplan_template.xls";
+			return new File(filePath);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new File("/tpFile/fileNotExit.png");
+		}
 	}
 }

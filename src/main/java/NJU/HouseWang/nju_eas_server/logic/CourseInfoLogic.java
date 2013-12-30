@@ -757,6 +757,13 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		termList.addTerm(term);
 		cl.createCourseList(this.termTransfer(term));
 		csl.createCourseList(this.termTransfer(term));
+		ArrayList<TeachingPlanPO> tpList = tpl.getTeachingPlanList();
+		for (int i = 0; i < tpList.size(); i++) {
+			if (tpList.get(i).getStatus() == 1) {
+				this.addCourseListFromTP(tpList.get(i).getDept());
+			}
+		}
+
 		return Feedback.OPERATION_SUCCEED.toString();
 	}
 
@@ -903,9 +910,10 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		try {
 			if (ccl.containsCourse(courseId)) {
 				CoursePO c = ccl.getCourse(courseId);
-				return (c.getId() + "；" + c.getName() + "；" + c.getCredit()+ "；" + c.getPeriod()
-						+ "；" + c.getTeacherId() + "；" + c.getTeacherName()
-						+ "；" + c.getTimeAndPlace() + "；" + c.getStudentNum());
+				return (c.getId() + "；" + c.getName() + "；" + c.getCredit()
+						+ "；" + c.getPeriod() + "；" + c.getTeacherId() + "；"
+						+ c.getTeacherName() + "；" + c.getTimeAndPlace() + "；" + c
+							.getStudentNum());
 			} else {
 				return Feedback.DATA_NOT_FOUND.toString();
 			}
