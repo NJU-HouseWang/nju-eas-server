@@ -399,29 +399,35 @@ public class CourseSelectionLogic implements CourseSelectionLogicService {
 	public ArrayList<CourseSelectionPO> lot(ArrayList<CourseSelectionPO> list,
 			int totalNum) {
 		// 把所有人的优先级加起来，用作随机数
+		
+		System.out.println("===================");
 		int totalPriority = 0;
 		ArrayList<LotStatus> lotList = new ArrayList<LotStatus>();
 		for (int i = 0; i < list.size(); i++) {
 			int priority = list.get(i).getPriority();
-			if (priority <= 0) {
-				return null;
-			}
 			lotList.add(new LotStatus(list.get(i).getStudentId(),
 					totalPriority + 1, totalPriority + priority));
 			totalPriority += priority;
+			System.out.println("=======totalPriority============" + totalPriority);
 		}
 		while (list.size() > totalNum) {
-			int selectedNum = (int) Math.random() * totalPriority + 1;
+			System.out.println("=======totalPriority============" + totalPriority);
+			System.out.println("===================" + list.size());
+			int selectedNum = (int) (Math.random() * totalPriority) + 1;
+			System.out.println("random" + selectedNum);
 			for (int j = 0; j < lotList.size(); j++) {
+				System.out.println("===========");
 				if ((selectedNum >= lotList.get(j).startNum)
 						&& (selectedNum <= lotList.get(j).endNum)) {
 					for (int i = 0; i < list.size(); i++) {
+						System.out.println("=====" + list.get(i).getStudentId() + "---" + lotList.get(j).studentId);
+						
 						if (list.get(i).getStudentId()
 								.equals(lotList.get(j).studentId)) {
 							list.remove(i);
+							break;
 						}
 					}
-					lotList.remove(j);
 				}
 			}
 		}
