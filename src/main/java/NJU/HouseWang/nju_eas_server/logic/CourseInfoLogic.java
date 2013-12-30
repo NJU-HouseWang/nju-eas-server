@@ -674,9 +674,11 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 						.getTeachingPlan(deptId);
 				for (int j = 0; j < teachingPlanItemList.size(); j++) {
 					TeachingPlanItemPO tpip = teachingPlanItemList.get(j);
+					System.out.println("+++++++++++++++"+tpip.toString());
 					// 如果不是选修课，则加入课程列表，并导入学生
 					if (!tpip.getCourseNature().equals("选修")) {
 						CoursePO cp = this.tpPOToCoursePO(deptId, tpip);
+						System.out.println("=========="+cp.toString());
 						this.addCourse(cp);
 						ArrayList<StudentPO> studentList = sl.getStudentList(
 								cp.getGrade(), cp.getDepartment());
@@ -860,7 +862,8 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	 * @return 反馈
 	 */
 	public String editTerm(String term) {
-
+		try{
+		String feedback = null;
 		StatusPO sp = statusList.getStatus("currentTerm");
 		sp.setContent(term);
 		statusList.updateStatus(sp);
@@ -870,11 +873,17 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		ArrayList<TeachingPlanPO> tpList = tpl.getTeachingPlanList();
 		for (int i = 0; i < tpList.size(); i++) {
 			if (tpList.get(i).getStatus() == 1) {
-				this.addCourseListFromTP(tpList.get(i).getDept());
+				feedback=this.addCourseListFromTP(tpList.get(i).getDept());
+				if(feedback.equals(Feedback.OPERATION_FAIL.toString())){
+					return feedback;
+				}
 			}
 		}
 
-		return Feedback.OPERATION_SUCCEED.toString();
+		return Feedback.OPERATION_SUCCEED.toString();} catch(Exception e){
+			e.printStackTrace();
+			return Feedback.OPERATION_FAIL.toString();
+		}
 	}
 
 	@Override
