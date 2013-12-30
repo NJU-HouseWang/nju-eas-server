@@ -623,6 +623,8 @@ public class UserInfoLogic implements UserInfoLogicService {
 				return showTeacherName(id);
 			} else if (sl.containsID(id)) {
 				return showStudentName(id);
+			} else if (id.equals("admin")) {
+				return "系统管理员";
 			} else {
 				return "null";
 			}
