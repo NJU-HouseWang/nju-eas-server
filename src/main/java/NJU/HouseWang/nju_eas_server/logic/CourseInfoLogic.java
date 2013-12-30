@@ -24,8 +24,10 @@ import NJU.HouseWang.nju_eas_server.po.Edu.TeachingPlanPO;
 import NJU.HouseWang.nju_eas_server.po.User.StudentPO;
 import NJU.HouseWang.nju_eas_server.po.User.TeacherPO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
+
 /**
  * 课程信息逻辑类
+ * 
  * @author 教化场
  * @version 2013-11-7
  */
@@ -674,11 +676,11 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 						.getTeachingPlan(deptId);
 				for (int j = 0; j < teachingPlanItemList.size(); j++) {
 					TeachingPlanItemPO tpip = teachingPlanItemList.get(j);
-					System.out.println("+++++++++++++++"+tpip.toString());
+					System.out.println("+++++++++++++++" + tpip.toString());
 					// 如果不是选修课，则加入课程列表，并导入学生
 					if (!tpip.getCourseNature().equals("选修")) {
 						CoursePO cp = this.tpPOToCoursePO(deptId, tpip);
-						System.out.println("=========="+cp.toString());
+						System.out.println("==========" + cp.toString());
 						this.addCourse(cp);
 						ArrayList<StudentPO> studentList = sl.getStudentList(
 								cp.getGrade(), cp.getDepartment());
@@ -734,26 +736,39 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	 * @return 反馈
 	 */
 	public String recordScore(String term, ArrayList<String> list) {
-
-		for (int i = 0; i < list.size(); i++) {
-			String[] info = list.get(i).split("；");
-			String courseId = info[1];
-			String studentId = info[2];
-			if (!csl.containsCourse_StudentPO(termTransfer(term), courseId,
-					studentId)) {
-				return (Feedback.COURSE_STUDENT_NOT_FOUND.toString());
+		try {
+			for (int i = 0; i < list.size(); i++) {
+				String[] info = list.get(i).split("；");
+				String courseId = info[1];
+				String studentId = info[2];
+				if (!csl.containsCourse_StudentPO(termTransfer(term), courseId,
+						studentId)) {
+					return (Feedback.COURSE_STUDENT_NOT_FOUND.toString());
+				}
 			}
-		}
 
-		for (int i = 0; i < list.size(); i++) {
-			String[] info = list.get(i).split("；");
-			Course_StudentPO csp = new Course_StudentPO(info[0], info[1],
-					info[2]);
-			csp.setOriginalScore(Integer.parseInt(info[3]));
-			csp.setSecondScore(Integer.parseInt(info[4]));
-			csl.updateCourse_StudentPO(termTransfer(term), csp);
+			for (int i = 0; i < list.size(); i++) {
+				String[] info = list.get(i).split("；");
+				Course_StudentPO csp = new Course_StudentPO(info[0], info[1],
+						info[2]);
+				int originalScore = Integer.parseInt(info[3]);
+				int secondScore = Integer.parseInt(info[4]);
+				if (originalScore < 0 || originalScore > 100) {
+					originalScore = -1;
+				}
+				if (secondScore < 0 || secondScore > 100) {
+					secondScore = -1;
+				}
+				csp.setOriginalScore(originalScore);
+				csp.setSecondScore(secondScore);
+				csl.updateCourse_StudentPO(termTransfer(term), csp);
+			}
+			return Feedback.OPERATION_SUCCEED.toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Feedback.OPERATION_FAIL.toString();
+
 		}
-		return Feedback.OPERATION_SUCCEED.toString();
 	}
 
 	@Override
@@ -834,8 +849,10 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		}
 		return list;
 	}
+
 	/**
 	 * 获取学年学期
+	 * 
 	 * @return 学期
 	 */
 	public String getTerm() {
@@ -862,25 +879,27 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 	 * @return 反馈
 	 */
 	public String editTerm(String term) {
-		try{
-		String feedback = null;
-		StatusPO sp = statusList.getStatus("currentTerm");
-		sp.setContent(term);
-		statusList.updateStatus(sp);
-		termList.addTerm(term);
-		cl.createCourseList(this.termTransfer(term));
-		csl.createCourseList(this.termTransfer(term));
-		ArrayList<TeachingPlanPO> tpList = tpl.getTeachingPlanList();
-		for (int i = 0; i < tpList.size(); i++) {
-			if (tpList.get(i).getStatus() == 1) {
-				feedback=this.addCourseListFromTP(tpList.get(i).getDept());
-				if(feedback.equals(Feedback.OPERATION_FAIL.toString())){
-					return feedback;
+		try {
+			String feedback = null;
+			StatusPO sp = statusList.getStatus("currentTerm");
+			sp.setContent(term);
+			statusList.updateStatus(sp);
+			termList.addTerm(term);
+			cl.createCourseList(this.termTransfer(term));
+			csl.createCourseList(this.termTransfer(term));
+			ArrayList<TeachingPlanPO> tpList = tpl.getTeachingPlanList();
+			for (int i = 0; i < tpList.size(); i++) {
+				if (tpList.get(i).getStatus() == 1) {
+					feedback = this
+							.addCourseListFromTP(tpList.get(i).getDept());
+					if (feedback.equals(Feedback.OPERATION_FAIL.toString())) {
+						return feedback;
+					}
 				}
 			}
-		}
 
-		return Feedback.OPERATION_SUCCEED.toString();} catch(Exception e){
+			return Feedback.OPERATION_SUCCEED.toString();
+		} catch (Exception e) {
 			e.printStackTrace();
 			return Feedback.OPERATION_FAIL.toString();
 		}
@@ -934,8 +953,10 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 			}
 		}
 	}
+
 	/**
 	 * string转换成CoursePO
+	 * 
 	 * @param str
 	 * @return 课程
 	 */
@@ -947,11 +968,13 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 				info[12], info[13], info[14]);
 		return cp;
 	}
+
 	/**
 	 * string转换成通识课
+	 * 
 	 * @param str
 	 * @return 通识课
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	public CoursePO stringToCommonCourse(String str) throws Exception {
 		String[] info = str.split("；");
@@ -997,9 +1020,11 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		ArrayList<String> list = termList.getTermList();
 		return list;
 	}
+
 	/**
 	 * 学期转换
-	 * @param s 
+	 * 
+	 * @param s
 	 * @return 学期
 	 */
 	public String termTransfer(String s) {
@@ -1059,7 +1084,8 @@ public class CourseInfoLogic implements CourseInfoLogicService {
 		}
 	}
 
-	@Override/**
+	@Override
+	/**
 	 * 显示用于编辑的通识课列表表头
 	 * @return 表头
 	 */
