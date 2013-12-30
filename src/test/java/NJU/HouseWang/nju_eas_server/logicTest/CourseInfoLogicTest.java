@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import junit.framework.TestCase;
 import NJU.HouseWang.nju_eas_server.data.AuthorityManager;
-import NJU.HouseWang.nju_eas_server.data.CommonCourseList;
 import NJU.HouseWang.nju_eas_server.dataStub.CommonCourseListStub;
 import NJU.HouseWang.nju_eas_server.dataStub.CourseListStub;
 import NJU.HouseWang.nju_eas_server.dataStub.CourseSelectorNumListStub;
@@ -99,7 +98,7 @@ public class CourseInfoLogicTest extends TestCase {
 			public TermListStub initTermList() {
 				return termList;
 			}
-			
+
 			@Override
 			public CommonCourseListStub initCommonCourseList() {
 				return ccl;
@@ -122,7 +121,8 @@ public class CourseInfoLogicTest extends TestCase {
 				"teacherName", "timeAndPlace", "place");
 		ArrayList<String> content = new ArrayList<String>();
 		content.add("content1");
-		String result = cil.editCourse("wang学yang", "courseId", "dept", content);
+		String result = cil
+				.editCourse("wang学yang", "courseId", "dept", content);
 		assertTrue(result.equals(Feedback.OPERATION_FAIL.toString()));
 	}
 
@@ -179,7 +179,9 @@ public class CourseInfoLogicTest extends TestCase {
 
 	public void testShowStudentCourseList() {
 		ArrayList<String> result = cil.showStudentCourseList("studentId");
-		assertTrue(result.get(0).equals("007；name；nature；1；2；null；x2013_1；通识课；teacherName；timeAndPlace"));
+		assertTrue(result
+				.get(0)
+				.equals("007；name；nature；1；2；null；x2013_1；通识课；teacherName；timeAndPlace"));
 	}
 
 	public void testShowStudentScoreList() {
@@ -188,9 +190,9 @@ public class CourseInfoLogicTest extends TestCase {
 		assertTrue(result.get(0).equals("dept；007；157；-1；-1"));
 	}
 
-	
 	public void testShowCourseStudentList() {
-		ArrayList<String> result = cil.showCourseStudentList("courseId", "department");
+		ArrayList<String> result = cil.showCourseStudentList("courseId",
+				"department");
 		assertTrue(result.get(0).equals("dept；008；158；-1；-1"));
 	}
 
@@ -206,10 +208,10 @@ public class CourseInfoLogicTest extends TestCase {
 
 	public void testPublishCommonCourse() {
 		ArrayList<String> list = new ArrayList<String>();
-		String str = "id；name；module；type；nature；1；2；grade；term；department；3；teacherId；teacherName；timeAndPlace；place";
+		String str = "id；name；1；1；nature；1；2；1；term；department；3；teacherId；teacherName；timeAndPlace；place";
 		list.add(str);
 		String result = cil.publishCommonCourse(list);
-		assertTrue(result.equals(Feedback.OPERATION_FAIL.toString()));
+		assertTrue(result.equals(Feedback.DATA_ALREADY_EXISTED.toString()));
 	}
 
 	public void testStringToCoursePO() {
@@ -225,7 +227,9 @@ public class CourseInfoLogicTest extends TestCase {
 				"moduleName", 1, "courseNature", "courseType", 2, "courseId",
 				"courseName", 3, "4", 5);
 		CoursePO result = cil.tpPOToCoursePO("dept", tpip);
-		assertTrue(result.courseToCommand().equals("courseId；courseName；courseNature；3；4；2011；2013-2014学年 第1学期；dept；null；null"));
+		assertTrue(result
+				.courseToCommand()
+				.equals("courseId；courseName；courseNature；3；4；2011；2013-2014学年 第1学期；dept；null；null"));
 	}
 
 	public void testShowTermList() {

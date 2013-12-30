@@ -34,8 +34,9 @@ public class MessageLogicTest extends TestCase{
 	protected void tearDown() throws Exception {}
 	
 	public void testShowMessage(){
-		String result = mlo.showMessage("1", "id");
-		assertTrue(result.equals(Feedback.OPERATION_FAIL.toString()));
+		String result = mlo.showMessage("0", "id");
+		System.out.println(result);
+		assertTrue(result.equals("157；senderId；recipientId；title；content；1"));
 	}
 	
 	public void testAddMessage(){

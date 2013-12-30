@@ -41,7 +41,7 @@ public class MessageListStub extends MessageList{
 
 	@Override
 	public MessagePO getMessage(int listType, String id) {
-		MessagePO mp = new MessagePO("157", "senderId", "recipientId", "operatorId", "title", "content");
+		MessagePO mp = new MessagePO("157", "senderId", "recipientId", "title", "content", "1");
 		return mp;
 	}
 
