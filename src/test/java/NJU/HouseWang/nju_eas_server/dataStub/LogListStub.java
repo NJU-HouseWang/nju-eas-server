@@ -18,8 +18,20 @@ public class LogListStub extends LogList{
 			
 		}
 
+		@Override
+		public ArrayList<LogPO> getLogList() {
+			ArrayList<LogPO> list = new ArrayList<LogPO>();
+			LogPO lp = new LogPO("name", "ip", "time", "content");
+			list.add(lp);
+			return list;
+		}
+
+		@Override
+		public Feedback emptyLogList() {
+			return Feedback.OPERATION_SUCCEED;
+		}
+
 		public Feedback addLog(LogPO log) {
-			
 			return Feedback.OPERATION_SUCCEED;
 		}
 		
@@ -31,5 +43,8 @@ public class LogListStub extends LogList{
 			result.add(l2);
 			return result;
 		}
-
+		
+		public String getListHead() {
+			return "ListHead";
+		}
 }

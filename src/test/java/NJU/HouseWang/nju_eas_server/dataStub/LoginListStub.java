@@ -19,6 +19,19 @@ public class LoginListStub extends LoginList{
 			
 		}
 		
+		@Override
+		public ArrayList<GuestPO> getLoginList() {
+			ArrayList<GuestPO> list = new ArrayList<GuestPO>();
+			GuestPO gp = new GuestPO("id", UserType.Student, "password");
+			list.add(gp);
+			return list;
+		}
+
+		@Override
+		public String getListHead() {
+			return "ListHead";
+		}
+
 		public GuestPO getLoginer(String id) {
 			GuestPO result = new GuestPO("121250157",UserType.Student,"bilicrazy123");
 			

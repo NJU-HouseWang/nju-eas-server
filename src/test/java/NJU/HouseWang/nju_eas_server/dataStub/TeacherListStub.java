@@ -18,6 +18,23 @@ public class TeacherListStub extends TeacherList{
 		
 	}
 
+	@Override
+	public ArrayList<TeacherPO> getTeacherList() {
+		ArrayList<TeacherPO> result = new ArrayList<TeacherPO>();
+		TeacherPO t1 = new TeacherPO("0001","丁二玉","SchoolDean","教务处");
+		TeacherPO t2 = new TeacherPO("0002","王东霞","DeptAD","软件学院");
+		TeacherPO t3 = new TeacherPO("0003","刘钦","Teacher","软件学院");
+		result.add(t1);
+		result.add(t2);
+		result.add(t3);
+		return result;
+	}
+
+	@Override
+	public String getListHead() {
+		return "ListHead";
+	}
+
 	// 是否包含ID
 	public boolean containsID(String id) {
 		Boolean result = true;
