@@ -10,8 +10,10 @@ import java.util.ArrayList;
 import NJU.HouseWang.nju_eas_server.dataService.TeachingPlanListService;
 import NJU.HouseWang.nju_eas_server.po.Edu.TeachingPlanPO;
 import NJU.HouseWang.nju_eas_server.systemMessage.Feedback;
+
 /**
  * 教学计划列表
+ * 
  * @author 教化场
  * @version 2013-11-17
  */
@@ -43,9 +45,12 @@ public class TeachingPlanList implements TeachingPlanListService {
 			e.printStackTrace();
 		}
 	}
+
 	/**
 	 * 获取教学计划
-	 * @param dept 院系
+	 * 
+	 * @param dept
+	 *            院系
 	 * @return 教学计划PO
 	 */
 	public TeachingPlanPO getTeachingPlan(String dept) {
@@ -69,9 +74,12 @@ public class TeachingPlanList implements TeachingPlanListService {
 		}
 		return result;
 	}
+
 	/**
 	 * 编辑教学计划
-	 * @param TeachingPlan 教学计划
+	 * 
+	 * @param TeachingPlan
+	 *            教学计划
 	 * @return 反馈
 	 */
 	public Feedback updateTeachingPlanItem(TeachingPlanPO TeachingPlan) {
@@ -96,8 +104,10 @@ public class TeachingPlanList implements TeachingPlanListService {
 			return Feedback.OPERATION_FAIL;
 		}
 	}
+
 	/**
 	 * 获取教学计划列表
+	 * 
 	 * @return 教学计划列表
 	 */
 	public ArrayList<TeachingPlanPO> getTeachingPlanList() {
@@ -112,7 +122,9 @@ public class TeachingPlanList implements TeachingPlanListService {
 				r.setDept(rs.getString(1));
 				r.setCommitted(Boolean.valueOf(rs.getString(2)));
 				r.setStatus(rs.getInt(3));
-				r.setTpFile(new File(rs.getString(4)));
+				if (!(rs.getString(4) == null || rs.getString(4).equals("null"))) {
+					r.setTpFile(new File(rs.getString(4)));
+				}
 				result.add(r);
 			}
 		} catch (SQLException e) {
@@ -120,8 +132,10 @@ public class TeachingPlanList implements TeachingPlanListService {
 		}
 		return result;
 	}
+
 	/**
 	 * 获取列表表头
+	 * 
 	 * @return 表头
 	 */
 	public String getListHead() {
